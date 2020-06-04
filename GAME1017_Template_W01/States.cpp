@@ -37,19 +37,30 @@ void GameState::Update()
 {
 	// Get input.
 	if (EVMA::KeyHeld(SDL_SCANCODE_A))
+	{
+		//walk left animation goes here
 		m_pPlayer->SetAccelX(-1.0);
+	}
 	else if (EVMA::KeyHeld(SDL_SCANCODE_D))
+	{
+		//walk right animation goes here
 		m_pPlayer->SetAccelX(1.0);
+	}
 	if (EVMA::KeyPressed(SDL_SCANCODE_SPACE) && m_pPlayer->IsGrounded())
 	{
+		//jumping animation
 		SOMA::PlaySound("jump");
 		m_pPlayer->SetAccelY(-JUMPFORCE); // Sets the jump force.
 		m_pPlayer->SetGrounded(false);
 	}
-	if (EVMA::KeyHeld(SDL_SCANCODE_J))
+	if (EVMA::KeyHeld(SDL_SCANCODE_J)) //melee
+	{
 		m_pPlayer->Meele();
-	else if (EVMA::KeyHeld(SDL_SCANCODE_I))
+	}
+	else if (EVMA::KeyHeld(SDL_SCANCODE_I)) // fireball
+	{
 		m_pPlayer->Fireball();
+	}
 	// Wrap the player on screen.
 	if (m_pPlayer->GetDstP()->x < -51.0) m_pPlayer->SetX(1024.0);
 	else if (m_pPlayer->GetDstP()->x > 1024.0) m_pPlayer->SetX(-50.0);
@@ -61,33 +72,6 @@ void GameState::Update()
 void GameState::CheckCollision()
 {
 	for (int i = 0; i < NUMPLATFORMS; i++) // For each platform.
-	{
-		if (COMA::AABBCheck(*m_pPlayer->GetDstP(), *m_pPlatforms[i]))
-		{
-			if (m_pPlayer->GetDstP()->x + m_pPlayer->GetDstP()->w - m_pPlayer->GetVelX() <= m_pPlatforms[i]->x)
-			{ // Collision from left.
-				m_pPlayer->StopX(); // Stop the player from moving horizontally.
-				m_pPlayer->SetX(m_pPlatforms[i]->x - m_pPlayer->GetDstP()->w);
-			}
-			else if (m_pPlayer->GetDstP()->x - (float)m_pPlayer->GetVelX() >= m_pPlatforms[i]->x + m_pPlatforms[i]->w)
-			{ // Colliding right side of platform.
-				m_pPlayer->StopX();
-				m_pPlayer->SetX(m_pPlatforms[i]->x + m_pPlatforms[i]->w);
-			}
-			else if (m_pPlayer->GetDstP()->y + m_pPlayer->GetDstP()->h - (float)m_pPlayer->GetVelY() <= m_pPlatforms[i]->y)
-			{ // Colliding top side of platform.
-				m_pPlayer->SetGrounded(true);
-				m_pPlayer->StopY();
-				m_pPlayer->SetY(m_pPlatforms[i]->y - m_pPlayer->GetDstP()->h - 1);
-			}
-			else if (m_pPlayer->GetDstP()->y - (float)m_pPlayer->GetVelY() >= m_pPlatforms[i]->y + m_pPlatforms[i]->h)
-			{ // Colliding bottom side of platform.
-				m_pPlayer->StopY();
-				m_pPlayer->SetY(m_pPlatforms[i]->y + m_pPlatforms[i]->h);
-			}
-		}
-	}
-	for (int i = 0; i < NUMENEMIES; i++)
 	{
 		if (COMA::AABBCheck(*m_pPlayer->GetDstP(), *m_pPlatforms[i]))
 		{

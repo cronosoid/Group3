@@ -29,7 +29,7 @@ public:
 	void SetY(float y);
 	double GetSoul();
 	void SoulRcvry();
-	void Meele();
+	SDL_FRect* Meele();
 	void Fireball();
 		 
 

@@ -58,18 +58,25 @@ double PlatformPlayer::GetSoul()
 
 void PlatformPlayer::SoulRcvry()
 {
-	m_curSoul += m_meeleDmg * m_soulRcvrd;
+	m_curSoul += (double)m_meeleDmg * (double)m_soulRcvrd;
 	if (m_curSoul > m_maxSoul)
 		m_curSoul = m_maxSoul;
 }
 
-void PlatformPlayer::Meele()
+SDL_FRect* PlatformPlayer::Meele()
 {
+	this->GetDstP()->x += this->GetDstP()->w * 0.5;
+	std::cout << "meele1";
+	return GetDstP();
 	//Meele animation goes here
 }
 
 void PlatformPlayer::Fireball()
 {
+	std::cout << "fireball1";
+	m_curSoul -= 30;
+	if (m_curSoul <= 0)
+		m_curSoul = 0;
 	//Fireball animation goes here
 }
 
