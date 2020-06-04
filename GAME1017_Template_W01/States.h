@@ -25,6 +25,7 @@ class GameState : public State
 private:
 	PlatformPlayer* m_pPlayer;
 	SDL_FRect* m_pPlatforms[NUMPLATFORMS];
+	
 public:
 	GameState();
 	void Update();
