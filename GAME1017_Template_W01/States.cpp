@@ -55,10 +55,19 @@ void GameState::Update()
 	}
 	if (EVMA::KeyHeld(SDL_SCANCODE_J)) //melee
 	{
+		SDL_Rect rect;
+		rect.x = m_pPlayer->GetDstP()->x + m_pPlayer->GetDstP()->w;
+		rect.y = m_pPlayer->GetDstP()->y + m_pPlayer->GetDstP()->w;
+		rect.w = m_pPlayer->GetDstP()->w;
+		rect.h = m_pPlayer->GetDstP()->h;
+
+		//pass rect into collisioncheck while checking agaiinst an enemy
+
 		m_pPlayer->Meele();
 	}
 	else if (EVMA::KeyHeld(SDL_SCANCODE_I)) // fireball
 	{
+		// will complete the projectile spawn in a while
 		m_pPlayer->Fireball();
 	}
 	// Wrap the player on screen.

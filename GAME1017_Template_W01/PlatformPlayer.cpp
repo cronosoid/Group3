@@ -65,9 +65,9 @@ void PlatformPlayer::SoulRcvry()
 
 SDL_FRect* PlatformPlayer::Meele()
 {
-	this->GetDstP()->x += this->GetDstP()->w * 0.5;
+	
 	std::cout << "meele1";
-	return GetDstP();
+	
 	//Meele animation goes here
 }
 
