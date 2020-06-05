@@ -55,13 +55,18 @@ void GameState::Update()
 	}
 	if (EVMA::KeyHeld(SDL_SCANCODE_J)) //melee
 	{
-		SDL_Rect rect;
+		SDL_FRect rect;
 		rect.x = m_pPlayer->GetDstP()->x + m_pPlayer->GetDstP()->w;
 		rect.y = m_pPlayer->GetDstP()->y + m_pPlayer->GetDstP()->w;
 		rect.w = m_pPlayer->GetDstP()->w;
 		rect.h = m_pPlayer->GetDstP()->h;
 
 		//pass rect into collisioncheck while checking agaiinst an enemy
+
+		if (COMA::AABBCheck(rect, *m_pPlatforms[2]))
+		{
+
+		}
 
 		m_pPlayer->Meele();
 	}
