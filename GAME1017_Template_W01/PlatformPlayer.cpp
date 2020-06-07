@@ -30,8 +30,9 @@ void PlatformPlayer::Update()
 
 void PlatformPlayer::Render()
 {
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 255, 255, 255);
-	SDL_RenderFillRectF(Engine::Instance().GetRenderer(), GetDstP());
+	//SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 255, 255, 255);
+	//SDL_RenderFillRectF(Engine::Instance().GetRenderer(), GetDstP());
+	SDL_RenderCopyExF(m_pRend, m_pText, GetSrcP(), GetDstP(), m_angle, 0, SDL_FLIP_NONE);
 }
 
 void PlatformPlayer::Stop() // If you want a dead stop both axes.
@@ -69,6 +70,7 @@ SDL_FRect* PlatformPlayer::Meele()
 	std::cout << "meele1";
 	
 	//Meele animation goes here
+	return 0;
 }
 
 void PlatformPlayer::Fireball()

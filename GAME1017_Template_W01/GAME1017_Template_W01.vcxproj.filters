@@ -57,6 +57,12 @@
     <ClCompile Include="PlatformPlayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -101,6 +107,9 @@
     <ClInclude Include="PlatformPlayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="img\circle.png">
@@ -110,6 +119,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Img\PlayerShip.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\Documents\Kaben_Run.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

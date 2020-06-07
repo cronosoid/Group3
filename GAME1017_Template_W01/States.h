@@ -7,6 +7,7 @@
 #include <SDL.h>
 #include "Button.h"
 #include "PlatformPlayer.h"
+#include "Animator.h"
 
 class State // This is the abstract base class for all specific states.
 {
@@ -24,6 +25,7 @@ class GameState : public State
 {
 private:
 	PlatformPlayer* m_pPlayer;
+	Animator* m_pPlayerAnimator;
 	SDL_FRect* m_pPlatforms[NUMPLATFORMS];
 	
 public:

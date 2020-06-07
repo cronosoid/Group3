@@ -23,8 +23,11 @@ GameState::GameState() {}
 void GameState::Enter()
 {
 	std::cout << "Entering GameState..." << std::endl;
-	m_pPlayer = new PlatformPlayer({ 0,0,0,0 }, { 512.0f,548.0f,50.0f,100.0f }, 
-								   Engine::Instance().GetRenderer(), nullptr);
+	m_pPlayer = new PlatformPlayer({ 0,0,64,64 }, { 512.0f,480.0f,128.0f,128.0f },
+								   Engine::Instance().GetRenderer(), IMG_LoadTexture(Engine::Instance().GetRenderer(), "C:\\Users\\Maxim\\Documents\\Kaben_Sheet.png"));
+	m_pPlayerAnimator = new Animator(m_pPlayer);
+	m_pPlayerAnimator->addAnimation("run", 8, 2, 64, 64);
+	m_pPlayerAnimator->addAnimation("idle", 4, 1, 64, 64, 0, 128, 12);
 	m_pPlatforms[0] = new SDL_FRect({ 462.0f,648.0f,100.0f,20.0f });
 	m_pPlatforms[1] = new SDL_FRect({ 200.0f,468.0f,100.0f,20.0f });
 	m_pPlatforms[2] = new SDL_FRect({ 724.0f,468.0f,100.0f,20.0f });
@@ -36,14 +39,21 @@ void GameState::Enter()
 void GameState::Update()
 {
 	// Get input.
+	m_pPlayer->movement[0] = 0;
 	if (EVMA::KeyHeld(SDL_SCANCODE_A))
 	{
 		//walk left animation goes here
+		m_pPlayerAnimator->setFace(1);
+		m_pPlayer->movement[0] = -1;
+		m_pPlayerAnimator->setNextAnimation("run");
 		m_pPlayer->SetAccelX(-1.0);
 	}
 	else if (EVMA::KeyHeld(SDL_SCANCODE_D))
 	{
 		//walk right animation goes here
+		m_pPlayerAnimator->setFace(0);
+		m_pPlayer->movement[0] = 1;
+		m_pPlayerAnimator->setNextAnimation("run");
 		m_pPlayer->SetAccelX(1.0);
 	}
 	if (EVMA::KeyPressed(SDL_SCANCODE_SPACE) && m_pPlayer->IsGrounded())
@@ -80,6 +90,10 @@ void GameState::Update()
 	else if (m_pPlayer->GetDstP()->x > 1024.0) m_pPlayer->SetX(-50.0);
 	// Do the rest.
 	m_pPlayer->Update();
+	if (m_pPlayer->movement[0] == 0)
+		m_pPlayerAnimator->setNextAnimation("idle");
+	m_pPlayerAnimator->playAnimation();
+
 	CheckCollision();
 }
 
