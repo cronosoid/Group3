@@ -6,6 +6,7 @@
 #include "TextureManager.h"
 #include "Engine.h"
 #include "Button.h"
+#include "EnemyManager.h"
 
 #include <iostream>
 
@@ -33,6 +34,10 @@ void GameState::Enter()
 	m_pPlatforms[2] = new SDL_FRect({ 724.0f,468.0f,100.0f,20.0f });
 	m_pPlatforms[3] = new SDL_FRect({ 462.0f,368.0f,100.0f,20.0f });
 	m_pPlatforms[4] = new SDL_FRect({ -100.0f,668.0f,1224.0f,100.0f });
+
+	EnemyManager::CreateEnemy(swordman, { 600.0f,300.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(archer, { 200.0f,300.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
+
 	SOMA::Load("Aud/jump.wav", "jump", SOUND_SFX);
 }
 
@@ -94,6 +99,12 @@ void GameState::Update()
 		m_pPlayerAnimator->setNextAnimation("idle");
 	m_pPlayerAnimator->playAnimation();
 
+	for (Enemies* enemy : EnemyManager::EnemiesVec)
+	{
+		enemy->Update();
+	}
+	EnemyManager::DestroyInvalidEnemies();
+
 	CheckCollision();
 
 	// Die
@@ -127,6 +138,36 @@ void GameState::CheckCollision()
 			{ // Colliding bottom side of platform.
 				m_pPlayer->StopY();
 				m_pPlayer->SetY(m_pPlatforms[i]->y + m_pPlatforms[i]->h);
+			}
+		}
+	}
+	for (Enemies* enemy : EnemyManager::EnemiesVec)
+	{
+		for (int j = 0; j < NUMPLATFORMS; j++)
+		{
+			if (COMA::AABBCheck(*enemy->GetDstP(), *m_pPlatforms[j]))
+			{
+				if (enemy->GetDstP()->x + enemy->GetDstP()->w - enemy->GetVelX() <= m_pPlatforms[j]->x)
+				{ // Collision from left.
+					enemy->StopX();
+					enemy->SetX(m_pPlatforms[j]->x - enemy->GetDstP()->w);
+				}
+				else if (enemy->GetDstP()->x - (float)enemy->GetVelX() >= m_pPlatforms[j]->x + m_pPlatforms[j]->w)
+				{ // Colliding right side of platform.
+					enemy->StopX();
+					enemy->SetX(m_pPlatforms[j]->x + m_pPlatforms[j]->w);
+				}
+				else if (enemy->GetDstP()->y + enemy->GetDstP()->h - (float)enemy->GetVelY() <= m_pPlatforms[j]->y)
+				{ // Colliding top side of platform.
+					enemy->SetGrounded(true);
+					enemy->StopY();
+					enemy->SetY(m_pPlatforms[j]->y - enemy->GetDstP()->h - 1);
+				}
+				else if (enemy->GetDstP()->y - (float)enemy->GetVelY() >= m_pPlatforms[j]->y + m_pPlatforms[j]->h)
+				{ // Colliding bottom side of platform.
+					enemy->StopY();
+					enemy->SetY(m_pPlatforms[j]->y + m_pPlatforms[j]->h);
+				}
 			}
 		}
 	}

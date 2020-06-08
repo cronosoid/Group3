@@ -8,6 +8,7 @@
 #include "Button.h"
 #include "PlatformPlayer.h"
 #include "Animator.h"
+#include <vector>
 
 class State // This is the abstract base class for all specific states.
 {
@@ -26,7 +27,7 @@ class GameState : public State
 private:
 	PlatformPlayer* m_pPlayer;
 	Animator* m_pPlayerAnimator;
-	SDL_FRect* m_pPlatforms[NUMPLATFORMS];
+	std::vector<SDL_FRect*> m_pPlatforms;
 	
 public:
 	GameState();
