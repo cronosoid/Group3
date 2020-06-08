@@ -44,9 +44,9 @@ void EnemyManager::DestroyInvalidEnemies()
 {
 	for (auto enemy = EnemiesVec.begin(); enemy != EnemiesVec.end();)
 	{
-		if (!(*enemy)->getActive())
+		if (not (*enemy)->getActive())
 		{
-			delete *enemy;
+			delete* enemy;
 			enemy = EnemiesVec.erase(enemy);
 		}
 		else
