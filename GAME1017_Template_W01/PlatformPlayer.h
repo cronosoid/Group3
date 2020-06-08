@@ -10,10 +10,7 @@ class PlatformPlayer : public Sprite
 {
 public:
 	PlatformPlayer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t);
-	const double m_maxSoul = 100;
-	int m_meeleDmg,
-		m_fireDmg,
-		m_soulRcvrd;
+	
 	void Update();
 	void Render();
 	void Stop();
@@ -35,6 +32,7 @@ public:
 
 private:
 	bool m_grounded;
+	
 	double m_accelX,
 		m_accelY,
 		m_velX,
@@ -44,6 +42,12 @@ private:
 		m_drag,
 		m_grav, 
 		m_curSoul;
+	
+	const double m_maxSoul = 100;
+	
+	int m_meeleDmg,
+		m_fireDmg,
+		m_soulRcvrd;
 };
 
 #endif

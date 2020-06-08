@@ -36,12 +36,12 @@ void GameState::Enter()
 void GameState::Update()
 {
 	// Get input.
-	if (EVMA::KeyHeld(SDL_SCANCODE_A))
+	if (EVMA::KeyHeld(SDL_SCANCODE_A) && m_pPlayer->IsGrounded())
 	{
 		//walk left animation goes here
 		m_pPlayer->SetAccelX(-1.0);
 	}
-	else if (EVMA::KeyHeld(SDL_SCANCODE_D))
+	else if (EVMA::KeyHeld(SDL_SCANCODE_D) && m_pPlayer->IsGrounded())
 	{
 		//walk right animation goes here
 		m_pPlayer->SetAccelX(1.0);
@@ -52,6 +52,7 @@ void GameState::Update()
 		SOMA::PlaySound("jump");
 		m_pPlayer->SetAccelY(-JUMPFORCE); // Sets the jump force.
 		m_pPlayer->SetGrounded(false);
+		
 	}
 	if (EVMA::KeyHeld(SDL_SCANCODE_J)) //melee
 	{
@@ -68,7 +69,7 @@ void GameState::Update()
 
 		}
 
-		m_pPlayer->Meele();
+		//m_pPlayer->Meele();
 	}
 	else if (EVMA::KeyHeld(SDL_SCANCODE_I)) // fireball
 	{
@@ -167,6 +168,10 @@ void TitleState::Exit()
 	std::cout << "Exiting TitleState..." << std::endl;
 }
 // End TitleState.
+
+// Begin EndState
+
+EndState::EndState() {}
 
 void EndState::Update()
 {

@@ -63,13 +63,13 @@ void PlatformPlayer::SoulRcvry()
 		m_curSoul = m_maxSoul;
 }
 
-SDL_FRect* PlatformPlayer::Meele()
+/*SDL_FRect* PlatformPlayer::Meele()
 {
 	
 	std::cout << "meele1";
 	
 	//Meele animation goes here
-}
+}*/
 
 void PlatformPlayer::Fireball()
 {

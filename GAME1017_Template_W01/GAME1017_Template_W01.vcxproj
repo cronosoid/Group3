@@ -147,11 +147,6 @@
     <ClInclude Include="States.h" />
     <ClInclude Include="TextureManager.h" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="img\circle.png" />
-    <Image Include="Img\Enemies.png" />
-    <Image Include="Img\PlayerShip.png" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
