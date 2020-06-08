@@ -121,3 +121,8 @@ Engine& Engine::Instance()
 
 SDL_Renderer* Engine::GetRenderer() { return m_pRenderer; }
 bool& Engine::Running() { return m_running; }
+
+void Engine::setRunning(bool x)
+{
+	m_running = x;
+}

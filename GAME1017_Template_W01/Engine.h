@@ -33,6 +33,7 @@ public: // Public methods.
 	static Engine& Instance(); // This static method creates the static instance that can be accessed 'globally'
 	SDL_Renderer* GetRenderer();
 	bool& Running();
+	void setRunning(bool);
 };
 
 #endif
