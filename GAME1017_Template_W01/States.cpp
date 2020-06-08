@@ -142,16 +142,16 @@ void GameState::Render()
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 64, 128, 255, 255);
 	SDL_RenderClear(Engine::Instance().GetRenderer());
 	// Draw the player.
+	for (Enemies* enemy : EnemyManager::EnemiesVec)
+	{
+		enemy->Render();
+	}
 	m_pPlayer->Render();
 	// Draw the platforms.
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 192, 64, 0, 255);
 	for (auto platfrom : m_pPlatforms)
 	{
 		SDL_RenderFillRectF(Engine::Instance().GetRenderer(), platfrom);
-	}
-	for (Enemies* enemy : EnemyManager::EnemiesVec)
-	{
-		enemy->Render();
 	}
 	// If GameState != current state.
 	if (dynamic_cast<GameState*>(STMA::GetStates().back()))
