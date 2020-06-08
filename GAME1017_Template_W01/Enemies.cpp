@@ -15,10 +15,10 @@ bool Enemies::getActive() { return isActive; }
 bool Enemies::getAlive() { return isAlive; }
 void Enemies::setAlive(bool a) { isActive = a; }
 SDL_Texture* Enemies::getTex() { return m_pText; }
-std::string Enemies::getType() { return EnemyType; }
+std::string Enemies::getType() { return enemyType; }
 
 
-void Enemies::decHealth(int attack)
+void Enemies::damage(int attack)
 {
-	Health -= attack;
+	health -= attack;
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-
+#include <iostream>
 #include "Sprite.h"
 
 #define GRAV 3.0

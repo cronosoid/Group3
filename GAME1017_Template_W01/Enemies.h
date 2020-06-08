@@ -14,16 +14,16 @@ public:
 	void setActive(bool a);
 	bool getAlive();
 	void setAlive(bool a);
-	void decHealth(int attack);
+	void damage(int dmg);
 	SDL_Texture* getTex();
 	std::string getType();
 
 protected:
 	bool isActive,
 		isAlive;
-	int AttackCD,
-		Attack,
-		Defence,
-		Health;
-	std::string EnemyType;
+	int attackCD,
+		attack,
+		defence,
+		health;
+	std::string enemyType;
 };

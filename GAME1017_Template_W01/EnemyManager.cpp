@@ -22,6 +22,7 @@ void EnemyManager::CreateEnemy(EnemyType type, SDL_FRect d, SDL_Renderer* r)
 	{
 	case 1:
 	{
+		std::cout << "ENMA:" << d.x << ", " << d.y << ", " << d.w << ", " << d.h << "\n";
 		Swordman* TempEnemy = new Swordman({ 0,0,640,640 }, d, r, TextureManager::GetTexture("Swordman"));
 		EnemiesVec.push_back(TempEnemy);
 		TempEnemy = nullptr;

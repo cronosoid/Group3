@@ -35,8 +35,8 @@ void GameState::Enter()
 	m_pPlatforms.push_back(new SDL_FRect({ 462.0f,368.0f,100.0f,20.0f }));
 	m_pPlatforms.push_back(new SDL_FRect({ -100.0f,668.0f,1224.0f,100.0f }));
 
-	EnemyManager::CreateEnemy(swordman, { 600.0f,300.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
-	EnemyManager::CreateEnemy(archer, { 200.0f,300.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, { 700.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(archer, { 200.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
 
 	SOMA::Load("Aud/jump.wav", "jump", SOUND_SFX);
 }
@@ -82,6 +82,7 @@ void GameState::Update()
 			{
 				rect.x = m_pPlayer->GetDstP()->x - m_pPlayer->GetDstP()->w;
 			}
+			
 			rect.y = m_pPlayer->GetDstP()->y;
 			rect.w = m_pPlayer->GetDstP()->w;
 			rect.h = m_pPlayer->GetDstP()->h;
@@ -90,6 +91,8 @@ void GameState::Update()
 			{
 				if (COMA::AABBCheck(rect, *enemy->GetDstP()))
 				{
+					m_pPlayer->SoulRcvry();
+					enemy->damage(m_pPlayer->m_meeleDmg);
 					std::cout << "Melee attacked!\n";
 				}
 			}
@@ -145,6 +148,10 @@ void GameState::Render()
 	for (auto platfrom : m_pPlatforms)
 	{
 		SDL_RenderFillRectF(Engine::Instance().GetRenderer(), platfrom);
+	}
+	for (Enemies* enemy : EnemyManager::EnemiesVec)
+	{
+		enemy->Render();
 	}
 	// If GameState != current state.
 	if (dynamic_cast<GameState*>(STMA::GetStates().back()))

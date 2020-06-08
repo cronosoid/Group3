@@ -14,26 +14,20 @@ const int ARCHERATKCD = 500;
 Archer::Archer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :Enemies(s, d, r, t)
 {
 	Status = ArWaiting;
-	Health = INIHEALTH;
-	Attack = ARCHERATTACK;
-	Defence = ARCHERDEFENCE;
-	AttackCD = ARCHERATKCD;
+	health = INIHEALTH;
+	attack = ARCHERATTACK;
+	defence = ARCHERDEFENCE;
+	attackCD = ARCHERATKCD;
 	m_velX = m_velY = m_accelX = m_accelY = 0.0;
 	m_maxVelX = 10.0;
 	m_maxVelY = JUMPFORCE;
 	m_grav = GRAV;
 	m_drag = 0.88;
-	EnemyType = "Archer";
+	enemyType = "Archer";
 }
 
 void Archer::Update()
 {
-	m_src.x = m_src.y = 0;
-	m_src.w = m_src.h = 640;
-	//m_dst.x = 800;
-	//m_dst.y = 500;
-	m_dst.w = m_dst.h = 64;
-
 	// Do X axis first.
 	m_velX += m_accelX;
 	m_velX *= (m_grounded ? m_drag : 1);
@@ -51,7 +45,7 @@ void Archer::Update()
 		setActive(false);
 	}
 
-	if (Health <= 0)
+	if (health <= 0)
 	{
 		setAlive(false);
 		Status = ArDead;
@@ -61,10 +55,6 @@ void Archer::Update()
 void Archer::Render()
 {
 	m_pText = TextureManager::GetTexture("Archer");
-	/*if(m_pText==nullptr)
-	{
-		std::cout << "Archer image Null" << std::endl;
-	}*/
-
+	
 	SDL_RenderCopy(m_pRend, m_pText, &m_src, &MAMA::ConvertFRect2Rect(m_dst));
 }

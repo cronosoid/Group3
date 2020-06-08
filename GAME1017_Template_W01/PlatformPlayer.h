@@ -11,7 +11,7 @@ class PlatformPlayer : public Entity
 {
 public: // Variables
 	const double m_maxSoul = 100;
-	const int m_meeleDmg = 0;
+	const int m_meeleDmg = 20;
 	const int m_fireDmg = 0;
 	const int m_soulRecover = 0;
 	int movement[2] = { 0,0 };
