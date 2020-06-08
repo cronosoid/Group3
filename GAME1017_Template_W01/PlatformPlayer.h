@@ -5,6 +5,8 @@
 #include "Sprite.h"
 #include "Entity.h"
 
+const int MELEECOOLDOWN = 1.0;
+
 class PlatformPlayer : public Entity
 {
 public: // Variables
@@ -19,11 +21,13 @@ public: // Methods
 	void Render();
 	double GetSoul();
 	void SoulRcvry();
-	SDL_FRect* Meele();
+	void Meele();
 	void Fireball();
-
+	Uint32 getMeleeTime() { return lastMeleeTime; }
+	void setMeleeTime() { lastMeleeTime = SDL_GetTicks(); }
 private:
 	double m_curSoul;
+	Uint32 lastMeleeTime;
 };
 
 #endif

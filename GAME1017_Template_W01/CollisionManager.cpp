@@ -51,7 +51,7 @@ void CollisionManager::CheckPlatformsCollision(const std::vector<SDL_FRect*> pla
 		{
 			if (obj->GetDstP()->x + obj->GetDstP()->w - (float)obj->GetVelX() <= platfrom->x)
 			{ // Collision from left.
-				obj->StopX(); // Stop the player from moving horizontally.
+				obj->StopX();
 				obj->SetX(platfrom->x - obj->GetDstP()->w);
 			}
 			else if (obj->GetDstP()->x - (float)obj->GetVelX() >= platfrom->x + platfrom->w)

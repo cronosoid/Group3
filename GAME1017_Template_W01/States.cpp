@@ -70,20 +70,32 @@ void GameState::Update()
 	}
 	if (EVMA::KeyHeld(SDL_SCANCODE_J)) //melee
 	{
-		SDL_FRect rect;
-		rect.x = m_pPlayer->GetDstP()->x + m_pPlayer->GetDstP()->w;
-		rect.y = m_pPlayer->GetDstP()->y + m_pPlayer->GetDstP()->w;
-		rect.w = m_pPlayer->GetDstP()->w;
-		rect.h = m_pPlayer->GetDstP()->h;
-
-		//pass rect into collisioncheck while checking agaiinst an enemy
-
-		if (COMA::AABBCheck(rect, *m_pPlatforms[2]))
+		if ((m_pPlayer->getMeleeTime() + MELEECOOLDOWN * 1000) < SDL_GetTicks())
 		{
+			m_pPlayer->setMeleeTime();
+			SDL_FRect rect;
+			if (m_pPlayerAnimator->getFace() == 0)
+			{
+				rect.x = m_pPlayer->GetDstP()->x + m_pPlayer->GetDstP()->w;
+			}
+			else
+			{
+				rect.x = m_pPlayer->GetDstP()->x - m_pPlayer->GetDstP()->w;
+			}
+			rect.y = m_pPlayer->GetDstP()->y;
+			rect.w = m_pPlayer->GetDstP()->w;
+			rect.h = m_pPlayer->GetDstP()->h;
 
+			for (Enemies* enemy : EnemyManager::EnemiesVec)
+			{
+				if (COMA::AABBCheck(rect, *enemy->GetDstP()))
+				{
+					std::cout << "Melee attacked!\n";
+				}
+			}
+
+			m_pPlayer->Meele();
 		}
-
-		m_pPlayer->Meele();
 	}
 	else if (EVMA::KeyHeld(SDL_SCANCODE_I)) // fireball
 	{
@@ -130,8 +142,10 @@ void GameState::Render()
 	m_pPlayer->Render();
 	// Draw the platforms.
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 192, 64, 0, 255);
-	for (int i = 0; i < NUMPLATFORMS; i++)
-		SDL_RenderFillRectF(Engine::Instance().GetRenderer(), m_pPlatforms[i]);
+	for (auto platfrom : m_pPlatforms)
+	{
+		SDL_RenderFillRectF(Engine::Instance().GetRenderer(), platfrom);
+	}
 	// If GameState != current state.
 	if (dynamic_cast<GameState*>(STMA::GetStates().back()))
 		State::Render();
@@ -140,8 +154,10 @@ void GameState::Render()
 void GameState::Exit()
 {
 	delete m_pPlayer;
-	for (int i = 0; i < NUMPLATFORMS; i++)
-		delete m_pPlatforms[i];
+	for (auto platfrom : m_pPlatforms)
+	{
+		delete platfrom;
+	}
 }
 
 void GameState::Resume() { }

@@ -1,7 +1,6 @@
 #pragma once
 #ifndef _STATES_H_
 #define _STATES_H_
-#define NUMPLATFORMS 5
 #define NUMENEMIES 2
 
 #include <SDL.h>
