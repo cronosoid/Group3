@@ -2,11 +2,15 @@
 #include "Engine.h"
 #include <algorithm>
 #include <iostream>
+#include "Utilities.h"
+
+#include "TextureManager.h"
 
 PlatformPlayer::PlatformPlayer(SDL_Rect s, SDL_FRect d, SDL_Renderer * r, SDL_Texture * t)
 	:Sprite(s, d, r, t)
 {
 	m_grounded = false;
+	m_bCanShoot = true;
 	m_accelX = m_accelY = m_velX = m_velY = 0.0;
 	m_maxVelX = 10.0;
 	m_maxVelY = JUMPFORCE;
@@ -45,7 +49,11 @@ void PlatformPlayer::StopY() { m_velY = 0.0; }
 void PlatformPlayer::SetAccelX(double a) { m_accelX = a; }
 void PlatformPlayer::SetAccelY(double a) { m_accelY = a; }
 bool PlatformPlayer::IsGrounded() { return m_grounded; }
+bool PlatformPlayer::CanShoot() { return m_bCanShoot; }
+
 void PlatformPlayer::SetGrounded(bool g) { m_grounded = g; }
+void PlatformPlayer::SetCanShoot(bool s) { m_bCanShoot = s; }
+
 double PlatformPlayer::GetVelX() { return m_velX; }
 double PlatformPlayer::GetVelY() { return m_velY; }
 void PlatformPlayer::SetX(float y) { m_dst.x = y; }
@@ -63,20 +71,35 @@ void PlatformPlayer::SoulRcvry()
 		m_curSoul = m_maxSoul;
 }
 
-SDL_FRect* PlatformPlayer::Meele()
-{
-	
-	std::cout << "meele1";
-	
-	//Meele animation goes here
-}
+//SDL_FRect* PlatformPlayer::Meele()
+//{
+//	
+//	std::cout << "meele1";
+//	
+//	//Meele animation goes here
+//}
 
-void PlatformPlayer::Fireball()
+void PlatformPlayer::Fire()
 {
-	std::cout << "fireball1";
+	/*std::cout << "fireball1";
 	m_curSoul -= 30;
 	if (m_curSoul <= 0)
 		m_curSoul = 0;
-	//Fireball animation goes here
+
+	TEMA::RegisterTexture("Img/fireball.png", "fireball");
+	getFireBalls().push_back(new Fireball({ 0,0,320,320, }, {GetDstP()->x + 85, GetDstP()->y + 42, 32, 32 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 30));
+	
+	for (int i = 0; i < getFireBalls().size(); i++)
+	{
+		getFireBalls()[i]->Update();
+		if (getFireBalls()[i]->GetDstP()->x > 1024)
+		{
+			delete getFireBalls()[i];
+			getFireBalls()[i] = nullptr;
+			m_bPBNull = true;
+		}
+	}
+	if (m_bPBNull)
+	CleanVector<Fireball*>(m_vPFireballs, m_bPBNull);*/
 }
 

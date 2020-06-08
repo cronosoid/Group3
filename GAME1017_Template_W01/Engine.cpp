@@ -6,13 +6,14 @@
 #include "SoundManager.h"
 #include "StateManager.h"
 #include "TextureManager.h"
+#include "Fireball.h"
 #include <iostream>
 #define WIDTH 1024
 #define HEIGHT 768
 #define FPS 60
 using namespace std;
 
-Engine::Engine():m_running(false){ cout << "Engine class constructed!" << endl; }
+Engine::Engine():m_running(false), m_pBNull(false){ cout << "Engine class constructed!" << endl; }
 
 bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, int flags)
 {
@@ -38,6 +39,7 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	else return false; // SDL init fail.
 	m_fps = (Uint32)round((1 / (double)FPS) * 1000); // Sets FPS in milliseconds and rounds.
 	TEMA::RegisterTexture("Img/play.png", "play");
+	TEMA::RegisterTexture("Img/fireball.png", "play");
 	STMA::ChangeState(new TitleState);
 	SOMA::AllocateChannels(16);
 	m_running = true; // Everything is okay, start the engine.
@@ -119,3 +121,6 @@ Engine& Engine::Instance()
 
 SDL_Renderer* Engine::GetRenderer() { return m_pRenderer; }
 bool& Engine::Running() { return m_running; }
+
+bool& Engine::isNull() { return m_pBNull; }
+void Engine::setNull() { m_pBNull = true; }

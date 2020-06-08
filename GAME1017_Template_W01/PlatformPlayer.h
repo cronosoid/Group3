@@ -5,6 +5,7 @@
 #define JUMPFORCE 60.0
 
 #include "Sprite.h"
+#include "Fireball.h"
 
 class PlatformPlayer : public Sprite
 {
@@ -22,19 +23,22 @@ public:
 	void SetAccelX(double a);
 	void SetAccelY(double a);
 	bool IsGrounded();
+	bool CanShoot();
 	void SetGrounded(bool g);
+	void SetCanShoot(bool s);
 	double GetVelX();
 	double GetVelY();
 	void SetX(float y);
 	void SetY(float y);
 	double GetSoul();
 	void SoulRcvry();
-	SDL_FRect* Meele();
-	void Fireball();
-		 
+	//SDL_FRect* Meele();
+	void Fire();
 
 private:
-	bool m_grounded;
+	bool m_grounded,
+		m_bCanShoot;
+		
 	double m_accelX,
 		m_accelY,
 		m_velX,

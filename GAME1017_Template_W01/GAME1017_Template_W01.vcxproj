@@ -70,7 +70,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\Users\khaii\OneDrive\Desktop\Fireball\SDL\SDL2_image\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\khaii\OneDrive\Desktop\Fireball\SDL\SDL2_image\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -85,7 +88,13 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\khaii\OneDrive\Desktop\Fireball\SDL\SDL2_image\include;C:\Users\khaii\OneDrive\Desktop\Fireball\SDL\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>C:\Users\khaii\OneDrive\Desktop\Fireball\SDL\SDL2_image\lib\x86;C:\Users\khaii\OneDrive\Desktop\Fireball\SDL\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -121,8 +130,10 @@
     <ClCompile Include="DebugManager.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="Fireball.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="PlatformPlayer.cpp" />
+    <ClCompile Include="soulBar.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="Label.cpp" />
@@ -137,8 +148,11 @@
     <ClInclude Include="DebugManager.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="EventManager.h" />
+    <ClInclude Include="Fireball.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="PlatformPlayer.h" />
+    <ClInclude Include="ProjectileManager.h" />
+    <ClInclude Include="SoulBar.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="Label.h" />
@@ -146,6 +160,7 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="States.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="img\circle.png" />
