@@ -6,7 +6,6 @@
 #include "TextureManager.h"
 #include "Engine.h"
 #include "Button.h"
-#include "EnemyManager.h"
 
 #include <iostream>
 
@@ -24,29 +23,37 @@ GameState::GameState() {}
 void GameState::Enter()
 {
 	std::cout << "Entering GameState..." << std::endl;
-	m_pPlayer = new PlatformPlayer({ 0,0,0,0 }, { 512.0f,548.0f,50.0f,100.0f }, 
-								   Engine::Instance().GetRenderer(), nullptr);
+	m_pPlayer = new PlatformPlayer({ 0,0,64,64 }, { 512.0f,480.0f,128.0f,128.0f },
+								   Engine::Instance().GetRenderer(), IMG_LoadTexture(Engine::Instance().GetRenderer(), "C:\\Users\\Maxim\\Documents\\Kaben_Sheet.png"));
+	m_pPlayerAnimator = new Animator(m_pPlayer);
+	m_pPlayerAnimator->addAnimation("run", 8, 2, 64, 64);
+	m_pPlayerAnimator->addAnimation("idle", 4, 1, 64, 64, 0, 128, 12);
 	m_pPlatforms[0] = new SDL_FRect({ 462.0f,648.0f,100.0f,20.0f });
 	m_pPlatforms[1] = new SDL_FRect({ 200.0f,468.0f,100.0f,20.0f });
 	m_pPlatforms[2] = new SDL_FRect({ 724.0f,468.0f,100.0f,20.0f });
 	m_pPlatforms[3] = new SDL_FRect({ 462.0f,368.0f,100.0f,20.0f });
 	m_pPlatforms[4] = new SDL_FRect({ -100.0f,668.0f,1224.0f,100.0f });
-	EnemyManager::CreateEnemy(swordman, { 600.0f,300.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
-	EnemyManager::CreateEnemy(archer, { 200.0f,300.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	SOMA::Load("Aud/jump.wav", "jump", SOUND_SFX);
 }
 
 void GameState::Update()
 {
 	// Get input.
+	m_pPlayer->movement[0] = 0;
 	if (EVMA::KeyHeld(SDL_SCANCODE_A))
 	{
 		//walk left animation goes here
+		m_pPlayerAnimator->setFace(1);
+		m_pPlayer->movement[0] = -1;
+		m_pPlayerAnimator->setNextAnimation("run");
 		m_pPlayer->SetAccelX(-1.0);
 	}
 	else if (EVMA::KeyHeld(SDL_SCANCODE_D))
 	{
 		//walk right animation goes here
+		m_pPlayerAnimator->setFace(0);
+		m_pPlayer->movement[0] = 1;
+		m_pPlayerAnimator->setNextAnimation("run");
 		m_pPlayer->SetAccelX(1.0);
 	}
 	if (EVMA::KeyPressed(SDL_SCANCODE_SPACE) && m_pPlayer->IsGrounded())
@@ -83,13 +90,11 @@ void GameState::Update()
 	else if (m_pPlayer->GetDstP()->x > 1024.0) m_pPlayer->SetX(-50.0);
 	// Do the rest.
 	m_pPlayer->Update();
-	for(int i = 0; i < (int)EnemyManager::EnemiesVec.size(); i++)
-	{
-		EnemyManager::EnemiesVec[i]->Update();
-		//std::cout << EnemyManager::EnemiesVec.size() << std::endl;
-	}
-	EnemyManager::DestroyInvalidEnemies();
-	CheckCollision();	
+	if (m_pPlayer->movement[0] == 0)
+		m_pPlayerAnimator->setNextAnimation("idle");
+	m_pPlayerAnimator->playAnimation();
+
+	CheckCollision();
 }
 
 void GameState::CheckCollision()
@@ -121,37 +126,6 @@ void GameState::CheckCollision()
 			}
 		}
 	}
-
-	for(int i=0;i<(int)EnemyManager::EnemiesVec.size();i++)
-	{
-		for(int j=0;j<NUMPLATFORMS;j++)
-		{
-			if (COMA::AABBCheck(*EnemyManager::EnemiesVec[i]->GetDstP(), *m_pPlatforms[j]))
-			{
-				if (EnemyManager::EnemiesVec[i]->GetDstP()->x + EnemyManager::EnemiesVec[i]->GetDstP()->w - EnemyManager::EnemiesVec[i]->GetVelX() <= m_pPlatforms[j]->x)
-				{ // Collision from left.
-					EnemyManager::EnemiesVec[i]->StopX(); // Stop the player from moving horizontally.
-					EnemyManager::EnemiesVec[i]->SetX(m_pPlatforms[j]->x - EnemyManager::EnemiesVec[i]->GetDstP()->w);
-				}
-				else if (EnemyManager::EnemiesVec[i]->GetDstP()->x - (float)EnemyManager::EnemiesVec[i]->GetVelX() >= m_pPlatforms[j]->x + m_pPlatforms[j]->w)
-				{ // Colliding right side of platform.
-					EnemyManager::EnemiesVec[i]->StopX();
-					EnemyManager::EnemiesVec[i]->SetX(m_pPlatforms[j]->x + m_pPlatforms[j]->w);
-				}
-				else if (EnemyManager::EnemiesVec[i]->GetDstP()->y + EnemyManager::EnemiesVec[i]->GetDstP()->h - (float)EnemyManager::EnemiesVec[i]->GetVelY() <= m_pPlatforms[j]->y)
-				{ // Colliding top side of platform.
-					EnemyManager::EnemiesVec[i]->SetGrounded(true);
-					EnemyManager::EnemiesVec[i]->StopY();
-					EnemyManager::EnemiesVec[i]->SetY(m_pPlatforms[j]->y - EnemyManager::EnemiesVec[i]->GetDstP()->h - 1);
-				}
-				else if (EnemyManager::EnemiesVec[i]->GetDstP()->y - (float)EnemyManager::EnemiesVec[i]->GetVelY() >= m_pPlatforms[j]->y + m_pPlatforms[j]->h)
-				{ // Colliding bottom side of platform.
-					EnemyManager::EnemiesVec[i]->StopY();
-					EnemyManager::EnemiesVec[i]->SetY(m_pPlatforms[j]->y + m_pPlatforms[j]->h);
-				}
-			}
-		}
-	}
 }
 
 void GameState::Render()
@@ -164,10 +138,6 @@ void GameState::Render()
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 192, 64, 0, 255);
 	for (int i = 0; i < NUMPLATFORMS; i++)
 		SDL_RenderFillRectF(Engine::Instance().GetRenderer(), m_pPlatforms[i]);
-	for (int i = 0; i < (int)EnemyManager::EnemiesVec.size(); i++)
-	{
-		EnemyManager::EnemiesVec[i]->Render();
-	}
 	// If GameState != current state.
 	if (dynamic_cast<GameState*>(STMA::GetStates().back()))
 		State::Render();
@@ -231,6 +201,13 @@ void EndState::Render()
 
 void EndState::Enter()
 {
+	for (const auto& mapElement : GameState::getPlayerAnimator()->animationsMap)
+	{
+		if (mapElement.second != nullptr)
+		{
+			delete mapElement.second;
+		}
+	}
 }
 
 void EndState::Exit()

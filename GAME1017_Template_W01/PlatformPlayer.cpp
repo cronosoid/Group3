@@ -12,7 +12,6 @@ PlatformPlayer::PlatformPlayer(SDL_Rect s, SDL_FRect d, SDL_Renderer * r, SDL_Te
 	m_maxVelY = JUMPFORCE;
 	m_grav = GRAV;
 	m_drag = 0.88;
-	m_curSoul = m_maxSoul;
 }
 
 void PlatformPlayer::Update()
@@ -60,7 +59,7 @@ double PlatformPlayer::GetSoul()
 
 void PlatformPlayer::SoulRcvry()
 {
-	m_curSoul += m_soulRecover;
+	m_curSoul += (double)m_meeleDmg * (double)m_soulRcvrd;
 	if (m_curSoul > m_maxSoul)
 		m_curSoul = m_maxSoul;
 }
