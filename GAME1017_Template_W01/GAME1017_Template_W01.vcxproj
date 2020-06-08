@@ -135,9 +135,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animator.h" />
+    <ClInclude Include="Archer.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="DebugManager.h" />
+    <ClInclude Include="Enemies.h" />
+    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="FontManager.h" />
@@ -148,6 +151,7 @@
     <ClInclude Include="MathManager.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="States.h" />
+    <ClInclude Include="Swordman.h" />
     <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
