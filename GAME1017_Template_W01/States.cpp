@@ -121,10 +121,13 @@ void GameState::Update()
 	EnemyManager::DestroyInvalidEnemies();
 
 	CheckCollision();
-
 	// Die
 	if (m_pPlayer->GetSoul() <= 0)
 		STMA::ChangeState(new EndState(m_pPlayer, m_pPlayerAnimator));
+	if (EVMA::KeyHeld(SDL_SCANCODE_X))
+	{
+		STMA::ChangeState(new EndState(m_pPlayer, m_pPlayerAnimator));
+	}
 }
 
 void GameState::CheckCollision()
@@ -231,6 +234,8 @@ void EndState::Enter()
 			delete mapElement.second;
 		}
 	}
+	m_restartBtn = new PlayButton({ 0,0,400,100 }, { 312.0f,100.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
+	m_exitBtn = new PlayButton({ 0,0,400,100 }, { 312.0f,100.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
 }
 
 void EndState::Exit()
