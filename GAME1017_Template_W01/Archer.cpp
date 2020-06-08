@@ -62,13 +62,7 @@ void Archer::Update()
 
 void Archer::Render()
 {
-	m_pText = TextureManager::GetTexture("Archer");
-	/*if(m_pText==nullptr)
-	{
-		std::cout << "Archer image Null" << std::endl;
-	}*/
-	
-	SDL_RenderCopy(m_pRend, m_pText, &m_src, &MAMA::ConvertFRect2Rect(m_dst));
+	SDL_RenderCopy(m_pRend, TextureManager::GetTexture("Archer"), &m_src, &MAMA::ConvertFRect2Rect(m_dst));
 }
 
 

@@ -7,6 +7,7 @@
 #include "Engine.h"
 #include "Button.h"
 #include "EnemyManager.h"
+#include "UIObjectManager.h"
 
 #include <iostream>
 
@@ -33,6 +34,7 @@ void GameState::Enter()
 	m_pPlatforms[4] = new SDL_FRect({ -100.0f,668.0f,1224.0f,100.0f });
 	EnemyManager::CreateEnemy(swordman, { 600.0f,300.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(archer, { 200.0f,300.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
+	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
 	SOMA::Load("Aud/jump.wav", "jump", SOUND_SFX);
 }
 
@@ -89,7 +91,9 @@ void GameState::Update()
 		//std::cout << EnemyManager::EnemiesVec.size() << std::endl;
 	}
 	EnemyManager::DestroyInvalidEnemies();
-	CheckCollision();	
+	CheckCollision();
+
+	UIObjectManager::UIUpdate();
 }
 
 void GameState::CheckCollision()
@@ -168,6 +172,7 @@ void GameState::Render()
 	{
 		EnemyManager::EnemiesVec[i]->Render();
 	}
+	UIObjectManager::UIRender();
 	// If GameState != current state.
 	if (dynamic_cast<GameState*>(STMA::GetStates().back()))
 		State::Render();

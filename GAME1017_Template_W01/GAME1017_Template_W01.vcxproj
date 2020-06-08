@@ -143,6 +143,7 @@
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="PlatformPlayer.cpp" />
+    <ClCompile Include="SoulBar.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="Label.cpp" />
@@ -151,6 +152,8 @@
     <ClCompile Include="States.cpp" />
     <ClCompile Include="Swordman.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="UIObject.cpp" />
+    <ClCompile Include="UIObjectManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Archer.h" />
@@ -163,6 +166,7 @@
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="PlatformPlayer.h" />
+    <ClInclude Include="SoulBar.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="Label.h" />
@@ -171,6 +175,8 @@
     <ClInclude Include="States.h" />
     <ClInclude Include="Swordman.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="UIObject.h" />
+    <ClInclude Include="UIObjectManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="img\circle.png" />

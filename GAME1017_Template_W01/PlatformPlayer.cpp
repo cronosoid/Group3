@@ -50,6 +50,8 @@ double PlatformPlayer::GetVelX() { return m_velX; }
 double PlatformPlayer::GetVelY() { return m_velY; }
 void PlatformPlayer::SetX(float y) { m_dst.x = y; }
 void PlatformPlayer::SetY(float y) { m_dst.y = y; }
+double PlatformPlayer::getHeaPercent() { return m_curSoul / m_maxSoul; }
+
 
 double PlatformPlayer::GetSoul()
 {

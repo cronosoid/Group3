@@ -31,8 +31,8 @@ public:
 	void SoulRcvry();
 	SDL_FRect* Meele();
 	void Fireball();
+	double getHeaPercent();
 		 
-
 private:
 	bool m_grounded;
 	double m_accelX,
