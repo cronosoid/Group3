@@ -201,13 +201,6 @@ void EndState::Render()
 
 void EndState::Enter()
 {
-	for (const auto& mapElement : GameState::getPlayerAnimator()->animationsMap)
-	{
-		if (mapElement.second != nullptr)
-		{
-			delete mapElement.second;
-		}
-	}
 }
 
 void EndState::Exit()
