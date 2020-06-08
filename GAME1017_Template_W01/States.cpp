@@ -29,11 +29,11 @@ void GameState::Enter()
 	m_pPlayerAnimator = new Animator(m_pPlayer);
 	m_pPlayerAnimator->addAnimation("run", 8, 2, 64, 64);
 	m_pPlayerAnimator->addAnimation("idle", 4, 1, 64, 64, 0, 128, 12);
-	m_pPlatforms[0] = new SDL_FRect({ 462.0f,648.0f,100.0f,20.0f });
-	m_pPlatforms[1] = new SDL_FRect({ 200.0f,468.0f,100.0f,20.0f });
-	m_pPlatforms[2] = new SDL_FRect({ 724.0f,468.0f,100.0f,20.0f });
-	m_pPlatforms[3] = new SDL_FRect({ 462.0f,368.0f,100.0f,20.0f });
-	m_pPlatforms[4] = new SDL_FRect({ -100.0f,668.0f,1224.0f,100.0f });
+	m_pPlatforms.push_back(new SDL_FRect({ 462.0f,648.0f,100.0f,20.0f }));
+	m_pPlatforms.push_back(new SDL_FRect({ 200.0f,468.0f,100.0f,20.0f }));
+	m_pPlatforms.push_back(new SDL_FRect({ 724.0f,468.0f,100.0f,20.0f }));
+	m_pPlatforms.push_back(new SDL_FRect({ 462.0f,368.0f,100.0f,20.0f }));
+	m_pPlatforms.push_back(new SDL_FRect({ -100.0f,668.0f,1224.0f,100.0f }));
 
 	EnemyManager::CreateEnemy(swordman, { 600.0f,300.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(archer, { 200.0f,300.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
@@ -114,62 +114,11 @@ void GameState::Update()
 
 void GameState::CheckCollision()
 {
-	for (int i = 0; i < NUMPLATFORMS; i++) // For each platform.
-	{
-		if (COMA::AABBCheck(*m_pPlayer->GetDstP(), *m_pPlatforms[i]))
-		{
-			if (m_pPlayer->GetDstP()->x + m_pPlayer->GetDstP()->w - m_pPlayer->GetVelX() <= m_pPlatforms[i]->x)
-			{ // Collision from left.
-				m_pPlayer->StopX(); // Stop the player from moving horizontally.
-				m_pPlayer->SetX(m_pPlatforms[i]->x - m_pPlayer->GetDstP()->w);
-			}
-			else if (m_pPlayer->GetDstP()->x - (float)m_pPlayer->GetVelX() >= m_pPlatforms[i]->x + m_pPlatforms[i]->w)
-			{ // Colliding right side of platform.
-				m_pPlayer->StopX();
-				m_pPlayer->SetX(m_pPlatforms[i]->x + m_pPlatforms[i]->w);
-			}
-			else if (m_pPlayer->GetDstP()->y + m_pPlayer->GetDstP()->h - (float)m_pPlayer->GetVelY() <= m_pPlatforms[i]->y)
-			{ // Colliding top side of platform.
-				m_pPlayer->SetGrounded(true);
-				m_pPlayer->StopY();
-				m_pPlayer->SetY(m_pPlatforms[i]->y - m_pPlayer->GetDstP()->h - 1);
-			}
-			else if (m_pPlayer->GetDstP()->y - (float)m_pPlayer->GetVelY() >= m_pPlatforms[i]->y + m_pPlatforms[i]->h)
-			{ // Colliding bottom side of platform.
-				m_pPlayer->StopY();
-				m_pPlayer->SetY(m_pPlatforms[i]->y + m_pPlatforms[i]->h);
-			}
-		}
-	}
+	COMA::CheckPlatformsCollision(m_pPlatforms, m_pPlayer);
+
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
-		for (int j = 0; j < NUMPLATFORMS; j++)
-		{
-			if (COMA::AABBCheck(*enemy->GetDstP(), *m_pPlatforms[j]))
-			{
-				if (enemy->GetDstP()->x + enemy->GetDstP()->w - enemy->GetVelX() <= m_pPlatforms[j]->x)
-				{ // Collision from left.
-					enemy->StopX();
-					enemy->SetX(m_pPlatforms[j]->x - enemy->GetDstP()->w);
-				}
-				else if (enemy->GetDstP()->x - (float)enemy->GetVelX() >= m_pPlatforms[j]->x + m_pPlatforms[j]->w)
-				{ // Colliding right side of platform.
-					enemy->StopX();
-					enemy->SetX(m_pPlatforms[j]->x + m_pPlatforms[j]->w);
-				}
-				else if (enemy->GetDstP()->y + enemy->GetDstP()->h - (float)enemy->GetVelY() <= m_pPlatforms[j]->y)
-				{ // Colliding top side of platform.
-					enemy->SetGrounded(true);
-					enemy->StopY();
-					enemy->SetY(m_pPlatforms[j]->y - enemy->GetDstP()->h - 1);
-				}
-				else if (enemy->GetDstP()->y - (float)enemy->GetVelY() >= m_pPlatforms[j]->y + m_pPlatforms[j]->h)
-				{ // Colliding bottom side of platform.
-					enemy->StopY();
-					enemy->SetY(m_pPlatforms[j]->y + m_pPlatforms[j]->h);
-				}
-			}
-		}
+		COMA::CheckPlatformsCollision(m_pPlatforms, enemy);
 	}
 }
 

@@ -10,8 +10,6 @@ const int INIHEALTH = 100;
 const int SwordmanATTACK = 10;
 const int SwordmanDEFENCE = 10;
 const int SwordmanATKCD = 500;
-const int JUMPFORCE = 60.0;
-const int GRAV = 6.0;
 
 Swordman::Swordman(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :Enemies(s, d, r, t)
 {
