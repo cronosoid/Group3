@@ -25,7 +25,7 @@ void GameState::Enter()
 {
 	std::cout << "Entering GameState..." << std::endl;
 	m_pPlayer = new PlatformPlayer({ 0,0,64,64 }, { 512.0f,480.0f,128.0f,128.0f },
-								   Engine::Instance().GetRenderer(), IMG_LoadTexture(Engine::Instance().GetRenderer(), "C:\\Users\\Maxim\\Documents\\Kaben_Sheet.png"));
+								   Engine::Instance().GetRenderer(), IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Spritesheets/Kaben_Sheet.png"));
 	m_pPlayerAnimator = new Animator(m_pPlayer);
 	m_pPlayerAnimator->addAnimation("run", 8, 2, 64, 64);
 	m_pPlayerAnimator->addAnimation("idle", 4, 1, 64, 64, 0, 128, 12);
