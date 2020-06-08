@@ -69,6 +69,7 @@ SDL_FRect* PlatformPlayer::Meele()
 	std::cout << "meele1";
 	
 	//Meele animation goes here
+	return 0;
 }
 
 void PlatformPlayer::Fireball()
