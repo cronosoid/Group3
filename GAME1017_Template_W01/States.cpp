@@ -95,6 +95,10 @@ void GameState::Update()
 	m_pPlayerAnimator->playAnimation();
 
 	CheckCollision();
+
+	// Die
+	if (m_pPlayer->GetSoul() <= 0)
+		STMA::ChangeState(new EndState(m_pPlayer, m_pPlayerAnimator));
 }
 
 void GameState::CheckCollision()
@@ -182,6 +186,12 @@ void TitleState::Exit()
 }
 // End TitleState.
 
+EndState::EndState(PlatformPlayer* m_pPlayer, Animator* m_pPlayerAnimator)
+{
+	this->m_pPlayer = m_pPlayer;
+	this->m_pPlayerAnimator = m_pPlayerAnimator;
+}
+
 void EndState::Update()
 {
 	if (m_restartBtn->Update() == 1)
@@ -201,7 +211,7 @@ void EndState::Render()
 
 void EndState::Enter()
 {
-	for (const auto& mapElement : GameState::getPlayerAnimator()->animationsMap)
+	for (const auto& mapElement : m_pPlayerAnimator->animationsMap)
 	{
 		if (mapElement.second != nullptr)
 		{

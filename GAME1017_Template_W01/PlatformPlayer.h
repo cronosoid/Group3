@@ -10,9 +10,9 @@ class PlatformPlayer : public Sprite
 {
 public: // Variables
 	const double m_maxSoul = 100;
-	int m_meeleDmg,
-		m_fireDmg,
-		m_soulRcvrd;
+	const int m_meeleDmg = 0;
+	const int m_fireDmg = 0;
+	const int m_soulRecover = 0;
 	int movement[2] = { 0,0 };
 public: // Methods
 	PlatformPlayer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t);

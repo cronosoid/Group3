@@ -24,8 +24,8 @@ public:
 class GameState : public State
 {
 private:
-	static PlatformPlayer* m_pPlayer;
-	static Animator* m_pPlayerAnimator;
+	PlatformPlayer* m_pPlayer;
+	Animator* m_pPlayerAnimator;
 	SDL_FRect* m_pPlatforms[NUMPLATFORMS];
 	
 public:
@@ -36,8 +36,6 @@ public:
 	void Enter();
 	void Exit();
 	void Resume();
-	static PlatformPlayer* getPlayer() { return m_pPlayer; }
-	static Animator* getPlayerAnimator() { return m_pPlayerAnimator; }
 };
 
 class TitleState : public State
@@ -55,12 +53,15 @@ private:
 class EndState : public State
 {
 public:
-	EndState();
+	EndState(PlatformPlayer* m_pPlayer, Animator* m_pPlayerAnimator);
+	EndState() {}
 	void Update();
 	void Render();
 	void Enter();
 	void Exit();
 private:
+	PlatformPlayer* m_pPlayer;
+	Animator* m_pPlayerAnimator;
 	Button* m_restartBtn;
 	Button* m_exitBtn;
 };
