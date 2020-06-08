@@ -117,9 +117,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="Archer.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="DebugManager.cpp" />
+    <ClCompile Include="Enemies.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FontManager.cpp" />
@@ -131,6 +134,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MathManager.cpp" />
     <ClCompile Include="States.cpp" />
+    <ClCompile Include="Swordman.cpp" />
     <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
