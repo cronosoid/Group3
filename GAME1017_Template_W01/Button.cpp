@@ -63,3 +63,16 @@ void PlayButton::Execute()
 	SOMA::PlaySound("beep");
 	STMA::ChangeState(new GameState);
 }
+
+void RestartButton::Execute()
+{
+	SOMA::PlaySound("beep");
+	STMA::ChangeState(new GameState);
+}
+
+void ExitButton::Execute()
+{
+	SOMA::PlaySound("beep");
+	Engine::Instance().setRunning(false);	
+	exit(0);
+}
