@@ -38,7 +38,7 @@ void GameState::Enter()
 	EnemyManager::CreateEnemy(swordman, { 700.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(archer, { 200.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
 
-	SOMA::Load("Aud/jump.wav", "jump", SOUND_SFX);
+	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
 }
 
 void GameState::Update()
@@ -64,7 +64,7 @@ void GameState::Update()
 	if (EVMA::KeyPressed(SDL_SCANCODE_SPACE) && m_pPlayer->IsGrounded())
 	{
 		//jumping animation
-		SOMA::PlaySound("jump");
+		SOMA::PlaySound("Kaben_jump");
 		m_pPlayer->SetAccelY(-JUMPFORCE); // Sets the jump force.
 		m_pPlayer->SetGrounded(false);
 	}
@@ -176,7 +176,7 @@ TitleState::TitleState() {}
 void TitleState::Enter()
 {
 	m_playBtn = new PlayButton({ 0,0,400,100 }, { 312.0f,100.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
-	SOMA::Load("Aud/power.wav", "beep", SOUND_SFX);
+	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
 }
 
 void TitleState::Update()
