@@ -42,19 +42,16 @@ void EnemyManager::CreateEnemy(EnemyType type, SDL_FRect d, SDL_Renderer* r)
 
 void EnemyManager::DestroyInvalidEnemies()
 {
-	for (int i = 0; i < (int)EnemiesVec.size(); i++)
+	for (auto enemy = EnemiesVec.begin(); enemy != EnemiesVec.end();)
 	{
-		if (EnemiesVec[i]->getActive() == false)
+		if (not (*enemy)->getActive())
 		{
-			std::cout << EnemiesVec[i]->getType();
-			SDL_DestroyTexture(EnemiesVec[i]->getTex());
-			delete EnemiesVec[i];
-			EnemiesVec[i] = nullptr;
-			std::cout << " has been destroyed" << std::endl;
+			delete* enemy;
+			enemy = EnemiesVec.erase(enemy);
 		}
-	}
-	if (!EnemiesVec.empty())
-	{
-		EnemiesVec.erase(remove(EnemiesVec.begin(), EnemiesVec.end(), nullptr), EnemiesVec.end());
+		else
+		{
+			++enemy;
+		}
 	}
 }
