@@ -211,12 +211,14 @@ Liqi_Fireball
     <ClInclude Include="UIObjectManager.h" />
  Healthy_Animator_Branch
   </ItemGroup>
+
   <ItemGroup>
     <Image Include="..\..\..\..\Documents\Kaben_Run.png" />
     <Image Include="img\circle.png" />
     <Image Include="Img\Enemies.png" />
     <Image Include="Img\PlayerShip.png" />
   </ItemGroup>
+
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

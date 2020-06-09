@@ -10,6 +10,7 @@ class Sprite // Inline class.
 public: // Inherited and public.
 	Sprite(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t)
 		:m_src(s), m_dst(d), m_pRend(r), m_pText(t), m_angle(0.0) {}
+
 	virtual void Render();
 	SDL_Rect* GetSrcP() { return &m_src; }
 	SDL_FRect* GetDstP() { return &m_dst; }

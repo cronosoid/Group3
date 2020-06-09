@@ -83,8 +83,7 @@ void PlatformPlayer::SoulRcvry()
 		m_curSoul = m_maxSoul;
 } 
 
-Liqi_Fireball
-=======
+
 void PlatformPlayer::Meele()
 {
 	
