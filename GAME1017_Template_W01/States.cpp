@@ -6,17 +6,11 @@
 #include "TextureManager.h"
 #include "Engine.h"
 #include "Button.h"
- Liqi_Fireball
-#include "Fireball.h"
-=======
 #include "EnemyManager.h"
 #include "UIObjectManager.h"
 
 
-Healthy_Animator_Branch
 #include <iostream>
-#include "ProjectileManager.h"
-#include "Utilities.h"
 
 // Begin State. CTRL+M+H and CTRL+M+U to turn on/off collapsed code.
 void State::Render()
@@ -32,20 +26,6 @@ GameState::GameState() {}
 void GameState::Enter()
 {
 	std::cout << "Entering GameState..." << std::endl;
- Liqi_Fireball
- Liqi_Fireball
-	m_pPlayer = new PlatformPlayer({ 0,0,0,0 }, { 512.0f,548.0f,50.0f,100.0f }, 
-								   Engine::Instance().GetRenderer(), nullptr);	
-	m_pPlatforms[0] = new SDL_FRect({ 462.0f,648.0f,100.0f,20.0f });
-	m_pPlatforms[1] = new SDL_FRect({ 200.0f,468.0f,100.0f,20.0f });
-	m_pPlatforms[2] = new SDL_FRect({ 724.0f,468.0f,100.0f,20.0f });
-	m_pPlatforms[3] = new SDL_FRect({ 462.0f,368.0f,100.0f,20.0f });
-	m_pPlatforms[4] = new SDL_FRect({ -100.0f,668.0f,1224.0f,100.0f });
-	TEMA::RegisterTexture("Img/fireball.png", "fireball");
-	SOMA::Load("Aud/jump.wav", "jump", SOUND_SFX);
-	SOMA::Load("Aud/Fire.wav", "jump", SOUND_SFX);
-=======
- Healthy_Animator_Branch
 
 	m_pPlayer = new PlatformPlayer({ 0,0,64,64 }, { 512.0f,480.0f,128.0f,128.0f },
 								   Engine::Instance().GetRenderer(), IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Spritesheets/Kaben_Sheet.png"));
@@ -62,7 +42,6 @@ void GameState::Enter()
 	EnemyManager::CreateEnemy(archer, { 200.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
 
 	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
- Healthy_Animator_Branch
 }
 
 void GameState::Update()
@@ -123,42 +102,18 @@ void GameState::Update()
 
 			m_pPlayer->Meele();
 		}
- Liqi_Fireball
-
-		
-
- Healthy_Animator_Branch
 	}
-	else if ((EVMA::KeyPressed(SDL_SCANCODE_I)))//&& m_pPlayer->CanShoot()) // fireball
+	else if (EVMA::KeyHeld(SDL_SCANCODE_I)) // fireball
 	{
-		ProMA::Instance().GetFireBalls().push_back(new Fireball({ 0,0,320,320, }, { m_pPlayer->GetDstP()->x + 40, m_pPlayer->GetDstP()->y + 42, 32, 32 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 10));
+		// will complete the projectile spawn in a while
+		m_pPlayer->Fireball();
 	}
 	// Wrap the player on screen.
 	if (m_pPlayer->GetDstP()->x < -51.0) m_pPlayer->SetX(1024.0);
 	else if (m_pPlayer->GetDstP()->x > 1024.0) m_pPlayer->SetX(-50.0);
 	// Do the rest.
 	m_pPlayer->Update();
-Liqi_Fireball
- Liqi_Fireball
 
-	//update the fireball
-	for (int i = 0; i < ProMA::Instance().GetFireBalls().size(); i++)
-	{
-		ProMA::Instance().GetFireBalls()[i]->Update();
-		if (ProMA::Instance().GetFireBalls()[i]->GetDstP()->x > 1024)
-		{
-			delete ProMA::Instance().GetFireBalls()[i];
-			ProMA::Instance().GetFireBalls()[i] = nullptr;
-			Engine::Instance().setNull();
-		}
-		if (Engine::Instance().isNull())
-			CleanVector<Fireball*>(ProMA::Instance().GetFireBalls(), Engine::Instance().isNull());
-	}
-	
-=======
-=======
-
- Healthy_Animator_Branch
 	if (m_pPlayer->movement[0] == 0)
 		m_pPlayerAnimator->setNextAnimation("idle");
 	m_pPlayerAnimator->playAnimation();
@@ -169,7 +124,6 @@ Liqi_Fireball
 	}
 	EnemyManager::DestroyInvalidEnemies();
 
- Healthy_Animator_Branch
 	CheckCollision();
 	// Die
 	if (m_pPlayer->GetSoul() <= 0)
@@ -236,33 +190,17 @@ void GameState::Render()
 	m_pPlayer->Render();
 	// Draw the platforms.
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 192, 64, 0, 255);
- Liqi_Fireball
- Liqi_Fireball
-	for (int i = 0; i < NUMPLATFORMS; i++)
-		SDL_RenderFillRectF(Engine::Instance().GetRenderer(), m_pPlatforms[i]);
-	//Draw the Fireball.
-	for (int i = 0; i < (int)ProMA::Instance().GetFireBalls().size(); i++)
-	{
-		ProMA::Instance().GetFireBalls()[i]->Render();
-	}
-
-=======
- Healthy_Animator_Branch
 
 	for (auto platfrom : m_pPlatforms)
 	{
 		SDL_RenderFillRectF(Engine::Instance().GetRenderer(), platfrom);
 	}
- Liqi_Fireball
- Healthy_Animator_Branch
-=======
   for (int i = 0; i < (int)EnemyManager::EnemiesVec.size(); i++)
 	{
 		EnemyManager::EnemiesVec[i]->Render();
 	}
 	UIObjectManager::UIRender();
 
- Healthy_Animator_Branch
 	// If GameState != current state.
 	if (dynamic_cast<GameState*>(STMA::GetStates().back()))
 		State::Render();

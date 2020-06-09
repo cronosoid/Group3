@@ -3,11 +3,7 @@
 #define _PLATFORMPLAYER_H_
 
 #include "Sprite.h"
- Liqi_Fireball
-#include "Fireball.h"
-=======
 #include "Entity.h"
- Healthy_Animator_Branch
 
 const int MELEECOOLDOWN = 1.0;
 
@@ -23,33 +19,6 @@ public: // Methods
 	PlatformPlayer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t);
 	void Update();
 	void Render();
- Liqi_Fireball
-	void Stop();
-	void StopX();
-	void StopY();
-	void SetAccelX(double a);
-	void SetAccelY(double a);
-	bool IsGrounded();
-	void SetGrounded(bool g);
-	double GetVelX();
-	double GetVelY();
-	void SetX(float y);
-	void SetY(float y);
-	double GetSoul();
-
-private:
-	bool m_grounded;
-		
-	double m_accelX,
-		m_accelY,
-		m_velX,
-		m_maxVelX,
-		m_velY,
-		m_maxVelY,
-		m_drag,
-		m_grav, 
-		m_curSoul;
-=======
 	double GetSoul();
 	void SoulRcvry();
 	void Meele();
@@ -61,7 +30,6 @@ private:
 private:
 	double m_curSoul;
 	Uint32 lastMeleeTime;
- Healthy_Animator_Branch
 };
 
 #endif
