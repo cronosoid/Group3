@@ -7,6 +7,10 @@ class SoulBarBorder :public UIObject
 public:
 	SoulBarBorder(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :UIObject(s, d, r, t)
 	{
+		animFrame = 0;
+		maxAnimFrame = 3;
+		changeTime = 0;
+		animFramerate = 0.1;
 		isDisplay = true;
 		UIType = "SoulBarBorder";
 	}
@@ -14,7 +18,10 @@ public:
 	virtual void Render() override;
 
 private:
-
+	int animFrame;
+	int maxAnimFrame;
+	double animFramerate;
+	Uint32 changeTime;
 };
 
 class SoulBarFiller :public UIObject

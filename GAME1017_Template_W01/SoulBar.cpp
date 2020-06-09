@@ -4,7 +4,14 @@
 
 void SoulBarBorder::Update()
 {
-
+	if ((this->changeTime + animFramerate * 1000) < SDL_GetTicks())
+	{
+		this->changeTime = SDL_GetTicks();
+		this->animFrame++;
+		if (this->animFrame > this->maxAnimFrame)
+			this->animFrame = 0;
+		this->SetSrcCords(this->GetSrcP()->w * this->animFrame, 0);
+	}
 }
 
 void SoulBarBorder::Render()
