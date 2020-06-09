@@ -21,17 +21,6 @@ public: // Methods
 	void Update();
 	void Render();
 	
-	void Stop();
-	void StopX();
-	void StopY();
-	void SetAccelX(double a);
-	void SetAccelY(double a);
-	bool IsGrounded();
-	void SetGrounded(bool g);
-	double GetVelX();
-	double GetVelY();
-	void SetX(float y);
-	void SetY(float y);
 	double GetSoul();
 	void SoulRcvry();
 	void Meele();
@@ -39,20 +28,6 @@ public: // Methods
 	double getHeaPercent();
 	Uint32 getMeleeTime() { return lastMeleeTime; }
 	void setMeleeTime() { lastMeleeTime = SDL_GetTicks(); }
-
-private:
-	bool m_grounded;
-
-	double m_accelX,
-		m_accelY,
-		m_velX,
-		m_maxVelX,
-		m_velY,
-		m_maxVelY,
-		m_drag,
-		m_grav;
-
-	
 
 private:
 	double m_curSoul;

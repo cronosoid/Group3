@@ -41,26 +41,6 @@ void PlatformPlayer::Render()
 	SDL_RenderCopyExF(m_pRend, m_pText, GetSrcP(), GetDstP(), m_angle, 0, SDL_FLIP_NONE);
 }
 
-void PlatformPlayer::Stop() // If you want a dead stop both axes.
-{
-	StopX();
-	StopY();
-}
-void PlatformPlayer::StopX() { m_velX = 0.0; }
-void PlatformPlayer::StopY() { m_velY = 0.0; }
-
-void PlatformPlayer::SetAccelX(double a) { m_accelX = a; }
-void PlatformPlayer::SetAccelY(double a) { m_accelY = a; }
-bool PlatformPlayer::IsGrounded() { return m_grounded; }
-
-void PlatformPlayer::SetGrounded(bool g) { m_grounded = g; }
-
-double PlatformPlayer::GetVelX() { return m_velX; }
-double PlatformPlayer::GetVelY() { return m_velY; }
-void PlatformPlayer::SetX(float y) { m_dst.x = y; }
-void PlatformPlayer::SetY(float y) { m_dst.y = y; }
-
-
 double PlatformPlayer::getHeaPercent()
 {
 	return m_curSoul / m_maxSoul;
