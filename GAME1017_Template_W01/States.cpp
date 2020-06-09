@@ -68,10 +68,8 @@ void GameState::Enter()
 void GameState::Update()
 {
 	// Get input.
-
 	m_pPlayer->movement[0] = 0;
 	if (EVMA::KeyHeld(SDL_SCANCODE_A))
-
 	{
 		//walk left animation goes here
 		m_pPlayerAnimator->setFace(1);
@@ -79,7 +77,7 @@ void GameState::Update()
 		m_pPlayerAnimator->setNextAnimation("run");
 		m_pPlayer->SetAccelX(-1.0);
 	}
-	else if (EVMA::KeyHeld(SDL_SCANCODE_D) && m_pPlayer->IsGrounded())
+	else if (EVMA::KeyHeld(SDL_SCANCODE_D))
 	{
 		//walk right animation goes here
 		m_pPlayerAnimator->setFace(0);
@@ -93,7 +91,6 @@ void GameState::Update()
 		SOMA::PlaySound("Kaben_jump");
 		m_pPlayer->SetAccelY(-JUMPFORCE); // Sets the jump force.
 		m_pPlayer->SetGrounded(false);
-		
 	}
 	if (EVMA::KeyHeld(SDL_SCANCODE_J)) //melee
 	{
@@ -130,7 +127,7 @@ void GameState::Update()
 
 		
 
-
+ Healthy_Animator_Branch
 	}
 	else if ((EVMA::KeyPressed(SDL_SCANCODE_I)))//&& m_pPlayer->CanShoot()) // fireball
 	{
@@ -312,17 +309,11 @@ void TitleState::Exit()
 }
 // End TitleState.
 
-
-// Begin EndState
-
-EndState::EndState() {}
-
 EndState::EndState(PlatformPlayer* m_pPlayer, Animator* m_pPlayerAnimator)
 {
 	this->m_pPlayer = m_pPlayer;
 	this->m_pPlayerAnimator = m_pPlayerAnimator;
 }
-
 
 void EndState::Update()
 {
