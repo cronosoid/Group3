@@ -2,6 +2,7 @@
 #ifndef _STATES_H_
 #define _STATES_H_
 #define NUMENEMIES 2
+#define NUMPLATFORMS 5
 
 #include <SDL.h>
 #include "Button.h"

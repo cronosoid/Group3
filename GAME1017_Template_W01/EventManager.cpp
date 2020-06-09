@@ -1,4 +1,5 @@
 #include "EventManager.h"
+#include "ProjectileManager.h"
 #include "Engine.h"
 #include <cstring>
 #include <iostream>
@@ -16,7 +17,7 @@ void EventManager::Init()
 void EventManager::HandleEvents()
 {
 	SDL_Event event;
-	
+
 	std::memcpy(s_keysLast, s_keysCurr, s_numKeys);
 	s_mouseLast = s_mouseCurr;
 	s_lastKeyDown = s_lastKeyUp = -1;
@@ -25,17 +26,21 @@ void EventManager::HandleEvents()
 	{
 		switch (event.type) // Parse some global events.
 		{
-			case SDL_QUIT: // User pressed window's 'x' button.
+		case SDL_QUIT: // User pressed window's 'x' button.
+			Engine::Instance().Running() = false;
+			break;
+		case SDL_KEYDOWN:
+			s_lastKeyDown = event.key.keysym.sym;
+			if (event.key.keysym.sym == SDLK_SPACE)
+
+				break;
+		case SDL_KEYUP:
+			s_lastKeyUp = event.key.keysym.sym;
+			if (event.key.keysym.sym == SDLK_ESCAPE)
 				Engine::Instance().Running() = false;
-				break;
-			case SDL_KEYDOWN:
-				s_lastKeyDown = event.key.keysym.sym;
-				break;
-			case SDL_KEYUP:
-				s_lastKeyUp = event.key.keysym.sym;
-				if (event.key.keysym.sym == SDLK_ESCAPE)
-					Engine::Instance().Running() = false;
-				break;
+			break;
+
+
 		}
 	}
 	s_keysCurr = SDL_GetKeyboardState(&s_numKeys);

@@ -7,8 +7,11 @@
 #include "Engine.h"
 #include "Button.h"
 #include "EnemyManager.h"
-
+#include "Fireball.h"
+#include "ProjectileManager.h"
+#include "Utilities.h"
 #include <iostream>
+#include "UIObjectManager.h"
 
 // Begin State. CTRL+M+H and CTRL+M+U to turn on/off collapsed code.
 void State::Render()
@@ -34,10 +37,11 @@ void GameState::Enter()
 	m_pPlatforms.push_back(new SDL_FRect({ 724.0f,468.0f,100.0f,20.0f }));
 	m_pPlatforms.push_back(new SDL_FRect({ 462.0f,368.0f,100.0f,20.0f }));
 	m_pPlatforms.push_back(new SDL_FRect({ -100.0f,668.0f,1224.0f,100.0f }));
-	
+	TEMA::RegisterTexture("Img/fireball.png", "fireball");
 	EnemyManager::CreateEnemy(swordman, { 700.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(archer, { 200.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
-
+	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
+	SOMA::Load("Aud/Fire.wav", "jump", SOUND_SFX);
 	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
 }
 
@@ -103,13 +107,27 @@ void GameState::Update()
 	else if (EVMA::KeyHeld(SDL_SCANCODE_I)) // fireball
 	{
 		// will complete the projectile spawn in a while
-		m_pPlayer->Fireball();
+		ProMA::Instance().GetFireBalls().push_back(new Fireball({ 0,0,320,320, }, 
+			{ m_pPlayer->GetDstP()->x + 40, m_pPlayer->GetDstP()->y + 42, 32, 32 }, 
+			Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 10));
 	}
 	// Wrap the player on screen.
 	if (m_pPlayer->GetDstP()->x < -51.0) m_pPlayer->SetX(1024.0);
 	else if (m_pPlayer->GetDstP()->x > 1024.0) m_pPlayer->SetX(-50.0);
 	// Do the rest.
 	m_pPlayer->Update();
+	for (int i = 0; i < ProMA::Instance().GetFireBalls().size(); i++)
+	{
+		ProMA::Instance().GetFireBalls()[i]->Update();
+		if (ProMA::Instance().GetFireBalls()[i]->GetDstP()->x > 1024)
+		{
+			delete ProMA::Instance().GetFireBalls()[i];
+			ProMA::Instance().GetFireBalls()[i] = nullptr;
+			Engine::Instance().setNull();
+		}
+		if (Engine::Instance().isNull())
+			CleanVector<Fireball*>(ProMA::Instance().GetFireBalls(), Engine::Instance().isNull());
+	}
 	if (m_pPlayer->movement[0] == 0)
 		m_pPlayerAnimator->setNextAnimation("idle");
 	m_pPlayerAnimator->playAnimation();
@@ -128,7 +146,11 @@ void GameState::Update()
 	{
 		STMA::ChangeState(new EndState(m_pPlayer, m_pPlayerAnimator));
 	}
+
+	UIObjectManager::UIUpdate();
 }
+
+
 
 void GameState::CheckCollision()
 {
@@ -138,7 +160,39 @@ void GameState::CheckCollision()
 	{
 		COMA::CheckPlatformsCollision(m_pPlatforms, enemy);
 	}
+
+	for (int i = 0; i < (int)EnemyManager::EnemiesVec.size(); i++)
+	{
+		for (int j = 0; j < NUMPLATFORMS; j++)
+		{
+			if (COMA::AABBCheck(*EnemyManager::EnemiesVec[i]->GetDstP(), *m_pPlatforms[j]))
+			{
+				if (EnemyManager::EnemiesVec[i]->GetDstP()->x + EnemyManager::EnemiesVec[i]->GetDstP()->w - EnemyManager::EnemiesVec[i]->GetVelX() <= m_pPlatforms[j]->x)
+				{ // Collision from left.
+					EnemyManager::EnemiesVec[i]->StopX(); // Stop the player from moving horizontally.
+					EnemyManager::EnemiesVec[i]->SetX(m_pPlatforms[j]->x - EnemyManager::EnemiesVec[i]->GetDstP()->w);
+				}
+				else if (EnemyManager::EnemiesVec[i]->GetDstP()->x - (float)EnemyManager::EnemiesVec[i]->GetVelX() >= m_pPlatforms[j]->x + m_pPlatforms[j]->w)
+				{ // Colliding right side of platform.
+					EnemyManager::EnemiesVec[i]->StopX();
+					EnemyManager::EnemiesVec[i]->SetX(m_pPlatforms[j]->x + m_pPlatforms[j]->w);
+				}
+				else if (EnemyManager::EnemiesVec[i]->GetDstP()->y + EnemyManager::EnemiesVec[i]->GetDstP()->h - (float)EnemyManager::EnemiesVec[i]->GetVelY() <= m_pPlatforms[j]->y)
+				{ // Colliding top side of platform.
+					EnemyManager::EnemiesVec[i]->SetGrounded(true);
+					EnemyManager::EnemiesVec[i]->StopY();
+					EnemyManager::EnemiesVec[i]->SetY(m_pPlatforms[j]->y - EnemyManager::EnemiesVec[i]->GetDstP()->h - 1);
+				}
+				else if (EnemyManager::EnemiesVec[i]->GetDstP()->y - (float)EnemyManager::EnemiesVec[i]->GetVelY() >= m_pPlatforms[j]->y + m_pPlatforms[j]->h)
+				{ // Colliding bottom side of platform.
+					EnemyManager::EnemiesVec[i]->StopY();
+					EnemyManager::EnemiesVec[i]->SetY(m_pPlatforms[j]->y + m_pPlatforms[j]->h);
+				}
+			}
+		}
+	}
 }
+
 
 void GameState::Render()
 {
@@ -156,10 +210,23 @@ void GameState::Render()
 	{
 		SDL_RenderFillRectF(Engine::Instance().GetRenderer(), platfrom);
 	}
+
+	for (int i = 0; i < (int)ProMA::Instance().GetFireBalls().size(); i++)
+	{
+		ProMA::Instance().GetFireBalls()[i]->Render();
+	}
+
+	for (int i = 0; i < (int)EnemyManager::EnemiesVec.size(); i++)
+	{
+		EnemyManager::EnemiesVec[i]->Render();
+	}
+	UIObjectManager::UIRender();
+
 	// If GameState != current state.
 	if (dynamic_cast<GameState*>(STMA::GetStates().back()))
 		State::Render();
 }
+
 
 void GameState::Exit()
 {
