@@ -17,20 +17,14 @@ void SoulBarBorder::Render()
 
 void SoulBarFiller::Update()
 {
-	//HeaPercent = hero->getHeaPercent();
-	HeaPercent = 1.0;
+	this->SetDstSize(this->maxWidth*(hero->GetSoul()/hero->m_maxSoul),this->m_dst.h);
+	//std::cout << this->maxWidth * (hero->GetSoul() / hero->m_maxSoul) << std::endl;
 }
 
 void SoulBarFiller::Render()
 {
 	if (isDisplay == true)
 	{
-		m_dst.w = m_src.w * HeaPercent;
 		SDL_RenderCopy(m_pRend, TextureManager::GetTexture("SoulBarFiller"), &m_src, &MAMA::ConvertFRect2Rect(m_dst));
 	}
 }
-
-
-
-
-

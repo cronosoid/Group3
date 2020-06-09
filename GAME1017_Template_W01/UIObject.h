@@ -15,7 +15,7 @@ public:
 	void setIsDisplay(bool a) { isDisplay = a; }
 	void setIsActive(bool a) { isActive = a; }
 	bool getActive() { return isActive; }
-	SDL_Texture* getTex() { return m_pText; };
+	SDL_Texture* getTex() { return m_pText; }
 
 protected:
 	bool isDisplay,

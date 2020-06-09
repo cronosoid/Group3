@@ -12,3 +12,9 @@ void Sprite::SetSrcCords(int x, int y)
 	m_src.x = x;
 	m_src.y = y;
 }
+
+void Sprite::SetDstSize(int w, int h)
+{
+	m_dst.w = w;
+	m_dst.h = h;
+}

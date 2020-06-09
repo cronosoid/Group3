@@ -40,7 +40,7 @@ void GameState::Enter()
 	TEMA::RegisterTexture("../Spritesheets/fireball.png", "fireball");
 	EnemyManager::CreateEnemy(swordman, { 700.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(archer, { 200.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
-	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
+	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, { 50.0f,20.0f,256.0f,128.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
 	SOMA::Load("Aud/Fire.wav", "jump", SOUND_SFX);
 	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
 }

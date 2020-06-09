@@ -15,13 +15,11 @@ UIObjectManager::~UIObjectManager()
 }
 
 
-void UIObjectManager::CreateSoulBar(SDL_FRect d, SDL_Renderer* r, PlatformPlayer* hero)
+void UIObjectManager::CreateSoulBar(SDL_FRect d1, SDL_FRect d2, SDL_Renderer* r, PlatformPlayer* hero)
 {
-	SoulBarBorder* Tempborder = new SoulBarBorder({ 0,0,64,32 }, d, r, TextureManager::GetTexture("SoulBarBorder"));
+	SoulBarBorder* Tempborder = new SoulBarBorder({ 0,0,64,32 }, d1, r, TextureManager::GetTexture("SoulBarBorder"));
 	UIObjectVec.push_back(Tempborder);
-	d.x += 64.0f;
-	d.y += 0.0f;
-	SoulBarFiller* Tempfiller = new SoulBarFiller({ 0,0,64,32 }, d, r, TextureManager::GetTexture("SoulBarFiller"), hero);
+	SoulBarFiller* Tempfiller = new SoulBarFiller({ 0,0,64,32 }, d2, r, TextureManager::GetTexture("SoulBarFiller"), hero);
 	UIObjectVec.push_back(Tempfiller);
 	Tempborder = nullptr;
 	Tempfiller = nullptr;

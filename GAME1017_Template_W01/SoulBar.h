@@ -22,6 +22,7 @@ class SoulBarFiller :public UIObject
 public:
 	SoulBarFiller(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, PlatformPlayer* hero) :UIObject(s, d, r, t)
 	{
+		maxWidth = d.w;
 		isDisplay = true;
 		this->hero = hero;
 		UIType = "SoulBarFiller";
@@ -32,6 +33,7 @@ public:
 	PlatformPlayer* hero;
 private:
 	double HeaPercent;
+	double maxWidth;
 
 	//PlatformPlayer* hero;
 };
