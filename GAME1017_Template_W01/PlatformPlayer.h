@@ -23,10 +23,8 @@ public: // Methods
 	void SoulRcvry();
 	void Meele();
 	void Fireball();
-  double getHeaPercent();
 	Uint32 getMeleeTime() { return lastMeleeTime; }
 	void setMeleeTime() { lastMeleeTime = SDL_GetTicks(); }
-
 private:
 	double m_curSoul;
 	Uint32 lastMeleeTime;
