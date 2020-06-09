@@ -71,17 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
- Liqi_Fireball
-    <IncludePath>C:\Users\khaii\OneDrive\Desktop\Fireball\SDL\SDL2_image\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\khaii\OneDrive\Desktop\Fireball\SDL\SDL2_image\lib;$(LibraryPath)</LibraryPath>
-=======
     <IncludePath>$(SolutionDir)\SDL\SDL2\include;$(SolutionDir)\SDL\SDL2_mixer\include;$(SolutionDir)\SDL\SDL2_image\include;E:\C++项目\Horn and Honor\SDL\SDL2_ttf\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\SDL\SDL2\lib\x86;$(SolutionDir)\SDL\SDL2_image\lib\x86;$(SolutionDir)\SDL\SDL2_mixer\lib\x86;$(SolutionDir)\SDL\SDL2_ttf\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SolutionDir)\SDL\SDL2\include;$(SolutionDir)\SDL\SDL2_mixer\include;$(SolutionDir)\SDL\SDL2_image\include;E:\C++项目\Horn and Honor\SDL\SDL2_ttf\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\SDL\SDL2\lib\x86;$(SolutionDir)\SDL\SDL2_image\lib\x86;$(SolutionDir)\SDL\SDL2_mixer\lib\x86;$(SolutionDir)\SDL\SDL2_ttf\lib\x86;$(LibraryPath)</LibraryPath>
- Healthy_Animator_Branch
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -97,21 +92,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
- Liqi_Fireball
-      <AdditionalIncludeDirectories>C:\Users\khaii\OneDrive\Desktop\Fireball\SDL\SDL2_image\include;C:\Users\khaii\OneDrive\Desktop\Fireball\SDL\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ClCompile>
-    <Link>
-      <AdditionalLibraryDirectories>C:\Users\khaii\OneDrive\Desktop\Fireball\SDL\SDL2_image\lib\x86;C:\Users\khaii\OneDrive\Desktop\Fireball\SDL\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>Console</SubSystem>
-=======
       <AdditionalIncludeDirectories>$(SolutionDir)\SDL\SDL2\include;$(SolutionDir)\SDL\SDL2_image\include;$(SolutionDir)\SDL\SDL2_mixer\include;$(SolutionDir)\SDL\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\SDL\SDL2\lib\x86;$(SolutionDir)\SDL\SDL2_ttf\lib\x86;$(SolutionDir)\SDL\SDL2_mixer\lib\x86;$(SolutionDir)\SDL\SDL2_image\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
- Healthy_Animator_Branch
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -157,14 +143,9 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EventManager.cpp" />
-    <ClCompile Include="Fireball.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="PlatformPlayer.cpp" />
- Liqi_Fireball
-    <ClCompile Include="soulBar.cpp" />
-=======
     <ClCompile Include="SoulBar.cpp" />
- Healthy_Animator_Branch
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="StateManager.cpp" />
@@ -188,13 +169,8 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EventManager.h" />
-    <ClInclude Include="Fireball.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="PlatformPlayer.h" />
- Liqi_Fireball
-    <ClInclude Include="ProjectileManager.h" />
-=======
- Healthy_Animator_Branch
     <ClInclude Include="SoulBar.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StateManager.h" />
@@ -204,12 +180,8 @@
     <ClInclude Include="States.h" />
     <ClInclude Include="Swordman.h" />
     <ClInclude Include="TextureManager.h" />
-Liqi_Fireball
-    <ClInclude Include="Utilities.h" />
-=======
     <ClInclude Include="UIObject.h" />
     <ClInclude Include="UIObjectManager.h" />
- Healthy_Animator_Branch
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\Documents\Kaben_Run.png" />
