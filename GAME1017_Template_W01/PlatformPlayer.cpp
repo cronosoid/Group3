@@ -61,8 +61,16 @@ double PlatformPlayer::GetVelY() { return m_velY; }
 void PlatformPlayer::SetX(float y) { m_dst.x = y; }
 void PlatformPlayer::SetY(float y) { m_dst.y = y; }
 
+ Liqi_Fireball
 =======
  Healthy_Animator_Branch
+=======
+double PlatformPlayer::getHeaPercent() 
+{ 
+  return m_curSoul / m_maxSoul; 
+}
+
+Healthy_Animator_Branch
 double PlatformPlayer::GetSoul()
 {
 	return m_curSoul;
@@ -75,5 +83,14 @@ void PlatformPlayer::SoulRcvry()
 		m_curSoul = m_maxSoul;
 } 
 
+Liqi_Fireball
+=======
+void PlatformPlayer::Meele()
+{
+	
+	std::cout << "meele\n";
+
+}
+Healthy_Animator_Branch
 
 

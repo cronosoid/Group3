@@ -44,7 +44,12 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 
 	TEMA::RegisterTexture("../Spritesheets/Archer.png", "Archer");
 	TEMA::RegisterTexture("../Spritesheets/Pehot2.png", "Swordman");
+ Liqi_Fireball
   Healthy_Animator_Branch
+=======
+  TEMA::RegisterTexture("Img/Soul Bar.png", "SoulBarBorder");
+	TEMA::RegisterTexture("Img/Bar.png", "SoulBarFiller");
+ Healthy_Animator_Branch
 	STMA::ChangeState(new TitleState);
 	SOMA::AllocateChannels(16);
 	m_running = true; // Everything is okay, start the engine.
