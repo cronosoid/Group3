@@ -2,11 +2,23 @@
 #include "Engine.h"
 #include <algorithm>
 #include <iostream>
+#include "Utilities.h"
+
+#include "TextureManager.h"
 
 PlatformPlayer::PlatformPlayer(SDL_Rect s, SDL_FRect d, SDL_Renderer * r, SDL_Texture * t)
 	:Entity(s, d, r, t)
 {
+Liqi_Fireball
+	m_grounded = false;
+	m_accelX = m_accelY = m_velX = m_velY = 0.0;
+	m_maxVelX = 10.0;
+	m_maxVelY = JUMPFORCE;
+	m_grav = GRAV;
+	m_drag = 0.88;
+=======
 	m_curSoul = m_maxSoul;
+ Healthy_Animator_Branch
 }
 
 void PlatformPlayer::Update()
@@ -29,12 +41,36 @@ void PlatformPlayer::Render()
 	//SDL_RenderFillRectF(Engine::Instance().GetRenderer(), GetDstP());
 	SDL_RenderCopyExF(m_pRend, m_pText, GetSrcP(), GetDstP(), m_angle, 0, SDL_FLIP_NONE);
 }
+ Liqi_Fireball
+void PlatformPlayer::Stop() // If you want a dead stop both axes.
+{
+	StopX();
+	StopY();
+}
+void PlatformPlayer::StopX() { m_velX = 0.0; }
+void PlatformPlayer::StopY() { m_velY = 0.0; }
 
+void PlatformPlayer::SetAccelX(double a) { m_accelX = a; }
+void PlatformPlayer::SetAccelY(double a) { m_accelY = a; }
+bool PlatformPlayer::IsGrounded() { return m_grounded; }
+
+void PlatformPlayer::SetGrounded(bool g) { m_grounded = g; }
+
+double PlatformPlayer::GetVelX() { return m_velX; }
+double PlatformPlayer::GetVelY() { return m_velY; }
+void PlatformPlayer::SetX(float y) { m_dst.x = y; }
+void PlatformPlayer::SetY(float y) { m_dst.y = y; }
+
+ Liqi_Fireball
+=======
+ Healthy_Animator_Branch
+=======
 double PlatformPlayer::getHeaPercent() 
 { 
   return m_curSoul / m_maxSoul; 
 }
 
+Healthy_Animator_Branch
 double PlatformPlayer::GetSoul()
 {
 	return m_curSoul;
@@ -45,21 +81,16 @@ void PlatformPlayer::SoulRcvry()
 	m_curSoul += m_soulRecover;
 	if (m_curSoul > m_maxSoul)
 		m_curSoul = m_maxSoul;
-}
+} 
 
+Liqi_Fireball
+=======
 void PlatformPlayer::Meele()
 {
 	
 	std::cout << "meele\n";
 
 }
+Healthy_Animator_Branch
 
-void PlatformPlayer::Fireball()
-{
-	std::cout << "fireball1";
-	m_curSoul -= 30;
-	if (m_curSoul <= 0)
-		m_curSoul = 0;
-	//Fireball animation goes here
-}
 

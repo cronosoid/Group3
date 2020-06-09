@@ -1,3 +1,7 @@
+
+
+
+=======
 ﻿#pragma once
 #include "UIObject.h"
 #include"PlatformPlayer.h"
@@ -34,4 +38,5 @@ private:
 	double HeaPercent;
 
 	//PlatformPlayer* hero;
+ Healthy_Animator_Branch
 };
