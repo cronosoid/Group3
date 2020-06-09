@@ -42,8 +42,8 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	TEMA::RegisterTexture("Img/fireball.png", "play");
 	TEMA::RegisterTexture("../Spritesheets/Archer.png", "Archer");
 	TEMA::RegisterTexture("../Spritesheets/Pehot2.png", "Swordman");
-	TEMA::RegisterTexture("Img/Soul Bar.png", "SoulBarBorder");
-	TEMA::RegisterTexture("Img/Bar.png", "SoulBarFiller");
+	TEMA::RegisterTexture("../Spritesheets/Soul_Bar.png", "SoulBarBorder");
+	TEMA::RegisterTexture("../Spritesheets/Bar.png", "SoulBarFiller");
 
 	STMA::ChangeState(new TitleState);
 	SOMA::AllocateChannels(16);
@@ -103,7 +103,7 @@ int Engine::Run()
 {
 	if (m_running) // What does this do and what can it prevent?
 		return -1;
-	if (Init("GAME1017 Engine Template", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, 0) == false)
+	if (Init("Mastiv First", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, 0) == false)
 		return 1;
 	while (m_running) // Main engine loop.
 	{

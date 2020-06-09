@@ -37,7 +37,7 @@ void GameState::Enter()
 	m_pPlatforms.push_back(new SDL_FRect({ 724.0f,468.0f,100.0f,20.0f }));
 	m_pPlatforms.push_back(new SDL_FRect({ 462.0f,368.0f,100.0f,20.0f }));
 	m_pPlatforms.push_back(new SDL_FRect({ -100.0f,668.0f,1224.0f,100.0f }));
-	TEMA::RegisterTexture("Img/fireball.png", "fireball");
+	TEMA::RegisterTexture("../Spritesheets/fireball.png", "fireball");
 	EnemyManager::CreateEnemy(swordman, { 700.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(archer, { 200.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
 	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
