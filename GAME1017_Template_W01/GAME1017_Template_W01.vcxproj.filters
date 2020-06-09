@@ -155,19 +155,19 @@
     <ClInclude Include="Fireball.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ProjectileManager.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="SoulBar.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities.h">
-      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="UIObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UIObjectManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectileManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

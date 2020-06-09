@@ -24,7 +24,7 @@ public: // Methods
 	double GetSoul();
 	void SoulRcvry();
 	void Meele();
-	void Fireball();
+	//void Fireball();
 	double getHeaPercent();
 	Uint32 getMeleeTime() { return lastMeleeTime; }
 	void setMeleeTime() { lastMeleeTime = SDL_GetTicks(); }

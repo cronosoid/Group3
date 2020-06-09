@@ -107,9 +107,11 @@ void GameState::Update()
 	else if (EVMA::KeyHeld(SDL_SCANCODE_I)) // fireball
 	{
 		// will complete the projectile spawn in a while
+		int face;
+		m_pPlayerAnimator->getFace() == 0 ? face = 1 : face = -1;
 		ProMA::Instance().GetFireBalls().push_back(new Fireball({ 0,0,320,320, }, 
 			{ m_pPlayer->GetDstP()->x + 40, m_pPlayer->GetDstP()->y + 42, 32, 32 }, 
-			Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 10));
+			Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 10,face));
 	}
 	// Wrap the player on screen.
 	if (m_pPlayer->GetDstP()->x < -51.0) m_pPlayer->SetX(1024.0);
@@ -155,68 +157,9 @@ void GameState::Update()
 void GameState::CheckCollision()
 {
 	COMA::CheckPlatformsCollision(m_pPlatforms, m_pPlayer);
-	for (int i = 0; i < NUMPLATFORMS; i++) // For each platform.
-	{
-		if (COMA::AABBCheck(*m_pPlayer->GetDstP(), *m_pPlatforms[i]))
-		{
-			if (m_pPlayer->GetDstP()->x + m_pPlayer->GetDstP()->w - m_pPlayer->GetVelX() <= m_pPlatforms[i]->x)
-			{ // Collision from left.
-				m_pPlayer->StopX(); // Stop the player from moving horizontally.
-				m_pPlayer->SetX(m_pPlatforms[i]->x - m_pPlayer->GetDstP()->w);
-			}
-			else if (m_pPlayer->GetDstP()->x - (float)m_pPlayer->GetVelX() >= m_pPlatforms[i]->x + m_pPlatforms[i]->w)
-			{ // Colliding right side of platform.
-				m_pPlayer->StopX();
-				m_pPlayer->SetX(m_pPlatforms[i]->x + m_pPlatforms[i]->w);
-			}
-			else if (m_pPlayer->GetDstP()->y + m_pPlayer->GetDstP()->h - (float)m_pPlayer->GetVelY() <= m_pPlatforms[i]->y)
-			{ // Colliding top side of platform.
-				m_pPlayer->SetGrounded(true);
-				m_pPlayer->StopY();
-				m_pPlayer->SetY(m_pPlatforms[i]->y - m_pPlayer->GetDstP()->h - 1);
-			}
-			else if (m_pPlayer->GetDstP()->y - (float)m_pPlayer->GetVelY() >= m_pPlatforms[i]->y + m_pPlatforms[i]->h)
-			{ // Colliding bottom side of platform.
-				m_pPlayer->StopY();
-				m_pPlayer->SetY(m_pPlatforms[i]->y + m_pPlatforms[i]->h);
-			}
-		}
-	}
-
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
 		COMA::CheckPlatformsCollision(m_pPlatforms, enemy);
-	}
-
-	for (int i = 0; i < (int)EnemyManager::EnemiesVec.size(); i++)
-	{
-		for (int j = 0; j < NUMPLATFORMS; j++)
-		{
-			if (COMA::AABBCheck(*EnemyManager::EnemiesVec[i]->GetDstP(), *m_pPlatforms[j]))
-			{
-				if (EnemyManager::EnemiesVec[i]->GetDstP()->x + EnemyManager::EnemiesVec[i]->GetDstP()->w - EnemyManager::EnemiesVec[i]->GetVelX() <= m_pPlatforms[j]->x)
-				{ // Collision from left.
-					EnemyManager::EnemiesVec[i]->StopX(); // Stop the player from moving horizontally.
-					EnemyManager::EnemiesVec[i]->SetX(m_pPlatforms[j]->x - EnemyManager::EnemiesVec[i]->GetDstP()->w);
-				}
-				else if (EnemyManager::EnemiesVec[i]->GetDstP()->x - (float)EnemyManager::EnemiesVec[i]->GetVelX() >= m_pPlatforms[j]->x + m_pPlatforms[j]->w)
-				{ // Colliding right side of platform.
-					EnemyManager::EnemiesVec[i]->StopX();
-					EnemyManager::EnemiesVec[i]->SetX(m_pPlatforms[j]->x + m_pPlatforms[j]->w);
-				}
-				else if (EnemyManager::EnemiesVec[i]->GetDstP()->y + EnemyManager::EnemiesVec[i]->GetDstP()->h - (float)EnemyManager::EnemiesVec[i]->GetVelY() <= m_pPlatforms[j]->y)
-				{ // Colliding top side of platform.
-					EnemyManager::EnemiesVec[i]->SetGrounded(true);
-					EnemyManager::EnemiesVec[i]->StopY();
-					EnemyManager::EnemiesVec[i]->SetY(m_pPlatforms[j]->y - EnemyManager::EnemiesVec[i]->GetDstP()->h - 1);
-				}
-				else if (EnemyManager::EnemiesVec[i]->GetDstP()->y - (float)EnemyManager::EnemiesVec[i]->GetVelY() >= m_pPlatforms[j]->y + m_pPlatforms[j]->h)
-				{ // Colliding bottom side of platform.
-					EnemyManager::EnemiesVec[i]->StopY();
-					EnemyManager::EnemiesVec[i]->SetY(m_pPlatforms[j]->y + m_pPlatforms[j]->h);
-				}
-			}
-		}
 	}
 }
 
@@ -238,15 +181,11 @@ void GameState::Render()
 		SDL_RenderFillRectF(Engine::Instance().GetRenderer(), platfrom);
 	}
 
-	for (int i = 0; i < (int)ProMA::Instance().GetFireBalls().size(); i++)
+	for (auto projectile : ProMA::Instance().GetFireBalls())
 	{
-		ProMA::Instance().GetFireBalls()[i]->Render();
+		projectile->Render();
 	}
 
-	for (int i = 0; i < (int)EnemyManager::EnemiesVec.size(); i++)
-	{
-		EnemyManager::EnemiesVec[i]->Render();
-	}
 	UIObjectManager::UIRender();
 
 	// If GameState != current state.
