@@ -5,6 +5,9 @@
 #include <iostream>
 #include <SDL.h>
 #include "MathManager.h"
+#include "Sprite.h"
+#include "Entity.h"
+#include <vector>
 
 class CollisionManager
 {
@@ -15,6 +18,8 @@ public:
 	static bool CircleAABBCheck(const SDL_FPoint object1, const double r, const SDL_FRect& object2);
 
 	static bool LinePointCheck(const SDL_FPoint object1_start, const SDL_FPoint object1_end, const SDL_FPoint object2);
+
+	static void CheckPlatformsCollision(const std::vector<SDL_FRect*> platforms, Entity* obj);
 private:
 	CollisionManager() {}
 };

@@ -58,8 +58,24 @@ void Button::Render()
 // Create button subclasses and their overridden Execute methods below...
 
 PlayButton::PlayButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t) :Button(src, dst, r, t) {}
+RestartButton::RestartButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t) : Button(src, dst, r, t) {}
+ExitButton::ExitButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t) : Button(src, dst, r, t) {}
 void PlayButton::Execute()
+{
+	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
+	SOMA::PlaySound("button");
+	STMA::ChangeState(new GameState);
+}
+
+void RestartButton::Execute()
 {
 	SOMA::PlaySound("beep");
 	STMA::ChangeState(new GameState);
+}
+
+void ExitButton::Execute()
+{
+	SOMA::PlaySound("beep");
+	Engine::Instance().setRunning(false);	
+	exit(0);
 }

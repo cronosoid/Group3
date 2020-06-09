@@ -34,8 +34,12 @@ public: // Public methods.
 	static Engine& Instance(); // This static method creates the static instance that can be accessed 'globally'
 	SDL_Renderer* GetRenderer();
 	bool& Running();
+ Liqi_Fireball
 	bool& isNull();
 	void setNull();
+=======
+	void setRunning(bool);
+ Healthy_Animator_Branch
 };
 
 #endif

@@ -1,12 +1,13 @@
 #pragma once
 #ifndef _STATES_H_
 #define _STATES_H_
-#define NUMPLATFORMS 5
 #define NUMENEMIES 2
 
 #include <SDL.h>
 #include "Button.h"
 #include "PlatformPlayer.h"
+#include "Animator.h"
+#include <vector>
 
 class State // This is the abstract base class for all specific states.
 {
@@ -24,7 +25,8 @@ class GameState : public State
 {
 private:
 	PlatformPlayer* m_pPlayer;
-	SDL_FRect* m_pPlatforms[NUMPLATFORMS];
+	Animator* m_pPlayerAnimator;
+	std::vector<SDL_FRect*> m_pPlatforms;
 	
 public:
 	GameState();
@@ -51,12 +53,15 @@ private:
 class EndState : public State
 {
 public:
-	EndState();
+	EndState(PlatformPlayer* m_pPlayer, Animator* m_pPlayerAnimator);
+	EndState() {}
 	void Update();
 	void Render();
 	void Enter();
 	void Exit();
 private:
+	PlatformPlayer* m_pPlayer;
+	Animator* m_pPlayerAnimator;
 	Button* m_restartBtn;
 	Button* m_exitBtn;
 };
