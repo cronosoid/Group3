@@ -1,18 +1,31 @@
 #pragma once
 #ifndef _PLATFORMPLAYER_H_
 #define _PLATFORMPLAYER_H_
-#define GRAV 6.0
-#define JUMPFORCE 60.0
 
 #include "Sprite.h"
+ Liqi_Fireball
+#include "Fireball.h"
+=======
+#include "Entity.h"
+ Healthy_Animator_Branch
 
-class PlatformPlayer : public Sprite
+const int MELEECOOLDOWN = 1.0;
+
+class PlatformPlayer : public Entity
 {
-public:
+
+public: // Variables
+	const double m_maxSoul = 100;
+	const int m_meeleDmg = 20;
+	const int m_fireDmg = 0;
+	const int m_soulRecover = 0;
+	int movement[2] = { 0,0 };
+public: // Methods
 	PlatformPlayer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t);
-	
+
 	void Update();
 	void Render();
+ Liqi_Fireball
 	void Stop();
 	void StopX();
 	void StopY();
@@ -25,14 +38,10 @@ public:
 	void SetX(float y);
 	void SetY(float y);
 	double GetSoul();
-	void SoulRcvry();
-	SDL_FRect* Meele();
-	void Fireball();
-		 
 
 private:
 	bool m_grounded;
-	
+
 	double m_accelX,
 		m_accelY,
 		m_velX,
@@ -42,12 +51,27 @@ private:
 		m_drag,
 		m_grav, 
 		m_curSoul;
+
 	
 	const double m_maxSoul = 100;
 	
 	int m_meeleDmg,
 		m_fireDmg,
 		m_soulRcvrd;
+
+	double GetSoul();
+	void SoulRcvry();
+	void Meele();
+	void Fireball();
+  double getHeaPercent();
+	Uint32 getMeleeTime() { return lastMeleeTime; }
+	void setMeleeTime() { lastMeleeTime = SDL_GetTicks(); }
+
+private:
+	double m_curSoul;
+	Uint32 lastMeleeTime;
+ Healthy_Animator_Branch
+
 };
 
 #endif
