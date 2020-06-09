@@ -155,6 +155,33 @@ void GameState::Update()
 void GameState::CheckCollision()
 {
 	COMA::CheckPlatformsCollision(m_pPlatforms, m_pPlayer);
+	for (int i = 0; i < NUMPLATFORMS; i++) // For each platform.
+	{
+		if (COMA::AABBCheck(*m_pPlayer->GetDstP(), *m_pPlatforms[i]))
+		{
+			if (m_pPlayer->GetDstP()->x + m_pPlayer->GetDstP()->w - m_pPlayer->GetVelX() <= m_pPlatforms[i]->x)
+			{ // Collision from left.
+				m_pPlayer->StopX(); // Stop the player from moving horizontally.
+				m_pPlayer->SetX(m_pPlatforms[i]->x - m_pPlayer->GetDstP()->w);
+			}
+			else if (m_pPlayer->GetDstP()->x - (float)m_pPlayer->GetVelX() >= m_pPlatforms[i]->x + m_pPlatforms[i]->w)
+			{ // Colliding right side of platform.
+				m_pPlayer->StopX();
+				m_pPlayer->SetX(m_pPlatforms[i]->x + m_pPlatforms[i]->w);
+			}
+			else if (m_pPlayer->GetDstP()->y + m_pPlayer->GetDstP()->h - (float)m_pPlayer->GetVelY() <= m_pPlatforms[i]->y)
+			{ // Colliding top side of platform.
+				m_pPlayer->SetGrounded(true);
+				m_pPlayer->StopY();
+				m_pPlayer->SetY(m_pPlatforms[i]->y - m_pPlayer->GetDstP()->h - 1);
+			}
+			else if (m_pPlayer->GetDstP()->y - (float)m_pPlayer->GetVelY() >= m_pPlatforms[i]->y + m_pPlatforms[i]->h)
+			{ // Colliding bottom side of platform.
+				m_pPlayer->StopY();
+				m_pPlayer->SetY(m_pPlatforms[i]->y + m_pPlatforms[i]->h);
+			}
+		}
+	}
 
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{

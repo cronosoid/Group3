@@ -1,11 +1,36 @@
 #include "SoulBar.h"
+#include "MathManager.h"
+#include "TextureManager.h"
 
-SoulBar::SoulBar(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :
-	Sprite(s, d, r, t) {}
-
-double SoulBar::soulChange(double maxSoul, double damageSoul)
+void SoulBarBorder::Update()
 {
-	m_pSoulLeft = (maxSoul - damageSoul) / maxSoul;
 
-	return m_pSoulLeft;
 }
+
+void SoulBarBorder::Render()
+{
+	if (isDisplay == true)
+	{
+		SDL_RenderCopy(m_pRend, TextureManager::GetTexture("SoulBarBorder"), &m_src, &MAMA::ConvertFRect2Rect(m_dst));
+	}
+}
+
+void SoulBarFiller::Update()
+{
+	//HeaPercent = hero->getHeaPercent();
+	HeaPercent = 1.0;
+}
+
+void SoulBarFiller::Render()
+{
+	if (isDisplay == true)
+	{
+		m_dst.w = m_src.w * HeaPercent;
+		SDL_RenderCopy(m_pRend, TextureManager::GetTexture("SoulBarFiller"), &m_src, &MAMA::ConvertFRect2Rect(m_dst));
+	}
+}
+
+
+
+
+

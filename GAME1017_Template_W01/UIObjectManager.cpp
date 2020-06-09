@@ -47,7 +47,7 @@ void UIObjectManager::UIRender()
 
 
 
-void UIObjectManager::DestroyUIObjects()
+/*void UIObjectManager::DestroyUIObjects()
 {
 	for (int i = 0; i < (int)UIObjectVec.size(); i++)
 	{
@@ -61,6 +61,22 @@ void UIObjectManager::DestroyUIObjects()
 	if (!UIObjectVec.empty())
 	{
 		UIObjectVec.erase(remove(UIObjectVec.begin(), UIObjectVec.end(), nullptr), UIObjectVec.end());
+	}
+}*/
+
+void UIObjectManager::DestroyUIObjects()
+{
+	for (auto uiobj = UIObjectVec.begin(); uiobj != UIObjectVec.end(); )
+	{
+		if (not (*uiobj)->getActive())
+		{
+			delete *uiobj;
+			uiobj = UIObjectVec.erase(uiobj);
+		}
+		else
+		{
+			++uiobj;
+		}
 	}
 }
 

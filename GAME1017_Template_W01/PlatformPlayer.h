@@ -33,6 +33,12 @@ public: // Methods
 	void SetX(float y);
 	void SetY(float y);
 	double GetSoul();
+	void SoulRcvry();
+	void Meele();
+	void Fireball();
+	double getHeaPercent();
+	Uint32 getMeleeTime() { return lastMeleeTime; }
+	void setMeleeTime() { lastMeleeTime = SDL_GetTicks(); }
 
 private:
 	bool m_grounded;
@@ -44,16 +50,9 @@ private:
 		m_velY,
 		m_maxVelY,
 		m_drag,
-		m_grav,
-		m_curSoul;
+		m_grav;
 
-		double GetSoul();
-	void SoulRcvry();
-	void Meele();
-	void Fireball();
-	double getHeaPercent();
-	Uint32 getMeleeTime() { return lastMeleeTime; }
-	void setMeleeTime() { lastMeleeTime = SDL_GetTicks(); }
+	
 
 private:
 	double m_curSoul;
