@@ -1,7 +1,5 @@
 ﻿#include "Archer.h"
-
 #include <iostream>
-
 #include "MathManager.h"
 #include"TextureManager.h"
 #include <SDL_image.h>
@@ -10,32 +8,25 @@ const int INIHEALTH = 100;
 const int ARCHERATTACK = 10;
 const int ARCHERDEFENCE = 10;
 const int ARCHERATKCD = 500;
-const int JUMPFORCE = 60.0;
-const int GRAV = 6.0;
 
-Archer::Archer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t):Enemies(s,d,r,t)
+
+Archer::Archer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :Enemies(s, d, r, t)
 {
 	Status = ArWaiting;
-	Health = INIHEALTH;
-	Attack = ARCHERATTACK;
-	Defence = ARCHERDEFENCE;
-	AttackCD = ARCHERATKCD;
+	health = INIHEALTH;
+	attack = ARCHERATTACK;
+	defence = ARCHERDEFENCE;
+	attackCD = ARCHERATKCD;
 	m_velX = m_velY = m_accelX = m_accelY = 0.0;
 	m_maxVelX = 10.0;
 	m_maxVelY = JUMPFORCE;
 	m_grav = GRAV;
 	m_drag = 0.88;
-	EnemyType = "Archer";
+	enemyType = "Archer";
 }
 
 void Archer::Update()
 {
-	m_src.x = m_src.y = 0;
-	m_src.w = m_src.h = 640;
-	//m_dst.x = 800;
-	//m_dst.y = 500;
-	m_dst.w = m_dst.h = 64;
-
 	// Do X axis first.
 	m_velX += m_accelX;
 	m_velX *= (m_grounded ? m_drag : 1);
@@ -48,12 +39,12 @@ void Archer::Update()
 	m_dst.y += (int)m_velY; // To remove aliasing, I made cast it to an int too.
 	m_accelX = m_accelY = 0.0;
 
-	if(m_dst.y>=768)
+	if (m_dst.y >= 768)
 	{
 		setActive(false);
 	}
 
-	if(Health<=0)
+	if (health <= 0)
 	{
 		setAlive(false);
 		Status = ArDead;
@@ -62,7 +53,7 @@ void Archer::Update()
 
 void Archer::Render()
 {
-	SDL_RenderCopy(m_pRend, TextureManager::GetTexture("Archer"), &m_src, &MAMA::ConvertFRect2Rect(m_dst));
+	m_pText = TextureManager::GetTexture("Archer");
+	
+	SDL_RenderCopy(m_pRend, m_pText, &m_src, &MAMA::ConvertFRect2Rect(m_dst));
 }
-
-

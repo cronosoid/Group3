@@ -1,4 +1,5 @@
-﻿#pragma once
+
+#pragma once
 #include <vector>
 #include "Archer.h"
 #include"Swordman.h"
@@ -19,5 +20,5 @@ public:
 	static void DestroyInvalidEnemies();
 	static std::vector<Enemies*> EnemiesVec;
 private:
-	
+
 };

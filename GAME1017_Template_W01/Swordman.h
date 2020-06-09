@@ -1,9 +1,9 @@
-﻿#pragma once
+#pragma once
 #include "Enemies.h"
 
-enum SwordmanStatus{SmWaiting=1, SmSeeking, SmAttacking, SmDead, SmAttacked};
+enum SwordmanStatus { SmWaiting = 1, SmSeeking, SmAttacking, SmDead, SmAttacked };
 
-class Swordman:public Enemies
+class Swordman :public Enemies
 {
 public:
 	Swordman(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t);
@@ -13,5 +13,4 @@ public:
 
 private:
 	int Status;
-	
 };

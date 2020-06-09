@@ -38,9 +38,9 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	else return false; // SDL init fail.
 	m_fps = (Uint32)round((1 / (double)FPS) * 1000); // Sets FPS in milliseconds and rounds.
 	TEMA::RegisterTexture("Img/play.png", "play");
-	TEMA::RegisterTexture("Mastiv Arts/Archer.png", "Archer");
-	TEMA::RegisterTexture("Mastiv Arts/Pehot2.png", "Swordman");
-	TEMA::RegisterTexture("Img/Soul Bar.png", "SoulBarBorder");
+	TEMA::RegisterTexture("../Spritesheets/Archer.png", "Archer");
+	TEMA::RegisterTexture("../Spritesheets/Pehot2.png", "Swordman");
+  TEMA::RegisterTexture("Img/Soul Bar.png", "SoulBarBorder");
 	TEMA::RegisterTexture("Img/Bar.png", "SoulBarFiller");
 	STMA::ChangeState(new TitleState);
 	SOMA::AllocateChannels(16);
@@ -123,3 +123,8 @@ Engine& Engine::Instance()
 
 SDL_Renderer* Engine::GetRenderer() { return m_pRenderer; }
 bool& Engine::Running() { return m_running; }
+
+void Engine::setRunning(bool x)
+{
+	m_running = x;
+}

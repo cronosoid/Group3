@@ -61,12 +61,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Swordman.cpp">
+    <ClCompile Include="Animator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Archer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UIObject.cpp">
@@ -76,6 +77,16 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SoulBar.cpp">
+    <ClCompile Include="Swordman.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemies.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -122,10 +133,7 @@
     <ClInclude Include="PlatformPlayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Enemies.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Swordman.h">
+    <ClInclude Include="Animator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Archer.h">
@@ -141,6 +149,16 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SoulBar.h">
+    <ClInclude Include="Swordman.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemies.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -152,6 +170,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Img\PlayerShip.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\Documents\Kaben_Run.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
