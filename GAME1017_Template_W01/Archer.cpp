@@ -1,5 +1,7 @@
-﻿#include "Archer.h"
+#include "Archer.h"
+
 #include <iostream>
+
 #include "MathManager.h"
 #include"TextureManager.h"
 #include <SDL_image.h>
@@ -8,7 +10,6 @@ const int INIHEALTH = 100;
 const int ARCHERATTACK = 10;
 const int ARCHERDEFENCE = 10;
 const int ARCHERATKCD = 500;
-
 
 Archer::Archer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :Enemies(s, d, r, t)
 {

@@ -1,5 +1,7 @@
 #include "Swordman.h"
+
 #include <iostream>
+
 #include "MathManager.h"
 #include"TextureManager.h"
 #include <SDL_image.h>
@@ -16,7 +18,6 @@ Swordman::Swordman(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :En
 	attack = SwordmanATTACK;
 	defence = SwordmanDEFENCE;
 	attackCD = SwordmanATKCD;
-
 	m_velX = m_velY = m_accelX = m_accelY = 0.0;
 	m_maxVelX = 10.0;
 	m_maxVelY = JUMPFORCE;
@@ -54,5 +55,6 @@ void Swordman::Update()
 void Swordman::Render()
 {
 	m_pText = TextureManager::GetTexture("Swordman");
+	
 	SDL_RenderCopy(m_pRend, m_pText, &m_src, &MAMA::ConvertFRect2Rect(m_dst));
 }
