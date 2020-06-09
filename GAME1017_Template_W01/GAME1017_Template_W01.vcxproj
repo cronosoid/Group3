@@ -70,7 +70,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(SolutionDir)\SDL\SDL2\include;$(SolutionDir)\SDL\SDL2_mixer\include;$(SolutionDir)\SDL\SDL2_image\include;E:\C++项目\Horn and Honor\SDL\SDL2_ttf\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\SDL\SDL2\lib\x86;$(SolutionDir)\SDL\SDL2_image\lib\x86;$(SolutionDir)\SDL\SDL2_mixer\lib\x86;$(SolutionDir)\SDL\SDL2_ttf\lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(SolutionDir)\SDL\SDL2\include;$(SolutionDir)\SDL\SDL2_mixer\include;$(SolutionDir)\SDL\SDL2_image\include;E:\C++项目\Horn and Honor\SDL\SDL2_ttf\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\SDL\SDL2\lib\x86;$(SolutionDir)\SDL\SDL2_image\lib\x86;$(SolutionDir)\SDL\SDL2_mixer\lib\x86;$(SolutionDir)\SDL\SDL2_ttf\lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -85,7 +92,13 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)\SDL\SDL2\include;$(SolutionDir)\SDL\SDL2_image\include;$(SolutionDir)\SDL\SDL2_mixer\include;$(SolutionDir)\SDL\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir)\SDL\SDL2\lib\x86;$(SolutionDir)\SDL\SDL2_ttf\lib\x86;$(SolutionDir)\SDL\SDL2_mixer\lib\x86;$(SolutionDir)\SDL\SDL2_image\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -109,10 +122,14 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)\SDL\SDL2\include;$(SolutionDir)\SDL\SDL2_image\include;$(SolutionDir)\SDL\SDL2_mixer\include;$(SolutionDir)\SDL\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)\SDL\SDL2\lib\x86;$(SolutionDir)\SDL\SDL2_ttf\lib\x86;$(SolutionDir)\SDL\SDL2_mixer\lib\x86;$(SolutionDir)\SDL\SDL2_image\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -128,6 +145,7 @@
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="PlatformPlayer.cpp" />
+    <ClCompile Include="SoulBar.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="StateManager.cpp" />
@@ -137,6 +155,8 @@
     <ClCompile Include="States.cpp" />
     <ClCompile Include="Swordman.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="UIObject.cpp" />
+    <ClCompile Include="UIObjectManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animator.h" />
@@ -151,6 +171,7 @@
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="PlatformPlayer.h" />
+    <ClInclude Include="SoulBar.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="Label.h" />
@@ -159,6 +180,8 @@
     <ClInclude Include="States.h" />
     <ClInclude Include="Swordman.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="UIObject.h" />
+    <ClInclude Include="UIObjectManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\Documents\Kaben_Run.png" />

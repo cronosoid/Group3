@@ -14,7 +14,8 @@ public:
 	void setActive(bool a);
 	bool getAlive();
 	void setAlive(bool a);
-	void damage(int dmg);
+
+  void damage(int dmg);
 	SDL_Texture* getTex();
 	std::string getType();
 
@@ -27,3 +28,4 @@ protected:
 		health;
 	std::string enemyType;
 };
+

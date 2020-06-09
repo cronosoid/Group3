@@ -57,6 +57,10 @@
     <ClCompile Include="PlatformPlayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Enemies.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Swordman.cpp">
     <ClCompile Include="Animator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -66,6 +70,13 @@
     <ClCompile Include="Archer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UIObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIObjectManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SoulBar.cpp">
     <ClCompile Include="Swordman.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -128,6 +139,16 @@
     <ClInclude Include="Archer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIObjectManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SoulBar.h">
     <ClInclude Include="Swordman.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -13,5 +13,4 @@ public:
 
 private:
 	int Status;
-
 };

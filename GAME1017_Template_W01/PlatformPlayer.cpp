@@ -30,6 +30,11 @@ void PlatformPlayer::Render()
 	SDL_RenderCopyExF(m_pRend, m_pText, GetSrcP(), GetDstP(), m_angle, 0, SDL_FLIP_NONE);
 }
 
+double PlatformPlayer::getHeaPercent() 
+{ 
+  return m_curSoul / m_maxSoul; 
+}
+
 double PlatformPlayer::GetSoul()
 {
 	return m_curSoul;
@@ -46,6 +51,7 @@ void PlatformPlayer::Meele()
 {
 	
 	std::cout << "meele\n";
+
 }
 
 void PlatformPlayer::Fireball()
