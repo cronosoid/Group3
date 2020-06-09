@@ -58,6 +58,14 @@ void PlatformPlayer::SoulRcvry()
 		m_curSoul = m_maxSoul;
 }
 
+void PlatformPlayer::ChangeSoul(int amnt)
+{
+	m_curSoul += amnt;
+	if (m_curSoul > m_maxSoul)
+		m_curSoul = m_maxSoul;
+	else if (m_curSoul < 0)
+		m_curSoul = 0;
+}
 
 void PlatformPlayer::Meele()
 {

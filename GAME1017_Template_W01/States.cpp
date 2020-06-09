@@ -106,12 +106,17 @@ void GameState::Update()
 	}
 	else if (EVMA::KeyHeld(SDL_SCANCODE_I)) // fireball
 	{
-		// will complete the projectile spawn in a while
-		int face;
-		m_pPlayerAnimator->getFace() == 0 ? face = 1 : face = -1;
-		ProMA::Instance().GetFireBalls().push_back(new Fireball({ 0,0,320,320, }, 
-			{ m_pPlayer->GetDstP()->x + 40, m_pPlayer->GetDstP()->y + 42, 32, 32 }, 
-			Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 10,face));
+		if ((m_pPlayer->getMagicTime() + MAGICCOOLDOWN * 1000) < SDL_GetTicks())
+		{
+			m_pPlayer->setMagicTime();
+			// will complete the projectile spawn in a while
+			int face;
+			m_pPlayerAnimator->getFace() == 0 ? face = 1 : face = -1;
+			ProMA::Instance().GetFireBalls().push_back(new Fireball({ 0,0,320,320, },
+				{ m_pPlayer->GetDstP()->x + 40, m_pPlayer->GetDstP()->y + 42, 32, 32 },
+				Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 10, face));
+			m_pPlayer->ChangeSoul(-FIREBALLCOST);
+		}
 	}
 	// Wrap the player on screen.
 	if (m_pPlayer->GetDstP()->x < -51.0) m_pPlayer->SetX(1024.0);

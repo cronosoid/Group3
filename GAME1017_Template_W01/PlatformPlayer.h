@@ -7,6 +7,8 @@
 #include "Entity.h"
 
 const int MELEECOOLDOWN = 1.0;
+const int MAGICCOOLDOWN = 1.0;
+const int FIREBALLCOST = 10.0;
 
 class PlatformPlayer : public Entity
 {
@@ -23,16 +25,19 @@ public: // Methods
 	
 	double GetSoul();
 	void SoulRcvry();
+	void ChangeSoul(int amnt);
 	void Meele();
 	//void Fireball();
 	double getHeaPercent();
 	Uint32 getMeleeTime() { return lastMeleeTime; }
 	void setMeleeTime() { lastMeleeTime = SDL_GetTicks(); }
+	Uint32 getMagicTime() { return lastMagicTime; }
+	void setMagicTime() { lastMagicTime = SDL_GetTicks(); }
 
 private:
 	double m_curSoul;
 	Uint32 lastMeleeTime;
-	
+	Uint32 lastMagicTime;
 };
 
 #endif
