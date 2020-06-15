@@ -12,6 +12,7 @@
 #include "Utilities.h"
 #include <iostream>
 #include "UIObjectManager.h"
+#include "MapObjectManager.h"
 
 // Begin State. CTRL+M+H and CTRL+M+U to turn on/off collapsed code.
 void State::Render()
@@ -32,14 +33,24 @@ void GameState::Enter()
 	m_pPlayerAnimator = new Animator(m_pPlayer);
 	m_pPlayerAnimator->addAnimation("run", 8, 2, 64, 64);
 	m_pPlayerAnimator->addAnimation("idle", 4, 1, 64, 64, 0, 128, 12);
-	m_pPlatforms.push_back(new SDL_FRect({ 462.0f,648.0f,100.0f,20.0f }));
-	m_pPlatforms.push_back(new SDL_FRect({ 200.0f,468.0f,100.0f,20.0f }));
-	m_pPlatforms.push_back(new SDL_FRect({ 724.0f,468.0f,100.0f,20.0f }));
-	m_pPlatforms.push_back(new SDL_FRect({ 462.0f,368.0f,100.0f,20.0f }));
-	m_pPlatforms.push_back(new SDL_FRect({ -100.0f,668.0f,1224.0f,100.0f }));
+
+	MapObjectManager::Init();
+
+	//Create a test level
+	for(int i =0;i<=1024/64;i++)
+	{
+		MapObjectManager::CreateMapObject(kPlate, { 64.0f * i,700.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
+	}
+	MapObjectManager::CreateMapObject(kSpike, { 0.0f,636.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, { 512.0f,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, { 576.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, { 640.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
+	
 	TEMA::RegisterTexture("../Spritesheets/fireball.png", "fireball");
+	EnemyManager::Init();
 	EnemyManager::CreateEnemy(swordman, { 700.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(archer, { 200.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
+	UIObjectManager::Init();
 	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, { 105.0f,72.0f,185.0f,20.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
 	SOMA::Load("Aud/Fire.wav", "jump", SOUND_SFX);
 	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
@@ -118,6 +129,9 @@ void GameState::Update()
 			m_pPlayer->ChangeSoul(-FIREBALLCOST);
 		}
 	}
+
+	MapObjectManager::Update();
+	
 	// Wrap the player on screen.
 	if (m_pPlayer->GetDstP()->x < -51.0) m_pPlayer->SetX(1024.0);
 	else if (m_pPlayer->GetDstP()->x > 1024.0) m_pPlayer->SetX(-50.0);
@@ -161,10 +175,10 @@ void GameState::Update()
 
 void GameState::CheckCollision()
 {
-	COMA::CheckPlatformsCollision(m_pPlatforms, m_pPlayer);
+	COMA::CheckMapObjectCollision(MapObjectManager::MapObjRectVec, m_pPlayer);
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
-		COMA::CheckPlatformsCollision(m_pPlatforms, enemy);
+		COMA::CheckMapObjectCollision(MapObjectManager::MapObjRectVec, enemy);
 	}
 }
 
@@ -173,6 +187,7 @@ void GameState::Render()
 {
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 64, 128, 255, 255);
 	SDL_RenderClear(Engine::Instance().GetRenderer());
+	MapObjectManager::Render();
 	// Draw the player.
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
@@ -181,10 +196,6 @@ void GameState::Render()
 	m_pPlayer->Render();
 	// Draw the platforms.
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 192, 64, 0, 255);
-	for (auto platfrom : m_pPlatforms)
-	{
-		SDL_RenderFillRectF(Engine::Instance().GetRenderer(), platfrom);
-	}
 
 	for (auto projectile : ProMA::Instance().GetFireBalls())
 	{
@@ -202,9 +213,17 @@ void GameState::Render()
 void GameState::Exit()
 {
 	delete m_pPlayer;
-	for (auto platfrom : m_pPlatforms)
+	for(auto enemy:EnemyManager::EnemiesVec)
 	{
-		delete platfrom;
+		delete enemy;
+	}
+	for(auto UIObject:UIObjectManager::UIObjectVec)
+	{
+		delete UIObject;
+	}
+	for(auto mapObject:MapObjectManager::MapObjVec)
+	{
+		delete mapObject;
 	}
 }
 
