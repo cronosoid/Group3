@@ -5,6 +5,7 @@
 
 #define GRAV 3.0
 #define JUMPFORCE 40.0
+#define FALLCOF 20.0
 
 class Entity :public Sprite
 {
@@ -21,6 +22,7 @@ public:
 	double GetVelY();
 	void SetX(float y);
 	void SetY(float y);
+	void movementUpdate();
 
 protected:
 	bool m_grounded;
@@ -29,8 +31,10 @@ protected:
 		m_velX,
 		m_maxVelX,
 		m_velY,
-		m_maxVelY,
+		m_maxJumpVelocity,
+		m_maxFallVelocity,
 		m_drag,
 		m_grav;
+	Uint32 flyingTime;
 	SDL_FRect* Floor;
 };

@@ -39,8 +39,6 @@ void EventManager::HandleEvents()
 			if (event.key.keysym.sym == SDLK_ESCAPE)
 				Engine::Instance().Running() = false;
 			break;
-
-
 		}
 	}
 	s_keysCurr = SDL_GetKeyboardState(&s_numKeys);

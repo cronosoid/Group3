@@ -9,6 +9,7 @@
 #include "Label.h"
 
 // Do not include any macros, initialized properties or full function definitions in this header.
+#define FPS 60
 
 class Engine
 {
@@ -38,8 +39,7 @@ public: // Public methods.
 	bool& isNull();
 	void setNull();
 
-		void setRunning(bool);
-
+	void setRunning(bool);
 };
 
 #endif

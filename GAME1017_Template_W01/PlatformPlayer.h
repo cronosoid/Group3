@@ -6,9 +6,9 @@
 #include "Fireball.h"
 #include "Entity.h"
 
-const int MELEECOOLDOWN = 1.0;
-const int MAGICCOOLDOWN = 1.0;
-const int FIREBALLCOST = 10.0;
+const double MELEECOOLDOWN = 1.0;
+const double MAGICCOOLDOWN = 1.0;
+const double FIREBALLCOST = 10.0;
 
 class PlatformPlayer : public Entity
 {
