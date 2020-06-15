@@ -2,17 +2,18 @@
 #include <algorithm>
 #include "Engine.h"
 
-Entity::Entity(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t)
+Entity::Entity(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator)
 	:Sprite(s, d, r, t)
 {
-	m_grounded = false;
-	m_accelX = m_accelY = m_velX = m_velY = 0.0;
-	m_maxVelX = 10.0;
-	m_maxJumpVelocity = JUMPFORCE;
-	m_maxFallVelocity = FALLCOF;
-	m_grav = GRAV;
-	m_drag = 0.88;
-	flyingTime = 0;
+	this->m_grounded = false;
+	this->m_accelX = this->m_accelY = this->m_velX = this->m_velY = 0.0;
+	this->m_maxVelX = 10.0;
+	this->m_maxJumpVelocity = JUMPFORCE;
+	this->m_maxFallVelocity = FALLCOF;
+	this->m_grav = GRAV;
+	this->m_drag = 0.88;
+	this->flyingTime = 0;
+	this->animator = animator;
 }
 
 void Entity::Stop() // If you want a dead stop both axes.
@@ -54,4 +55,10 @@ void Entity::movementUpdate()
 	this->m_velY = std::min(std::max(this->m_velY, -this->m_maxJumpVelocity), (this->m_grav * this->m_maxFallVelocity));
 	this->m_dst.y += (int)this->m_velY; // To remove aliasing, I made cast it to an int too.
 	this->m_accelX = this->m_accelY = 0.0;
+}
+
+void Entity::addAnimator(Animator* animator)
+{
+	if (this->animator == nullptr)
+		this->animator = animator;
 }

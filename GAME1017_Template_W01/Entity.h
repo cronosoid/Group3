@@ -2,15 +2,18 @@
 #include <string>
 #include <iostream>
 #include "Sprite.h"
+//#include "Animator.h"
 
 #define GRAV 3.0
 #define JUMPFORCE 40.0
 #define FALLCOF 20.0
 
+class Animator;
+
 class Entity :public Sprite
 {
 public:
-	Entity(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t);
+	Entity(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator);
 	void Stop();
 	void StopX();
 	void StopY();
@@ -23,6 +26,8 @@ public:
 	void SetX(float y);
 	void SetY(float y);
 	void movementUpdate();
+	Animator* getAnimator() { return animator; }
+	void addAnimator(Animator* animator);
 
 protected:
 	bool m_grounded;
@@ -37,4 +42,5 @@ protected:
 		m_grav;
 	Uint32 flyingTime;
 	SDL_FRect* Floor;
+	Animator* animator;
 };

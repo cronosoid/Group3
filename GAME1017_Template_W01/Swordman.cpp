@@ -5,17 +5,17 @@
 #include <SDL_image.h>
 
 const int INIHEALTH = 100;
-const int SwordmanATTACK = 10;
-const int SwordmanDEFENCE = 10;
-const int SwordmanATKCD = 500;
+const int SWORDMANDAMAGE = 10;
+const int SWORDMANDEFENCE = 10;
+const int SWORDMANATKCD = 500;
 
-Swordman::Swordman(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :Enemies(s, d, r, t)
+Swordman::Swordman(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator) :Enemies(s, d, r, t, animator)
 {
 	Status = SmWaiting;
 	health = INIHEALTH;
-	attack = SwordmanATTACK;
-	defence = SwordmanDEFENCE;
-	attackCD = SwordmanATKCD;
+	damage = SWORDMANDAMAGE;
+	defence = SWORDMANDEFENCE;
+	attackCD = SWORDMANATKCD;
 	enemyType = "Swordman";
 }
 

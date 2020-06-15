@@ -61,10 +61,11 @@ void GameState::Enter()
 {
 	std::cout << "Entering GameState..." << std::endl;
 	m_pPlayer = new PlatformPlayer({ 0,0,34,50 }, { 512.0f,480.0f,64.0f,100.0f },
-								   Engine::Instance().GetRenderer(), IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Spritesheets/Kaben_Sheet.png"));
-	m_pPlayerAnimator = new Animator(m_pPlayer);
-	m_pPlayerAnimator->addAnimation("run", 8, 2, 34, 50);
-	m_pPlayerAnimator->addAnimation("idle", 4, 1, 34, 50, 0, 100, 12);
+								   Engine::Instance().GetRenderer(), 
+									IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Spritesheets/Kaben_Sheet.png"));
+	m_pPlayer->addAnimator(new Animator(m_pPlayer));
+	m_pPlayer->getAnimator()->addAnimation("run", 8, 2, 34, 50);
+	m_pPlayer->getAnimator()->addAnimation("idle", 4, 1, 34, 50, 0, 100, 12);
 	m_pPlatforms.push_back(new SDL_FRect({ 462.0f,648.0f,100.0f,20.0f }));
 	m_pPlatforms.push_back(new SDL_FRect({ 200.0f,468.0f,100.0f,20.0f }));
 	m_pPlatforms.push_back(new SDL_FRect({ 724.0f,468.0f,100.0f,20.0f }));
@@ -82,17 +83,17 @@ void GameState::Update()
 	if (EVMA::KeyHeld(SDL_SCANCODE_A))
 	{
 		//walk left animation goes here
-		m_pPlayerAnimator->setFace(1);
+		m_pPlayer->getAnimator()->setFace(1);
 		m_pPlayer->movement[0] = -1;
-		m_pPlayerAnimator->setNextAnimation("run");
+		m_pPlayer->getAnimator()->setNextAnimation("run");
 		m_pPlayer->SetAccelX(-1.0);
 	}
 	else if (EVMA::KeyHeld(SDL_SCANCODE_D))
 	{
 		//walk right animation goes here
-		m_pPlayerAnimator->setFace(0);
+		m_pPlayer->getAnimator()->setFace(0);
 		m_pPlayer->movement[0] = 1;
-		m_pPlayerAnimator->setNextAnimation("run");
+		m_pPlayer->getAnimator()->setNextAnimation("run");
 		m_pPlayer->SetAccelX(1.0);
 	}
 	if (EVMA::KeyPressed(SDL_SCANCODE_SPACE) && m_pPlayer->IsGrounded())
@@ -108,7 +109,7 @@ void GameState::Update()
 		{
 			m_pPlayer->setMeleeTime();
 			SDL_FRect rect;
-			if (m_pPlayerAnimator->getFace() == 0)
+			if (m_pPlayer->getAnimator()->getFace() == 0)
 			{
 				rect.x = m_pPlayer->GetDstP()->x + m_pPlayer->GetDstP()->w;
 			}
@@ -126,7 +127,7 @@ void GameState::Update()
 				if (COMA::AABBCheck(rect, *enemy->GetDstP()))
 				{
 					m_pPlayer->SoulRcvry();
-					enemy->damage(m_pPlayer->m_meeleDmg);
+					enemy->getDamage(m_pPlayer->m_meeleDmg);
 					std::cout << "Melee attacked!\n";
 				}
 			}
@@ -141,11 +142,11 @@ void GameState::Update()
 			m_pPlayer->setMagicTime();
 			// will complete the projectile spawn in a while
 			int face;
-			m_pPlayerAnimator->getFace() == 0 ? face = 1 : face = -1;
+			m_pPlayer->getAnimator()->getFace() == 0 ? face = 1 : face = -1;
 			ProMA::Instance().GetProjectiles().push_back(new Projectile({ 0,0,320,320 },
 				{ face == 1 ? m_pPlayer->GetDstP()->x + m_pPlayer->GetDstP()->w : m_pPlayer->GetDstP()->x - 24,
 				m_pPlayer->GetDstP()->y + 42, 48, 48 },
-				Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 10, face, m_pPlayer->m_magicDmg));
+				Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 20, face, m_pPlayer->m_magicDmg));
 			m_pPlayer->ChangeSoul(-FIREBALLCOST);
 		}
 	}
@@ -168,8 +169,8 @@ void GameState::Update()
 		}
 	}
 	if (m_pPlayer->movement[0] == 0)
-		m_pPlayerAnimator->setNextAnimation("idle");
-	m_pPlayerAnimator->playAnimation();
+		m_pPlayer->getAnimator()->setNextAnimation("idle");
+	m_pPlayer->getAnimator()->playAnimation();
 
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
@@ -231,19 +232,19 @@ void GameState::Render()
 
 void GameState::Exit()
 {
-	delete m_pPlayer;
-	for (auto platfrom : m_pPlatforms)
-	{
-		delete platfrom;
-	}
-	for (const auto& mapElement : m_pPlayerAnimator->animationsMap)
+	for (const auto& mapElement : m_pPlayer->getAnimator()->animationsMap)
 	{
 		if (mapElement.second != nullptr)
 		{
 			delete mapElement.second;
 		}
 	}
-	delete m_pPlayerAnimator;
+	delete m_pPlayer->getAnimator();
+	delete m_pPlayer;
+	for (auto platfrom : m_pPlatforms)
+	{
+		delete platfrom;
+	}
 	UIObjectManager::DestroyUIObjects();
 	for (auto enemy : EnemyManager::EnemiesVec)
 	{

@@ -5,8 +5,8 @@
 
 #include "TextureManager.h"
 
-PlatformPlayer::PlatformPlayer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t)
-	:Entity(s, d, r, t)
+PlatformPlayer::PlatformPlayer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator)
+	:Entity(s, d, r, t, animator)
 {
 	m_curSoul = m_maxSoul;
 }

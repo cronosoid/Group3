@@ -1,7 +1,8 @@
 #pragma once
 #include <vector>
+#include "Animator.h"
 #include "Archer.h"
-#include"Swordman.h"
+#include "Swordman.h"
 
 enum EnemyType
 {
