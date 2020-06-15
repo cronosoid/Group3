@@ -21,6 +21,38 @@ void State::Render()
 void State::Resume() {}
 // End State.
 
+// Begin TitleState.
+TitleState::TitleState() {}
+
+void TitleState::Enter()
+{
+	m_playBtn = new PlayButton({ 0,0,400,100 }, { 312.0f,100.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
+	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
+	SOMA::Load("Aud/Fire.wav", "jump", SOUND_SFX);
+	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
+	TEMA::RegisterTexture("../Spritesheets/fireball.png", "fireball");
+}
+
+void TitleState::Update()
+{
+	if (m_playBtn->Update() == 1)
+		return;
+}
+
+void TitleState::Render()
+{
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 128, 0, 255, 255);
+	SDL_RenderClear(Engine::Instance().GetRenderer());
+	m_playBtn->Render();
+	State::Render();
+}
+
+void TitleState::Exit()
+{
+	std::cout << "Exiting TitleState..." << std::endl;
+}
+// End TitleState.
+
 // Begin GameState.
 GameState::GameState() {}
 
@@ -37,12 +69,9 @@ void GameState::Enter()
 	m_pPlatforms.push_back(new SDL_FRect({ 724.0f,468.0f,100.0f,20.0f }));
 	m_pPlatforms.push_back(new SDL_FRect({ 462.0f,368.0f,100.0f,20.0f }));
 	m_pPlatforms.push_back(new SDL_FRect({ -100.0f,668.0f,1224.0f,100.0f }));
-	TEMA::RegisterTexture("../Spritesheets/fireball.png", "fireball");
 	EnemyManager::CreateEnemy(swordman, { 700.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(archer, { 200.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
 	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, { 105.0f,72.0f,185.0f,20.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
-	SOMA::Load("Aud/Fire.wav", "jump", SOUND_SFX);
-	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
 }
 
 void GameState::Update()
@@ -148,16 +177,14 @@ void GameState::Update()
 	CheckCollision();
 	// Die
 	if (m_pPlayer->GetSoul() <= 0)
-		STMA::ChangeState(new EndState(m_pPlayer, m_pPlayerAnimator));
+		STMA::ChangeState(new EndState());
 	if (EVMA::KeyHeld(SDL_SCANCODE_X))
 	{
-		STMA::ChangeState(new EndState(m_pPlayer, m_pPlayerAnimator));
+		STMA::ChangeState(new EndState());
 	}
 
 	UIObjectManager::UIUpdate();
 }
-
-
 
 void GameState::CheckCollision()
 {
@@ -206,44 +233,33 @@ void GameState::Exit()
 	{
 		delete platfrom;
 	}
+	for (const auto& mapElement : m_pPlayerAnimator->animationsMap)
+	{
+		if (mapElement.second != nullptr)
+		{
+			delete mapElement.second;
+		}
+	}
+	delete m_pPlayerAnimator;
+	UIObjectManager::DestroyUIObjects();
+	for (auto enemy : EnemyManager::EnemiesVec)
+	{
+		enemy->setActive(false);
+	}
+	EnemyManager::DestroyInvalidEnemies();
 }
 
 void GameState::Resume() { }
 // End GameState.
 
-// Begin TitleState.
-TitleState::TitleState() {}
-
-void TitleState::Enter()
+EndState::EndState()
 {
-	m_playBtn = new PlayButton({ 0,0,400,100 }, { 312.0f,100.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
-	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
 }
 
-void TitleState::Update()
+void EndState::Enter()
 {
-	if (m_playBtn->Update() == 1)
-		return; 
-}
-
-void TitleState::Render()
-{
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 128, 0, 255, 255);
-	SDL_RenderClear(Engine::Instance().GetRenderer());
-	m_playBtn->Render();
-	State::Render();
-}
-
-void TitleState::Exit()
-{
-	std::cout << "Exiting TitleState..." << std::endl;
-}
-// End TitleState.
-
-EndState::EndState(PlatformPlayer* m_pPlayer, Animator* m_pPlayerAnimator)
-{
-	this->m_pPlayer = m_pPlayer;
-	this->m_pPlayerAnimator = m_pPlayerAnimator;
+	m_restartBtn = new RestartButton({ 0,0,400,100 }, { 312.0f,100.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
+	m_exitBtn = new ExitButton({ 0,0,400,100 }, { 312.0f,300.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
 }
 
 void EndState::Update()
@@ -261,19 +277,6 @@ void EndState::Render()
 	m_restartBtn->Render();
 	m_exitBtn->Render();
 	State::Render();
-}
-
-void EndState::Enter()
-{
-	for (const auto& mapElement : m_pPlayerAnimator->animationsMap)
-	{
-		if (mapElement.second != nullptr)
-		{
-			delete mapElement.second;
-		}
-	}
-	m_restartBtn = new RestartButton({ 0,0,400,100 }, { 312.0f,100.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
-	m_exitBtn = new ExitButton({ 0,0,400,100 }, { 312.0f,300.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
 }
 
 void EndState::Exit()
