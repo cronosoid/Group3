@@ -22,7 +22,10 @@ void Entity::StopY() { m_velY = 0.0; }
 void Entity::SetAccelX(double a) { m_accelX = a; }
 void Entity::SetAccelY(double a) { m_accelY = a; }
 bool Entity::IsGrounded() { return m_grounded; }
-void Entity::SetGrounded(bool g) { m_grounded = g; }
+void Entity::SetGrounded(bool g, SDL_FRect* Floor) {
+	this->m_grounded = g;
+	this->Floor = Floor;
+}
 double Entity::GetVelX() { return m_velX; }
 double Entity::GetVelY() { return m_velY; }
 void Entity::SetX(float y) { m_dst.x = y; }

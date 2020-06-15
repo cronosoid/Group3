@@ -16,7 +16,7 @@ public:
 	void SetAccelX(double a);
 	void SetAccelY(double a);
 	bool IsGrounded();
-	void SetGrounded(bool g);
+	void SetGrounded(bool g, SDL_FRect* Floor = nullptr);
 	double GetVelX();
 	double GetVelY();
 	void SetX(float y);
@@ -32,4 +32,5 @@ protected:
 		m_maxVelY,
 		m_drag,
 		m_grav;
+	SDL_FRect* Floor;
 };

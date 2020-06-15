@@ -62,8 +62,8 @@ void GameState::Enter()
 	m_pPlayer = new PlatformPlayer({ 0,0,64,64 }, { 512.0f,480.0f,128.0f,128.0f },
 								   Engine::Instance().GetRenderer(), IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Spritesheets/Kaben_Sheet.png"));
 	m_pPlayerAnimator = new Animator(m_pPlayer);
-	m_pPlayerAnimator->addAnimation("run", 8, 2, 64, 64);
-	m_pPlayerAnimator->addAnimation("idle", 4, 1, 64, 64, 0, 128, 12);
+	m_pPlayerAnimator->addAnimation("run", 8, 2, 34, 50);
+	m_pPlayerAnimator->addAnimation("idle", 4, 1, 34, 50, 0, 100, 12);
 	m_pPlatforms.push_back(new SDL_FRect({ 462.0f,648.0f,100.0f,20.0f }));
 	m_pPlatforms.push_back(new SDL_FRect({ 200.0f,468.0f,100.0f,20.0f }));
 	m_pPlatforms.push_back(new SDL_FRect({ 724.0f,468.0f,100.0f,20.0f }));
