@@ -3,7 +3,6 @@
 #define _PLATFORMPLAYER_H_
 
 #include "Sprite.h"
-#include "Fireball.h"
 #include "Entity.h"
 
 const double MELEECOOLDOWN = 1.0;
@@ -15,7 +14,7 @@ class PlatformPlayer : public Entity
 public: // Variables
 	const double m_maxSoul = 100;
 	const int m_meeleDmg = 20;
-	const int m_fireDmg = 0;
+	const int m_magicDmg = 35;
 	const int m_soulRecover = 5;
 	int movement[2] = { 0,0 };
 public: // Methods

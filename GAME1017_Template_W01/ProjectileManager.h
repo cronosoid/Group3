@@ -1,15 +1,15 @@
 #pragma once
 #include <vector>
-#include "Fireball.h"
+#include "Projectile.h"
 
 using namespace std;
 
 class ProjectileManager
 {
 public:
-	vector<Fireball*>& GetFireBalls()
+	vector<Projectile*>& GetProjectiles()
 	{
-		return m_vPFireballs;
+		return m_vProjectiles;
 	}
 
 	static ProjectileManager& Instance()
@@ -18,7 +18,7 @@ public:
 		return instance;
 	}
 private:
-	vector<Fireball*> m_vPFireballs;
+	vector<Projectile*> m_vProjectiles;
 };
 
 typedef ProjectileManager ProMA;

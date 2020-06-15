@@ -126,7 +126,7 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EventManager.cpp" />
-    <ClCompile Include="Fireball.cpp" />
+    <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="PlatformPlayer.cpp" />
     <ClCompile Include="SoulBar.cpp" />
@@ -153,7 +153,7 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EventManager.h" />
-    <ClInclude Include="Fireball.h" />
+    <ClInclude Include="Projectile.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="PlatformPlayer.h" />
     <ClInclude Include="ProjectileManager.h" />

@@ -78,9 +78,6 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Fireball.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SoulBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -88,6 +85,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UIObjectManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -152,9 +152,6 @@
     <ClInclude Include="Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Fireball.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SoulBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -168,6 +165,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Utilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

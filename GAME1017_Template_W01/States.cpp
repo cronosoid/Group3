@@ -7,11 +7,12 @@
 #include "Engine.h"
 #include "Button.h"
 #include "EnemyManager.h"
-#include "Fireball.h"
+#include "Projectile.h"
 #include "ProjectileManager.h"
 #include "Utilities.h"
-#include <iostream>
 #include "UIObjectManager.h"
+
+#include <iostream>
 
 // Begin State. CTRL+M+H and CTRL+M+U to turn on/off collapsed code.
 void State::Render()
@@ -141,9 +142,10 @@ void GameState::Update()
 			// will complete the projectile spawn in a while
 			int face;
 			m_pPlayerAnimator->getFace() == 0 ? face = 1 : face = -1;
-			ProMA::Instance().GetFireBalls().push_back(new Fireball({ 0,0,320,320, },
-				{ m_pPlayer->GetDstP()->x + 40, m_pPlayer->GetDstP()->y + 42, 32, 32 },
-				Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 10, face));
+			ProMA::Instance().GetProjectiles().push_back(new Projectile({ 0,0,320,320 },
+				{ face == 1 ? m_pPlayer->GetDstP()->x + m_pPlayer->GetDstP()->w : m_pPlayer->GetDstP()->x - 24,
+				m_pPlayer->GetDstP()->y + 42, 48, 48 },
+				Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 10, face, m_pPlayer->m_magicDmg));
 			m_pPlayer->ChangeSoul(-FIREBALLCOST);
 		}
 	}
@@ -152,17 +154,18 @@ void GameState::Update()
 	else if (m_pPlayer->GetDstP()->x > 1024.0) m_pPlayer->SetX(-50.0);
 	// Do the rest.
 	m_pPlayer->Update();
-	for (int i = 0; i < ProMA::Instance().GetFireBalls().size(); i++)
+	for (auto projectile = ProMA::Instance().GetProjectiles().begin(); projectile != ProMA::Instance().GetProjectiles().end();)
 	{
-		ProMA::Instance().GetFireBalls()[i]->Update();
-		if (ProMA::Instance().GetFireBalls()[i]->GetDstP()->x > 1024)
+		(*projectile)->Update();
+		if ((*projectile)->GetDstP()->x > 1024)
 		{
-			delete ProMA::Instance().GetFireBalls()[i];
-			ProMA::Instance().GetFireBalls()[i] = nullptr;
-			Engine::Instance().setNull();
+			delete *projectile;
+			projectile = ProMA::Instance().GetProjectiles().erase(projectile);
 		}
-		if (Engine::Instance().isNull())
-			CleanVector<Fireball*>(ProMA::Instance().GetFireBalls(), Engine::Instance().isNull());
+		else
+		{
+			projectile++;
+		}
 	}
 	if (m_pPlayer->movement[0] == 0)
 		m_pPlayerAnimator->setNextAnimation("idle");
@@ -213,7 +216,7 @@ void GameState::Render()
 		SDL_RenderFillRectF(Engine::Instance().GetRenderer(), platfrom);
 	}
 
-	for (auto projectile : ProMA::Instance().GetFireBalls())
+	for (auto projectile : ProMA::Instance().GetProjectiles())
 	{
 		projectile->Render();
 	}
@@ -245,6 +248,11 @@ void GameState::Exit()
 	for (auto enemy : EnemyManager::EnemiesVec)
 	{
 		enemy->setActive(false);
+	}
+	for (auto projectile = ProMA::Instance().GetProjectiles().begin(); projectile != ProMA::Instance().GetProjectiles().end();)
+	{
+		delete* projectile;
+		projectile = ProMA::Instance().GetProjectiles().erase(projectile);
 	}
 	EnemyManager::DestroyInvalidEnemies();
 }

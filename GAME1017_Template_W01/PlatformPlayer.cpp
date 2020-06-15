@@ -2,7 +2,6 @@
 #include "Engine.h"
 #include <algorithm>
 #include <iostream>
-#include "Utilities.h"
 
 #include "TextureManager.h"
 
