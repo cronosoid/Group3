@@ -1,8 +1,6 @@
 #pragma once
 #include "Enemies.h"
 
-enum ArcherStatus { ArWaiting = 1, ArSeeking, ArFleeing, ArAttacking, ArDead, ArAttacked };
-
 class Archer :public Enemies
 {
 public:

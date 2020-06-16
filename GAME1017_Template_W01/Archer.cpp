@@ -1,6 +1,7 @@
 #include "Archer.h"
 #include "MathManager.h"
-#include"TextureManager.h"
+#include "TextureManager.h"
+#include "ProjectileManager.h"
 #include <SDL_image.h>
 #include <iostream>
 
@@ -11,7 +12,7 @@ const int ARCHERATKCD = 500;
 
 Archer::Archer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator) :Enemies(s, d, r, t, animator)
 {
-	Status = ArWaiting;
+	Status = IDLE;
 	health = INIHEALTH;
 	damage = ARCHERDAMAGE;
 	defence = ARCHERDEFENCE;
@@ -29,7 +30,7 @@ void Archer::Update()
 	if (health <= 0)
 	{
 		setAlive(false);
-		Status = ArDead;
+		Status = DEAD;
 	}
 }
 
@@ -42,10 +43,10 @@ void Archer::Render()
 
 void Archer::attack()
 {
-	/*int face;
-	m_pPlayerAnimator->getFace() == 0 ? face = 1 : face = -1;
+	int face;
+	this->animator->getFace() == 0 ? face = 1 : face = -1;
 	ProMA::Instance().GetProjectiles().push_back(new Projectile({ 0,0,320,320 },
-		{ face == 1 ? m_pPlayer->GetDstP()->x + m_pPlayer->GetDstP()->w : m_pPlayer->GetDstP()->x - 24,
-		m_pPlayer->GetDstP()->y + 42, 48, 48 },
-		Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 20, face, m_pPlayer->m_magicDmg));*/
+		{ face == 1 ? this->GetDstP()->x + this->GetDstP()->w : this->GetDstP()->x - 24,
+		this->GetDstP()->y + 42, 48, 48 },
+		Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 15, face, this->damage));
 }

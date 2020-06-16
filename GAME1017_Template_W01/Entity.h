@@ -2,7 +2,6 @@
 #include <string>
 #include <iostream>
 #include "Sprite.h"
-//#include "Animator.h"
 
 #define GRAV 3.0
 #define JUMPFORCE 40.0
@@ -44,3 +43,5 @@ protected:
 	SDL_FRect* Floor;
 	Animator* animator;
 };
+
+#include "Animator.h"

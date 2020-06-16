@@ -1,8 +1,6 @@
 #pragma once
 #include "Enemies.h"
 
-enum SwordmanStatus { SmWaiting = 1, SmSeeking, SmAttacking, SmDead, SmAttacked };
-
 class Swordman :public Enemies
 {
 public:
