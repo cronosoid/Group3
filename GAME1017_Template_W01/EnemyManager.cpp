@@ -16,13 +16,20 @@ EnemyManager::~EnemyManager()
 
 }
 
+void EnemyManager::Init()
+{
+	TEMA::RegisterTexture("../Spritesheets/Archer.png", "Archer");
+	TEMA::RegisterTexture("../Spritesheets/Pehot2.png", "Swordman");
+}
+
+
 void EnemyManager::CreateEnemy(EnemyType type, SDL_FRect d, SDL_Renderer* r)
 {
 	switch (type)
 	{
 	case 1:
 	{
-		std::cout << "ENMA:" << d.x << ", " << d.y << ", " << d.w << ", " << d.h << "\n";
+		//std::cout << "ENMA:" << d.x << ", " << d.y << ", " << d.w << ", " << d.h << "\n";
 		Swordman* TempEnemy = new Swordman({ 0,0,640,640 }, d, r, TextureManager::GetTexture("Swordman"));
 		TempEnemy->addAnimator(new Animator(TempEnemy));
 		EnemiesVec.push_back(TempEnemy);

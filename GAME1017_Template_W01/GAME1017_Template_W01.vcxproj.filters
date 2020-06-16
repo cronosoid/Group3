@@ -87,7 +87,14 @@
     <ClCompile Include="UIObjectManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+
+    <ClCompile Include="MapObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MapObjectManager.cpp">
+
     <ClCompile Include="Projectile.cpp">
+
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -167,6 +174,10 @@
     <ClInclude Include="Utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MapObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapObjectManager.h">
     <ClInclude Include="Projectile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
