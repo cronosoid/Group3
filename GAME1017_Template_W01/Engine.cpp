@@ -38,8 +38,12 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	else return false; // SDL init fail.
 	m_fps = (Uint32)round((1 / (double)FPS) * 1000); // Sets FPS in milliseconds and rounds.
 	TEMA::RegisterTexture("Img/play.png", "play");
-
-	TEMA::RegisterTexture("Img/fireball.png", "play");
+	TEMA::RegisterTexture("Img/fireball.png", "fireball");
+	TEMA::RegisterTexture("../Spritesheets/Arrow.png", "Arrow");
+	TEMA::RegisterTexture("../Spritesheets/Archer.png", "Archer");
+	TEMA::RegisterTexture("../Spritesheets/Pehot2.png", "Swordman");
+	TEMA::RegisterTexture("../Spritesheets/Soul_Bar.png", "SoulBarBorder");
+	TEMA::RegisterTexture("../Spritesheets/fitBar.png", "SoulBarFiller");
 
 	STMA::ChangeState(new TitleState);
 	SOMA::AllocateChannels(16);
