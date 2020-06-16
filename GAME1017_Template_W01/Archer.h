@@ -1,6 +1,8 @@
 #pragma once
 #include "Enemies.h"
 
+const int ATTACKCOOLDOWN = 1.5;
+
 class Archer :public Enemies
 {
 public:
@@ -10,5 +12,5 @@ public:
 	virtual void Render() override;
 	void attack();
 private:
-	int Status;
+	Uint32 lastAttackTime = 0;
 };

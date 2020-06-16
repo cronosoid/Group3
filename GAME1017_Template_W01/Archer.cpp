@@ -5,18 +5,16 @@
 #include <SDL_image.h>
 #include <iostream>
 
-const int INIHEALTH = 100;
+const int MAXHEALTH = 100;
 const int ARCHERDAMAGE = 10;
 const int ARCHERDEFENCE = 10;
-const int ARCHERATKCD = 500;
 
 Archer::Archer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator) :Enemies(s, d, r, t, animator)
 {
-	Status = IDLE;
-	health = INIHEALTH;
+	curStatus = IDLE;
+	health = MAXHEALTH;
 	damage = ARCHERDAMAGE;
 	defence = ARCHERDEFENCE;
-	attackCD = ARCHERATKCD;
 	enemyType = "Archer";
 }
 
@@ -27,10 +25,36 @@ void Archer::Update()
 	{
 		setActive(false);
 	}
+
 	if (health <= 0)
 	{
 		setAlive(false);
-		Status = DEAD;
+		curStatus = DEAD;
+	}
+	else if (health < MAXHEALTH)
+	{
+		curStatus = ATTACKING;
+	}
+
+	switch (curStatus)
+	{
+	case IDLE:
+		break;
+	case SEEKING:
+		break;
+	case FLEEING:
+		break;
+	case ATTACKING:
+		if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
+		{
+			this->lastAttackTime = SDL_GetTicks();
+			attack();
+		}
+		break;
+	case DEAD:
+		break;
+	default:
+		break;
 	}
 }
 
@@ -48,5 +72,5 @@ void Archer::attack()
 	ProMA::Instance().GetProjectiles().push_back(new Projectile({ 0,0,320,320 },
 		{ face == 1 ? this->GetDstP()->x + this->GetDstP()->w : this->GetDstP()->x - 24,
 		this->GetDstP()->y + 42, 48, 48 },
-		Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 15, face, this->damage));
+		Engine::Instance().GetRenderer(), TEMA::GetTexture("Arrow"), 15, face, this->damage));
 }

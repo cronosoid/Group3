@@ -4,18 +4,16 @@
 #include"TextureManager.h"
 #include <SDL_image.h>
 
-const int INIHEALTH = 100;
+const int MAXHEALTH = 100;
 const int SWORDMANDAMAGE = 10;
 const int SWORDMANDEFENCE = 10;
-const int SWORDMANATKCD = 500;
 
 Swordman::Swordman(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator) :Enemies(s, d, r, t, animator)
 {
-	Status = SmWaiting;
-	health = INIHEALTH;
+	curStatus = IDLE;
+	health = MAXHEALTH;
 	damage = SWORDMANDAMAGE;
 	defence = SWORDMANDEFENCE;
-	attackCD = SWORDMANATKCD;
 	enemyType = "Swordman";
 }
 
@@ -30,7 +28,7 @@ void Swordman::Update()
 	if (health <= 0)
 	{
 		setAlive(false);
-		Status = SmDead;
+		curStatus = DEAD;
 	}
 }
 

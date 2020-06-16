@@ -1,6 +1,8 @@
 #pragma once
 #include "Enemies.h"
 
+//const int ATTACKCOOLDOWN = 1.5;
+
 class Swordman :public Enemies
 {
 public:
@@ -8,7 +10,6 @@ public:
 
 	virtual void Update() override;
 	virtual void Render() override;
-
 private:
-	int Status;
+	Uint32 lastAttackTime = 0;
 };
