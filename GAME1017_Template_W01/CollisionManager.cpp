@@ -43,32 +43,33 @@ bool CollisionManager::LinePointCheck(const SDL_FPoint object1_start, const SDL_
 	return false;
 }
 
-void CollisionManager::CheckMapObjectCollision(const std::vector<SDL_FRect*> mapObject, Entity* obj)
+void CollisionManager::CheckPlatformsCollision(const std::vector<SDL_FRect*> platforms, Entity* obj)
 {
-	for (auto mapObject : mapObject) // For each platform.
+	obj->SetGrounded(false);
+	for (auto platfrom : platforms) // For each platform.
 	{
-		if (COMA::AABBCheck(*obj->GetDstP(), *mapObject))
+		if (COMA::AABBCheck(*obj->GetDstP(), *platfrom))
 		{
-			if (obj->GetDstP()->x + obj->GetDstP()->w - (float)obj->GetVelX() <= mapObject->x)
+			if (obj->GetDstP()->x + obj->GetDstP()->w - (float)obj->GetVelX() <= platfrom->x)
 			{ // Collision from left.
 				obj->StopX();
-				obj->SetX(mapObject->x - obj->GetDstP()->w);
+				obj->SetX(platfrom->x - obj->GetDstP()->w);
 			}
-			else if (obj->GetDstP()->x - (float)obj->GetVelX() >= mapObject->x + mapObject->w)
+			else if (obj->GetDstP()->x - (float)obj->GetVelX() >= platfrom->x + platfrom->w)
 			{ // Colliding right side of platform.
 				obj->StopX();
-				obj->SetX(mapObject->x + mapObject->w);
+				obj->SetX(platfrom->x + platfrom->w);
 			}
-			else if (obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() <= mapObject->y)
+			else if (obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() <= platfrom->y)
 			{ // Colliding top side of platform.
-				obj->SetGrounded(true);
+				obj->SetGrounded(true, platfrom);
 				obj->StopY();
-				obj->SetY(mapObject->y - obj->GetDstP()->h - 1);
+				obj->SetY(platfrom->y - obj->GetDstP()->h - 1);
 			}
-			else if (obj->GetDstP()->y - (float)obj->GetVelY() >= mapObject->y + mapObject->h)
+			else if (obj->GetDstP()->y - (float)obj->GetVelY() >= platfrom->y + platfrom->h)
 			{ // Colliding bottom side of platform.
 				obj->StopY();
-				obj->SetY(mapObject->y + mapObject->h);
+				obj->SetY(platfrom->y + platfrom->h);
 			}
 		}
 	}

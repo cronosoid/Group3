@@ -14,13 +14,6 @@ UIObjectManager::~UIObjectManager()
 
 }
 
-void UIObjectManager::Init()
-{
-	TEMA::RegisterTexture("../Spritesheets/Soul_Bar.png", "SoulBarBorder");
-	TEMA::RegisterTexture("../Spritesheets/fitBar.png", "SoulBarFiller");
-}
-
-
 
 void UIObjectManager::CreateSoulBar(SDL_FRect d1, SDL_FRect d2, SDL_Renderer* r, PlatformPlayer* hero)
 {
@@ -49,25 +42,6 @@ void UIObjectManager::UIRender()
 		}
 	}
 }
-
-
-
-/*void UIObjectManager::DestroyUIObjects()
-{
-	for (int i = 0; i < (int)UIObjectVec.size(); i++)
-	{
-		if (UIObjectVec[i]->getActive() == false)
-		{
-			SDL_DestroyTexture(UIObjectVec[i]->getTex());
-			delete UIObjectVec[i];
-			UIObjectVec[i] = nullptr;
-		}
-	}
-	if (!UIObjectVec.empty())
-	{
-		UIObjectVec.erase(remove(UIObjectVec.begin(), UIObjectVec.end(), nullptr), UIObjectVec.end());
-	}
-}*/
 
 void UIObjectManager::DestroyUIObjects()
 {

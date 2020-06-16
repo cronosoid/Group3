@@ -1,7 +1,8 @@
 #pragma once
 #include <vector>
+#include "Animator.h"
 #include "Archer.h"
-#include"Swordman.h"
+#include "Swordman.h"
 
 enum EnemyType
 {
@@ -15,7 +16,6 @@ public:
 	EnemyManager();
 	~EnemyManager();
 
-	static void Init();
 	static void CreateEnemy(EnemyType type, SDL_FRect d, SDL_Renderer* r);
 	static void DestroyInvalidEnemies();
 	static std::vector<Enemies*> EnemiesVec;

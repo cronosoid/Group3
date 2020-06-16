@@ -19,7 +19,7 @@ public:
 
 	static bool LinePointCheck(const SDL_FPoint object1_start, const SDL_FPoint object1_end, const SDL_FPoint object2);
 
-	static void CheckMapObjectCollision(const std::vector<SDL_FRect*> mapObject, Entity* obj);
+	static void CheckPlatformsCollision(const std::vector<SDL_FRect*> platforms, Entity* obj);
 private:
 	CollisionManager() {}
 };

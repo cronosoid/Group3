@@ -1,8 +1,8 @@
 #include "Animator.h"
 
-Animator::Animator(PlatformPlayer* Player)
+Animator::Animator(Entity* Player)
 {
-	this->Player = Player;
+	this->entity = Player;
 	this->curAnimationPriority = 0;
 	this->faceSide = 0;
 	this->animFrame = 0;
@@ -37,7 +37,9 @@ void Animator::playAnimation()
 		if (SDL_GetTicks() - lastFrameTime >= anim->getFramesFrequency())
 		{
 			lastFrameTime = SDL_GetTicks();
-			Player->SetSrcCords(anim->getStartX() + anim->getMoveX() * animFrame, anim->getStartY() + anim->getMoveY() * faceSide);
+			if (entity == nullptr)
+				std::cout << "No entity!!!!!!!!!\n";
+			entity->SetSrcCords(anim->getStartX() + anim->getMoveX() * animFrame, anim->getStartY() + anim->getMoveY() * faceSide);
 			if (++animFrame >= maxAnimationFrames)
 			{
 				animFrame = 0;

@@ -54,15 +54,12 @@ private:
 class EndState : public State
 {
 public:
-	EndState(PlatformPlayer* m_pPlayer, Animator* m_pPlayerAnimator);
-	EndState() {}
+	EndState();
 	void Update();
 	void Render();
 	void Enter();
 	void Exit();
 private:
-	PlatformPlayer* m_pPlayer;
-	Animator* m_pPlayerAnimator;
 	Button* m_restartBtn;
 	Button* m_exitBtn;
 };

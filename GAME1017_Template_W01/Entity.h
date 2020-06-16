@@ -5,22 +5,28 @@
 
 #define GRAV 3.0
 #define JUMPFORCE 40.0
+#define FALLCOF 20.0
+
+class Animator;
 
 class Entity :public Sprite
 {
 public:
-	Entity(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t);
+	Entity(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator);
 	void Stop();
 	void StopX();
 	void StopY();
 	void SetAccelX(double a);
 	void SetAccelY(double a);
 	bool IsGrounded();
-	void SetGrounded(bool g);
+	void SetGrounded(bool g, SDL_FRect* Floor = nullptr);
 	double GetVelX();
 	double GetVelY();
 	void SetX(float y);
 	void SetY(float y);
+	void movementUpdate();
+	Animator* getAnimator() { return animator; }
+	void addAnimator(Animator* animator);
 
 protected:
 	bool m_grounded;
@@ -29,7 +35,13 @@ protected:
 		m_velX,
 		m_maxVelX,
 		m_velY,
-		m_maxVelY,
+		m_maxJumpVelocity,
+		m_maxFallVelocity,
 		m_drag,
 		m_grav;
+	Uint32 flyingTime;
+	SDL_FRect* Floor;
+	Animator* animator;
 };
+
+#include "Animator.h"
