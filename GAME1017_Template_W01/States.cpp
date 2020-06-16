@@ -7,12 +7,13 @@
 #include "Engine.h"
 #include "Button.h"
 #include "EnemyManager.h"
-#include "Fireball.h"
+#include "Projectile.h"
 #include "ProjectileManager.h"
 #include "Utilities.h"
-#include <iostream>
 #include "UIObjectManager.h"
 #include "MapObjectManager.h"
+
+#include <iostream>
 
 // Begin State. CTRL+M+H and CTRL+M+U to turn on/off collapsed code.
 void State::Render()
@@ -21,6 +22,38 @@ void State::Render()
 }
 void State::Resume() {}
 // End State.
+
+// Begin TitleState.
+TitleState::TitleState() {}
+
+void TitleState::Enter()
+{
+	m_playBtn = new PlayButton({ 0,0,400,100 }, { 312.0f,100.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
+	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
+	SOMA::Load("Aud/Fire.wav", "jump", SOUND_SFX);
+	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
+	TEMA::RegisterTexture("../Spritesheets/fireball.png", "fireball");
+}
+
+void TitleState::Update()
+{
+	if (m_playBtn->Update() == 1)
+		return;
+}
+
+void TitleState::Render()
+{
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 128, 0, 255, 255);
+	SDL_RenderClear(Engine::Instance().GetRenderer());
+	m_playBtn->Render();
+	State::Render();
+}
+
+void TitleState::Exit()
+{
+	std::cout << "Exiting TitleState..." << std::endl;
+}
+// End TitleState.
 
 // Begin GameState.
 GameState::GameState() {}
@@ -52,8 +85,6 @@ void GameState::Enter()
 	EnemyManager::CreateEnemy(archer, { 200.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
 	UIObjectManager::Init();
 	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, { 105.0f,72.0f,185.0f,20.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
-	SOMA::Load("Aud/Fire.wav", "jump", SOUND_SFX);
-	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
 }
 
 void GameState::Update()
@@ -63,17 +94,17 @@ void GameState::Update()
 	if (EVMA::KeyHeld(SDL_SCANCODE_A))
 	{
 		//walk left animation goes here
-		m_pPlayerAnimator->setFace(1);
+		m_pPlayer->getAnimator()->setFace(1);
 		m_pPlayer->movement[0] = -1;
-		m_pPlayerAnimator->setNextAnimation("run");
+		m_pPlayer->getAnimator()->setNextAnimation("run");
 		m_pPlayer->SetAccelX(-1.0);
 	}
 	else if (EVMA::KeyHeld(SDL_SCANCODE_D))
 	{
 		//walk right animation goes here
-		m_pPlayerAnimator->setFace(0);
+		m_pPlayer->getAnimator()->setFace(0);
 		m_pPlayer->movement[0] = 1;
-		m_pPlayerAnimator->setNextAnimation("run");
+		m_pPlayer->getAnimator()->setNextAnimation("run");
 		m_pPlayer->SetAccelX(1.0);
 	}
 	if (EVMA::KeyPressed(SDL_SCANCODE_SPACE) && m_pPlayer->IsGrounded())
@@ -89,7 +120,7 @@ void GameState::Update()
 		{
 			m_pPlayer->setMeleeTime();
 			SDL_FRect rect;
-			if (m_pPlayerAnimator->getFace() == 0)
+			if (m_pPlayer->getAnimator()->getFace() == 0)
 			{
 				rect.x = m_pPlayer->GetDstP()->x + m_pPlayer->GetDstP()->w;
 			}
@@ -107,7 +138,7 @@ void GameState::Update()
 				if (COMA::AABBCheck(rect, *enemy->GetDstP()))
 				{
 					m_pPlayer->SoulRcvry();
-					enemy->damage(m_pPlayer->m_meeleDmg);
+					enemy->getDamage(m_pPlayer->m_meeleDmg);
 					std::cout << "Melee attacked!\n";
 				}
 			}
@@ -122,10 +153,11 @@ void GameState::Update()
 			m_pPlayer->setMagicTime();
 			// will complete the projectile spawn in a while
 			int face;
-			m_pPlayerAnimator->getFace() == 0 ? face = 1 : face = -1;
-			ProMA::Instance().GetFireBalls().push_back(new Fireball({ 0,0,320,320, },
-				{ m_pPlayer->GetDstP()->x + 40, m_pPlayer->GetDstP()->y + 42, 32, 32 },
-				Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 10, face));
+			m_pPlayer->getAnimator()->getFace() == 0 ? face = 1 : face = -1;
+			ProMA::Instance().GetProjectiles().push_back(new Projectile({ 0,0,320,320 },
+				{ face == 1 ? m_pPlayer->GetDstP()->x + m_pPlayer->GetDstP()->w : m_pPlayer->GetDstP()->x - 24,
+				m_pPlayer->GetDstP()->y + 42, 48, 48 },
+				Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 20, face, m_pPlayer->m_magicDmg));
 			m_pPlayer->ChangeSoul(-FIREBALLCOST);
 		}
 	}
@@ -137,21 +169,22 @@ void GameState::Update()
 	else if (m_pPlayer->GetDstP()->x > 1024.0) m_pPlayer->SetX(-50.0);
 	// Do the rest.
 	m_pPlayer->Update();
-	for (int i = 0; i < ProMA::Instance().GetFireBalls().size(); i++)
+	for (auto projectile = ProMA::Instance().GetProjectiles().begin(); projectile != ProMA::Instance().GetProjectiles().end();)
 	{
-		ProMA::Instance().GetFireBalls()[i]->Update();
-		if (ProMA::Instance().GetFireBalls()[i]->GetDstP()->x > 1024)
+		(*projectile)->Update();
+		if ((*projectile)->GetDstP()->x > 1024)
 		{
-			delete ProMA::Instance().GetFireBalls()[i];
-			ProMA::Instance().GetFireBalls()[i] = nullptr;
-			Engine::Instance().setNull();
+			delete *projectile;
+			projectile = ProMA::Instance().GetProjectiles().erase(projectile);
 		}
-		if (Engine::Instance().isNull())
-			CleanVector<Fireball*>(ProMA::Instance().GetFireBalls(), Engine::Instance().isNull());
+		else
+		{
+			projectile++;
+		}
 	}
 	if (m_pPlayer->movement[0] == 0)
-		m_pPlayerAnimator->setNextAnimation("idle");
-	m_pPlayerAnimator->playAnimation();
+		m_pPlayer->getAnimator()->setNextAnimation("idle");
+	m_pPlayer->getAnimator()->playAnimation();
 
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
@@ -162,16 +195,14 @@ void GameState::Update()
 	CheckCollision();
 	// Die
 	if (m_pPlayer->GetSoul() <= 0)
-		STMA::ChangeState(new EndState(m_pPlayer, m_pPlayerAnimator));
+		STMA::ChangeState(new EndState());
 	if (EVMA::KeyHeld(SDL_SCANCODE_X))
 	{
-		STMA::ChangeState(new EndState(m_pPlayer, m_pPlayerAnimator));
+		STMA::ChangeState(new EndState());
 	}
 
 	UIObjectManager::UIUpdate();
 }
-
-
 
 void GameState::CheckCollision()
 {
@@ -197,7 +228,7 @@ void GameState::Render()
 	// Draw the platforms.
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 192, 64, 0, 255);
 
-	for (auto projectile : ProMA::Instance().GetFireBalls())
+	for (auto projectile : ProMA::Instance().GetProjectiles())
 	{
 		projectile->Render();
 	}
@@ -212,6 +243,14 @@ void GameState::Render()
 
 void GameState::Exit()
 {
+	for (const auto& mapElement : m_pPlayer->getAnimator()->animationsMap)
+	{
+		if (mapElement.second != nullptr)
+		{
+			delete mapElement.second;
+		}
+	}
+	delete m_pPlayer->getAnimator();
 	delete m_pPlayer;
 	for(auto enemy:EnemyManager::EnemiesVec)
 	{
@@ -225,44 +264,30 @@ void GameState::Exit()
 	{
 		delete mapObject;
 	}
+	UIObjectManager::DestroyUIObjects();
+	for (auto enemy : EnemyManager::EnemiesVec)
+	{
+		enemy->setActive(false);
+	}
+	for (auto projectile = ProMA::Instance().GetProjectiles().begin(); projectile != ProMA::Instance().GetProjectiles().end();)
+	{
+		delete* projectile;
+		projectile = ProMA::Instance().GetProjectiles().erase(projectile);
+	}
+	EnemyManager::DestroyInvalidEnemies();
 }
 
 void GameState::Resume() { }
 // End GameState.
 
-// Begin TitleState.
-TitleState::TitleState() {}
-
-void TitleState::Enter()
+EndState::EndState()
 {
-	m_playBtn = new PlayButton({ 0,0,400,100 }, { 312.0f,100.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
-	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
 }
 
-void TitleState::Update()
+void EndState::Enter()
 {
-	if (m_playBtn->Update() == 1)
-		return; 
-}
-
-void TitleState::Render()
-{
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 128, 0, 255, 255);
-	SDL_RenderClear(Engine::Instance().GetRenderer());
-	m_playBtn->Render();
-	State::Render();
-}
-
-void TitleState::Exit()
-{
-	std::cout << "Exiting TitleState..." << std::endl;
-}
-// End TitleState.
-
-EndState::EndState(PlatformPlayer* m_pPlayer, Animator* m_pPlayerAnimator)
-{
-	this->m_pPlayer = m_pPlayer;
-	this->m_pPlayerAnimator = m_pPlayerAnimator;
+	m_restartBtn = new RestartButton({ 0,0,400,100 }, { 312.0f,100.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
+	m_exitBtn = new ExitButton({ 0,0,400,100 }, { 312.0f,300.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
 }
 
 void EndState::Update()
@@ -280,19 +305,6 @@ void EndState::Render()
 	m_restartBtn->Render();
 	m_exitBtn->Render();
 	State::Render();
-}
-
-void EndState::Enter()
-{
-	for (const auto& mapElement : m_pPlayerAnimator->animationsMap)
-	{
-		if (mapElement.second != nullptr)
-		{
-			delete mapElement.second;
-		}
-	}
-	m_restartBtn = new RestartButton({ 0,0,400,100 }, { 312.0f,100.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
-	m_exitBtn = new ExitButton({ 0,0,400,100 }, { 312.0f,300.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
 }
 
 void EndState::Exit()

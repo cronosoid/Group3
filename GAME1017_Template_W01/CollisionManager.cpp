@@ -45,6 +45,7 @@ bool CollisionManager::LinePointCheck(const SDL_FPoint object1_start, const SDL_
 
 void CollisionManager::CheckMapObjectCollision(const std::vector<SDL_FRect*> mapObject, Entity* obj)
 {
+  obj->SetGrounded(false);
 	for (auto mapObject : mapObject) // For each platform.
 	{
 		if (COMA::AABBCheck(*obj->GetDstP(), *mapObject))
@@ -61,7 +62,7 @@ void CollisionManager::CheckMapObjectCollision(const std::vector<SDL_FRect*> map
 			}
 			else if (obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() <= mapObject->y)
 			{ // Colliding top side of platform.
-				obj->SetGrounded(true);
+				obj->SetGrounded(true, platfrom);
 				obj->StopY();
 				obj->SetY(mapObject->y - obj->GetDstP()->h - 1);
 			}

@@ -7,7 +7,7 @@
 #include <string>
 #include <map>
 #include <iostream>
-#include "PlatformPlayer.h"
+#include "Entity.h"
 
 // Animation engine by Maxim Dobrivskiy
 
@@ -42,7 +42,7 @@ class Animator
 public: // Variables
 	std::map<std::string, Animation*> animationsMap;
 public: // Methods
-	Animator(PlatformPlayer* Player);
+	Animator(Entity* Player);
 	Uint32 getFace() { return faceSide; }
 	void setFace(Uint32 face) { face == 0 ? faceSide = 0 : faceSide = 1; }//Setting the face. 0 is right, 1 is left
 	void setNextAnimation(const std::string& type);//Make a request to play an animation with specific name in the end of the frame
@@ -56,7 +56,7 @@ private: // Variables
 	Uint32 curAnimationPriority;
 	Uint32 lastFrameTime;
 	std::string nextAnimation;
-	PlatformPlayer* Player;
+	Entity* entity;
 	std::string curAnimType;
 };
 

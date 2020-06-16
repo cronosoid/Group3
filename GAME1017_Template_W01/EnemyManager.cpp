@@ -31,6 +31,7 @@ void EnemyManager::CreateEnemy(EnemyType type, SDL_FRect d, SDL_Renderer* r)
 	{
 		//std::cout << "ENMA:" << d.x << ", " << d.y << ", " << d.w << ", " << d.h << "\n";
 		Swordman* TempEnemy = new Swordman({ 0,0,640,640 }, d, r, TextureManager::GetTexture("Swordman"));
+		TempEnemy->addAnimator(new Animator(TempEnemy));
 		EnemiesVec.push_back(TempEnemy);
 		TempEnemy = nullptr;
 		std::cout << "Swordman Created!" << std::endl;
@@ -39,6 +40,7 @@ void EnemyManager::CreateEnemy(EnemyType type, SDL_FRect d, SDL_Renderer* r)
 	case 2:
 	{
 		Archer* TempEnemy = new Archer({ 0,0,640,640 }, d, r, TextureManager::GetTexture("Archer"));
+		TempEnemy->addAnimator(new Animator(TempEnemy));
 		EnemiesVec.push_back(TempEnemy);
 		TempEnemy = nullptr;
 		std::cout << "Archer Created!" << std::endl;

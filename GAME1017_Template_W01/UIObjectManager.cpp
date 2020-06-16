@@ -50,25 +50,6 @@ void UIObjectManager::UIRender()
 	}
 }
 
-
-
-/*void UIObjectManager::DestroyUIObjects()
-{
-	for (int i = 0; i < (int)UIObjectVec.size(); i++)
-	{
-		if (UIObjectVec[i]->getActive() == false)
-		{
-			SDL_DestroyTexture(UIObjectVec[i]->getTex());
-			delete UIObjectVec[i];
-			UIObjectVec[i] = nullptr;
-		}
-	}
-	if (!UIObjectVec.empty())
-	{
-		UIObjectVec.erase(remove(UIObjectVec.begin(), UIObjectVec.end(), nullptr), UIObjectVec.end());
-	}
-}*/
-
 void UIObjectManager::DestroyUIObjects()
 {
 	for (auto uiobj = UIObjectVec.begin(); uiobj != UIObjectVec.end(); )
