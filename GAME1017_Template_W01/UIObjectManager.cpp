@@ -14,6 +14,12 @@ UIObjectManager::~UIObjectManager()
 
 }
 
+void UIObjectManager::Init()
+{
+	TEMA::RegisterTexture("../Spritesheets/Soul_Bar.png", "SoulBarBorder");
+	TEMA::RegisterTexture("../Spritesheets/fitBar.png", "SoulBarFiller");
+}
+
 
 void UIObjectManager::CreateSoulBar(SDL_FRect d1, SDL_FRect d2, SDL_Renderer* r, PlatformPlayer* hero)
 {

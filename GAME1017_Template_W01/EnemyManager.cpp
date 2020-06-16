@@ -16,6 +16,12 @@ EnemyManager::~EnemyManager()
 
 }
 
+void EnemyManager::Init()
+{
+	TEMA::RegisterTexture("../Spritesheets/Archer.png", "Archer");
+	TEMA::RegisterTexture("../Spritesheets/Pehot2.png", "Swordman");
+}
+
 void EnemyManager::CreateEnemy(EnemyType type, SDL_FRect d, SDL_Renderer* r)
 {
 	switch (type)

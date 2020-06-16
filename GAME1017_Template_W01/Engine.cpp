@@ -40,10 +40,6 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	TEMA::RegisterTexture("Img/play.png", "play");
 	TEMA::RegisterTexture("Img/fireball.png", "fireball");
 	TEMA::RegisterTexture("../Spritesheets/Arrow.png", "Arrow");
-	TEMA::RegisterTexture("../Spritesheets/Archer.png", "Archer");
-	TEMA::RegisterTexture("../Spritesheets/Pehot2.png", "Swordman");
-	TEMA::RegisterTexture("../Spritesheets/Soul_Bar.png", "SoulBarBorder");
-	TEMA::RegisterTexture("../Spritesheets/fitBar.png", "SoulBarFiller");
 
 	STMA::ChangeState(new TitleState);
 	SOMA::AllocateChannels(16);
