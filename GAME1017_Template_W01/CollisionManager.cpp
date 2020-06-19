@@ -3,9 +3,10 @@
 
 bool CollisionManager::AABBCheck(const SDL_FRect& object1, const SDL_FRect& object2)
 {
-	SDL_Rect temp1 = MAMA::ConvertFRect2Rect(object1);
-	SDL_Rect temp2 = MAMA::ConvertFRect2Rect(object2);
-	return SDL_HasIntersection(&temp1, &temp2);
+	return (object1.x < object2.x + object2.w and
+		object1.x + object1.w > object2.x and
+		object1.y < object2.y + object2.h and
+		object1.y + object1.h > object2.y);
 }
 
 bool CollisionManager::CircleCircleCheck(const SDL_FPoint object1, const SDL_FPoint object2, const double r1, const double r2)
@@ -46,19 +47,25 @@ bool CollisionManager::LinePointCheck(const SDL_FPoint object1_start, const SDL_
 void CollisionManager::CheckPlatformsCollision(const std::vector<SDL_FRect*> platforms, Entity* obj)
 {
 	obj->SetGrounded(false);
-	for (auto platfrom : platforms) // For each platform.
+	for (SDL_FRect* platfrom : platforms) // For each platform.
 	{
 		if (COMA::AABBCheck(*obj->GetDstP(), *platfrom))
 		{
 			if (obj->GetDstP()->x + obj->GetDstP()->w - (float)obj->GetVelX() <= platfrom->x)
 			{ // Collision from left.
-				obj->StopX();
-				obj->SetX(platfrom->x - obj->GetDstP()->w);
+				if (obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() > platfrom->y)
+				{
+					obj->StopX();
+					obj->SetX(platfrom->x - obj->GetDstP()->w);
+				}
 			}
 			else if (obj->GetDstP()->x - (float)obj->GetVelX() >= platfrom->x + platfrom->w)
 			{ // Colliding right side of platform.
-				obj->StopX();
-				obj->SetX(platfrom->x + platfrom->w);
+				if (obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() > platfrom->y)
+				{
+					obj->StopX();
+					obj->SetX(platfrom->x + platfrom->w);
+				}
 			}
 			else if (obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() <= platfrom->y)
 			{ // Colliding top side of platform.
