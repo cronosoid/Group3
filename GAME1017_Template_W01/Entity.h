@@ -13,6 +13,7 @@ class Entity :public Sprite
 {
 public:
 	Entity(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator);
+	Entity(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t);
 	void Stop();
 	void StopX();
 	void StopY();
@@ -42,6 +43,7 @@ protected:
 	Uint32 flyingTime;
 	SDL_FRect* Floor;
 	Animator* animator;
+	
 };
 
 #include "Animator.h"

@@ -16,6 +16,14 @@ Entity::Entity(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animato
 	this->animator = animator;
 }
 
+//Entity::Entity(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) 
+//	: Sprite(s, d, r, t)
+//{
+//	this->m_grounded = false;
+//	this->m_accelX = this->m_accelY = this->m_velX = this->m_velY = 0.0;
+//	this->m_maxVelX = 10.0;
+//}
+
 void Entity::Stop() // If you want a dead stop both axes.
 {
 	StopX();

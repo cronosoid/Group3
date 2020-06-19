@@ -11,6 +11,7 @@ PlatformPlayer::PlatformPlayer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Tex
 	m_curSoul = m_maxSoul;
 }
 
+
 void PlatformPlayer::Update()
 {
 	movementUpdate();

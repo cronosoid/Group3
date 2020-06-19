@@ -26,6 +26,7 @@ class GameState : public State
 {
 private:
 	PlatformPlayer* m_pPlayer;
+	/*PlatformPlayer* m_pTiles;*/
 	Animator* m_pPlayerAnimator;
 	std::vector<SDL_FRect*> m_pPlatforms;
 	
@@ -37,6 +38,34 @@ public:
 	void Enter();
 	void Exit();
 	void Resume();
+	std::vector<SDL_FRect*> setXpos(std::vector<SDL_FRect*> v, float vel) 
+	{
+		SDL_FRect* r;
+		std::vector<SDL_FRect*> v1;
+		for (auto i = 0; i<v.size();i++ )
+		{
+			r = v.at(i);
+			r->x -= vel;
+			v1.push_back(r);
+		}
+
+		v = v1;
+		return v;
+	}
+	std::vector<SDL_FRect*> setXneg(std::vector<SDL_FRect*> v, float vel)
+	{
+		SDL_FRect* r;
+		std::vector<SDL_FRect*> v1;
+		for (auto i = 0; i < v.size(); i++)
+		{
+			r = v.at(i);
+			r->x += vel;
+			v1.push_back(r);
+		}
+
+		v = v1;
+		return v;
+	}
 };
 
 class TitleState : public State
