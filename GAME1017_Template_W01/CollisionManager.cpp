@@ -51,23 +51,7 @@ void CollisionManager::CheckPlatformsCollision(const std::vector<SDL_FRect*> pla
 	{
 		if (COMA::AABBCheck(*obj->GetDstP(), *platfrom))
 		{
-			if (obj->GetDstP()->x + obj->GetDstP()->w - (float)obj->GetVelX() <= platfrom->x)
-			{ // Collision from left.
-				if (obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() > platfrom->y)
-				{
-					obj->StopX();
-					obj->SetX(platfrom->x - obj->GetDstP()->w);
-				}
-			}
-			else if (obj->GetDstP()->x - (float)obj->GetVelX() >= platfrom->x + platfrom->w)
-			{ // Colliding right side of platform.
-				if (obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() > platfrom->y)
-				{
-					obj->StopX();
-					obj->SetX(platfrom->x + platfrom->w);
-				}
-			}
-			else if (obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() <= platfrom->y)
+			if (obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() <= platfrom->y)
 			{ // Colliding top side of platform.
 				obj->SetGrounded(true, platfrom);
 				obj->StopY();
@@ -77,6 +61,22 @@ void CollisionManager::CheckPlatformsCollision(const std::vector<SDL_FRect*> pla
 			{ // Colliding bottom side of platform.
 				obj->StopY();
 				obj->SetY(platfrom->y + platfrom->h);
+			}
+			else if (obj->GetDstP()->x + obj->GetDstP()->w - (float)obj->GetVelX() <= platfrom->x)
+			{ // Collision from left.
+				if ((obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() > platfrom->y) or not obj->IsGrounded())
+				{
+					obj->StopX();
+					obj->SetX(platfrom->x - obj->GetDstP()->w);
+				}
+			}
+			else if (obj->GetDstP()->x - (float)obj->GetVelX() >= platfrom->x + platfrom->w)
+			{ // Colliding right side of platform.
+				if ((obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() > platfrom->y) or not obj->IsGrounded())
+				{
+					obj->StopX();
+					obj->SetX(platfrom->x + platfrom->w);
+				}
 			}
 		}
 	}
