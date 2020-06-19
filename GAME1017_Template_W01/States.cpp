@@ -81,21 +81,41 @@ void GameState::Update()
 {
 	// Get input.
 	m_pPlayer->movement[0] = 0;
-	if (EVMA::KeyHeld(SDL_SCANCODE_A) && m_pPlayer->IsGrounded())
+	//if (EVMA::KeyHeld(SDL_SCANCODE_A) && m_pPlayer->IsGrounded())
+	//{
+	//	//walk left animation goes here
+	//	m_pPlayer->getAnimator()->setFace(1);
+	//	m_pPlayer->movement[0] = -1;
+	//	m_pPlayer->getAnimator()->setNextAnimation("run");
+	//	m_pPlayer->SetAccelX(-1.0);
+	//}
+	if (EVMA::KeyHeld(SDL_SCANCODE_A))
 	{
-		//walk left animation goes here
+		
 		m_pPlayer->getAnimator()->setFace(1);
 		m_pPlayer->movement[0] = -1;
 		m_pPlayer->getAnimator()->setNextAnimation("run");
-		m_pPlayer->SetAccelX(-1.0);
+		m_pPlatforms = setXneg(m_pPlatforms, 3.0);
+		if (m_pPlayer->IsGrounded() == false)
+			m_pPlayer->SetAccelX(-0.25);
 	}
-	else if (EVMA::KeyHeld(SDL_SCANCODE_D) && m_pPlayer->IsGrounded())
+	//else if (EVMA::KeyHeld(SDL_SCANCODE_D) && m_pPlayer->IsGrounded())
+	//{
+	//	//walk right animation goes here
+	//	m_pPlayer->getAnimator()->setFace(0);
+	//	m_pPlayer->movement[0] = 1;
+	//	m_pPlayer->getAnimator()->setNextAnimation("run");
+	//	m_pPlayer->SetAccelX(1.0);
+	//}
+	else if (EVMA::KeyHeld(SDL_SCANCODE_D) )
 	{
-		//walk right animation goes here
+		
 		m_pPlayer->getAnimator()->setFace(0);
 		m_pPlayer->movement[0] = 1;
 		m_pPlayer->getAnimator()->setNextAnimation("run");
-		m_pPlayer->SetAccelX(1.0);
+		m_pPlatforms = setXpos(m_pPlatforms, 3.0);
+		if (m_pPlayer->IsGrounded() == false)
+			m_pPlayer->SetAccelX(0.25);
 	}
 	if (EVMA::KeyPressed(SDL_SCANCODE_SPACE) && m_pPlayer->IsGrounded())
 	{
@@ -151,10 +171,11 @@ void GameState::Update()
 			m_pPlayer->ChangeSoul(-FIREBALLCOST);
 		}
 	}
-	// Wrap the player on screen.
+	// Scrolling
 	if (m_pPlayer->GetDstP()->x < 0.0 )
 	{
 		m_pPlatforms = setXneg(m_pPlatforms, 10);
+		m_pPlayer->SetAccelX(0.4);
 		if (m_pPlayer->GetDstP()->x > 512)
 			m_pPlatforms = setXneg(m_pPlatforms, 0);
 	
