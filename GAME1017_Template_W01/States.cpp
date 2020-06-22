@@ -206,10 +206,12 @@ void GameState::Update()
 
 void GameState::CheckCollision()
 {
-	COMA::CheckMapObjectCollision(MapObjectManager::MapObjRectVec, m_pPlayer);
+	COMA::CheckMapObjectCollision(MapObjectManager::MapObjVec, m_pPlayer);
+	COMA::CheckPlayerMapDamage(MapObjectManager::MapObjVec, m_pPlayer);
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
-		COMA::CheckMapObjectCollision(MapObjectManager::MapObjRectVec, enemy);
+		COMA::CheckMapObjectCollision(MapObjectManager::MapObjVec, enemy);
+		COMA::CheckEnemyMapDamage(MapObjectManager::MapObjVec, enemy);
 	}
 }
 

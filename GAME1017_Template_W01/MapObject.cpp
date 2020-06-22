@@ -5,16 +5,27 @@ MapObject::MapObject(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :
 
 }
 
-SDL_FRect* MapObject::getFRect()
+bool MapObject::getIsHurt()
 {
-	return &m_dst;
+	return m_IsHurt;
+}
+
+bool MapObject::getCouldPass()
+{
+	return m_CouldPass;
+}
+
+int MapObject::getDamage()
+{
+	return m_Damage;
 }
 
 
 Plate::Plate(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :MapObject(s, d, r, t)
 {
-	isHurt = false;
-	couldPass = false;
+	m_IsHurt = false;
+	m_CouldPass = false;
+	m_Damage = 0;
 }
 
 void Plate::Update()
@@ -29,8 +40,9 @@ void Plate::Render()
 
 Spike::Spike(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :MapObject(s, d, r, t)
 {
-	isHurt = true;
-	couldPass = true;
+	m_IsHurt = true;
+	m_CouldPass = true;
+	m_Damage = 1;
 }
 
 void Spike::Update()

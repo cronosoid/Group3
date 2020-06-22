@@ -6,13 +6,16 @@ class MapObject :public Sprite
 public:
 
 protected:
-	bool isHurt,
-		couldPass;
+	bool m_IsHurt,
+		m_CouldPass;
+	int m_Damage;
 public:
 	MapObject(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t);
 	virtual void Update() = 0;
 	virtual void Render() = 0;
-	SDL_FRect* getFRect();
+	bool getIsHurt();
+	bool getCouldPass();
+	int getDamage();
 protected:
 
 };
