@@ -31,7 +31,10 @@ void TitleState::Enter()
 	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
 	SOMA::Load("Aud/Fire.wav", "jump", SOUND_SFX);
 	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
+	SOMA::Load("Aud/bamboo.mp3", "bamboo", SOUND_MUSIC);
+	SOMA::Load("Aud/horn.mp3", "horn", SOUND_MUSIC);
 	TEMA::RegisterTexture("../Spritesheets/fireball.png", "fireball");
+	SOMA::PlayMusic("horn", -1, 0);
 }
 
 void TitleState::Update()
@@ -51,6 +54,7 @@ void TitleState::Render()
 void TitleState::Exit()
 {
 	std::cout << "Exiting TitleState..." << std::endl;
+	SOMA::StopMusic();
 }
 // End TitleState.
 
@@ -60,6 +64,7 @@ GameState::GameState() {}
 void GameState::Enter()
 {
 	std::cout << "Entering GameState..." << std::endl;
+	SOMA::PlayMusic("bamboo", -1, 0);
 	m_pPlayer = new PlatformPlayer({ 0,0,34,50 }, { 512.0f,480.0f,64.0f,100.0f },
 								   Engine::Instance().GetRenderer(), 
 									IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Spritesheets/Kaben_Sheet.png"));
@@ -105,6 +110,10 @@ void GameState::Update()
 		SOMA::PlaySound("Kaben_jump");
 		m_pPlayer->SetAccelY(-JUMPFORCE); // Sets the jump force.
 		m_pPlayer->SetGrounded(false);
+	}
+	if (EVMA::KeyPressed(SDL_SCANCODE_X))
+	{
+		SOMA::PauseMusic();
 	}
 	if (EVMA::KeyHeld(SDL_SCANCODE_J)) //melee
 	{
@@ -271,7 +280,7 @@ EndState::EndState()
 void EndState::Enter()
 {
 	m_restartBtn = new RestartButton({ 0,0,400,100 }, { 312.0f,100.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
-	m_exitBtn = new ExitButton({ 0,0,400,100 }, { 312.0f,300.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
+	m_exitBtn = new ExitButton({ 0,0,400,100 }, { 312.0f,300.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("exit"));
 }
 
 void EndState::Update()
