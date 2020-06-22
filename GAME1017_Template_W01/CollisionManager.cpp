@@ -92,6 +92,7 @@ void CollisionManager::CheckPlayerMapDamage(const std::vector<MapObject*> mapObj
 		{
 				obj->ChangeSoul(-mapObject->getDamage());
 				std::cout << "Health: " << obj->GetSoul() << std::endl;
+				break;
 		}
 	}
 }
@@ -103,7 +104,8 @@ void CollisionManager::CheckEnemyMapDamage(const std::vector<MapObject*> mapObje
 		SDL_FRect* temp = mapObject->GetDstP();
 		if (COMA::AABBCheck(*obj->GetDstP(), *temp) && mapObject->getIsHurt() == true)
 		{
-				obj->getDamage(-mapObject->getDamage());				
+				obj->getDamage(mapObject->getDamage());
+				break;
 		}
 	}
 }

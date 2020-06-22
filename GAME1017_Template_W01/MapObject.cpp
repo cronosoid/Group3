@@ -42,7 +42,7 @@ Spike::Spike(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :MapObjec
 {
 	m_IsHurt = true;
 	m_CouldPass = true;
-	m_Damage = 1;
+	m_Damage = 10;
 }
 
 void Spike::Update()

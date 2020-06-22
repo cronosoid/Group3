@@ -75,6 +75,7 @@ void GameState::Enter()
 		MapObjectManager::CreateMapObject(kPlate, { 64.0f * i,700.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	}
 	MapObjectManager::CreateMapObject(kSpike, { 0.0f,636.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kSpike, { 64.0f,636.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, { 512.0f,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, { 576.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, { 640.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
@@ -85,6 +86,8 @@ void GameState::Enter()
 
 	UIObjectManager::Init();
 	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, { 105.0f,72.0f,185.0f,20.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
+
+	m_MapDamageCounter = 0;
 }
 
 void GameState::Update()
@@ -202,12 +205,22 @@ void GameState::Update()
 	}
 
 	UIObjectManager::UIUpdate();
+
+	if (m_MapDamageCounter > 0)
+		m_MapDamageCounter--;
 }
 
 void GameState::CheckCollision()
 {
 	COMA::CheckMapObjectCollision(MapObjectManager::MapObjVec, m_pPlayer);
-	COMA::CheckPlayerMapDamage(MapObjectManager::MapObjVec, m_pPlayer);
+	if(m_MapDamageCounter==0)
+	{
+		std::cout << "test damage" << std::endl;
+		COMA::CheckPlayerMapDamage(MapObjectManager::MapObjVec, m_pPlayer);
+		std::cout << "end test" << std::endl;
+		m_MapDamageCounter = MAPDAMAGECD;
+	}
+	
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
 		COMA::CheckMapObjectCollision(MapObjectManager::MapObjVec, enemy);
