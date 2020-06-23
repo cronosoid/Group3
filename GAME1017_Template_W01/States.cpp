@@ -6,6 +6,7 @@
 #include "TextureManager.h"
 #include "Engine.h"
 #include "Button.h"
+#include "Background.h"
 #include "EnemyManager.h"
 #include "Projectile.h"
 #include "ProjectileManager.h"
@@ -27,7 +28,7 @@ TitleState::TitleState() {}
 
 void TitleState::Enter()
 {
-	m_playBtn = new PlayButton({ 0,0,400,100 }, { 312.0f,100.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
+	m_playBtn = new PlayButton({ 0,0,400,100 }, { 100.0f,300.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
 	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
 	SOMA::Load("Aud/Fire.wav", "jump", SOUND_SFX);
 	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
@@ -35,6 +36,7 @@ void TitleState::Enter()
 	SOMA::Load("Aud/horn.mp3", "horn", SOUND_MUSIC);
 	TEMA::RegisterTexture("../Spritesheets/fireball.png", "fireball");
 	SOMA::PlayMusic("horn", -1, 0);
+	background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("background"));
 }
 
 void TitleState::Update()
@@ -47,6 +49,7 @@ void TitleState::Render()
 {
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 128, 0, 255, 255);
 	SDL_RenderClear(Engine::Instance().GetRenderer());
+	background->Render();
 	m_playBtn->Render();
 	State::Render();
 }
@@ -279,7 +282,7 @@ EndState::EndState()
 
 void EndState::Enter()
 {
-	m_restartBtn = new RestartButton({ 0,0,400,100 }, { 312.0f,100.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
+	m_restartBtn = new RestartButton({ 0,0,400,100 }, { 312.0f,100.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("restart"));
 	m_exitBtn = new ExitButton({ 0,0,400,100 }, { 312.0f,300.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("exit"));
 }
 

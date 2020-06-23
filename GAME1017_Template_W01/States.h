@@ -6,6 +6,7 @@
 
 #include <SDL.h>
 #include "Button.h"
+#include "Background.h"
 #include "PlatformPlayer.h"
 #include "Animator.h"
 #include <vector>
@@ -49,6 +50,7 @@ public:
 	void Exit();
 private:
 	Button* m_playBtn;
+	Background* background;
 };
 
 class EndState : public State
