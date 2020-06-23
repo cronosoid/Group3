@@ -29,6 +29,7 @@ private:
 	/*PlatformPlayer* m_pTiles;*/
 	Animator* m_pPlayerAnimator;
 	std::vector<SDL_FRect*> m_pPlatforms;
+	std::vector<Sprite*> movngObj;
 	
 public:
 	GameState();
@@ -46,6 +47,7 @@ public:
 		{
 			r = v.at(i);
 			r->x -= vel;
+			CheckCollision();
 			v1.push_back(r);
 		}
 
@@ -60,6 +62,37 @@ public:
 		{
 			r = v.at(i);
 			r->x += vel;
+			CheckCollision();
+			v1.push_back(r);
+		}
+
+		v = v1;
+		return v;
+	}
+	std::vector<SDL_FRect*> setYpos(std::vector<SDL_FRect*> v, float vel) 
+	{
+		SDL_FRect* r;
+		std::vector<SDL_FRect*> v1;
+		for (auto i = 0; i<v.size();i++ )
+		{
+			r = v.at(i);
+			r->y -= vel;
+			CheckCollision();
+			v1.push_back(r);
+		}
+
+		v = v1;
+		return v;
+	}
+	std::vector<SDL_FRect*> setYneg(std::vector<SDL_FRect*> v, float vel)
+	{
+		SDL_FRect* r;
+		std::vector<SDL_FRect*> v1;
+		for (auto i = 0; i < v.size(); i++)
+		{
+			r = v.at(i);
+			r->y += vel;
+			CheckCollision();
 			v1.push_back(r);
 		}
 

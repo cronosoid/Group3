@@ -12,8 +12,11 @@
 #include "Utilities.h"
 #include "UIObjectManager.h"
 #include "Entity.h"
-
 #include <iostream>
+
+#define WIDTH 1024
+#define HEIGHT 768
+
 
 // Begin State. CTRL+M+H and CTRL+M+U to turn on/off collapsed code.
 void State::Render()
@@ -81,41 +84,64 @@ void GameState::Update()
 {
 	// Get input.
 	m_pPlayer->movement[0] = 0;
-	//if (EVMA::KeyHeld(SDL_SCANCODE_A) && m_pPlayer->IsGrounded())
-	//{
-	//	//walk left animation goes here
-	//	m_pPlayer->getAnimator()->setFace(1);
-	//	m_pPlayer->movement[0] = -1;
-	//	m_pPlayer->getAnimator()->setNextAnimation("run");
-	//	m_pPlayer->SetAccelX(-1.0);
-	//}
-	if (EVMA::KeyHeld(SDL_SCANCODE_A))
+
+	if (m_pPlayer->GetDstP()->y < 0.4 * HEIGHT && (0.5 * m_pPlayer->GetDstP()->y) < 0.5 * HEIGHT)
 	{
-		
-		m_pPlayer->getAnimator()->setFace(1);
-		m_pPlayer->movement[0] = -1;
-		m_pPlayer->getAnimator()->setNextAnimation("run");
-		m_pPlatforms = setXneg(m_pPlatforms, 3.0);
-		if (m_pPlayer->IsGrounded() == false)
-			m_pPlayer->SetAccelX(-0.25);
+		m_pPlatforms = setYneg(m_pPlatforms, 3.0);
 	}
-	//else if (EVMA::KeyHeld(SDL_SCANCODE_D) && m_pPlayer->IsGrounded())
-	//{
-	//	//walk right animation goes here
-	//	m_pPlayer->getAnimator()->setFace(0);
-	//	m_pPlayer->movement[0] = 1;
-	//	m_pPlayer->getAnimator()->setNextAnimation("run");
-	//	m_pPlayer->SetAccelX(1.0);
-	//}
-	else if (EVMA::KeyHeld(SDL_SCANCODE_D) )
+	else if (m_pPlayer->GetDstP()->y + m_pPlayer->GetDstP()->h > HEIGHT - 200 && !m_pPlayer->IsGrounded())
 	{
-		
-		m_pPlayer->getAnimator()->setFace(0);
-		m_pPlayer->movement[0] = 1;
-		m_pPlayer->getAnimator()->setNextAnimation("run");
-		m_pPlatforms = setXpos(m_pPlatforms, 3.0);
-		if (m_pPlayer->IsGrounded() == false)
+		m_pPlatforms = setYpos(m_pPlatforms, 5.0);
+	}
+
+
+	if (m_pPlayer->GetDstP()->x >= 0.25 * WIDTH && m_pPlayer->GetDstP()->x <= 0.5 * WIDTH)
+	{
+		if (EVMA::KeyHeld(SDL_SCANCODE_A) && m_pPlayer->IsGrounded())
+		{
+			//walk left animation goes here
+			m_pPlayer->getAnimator()->setFace(1);
+			m_pPlayer->movement[0] = -1;
+			m_pPlayer->getAnimator()->setNextAnimation("run");
+			m_pPlayer->SetAccelX(-1.0);
+		}
+
+		else if (EVMA::KeyHeld(SDL_SCANCODE_D) && m_pPlayer->IsGrounded())
+		{
+			//walk right animation goes here
+			m_pPlayer->getAnimator()->setFace(0);
+			m_pPlayer->movement[0] = 1;
+			m_pPlayer->getAnimator()->setNextAnimation("run");
+			m_pPlayer->SetAccelX(1.0);
+		}
+	}
+
+	else if ((m_pPlayer->GetDstP()->x < 0.25 * WIDTH) || m_pPlayer->GetDstP()->x > 0.5 * WIDTH )
+
+	{
+		if (EVMA::KeyHeld(SDL_SCANCODE_A) )
+		{
+
+			m_pPlayer->getAnimator()->setFace(1);
+			m_pPlayer->movement[0] = -1;
+			m_pPlayer->getAnimator()->setNextAnimation("run");
+			m_pPlatforms = setXneg(m_pPlatforms, 6.0);
+			m_pPlayer->SetAccelX(-0.25);
+			if (m_pPlayer->IsGrounded() == false)
+				m_pPlayer->SetAccelX(-0.25);
+		}
+
+		else if (EVMA::KeyHeld(SDL_SCANCODE_D))
+		{
+
+			m_pPlayer->getAnimator()->setFace(0);
+			m_pPlayer->movement[0] = 1;
+			m_pPlayer->getAnimator()->setNextAnimation("run");
+			m_pPlatforms = setXpos(m_pPlatforms, 6.0);
 			m_pPlayer->SetAccelX(0.25);
+			if (m_pPlayer->IsGrounded() == false)
+				m_pPlayer->SetAccelX(0.25);
+		}
 	}
 	if (EVMA::KeyPressed(SDL_SCANCODE_SPACE) && m_pPlayer->IsGrounded())
 	{
@@ -170,21 +196,6 @@ void GameState::Update()
 				Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 20, face, m_pPlayer->m_magicDmg));
 			m_pPlayer->ChangeSoul(-FIREBALLCOST);
 		}
-	}
-	// Scrolling
-	if (m_pPlayer->GetDstP()->x < 0.0 )
-	{
-		m_pPlatforms = setXneg(m_pPlatforms, 10);
-		m_pPlayer->SetAccelX(0.4);
-		if (m_pPlayer->GetDstP()->x > 512)
-			m_pPlatforms = setXneg(m_pPlatforms, 0);
-	
-	}
-	else if (m_pPlayer->GetDstP()->x+m_pPlayer->GetDstP()->w > 800.0 )
-	{ 
-		m_pPlatforms = setXpos(m_pPlatforms, 10);
-		if (m_pPlayer->GetDstP()->x < 512)
-			m_pPlatforms = setXpos(m_pPlatforms, 0);
 	}
 	// Do the rest.
 	m_pPlayer->Update();
