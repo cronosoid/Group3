@@ -57,11 +57,15 @@ void MapObjectManager::Update()
 	}
 }
 
-void MapObjectManager::Render()
+void MapObjectManager::Render(bool CanCollide)
 {
 	for (int i = 0; i < (int)MapObjVec.size(); i++)
 	{
-		MapObjVec[i]->Render();
+		if(MapObjVec[i]->getCanCollide()!=CanCollide)
+		{
+			MapObjVec[i]->Render();
+		}
+		
 	}
 }
 

@@ -22,7 +22,7 @@ public:
 	static void Init();
 	static void CreateMapObject(MapObjectType type, SDL_FRect dst_Rect, SDL_Renderer* r);
 	static void Update();
-	static void Render();
+	static void Render(bool CanCollide);
 	static void DestroyMapObjects();
 private:
 

@@ -215,9 +215,9 @@ void GameState::CheckCollision()
 	COMA::CheckMapObjectCollision(MapObjectManager::MapObjVec, m_pPlayer);
 	if(m_MapDamageCounter==0)
 	{
-		std::cout << "test damage" << std::endl;
+		//std::cout << "test damage" << std::endl;
 		COMA::CheckPlayerMapDamage(MapObjectManager::MapObjVec, m_pPlayer);
-		std::cout << "end test" << std::endl;
+		//std::cout << "end test" << std::endl;
 		m_MapDamageCounter = MAPDAMAGECD;
 	}
 	
@@ -234,13 +234,14 @@ void GameState::Render()
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 64, 128, 255, 255);
 	SDL_RenderClear(Engine::Instance().GetRenderer());
 
-	MapObjectManager::Render();
+	MapObjectManager::Render(true);
 	// Draw the player.
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
 		enemy->Render();
 	}
 	m_pPlayer->Render();
+	MapObjectManager::Render(false);
 	// Draw the platforms.
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 192, 64, 0, 255);
 	for (auto platfrom : m_pPlatforms)

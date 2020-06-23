@@ -7,14 +7,14 @@ public:
 
 protected:
 	bool m_IsHurt,
-		m_CouldPass;
+		m_CanCollide;
 	int m_Damage;
 public:
 	MapObject(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t);
 	virtual void Update() = 0;
 	virtual void Render() = 0;
 	bool getIsHurt();
-	bool getCouldPass();
+	bool getCanCollide();
 	int getDamage();
 protected:
 
