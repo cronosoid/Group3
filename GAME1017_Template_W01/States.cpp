@@ -146,10 +146,11 @@ void GameState::Update()
 			// will complete the projectile spawn in a while
 			int face;
 			m_pPlayer->getAnimator()->getFace() == 0 ? face = 1 : face = -1;
-			ProMA::Instance().GetProjectiles().push_back(new Projectile({ 0,0,320,320 },
+			ProMA::Instance().GetProjectiles().push_back(new Projectile({ 0,0,64,64 },
 				{ face == 1 ? m_pPlayer->GetDstP()->x + m_pPlayer->GetDstP()->w : m_pPlayer->GetDstP()->x - 24,
 				m_pPlayer->GetDstP()->y + 42, 48, 48 },
-				Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 20, face, m_pPlayer->m_magicDmg));
+				Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 15, face, m_pPlayer->m_magicDmg,
+				4, 6, 64, 64));
 			m_pPlayer->ChangeSoul(-FIREBALLCOST);
 		}
 	}
