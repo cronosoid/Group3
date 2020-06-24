@@ -34,9 +34,10 @@ void TitleState::Enter()
 	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
 	SOMA::Load("Aud/bamboo.mp3", "bamboo", SOUND_MUSIC);
 	SOMA::Load("Aud/horn.mp3", "horn", SOUND_MUSIC);
+	SOMA::Load("Aud/ambient.mp3", "ambient", SOUND_MUSIC);
 	TEMA::RegisterTexture("../Spritesheets/fireball.png", "fireball");
 	SOMA::PlayMusic("horn", -1, 0);
-	background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("background"));
+	t_background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("background"));
 }
 
 void TitleState::Update()
@@ -49,7 +50,7 @@ void TitleState::Render()
 {
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 128, 0, 255, 255);
 	SDL_RenderClear(Engine::Instance().GetRenderer());
-	background->Render();
+	t_background->Render();
 	m_playBtn->Render();
 	State::Render();
 }
@@ -57,7 +58,7 @@ void TitleState::Render()
 void TitleState::Exit()
 {
 	std::cout << "Exiting TitleState..." << std::endl;
-	SOMA::StopMusic();
+	
 }
 // End TitleState.
 
@@ -114,10 +115,7 @@ void GameState::Update()
 		m_pPlayer->SetAccelY(-JUMPFORCE); // Sets the jump force.
 		m_pPlayer->SetGrounded(false);
 	}
-	if (EVMA::KeyPressed(SDL_SCANCODE_X))
-	{
-		SOMA::PauseMusic();
-	}
+	
 	if (EVMA::KeyHeld(SDL_SCANCODE_J)) //melee
 	{
 		if ((m_pPlayer->getMeleeTime() + MELEECOOLDOWN * 1000) < SDL_GetTicks())
@@ -282,8 +280,10 @@ EndState::EndState()
 
 void EndState::Enter()
 {
-	m_restartBtn = new RestartButton({ 0,0,400,100 }, { 312.0f,100.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("restart"));
-	m_exitBtn = new ExitButton({ 0,0,400,100 }, { 312.0f,300.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("exit"));
+	SOMA::PlayMusic("ambient", -1, 0);
+	e_background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("end_background"));
+	m_restartBtn = new RestartButton({ 0,0,400,100 }, { 312.0f,225.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("restart"));
+	m_exitBtn = new ExitButton({ 0,0,400,100 }, { 312.0f,425.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("exit"));
 }
 
 void EndState::Update()
@@ -298,6 +298,7 @@ void EndState::Render()
 {
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 128, 0, 255, 255);
 	SDL_RenderClear(Engine::Instance().GetRenderer());
+	e_background->Render();
 	m_restartBtn->Render();
 	m_exitBtn->Render();
 	State::Render();
@@ -306,4 +307,34 @@ void EndState::Render()
 void EndState::Exit()
 {
 	
+}
+
+
+ClickState::ClickState()
+{
+	c_label = new Background({ 0, 0, 500, 100 }, { 280.0f, 284.0f, 500.0f, 100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("click"));
+}
+
+void ClickState::Update()
+{
+	if (EVMA::MousePressed(1))
+	{
+		STMA::ChangeState(new TitleState);
+	}
+}
+
+void ClickState::Render()
+{
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 8, 0, 17, 255);
+	SDL_RenderClear(Engine::Instance().GetRenderer());
+	c_label->Render();
+	State::Render();
+}
+
+void ClickState::Enter()
+{
+}
+
+void ClickState::Exit()
+{
 }

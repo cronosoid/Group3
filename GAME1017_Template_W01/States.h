@@ -40,6 +40,19 @@ public:
 	void Resume();
 };
 
+class ClickState : public State
+{
+public:
+	ClickState();
+	void Update();
+	void Render();
+	void Enter();
+	void Exit();
+private:
+	Background* c_label;
+
+};
+
 class TitleState : public State
 {
 public:
@@ -50,7 +63,7 @@ public:
 	void Exit();
 private:
 	Button* m_playBtn;
-	Background* background;
+	Background* t_background;
 };
 
 class EndState : public State
@@ -64,6 +77,7 @@ public:
 private:
 	Button* m_restartBtn;
 	Button* m_exitBtn;
+	Background* e_background;
 };
 
 #endif
