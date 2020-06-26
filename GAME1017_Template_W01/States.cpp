@@ -23,12 +23,43 @@ void State::Render()
 void State::Resume() {}
 // End State.
 
+ClickState::ClickState()
+{
+}
+
+void ClickState::Update()
+{
+	if (EVMA::MousePressed(1))
+	{
+		STMA::ChangeState(new TitleState);
+	}
+}
+
+void ClickState::Render()
+{
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 8, 0, 17, 255);
+	SDL_RenderClear(Engine::Instance().GetRenderer());
+	c_label->Render();
+	State::Render();
+}
+
+void ClickState::Enter()
+{
+	c_label = new Background({ 0, 0, 500, 100 }, { 280.0f, 284.0f, 500.0f, 100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("click"));
+}
+
+void ClickState::Exit()
+{
+	delete c_label;
+	c_label = nullptr;
+}
+
 // Begin TitleState.
 TitleState::TitleState() {}
 
 void TitleState::Enter()
 {
-	m_playBtn = new PlayButton({ 0,0,400,100 }, { 100.0f,300.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
+	m_playBtn = new PlayButton({ 0,0,400,100 }, { 60.0f,350.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
 	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
 	SOMA::Load("Aud/Fire.wav", "jump", SOUND_SFX);
 	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
@@ -37,6 +68,7 @@ void TitleState::Enter()
 	SOMA::Load("Aud/ambient.mp3", "ambient", SOUND_MUSIC);
 	TEMA::RegisterTexture("../Spritesheets/fireball.png", "fireball");
 	SOMA::PlayMusic("horn", -1, 0);
+	SOMA::SetMusicVolume(16);
 	t_background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("background"));
 }
 
@@ -212,7 +244,6 @@ void GameState::CheckCollision()
 	}
 }
 
-
 void GameState::Render()
 {
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 64, 128, 255, 255);
@@ -241,7 +272,6 @@ void GameState::Render()
 	if (dynamic_cast<GameState*>(STMA::GetStates().back()))
 		State::Render();
 }
-
 
 void GameState::Exit()
 {
@@ -307,34 +337,4 @@ void EndState::Render()
 void EndState::Exit()
 {
 	
-}
-
-
-ClickState::ClickState()
-{
-	c_label = new Background({ 0, 0, 500, 100 }, { 280.0f, 284.0f, 500.0f, 100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("click"));
-}
-
-void ClickState::Update()
-{
-	if (EVMA::MousePressed(1))
-	{
-		STMA::ChangeState(new TitleState);
-	}
-}
-
-void ClickState::Render()
-{
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 8, 0, 17, 255);
-	SDL_RenderClear(Engine::Instance().GetRenderer());
-	c_label->Render();
-	State::Render();
-}
-
-void ClickState::Enter()
-{
-}
-
-void ClickState::Exit()
-{
 }

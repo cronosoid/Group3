@@ -50,7 +50,6 @@ public:
 	void Exit();
 private:
 	Background* c_label;
-
 };
 
 class TitleState : public State
