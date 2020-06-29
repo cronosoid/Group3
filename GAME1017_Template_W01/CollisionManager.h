@@ -7,6 +7,8 @@
 #include "MathManager.h"
 #include "Sprite.h"
 #include "Entity.h"
+#include "MapObjectManager.h"
+
 #include <vector>
 
 class CollisionManager
@@ -19,7 +21,7 @@ public:
 
 	static bool LinePointCheck(const SDL_FPoint object1_start, const SDL_FPoint object1_end, const SDL_FPoint object2);
 
-	static void CheckMapCollision(const std::vector<SDL_FRect*> platforms, Entity* obj);
+	static void CheckMapCollision(const std::vector<MapObject*> mapObjects, Entity* obj);
 private:
 	CollisionManager() {}
 };

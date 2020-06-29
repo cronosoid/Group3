@@ -57,11 +57,14 @@ void MapObjectManager::Update()
 	}
 }
 
-void MapObjectManager::Render()
+void MapObjectManager::Render(bool collision)
 {
-	for (int i = 0; i < (int)MapObjVec.size(); i++)
+	for (MapObject* mapObject : MapObjVec)
 	{
-		MapObjVec[i]->Render();
+		if (mapObject->getCollision() == collision)
+		{
+			mapObject->Render();
+		}
 	}
 }
 

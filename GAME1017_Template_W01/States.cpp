@@ -201,10 +201,10 @@ void GameState::Update()
 
 void GameState::CheckCollision()
 {
-	COMA::CheckMapCollision(MapObjectManager::MapObjRectVec, m_pPlayer);
+	COMA::CheckMapCollision(MapObjectManager::MapObjVec, m_pPlayer);
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
-		COMA::CheckMapCollision(MapObjectManager::MapObjRectVec, enemy);
+		COMA::CheckMapCollision(MapObjectManager::MapObjVec, enemy);
 	}
 }
 
@@ -212,6 +212,8 @@ void GameState::Render()
 {
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 64, 128, 255, 255);
 	SDL_RenderClear(Engine::Instance().GetRenderer());
+
+	MapObjectManager::Render(true);
 	// Draw the player.
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
@@ -219,7 +221,7 @@ void GameState::Render()
 	}
 	m_pPlayer->Render();
 	// Draw the platforms.
-	MapObjectManager::Render();
+	MapObjectManager::Render(false);
 
 	for (auto projectile : ProMA::Instance().GetProjectiles())
 	{

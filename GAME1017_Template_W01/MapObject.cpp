@@ -14,7 +14,7 @@ SDL_FRect* MapObject::getFRect()
 Plate::Plate(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :MapObject(s, d, r, t)
 {
 	isHurt = false;
-	couldPass = false;
+	canCollide = true;
 }
 
 void Plate::Update()
@@ -30,7 +30,7 @@ void Plate::Render()
 Spike::Spike(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :MapObject(s, d, r, t)
 {
 	isHurt = true;
-	couldPass = true;
+	canCollide = false;
 }
 
 void Spike::Update()

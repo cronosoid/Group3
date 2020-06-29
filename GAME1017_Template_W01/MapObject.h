@@ -10,11 +10,14 @@ public:
 
 protected:
 	bool isHurt,
-		couldPass;
+		canCollide;
 public:
 	MapObject(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t);
 	virtual void Update() = 0;
 	virtual void Render() = 0;
+
+	bool getCollision() { return canCollide; }
+
 	SDL_FRect* getFRect();
 protected:
 
