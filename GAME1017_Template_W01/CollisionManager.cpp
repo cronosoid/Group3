@@ -44,7 +44,7 @@ bool CollisionManager::LinePointCheck(const SDL_FPoint object1_start, const SDL_
 	return false;
 }
 
-void CollisionManager::CheckPlatformsCollision(const std::vector<SDL_FRect*> platforms, Entity* obj)
+void CollisionManager::CheckMapCollision(const std::vector<SDL_FRect*> platforms, Entity* obj)
 {
 	obj->SetGrounded(false);
 	for (SDL_FRect* platfrom : platforms) // For each platform.
