@@ -12,6 +12,7 @@
 #include "Utilities.h"
 #include "UIObjectManager.h"
 #include "MapObjectManager.h"
+#include "MoveManager.h"
 
 #include <iostream>
 
@@ -70,7 +71,7 @@ void GameState::Enter()
 	MapObjectManager::Init();
 
 	//Create a test level
-	for (int i = 0; i <= 1024 / 64; i++)
+	for (int i = 0; i <= 34; i++)
 	{
 		MapObjectManager::CreateMapObject(kPlate, { 64.0f * i,700.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	}
@@ -79,7 +80,7 @@ void GameState::Enter()
 	MapObjectManager::CreateMapObject(kPlate, { 576.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, { 640.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 
-	EnemyManager::CreateEnemy(swordman, { 700.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, { 600.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(archer, { 200.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
 	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, { 105.0f,72.0f,185.0f,20.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
 }
@@ -151,7 +152,7 @@ void GameState::Update()
 			// will complete the projectile spawn in a while
 			int face;
 			m_pPlayer->getAnimator()->getFace() == 0 ? face = 1 : face = -1;
-			ProMA::Instance().GetProjectiles().push_back(new Projectile({ 0,0,64,64 },
+			PMA::Instance().GetProjectiles().push_back(new Projectile({ 0,0,64,64 },
 				{ face == 1 ? m_pPlayer->GetDstP()->x + m_pPlayer->GetDstP()->w : m_pPlayer->GetDstP()->x - 24,
 				m_pPlayer->GetDstP()->y + 42, 48, 48 },
 				Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 15, face, m_pPlayer->m_magicDmg,
@@ -159,24 +160,11 @@ void GameState::Update()
 			m_pPlayer->ChangeSoul(-FIREBALLCOST);
 		}
 	}
-	// Wrap the player on screen.
-	if (m_pPlayer->GetDstP()->x < -51.0) m_pPlayer->SetX(1024.0);
-	else if (m_pPlayer->GetDstP()->x > 1024.0) m_pPlayer->SetX(-50.0);
+
 	// Do the rest.
 	m_pPlayer->Update();
-	for (auto projectile = ProMA::Instance().GetProjectiles().begin(); projectile != ProMA::Instance().GetProjectiles().end();)
-	{
-		(*projectile)->Update();
-		if ((*projectile)->GetDstP()->x > 1024)
-		{
-			delete *projectile;
-			projectile = ProMA::Instance().GetProjectiles().erase(projectile);
-		}
-		else
-		{
-			projectile++;
-		}
-	}
+	PMA::Instance().Update();
+
 	if (m_pPlayer->movement[0] == 0)
 		m_pPlayer->getAnimator()->setNextAnimation("idle");
 	m_pPlayer->getAnimator()->playAnimation();
@@ -223,7 +211,7 @@ void GameState::Render()
 	// Draw the platforms.
 	MapObjectManager::Render(false);
 
-	for (auto projectile : ProMA::Instance().GetProjectiles())
+	for (Projectile* projectile : PMA::Instance().GetProjectiles())
 	{
 		projectile->Render();
 	}
@@ -245,23 +233,29 @@ void GameState::Exit()
 			delete mapElement.second;
 		}
 	}
+
 	delete m_pPlayer->getAnimator();
 	delete m_pPlayer;
-	for (MapObject* mapObject : MapObjectManager::MapObjVec)
+
+	for (vector<MapObject*>::iterator obj = MapObjectManager::MapObjVec.begin(); obj != MapObjectManager::MapObjVec.end();)
 	{
-		delete mapObject;
+		delete* obj;
+		obj = MapObjectManager::MapObjVec.erase(obj);
 	}
+
 	UIObjectManager::DestroyUIObjects();
+
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
 		enemy->setActive(false);
 	}
-	for (auto projectile = ProMA::Instance().GetProjectiles().begin(); projectile != ProMA::Instance().GetProjectiles().end();)
+	EnemyManager::DestroyInvalidEnemies();
+
+	for (auto projectile = PMA::Instance().GetProjectiles().begin(); projectile != PMA::Instance().GetProjectiles().end();)
 	{
 		delete* projectile;
-		projectile = ProMA::Instance().GetProjectiles().erase(projectile);
+		projectile = PMA::Instance().GetProjectiles().erase(projectile);
 	}
-	EnemyManager::DestroyInvalidEnemies();
 }
 
 void GameState::Resume() { }
@@ -296,5 +290,8 @@ void EndState::Render()
 
 void EndState::Exit()
 {
-	
+	delete m_restartBtn;
+	m_restartBtn = nullptr;
+	delete m_exitBtn;
+	m_exitBtn = nullptr;
 }

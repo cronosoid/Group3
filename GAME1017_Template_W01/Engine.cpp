@@ -6,6 +6,8 @@
 #include "SoundManager.h"
 #include "StateManager.h"
 #include "TextureManager.h"
+#include "MoveManager.h"
+
 #include <iostream>
 #define WIDTH 1024
 #define HEIGHT 768
@@ -45,6 +47,8 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	TEMA::RegisterTexture("../Spritesheets/Soul_Bar.png", "SoulBarBorder");
 	TEMA::RegisterTexture("../Spritesheets/fitBar.png", "SoulBarFiller");
 	TEMA::RegisterTexture("../Spritesheets/Kaben_Sheet.png", "KabenSheet"); 
+
+	MoveManager::Init(m_pWindow,1000,1300);
 
 	STMA::ChangeState(new TitleState);
 	SOMA::AllocateChannels(16);
