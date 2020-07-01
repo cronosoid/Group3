@@ -128,9 +128,11 @@
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="MapObjectManager.cpp" />
+    <ClCompile Include="MoveManager.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="PlatformPlayer.cpp" />
+    <ClCompile Include="ProjectileManager.cpp" />
     <ClCompile Include="SoulBar.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -155,6 +157,7 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EventManager.h" />
+    <ClInclude Include="MoveManager.h" />
     <ClInclude Include="MapObject.h" />
     <ClInclude Include="MapObjectManager.h" />
     <ClInclude Include="Projectile.h" />

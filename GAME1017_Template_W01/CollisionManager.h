@@ -7,6 +7,8 @@
 #include "MathManager.h"
 #include "Sprite.h"
 #include "Entity.h"
+#include "MapObjectManager.h"
+
 #include <vector>
 #include "MapObject.h"
 #include"PlatformPlayer.h"
@@ -22,9 +24,9 @@ public:
 
 	static bool LinePointCheck(const SDL_FPoint object1_start, const SDL_FPoint object1_end, const SDL_FPoint object2);
 
-	static void CheckMapObjectCollision(const std::vector<MapObject*> mapObject, Entity* obj);
 	static void CheckPlayerMapDamage(const std::vector<MapObject*> mapObject, PlatformPlayer* obj);
 	static void CheckEnemyMapDamage(const std::vector<MapObject*> mapObject, Enemies* obj);
+	static void CheckMapCollision(const std::vector<MapObject*> mapObjects, Entity* obj);
 private:
 	CollisionManager() {}
 };

@@ -12,7 +12,7 @@ class Animator;
 class Entity :public Sprite
 {
 public:
-	Entity(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator);
+	Entity(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator, bool player = false);
 	void Stop();
 	void StopX();
 	void StopY();
@@ -27,8 +27,9 @@ public:
 	void movementUpdate();
 	Animator* getAnimator() { return animator; }
 	void addAnimator(Animator* animator);
-
+	SDL_FRect* getGlobalDst() { return &globalDst; }
 protected:
+	bool m_player;
 	bool m_grounded;
 	double m_accelX,
 		m_accelY,
@@ -42,6 +43,7 @@ protected:
 	Uint32 flyingTime;
 	SDL_FRect* Floor;
 	Animator* animator;
+	SDL_FRect globalDst;
 };
 
 #include "Animator.h"

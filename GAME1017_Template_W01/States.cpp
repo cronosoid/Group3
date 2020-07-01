@@ -12,6 +12,7 @@
 #include "Utilities.h"
 #include "UIObjectManager.h"
 #include "MapObjectManager.h"
+#include "MoveManager.h"
 #include <iostream>
 
 // Begin State. CTRL+M+H and CTRL+M+U to turn on/off collapsed code.
@@ -60,9 +61,8 @@ GameState::GameState() {}
 void GameState::Enter()
 {
 	std::cout << "Entering GameState..." << std::endl;
-	m_pPlayer = new PlatformPlayer({ 0,0,34,50 }, { 512.0f,480.0f,64.0f,100.0f },
-								   Engine::Instance().GetRenderer(), 
-									IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Spritesheets/Kaben_Sheet.png"));
+	m_pPlayer = new PlatformPlayer({ 0,0,34,50 }, { 512.0f,380.0f,64.0f,100.0f },
+								   Engine::Instance().GetRenderer(), TEMA::GetTexture("KabenSheet"));
 	m_pPlayer->addAnimator(new Animator(m_pPlayer));
 	m_pPlayer->getAnimator()->addAnimation("run", 8, 2, 34, 50);
 	m_pPlayer->getAnimator()->addAnimation("idle", 4, 1, 34, 50, 0, 100, 12);
@@ -70,18 +70,18 @@ void GameState::Enter()
 	MapObjectManager::Init();
 
 	//Create a test level
-	for (int i = 0; i <= 1024 / 64; i++)
+	for (int i = 0; i <= 34; i++)
 	{
 		MapObjectManager::CreateMapObject(kPlate, { 64.0f * i,700.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	}
 	MapObjectManager::CreateMapObject(kSpike, { 0.0f,636.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kSpike, { 64.0f,636.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
+<	MapObjectManager::CreateMapObject(kSpike, { 64.0f,636.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, { 512.0f,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, { 576.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, { 640.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 
 	EnemyManager::Init();
-	EnemyManager::CreateEnemy(swordman, { 700.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, { 600.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(archer, { 200.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
 
 	UIObjectManager::Init();
@@ -157,10 +157,11 @@ void GameState::Update()
 			// will complete the projectile spawn in a while
 			int face;
 			m_pPlayer->getAnimator()->getFace() == 0 ? face = 1 : face = -1;
-			ProMA::Instance().GetProjectiles().push_back(new Projectile({ 0,0,320,320 },
+			PMA::Instance().GetProjectiles().push_back(new Projectile({ 0,0,64,64 },
 				{ face == 1 ? m_pPlayer->GetDstP()->x + m_pPlayer->GetDstP()->w : m_pPlayer->GetDstP()->x - 24,
 				m_pPlayer->GetDstP()->y + 42, 48, 48 },
-				Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 20, face, m_pPlayer->m_magicDmg));
+				Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 15, face, m_pPlayer->m_magicDmg,
+				4, 6, 64, 64));
 			m_pPlayer->ChangeSoul(-FIREBALLCOST);
 		}
 	}
@@ -170,21 +171,11 @@ void GameState::Update()
 	// Wrap the player on screen.
 	if (m_pPlayer->GetDstP()->x < -51.0) m_pPlayer->SetX(1024.0);
 	else if (m_pPlayer->GetDstP()->x > 1024.0) m_pPlayer->SetX(-50.0);
+
 	// Do the rest.
 	m_pPlayer->Update();
-	for (auto projectile = ProMA::Instance().GetProjectiles().begin(); projectile != ProMA::Instance().GetProjectiles().end();)
-	{
-		(*projectile)->Update();
-		if ((*projectile)->GetDstP()->x > 1024)
-		{
-			delete *projectile;
-			projectile = ProMA::Instance().GetProjectiles().erase(projectile);
-		}
-		else
-		{
-			projectile++;
-		}
-	}
+	PMA::Instance().Update();
+
 	if (m_pPlayer->movement[0] == 0)
 		m_pPlayer->getAnimator()->setNextAnimation("idle");
 	m_pPlayer->getAnimator()->playAnimation();
@@ -212,7 +203,7 @@ void GameState::Update()
 
 void GameState::CheckCollision()
 {
-	COMA::CheckMapObjectCollision(MapObjectManager::MapObjVec, m_pPlayer);
+	COMA::CheckMapCollision(MapObjectManager::MapObjVec, m_pPlayer);
 	if(m_MapDamageCounter==0)
 	{
 		//std::cout << "test damage" << std::endl;
@@ -223,11 +214,10 @@ void GameState::CheckCollision()
 	
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
-		COMA::CheckMapObjectCollision(MapObjectManager::MapObjVec, enemy);
+		COMA::CheckMapCollision(MapObjectManager::MapObjVec, enemy);
 		COMA::CheckEnemyMapDamage(MapObjectManager::MapObjVec, enemy);
 	}
 }
-
 
 void GameState::Render()
 {
@@ -243,13 +233,9 @@ void GameState::Render()
 	m_pPlayer->Render();
 	MapObjectManager::Render(false);
 	// Draw the platforms.
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 192, 64, 0, 255);
-	for (auto platfrom : m_pPlatforms)
-	{
-		SDL_RenderFillRectF(Engine::Instance().GetRenderer(), platfrom);
-	}
+	MapObjectManager::Render(false);
 
-	for (auto projectile : ProMA::Instance().GetProjectiles())
+	for (Projectile* projectile : PMA::Instance().GetProjectiles())
 	{
 		projectile->Render();
 	}
@@ -271,23 +257,31 @@ void GameState::Exit()
 			delete mapElement.second;
 		}
 	}
+
 	delete m_pPlayer->getAnimator();
 	delete m_pPlayer;
+
+
+	for (vector<MapObject*>::iterator obj = MapObjectManager::MapObjVec.begin(); obj != MapObjectManager::MapObjVec.end();)
+	{
+		delete* obj;
+		obj = MapObjectManager::MapObjVec.erase(obj);
+	}
+
 	UIObjectManager::DestroyUIObjects();
-	for (auto enemy : EnemyManager::EnemiesVec)
+
+	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
 		enemy->setActive(false);
 	}
-	for (auto projectile = ProMA::Instance().GetProjectiles().begin(); projectile != ProMA::Instance().GetProjectiles().end();)
+	EnemyManager::DestroyInvalidEnemies();
+
+	for (auto projectile = PMA::Instance().GetProjectiles().begin(); projectile != PMA::Instance().GetProjectiles().end();)
 	{
 		delete* projectile;
-		projectile = ProMA::Instance().GetProjectiles().erase(projectile);
+		projectile = PMA::Instance().GetProjectiles().erase(projectile);
 	}
-	EnemyManager::DestroyInvalidEnemies();
-	for (auto mapObject : MapObjectManager::MapObjVec)
-	{
-		delete mapObject;
-	}
+
 }
 
 void GameState::Resume() { }
@@ -322,5 +316,8 @@ void EndState::Render()
 
 void EndState::Exit()
 {
-	
+	delete m_restartBtn;
+	m_restartBtn = nullptr;
+	delete m_exitBtn;
+	m_exitBtn = nullptr;
 }

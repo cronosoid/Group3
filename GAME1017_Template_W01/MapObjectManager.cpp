@@ -1,4 +1,4 @@
-﻿#include "MapObjectManager.h"
+#include "MapObjectManager.h"
 #include"TextureManager.h"
 
 std::vector<MapObject*> MapObjectManager::MapObjVec;
@@ -57,15 +57,15 @@ void MapObjectManager::Update()
 	}
 }
 
+
 void MapObjectManager::Render(bool CanCollide)
 {
-	for (int i = 0; i < (int)MapObjVec.size(); i++)
+	for (MapObject* mapObject : MapObjVec)
 	{
-		if(MapObjVec[i]->getCanCollide()!=CanCollide)
+		ifmapObject->getCanCollide()!=CanCollide)
 		{
-			MapObjVec[i]->Render();
+			mapObject->Render();
 		}
-		
 	}
 }
 

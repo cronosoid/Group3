@@ -69,7 +69,7 @@ void Archer::attack()
 {
 	int face;
 	this->animator->getFace() == 0 ? face = 1 : face = -1;
-	ProMA::Instance().GetProjectiles().push_back(new Projectile({ 0,0,320,320 },
+	PMA::Instance().GetProjectiles().push_back(new Projectile({ 0,0,320,320 },
 		{ face == 1 ? this->GetDstP()->x + this->GetDstP()->w : this->GetDstP()->x - 24,
 		this->GetDstP()->y + 42, 48, 48 },
 		Engine::Instance().GetRenderer(), TEMA::GetTexture("Arrow"), 15, face, this->damage));
