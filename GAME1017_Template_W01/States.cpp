@@ -62,7 +62,7 @@ GameState::GameState() {}
 void GameState::Enter()
 {
 	std::cout << "Entering GameState..." << std::endl;
-	m_pPlayer = new PlatformPlayer({ 0,0,34,50 }, { 512.0f,480.0f,64.0f,100.0f },
+	m_pPlayer = new PlatformPlayer({ 0,0,34,50 }, { 512.0f,380.0f,64.0f,100.0f },
 								   Engine::Instance().GetRenderer(), TEMA::GetTexture("KabenSheet"));
 	m_pPlayer->addAnimator(new Animator(m_pPlayer));
 	m_pPlayer->getAnimator()->addAnimation("run", 8, 2, 34, 50);

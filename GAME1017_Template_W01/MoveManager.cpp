@@ -27,7 +27,7 @@ void MoveManager::moveX(float x)
 {
 	if (totalMoveX + x < 0)
 	{
-		x = totalMoveX;
+		x = -totalMoveX;
 		totalMoveX = 0;
 	}
 	else if (totalMoveX + x > maxX)
@@ -56,6 +56,7 @@ void MoveManager::moveX(float x)
 
 bool MoveManager::checkBoundaries(float x, float velX, float y, Entity* player)
 {
+	std::cout << totalMoveX << "\n";
 	int rightBorder = windowX - windowX * MAPSCROLLINGDISTANCE;
 	int leftBorder = windowX * MAPSCROLLINGDISTANCE;
 	if ((x + velX < leftBorder and velX < 0 and totalMoveX > 0) or (x + velX > rightBorder and velX > 0 and totalMoveX < maxX))
