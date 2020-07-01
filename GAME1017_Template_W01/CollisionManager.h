@@ -10,6 +10,9 @@
 #include "MapObjectManager.h"
 
 #include <vector>
+#include "MapObject.h"
+#include"PlatformPlayer.h"
+#include "Enemies.h"
 
 class CollisionManager
 {
@@ -21,6 +24,8 @@ public:
 
 	static bool LinePointCheck(const SDL_FPoint object1_start, const SDL_FPoint object1_end, const SDL_FPoint object2);
 
+	static void CheckPlayerMapDamage(const std::vector<MapObject*> mapObject, PlatformPlayer* obj);
+	static void CheckEnemyMapDamage(const std::vector<MapObject*> mapObject, Enemies* obj);
 	static void CheckMapCollision(const std::vector<MapObject*> mapObjects, Entity* obj);
 private:
 	CollisionManager() {}

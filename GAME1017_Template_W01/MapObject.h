@@ -1,7 +1,4 @@
-#pragma once
-#ifndef _MAPOBJECT_H_
-#define _MAPOBJECT_H_
-
+﻿#pragma once
 #include "Sprite.h"
 
 class MapObject :public Sprite
@@ -9,16 +6,16 @@ class MapObject :public Sprite
 public:
 
 protected:
-	bool isHurt,
-		canCollide;
+	bool m_IsHurt,
+		m_CanCollide;
+	int m_Damage;
 public:
 	MapObject(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t);
 	virtual void Update() = 0;
 	virtual void Render() = 0;
-
-	bool getCollision() { return canCollide; }
-
-	SDL_FRect* getFRect();
+	bool getIsHurt();
+	bool getCanCollide();
+	int getDamage();
 protected:
 
 };
@@ -50,4 +47,3 @@ public:
 private:
 
 };
-#endif

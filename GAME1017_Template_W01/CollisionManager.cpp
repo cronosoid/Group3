@@ -82,3 +82,30 @@ void CollisionManager::CheckMapCollision(const std::vector<MapObject*> mapObject
 		}
 	}
 }
+
+void CollisionManager::CheckPlayerMapDamage(const std::vector<MapObject*> mapObject, PlatformPlayer* obj)
+{
+	for (auto mapObject : mapObject) // For each platform.
+	{
+		SDL_FRect* temp = mapObject->GetDstP();
+		if (COMA::AABBCheck(*obj->GetDstP(), *temp) && mapObject->getIsHurt() == true)
+		{
+				obj->ChangeSoul(-mapObject->getDamage());
+				std::cout << "Health: " << obj->GetSoul() << std::endl;
+				break;
+		}
+	}
+}
+
+void CollisionManager::CheckEnemyMapDamage(const std::vector<MapObject*> mapObject, Enemies* obj)
+{
+	for (auto mapObject : mapObject) // For each platform.
+	{
+		SDL_FRect* temp = mapObject->GetDstP();
+		if (COMA::AABBCheck(*obj->GetDstP(), *temp) && mapObject->getIsHurt() == true)
+		{
+				obj->getDamage(mapObject->getDamage());
+				break;
+		}
+	}
+}

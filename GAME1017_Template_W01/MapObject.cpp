@@ -5,16 +5,27 @@ MapObject::MapObject(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :
 
 }
 
-SDL_FRect* MapObject::getFRect()
+bool MapObject::getIsHurt()
 {
-	return &m_dst;
+	return m_IsHurt;
+}
+
+bool MapObject::getCanCollide()
+{
+	return m_CanCollide;
+}
+
+int MapObject::getDamage()
+{
+	return m_Damage;
 }
 
 
 Plate::Plate(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :MapObject(s, d, r, t)
 {
-	isHurt = false;
-	canCollide = true;
+	m_IsHurt = false;
+	m_CanCollide = true;
+	m_Damage = 0;
 }
 
 void Plate::Update()
@@ -29,8 +40,9 @@ void Plate::Render()
 
 Spike::Spike(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :MapObject(s, d, r, t)
 {
-	isHurt = true;
-	canCollide = false;
+	m_IsHurt = true;
+	m_CanCollide = false;
+	m_Damage = 10;
 }
 
 void Spike::Update()

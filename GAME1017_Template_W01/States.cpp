@@ -13,7 +13,6 @@
 #include "UIObjectManager.h"
 #include "MapObjectManager.h"
 #include "MoveManager.h"
-
 #include <iostream>
 
 // Begin State. CTRL+M+H and CTRL+M+U to turn on/off collapsed code.
@@ -76,13 +75,19 @@ void GameState::Enter()
 		MapObjectManager::CreateMapObject(kPlate, { 64.0f * i,700.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	}
 	MapObjectManager::CreateMapObject(kSpike, { 0.0f,636.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
+<	MapObjectManager::CreateMapObject(kSpike, { 64.0f,636.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, { 512.0f,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, { 576.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, { 640.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 
+	EnemyManager::Init();
 	EnemyManager::CreateEnemy(swordman, { 600.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(archer, { 200.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
+
+	UIObjectManager::Init();
 	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, { 105.0f,72.0f,185.0f,20.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
+
+	m_MapDamageCounter = 0;
 }
 
 void GameState::Update()
@@ -161,6 +166,12 @@ void GameState::Update()
 		}
 	}
 
+	MapObjectManager::Update();
+	
+	// Wrap the player on screen.
+	if (m_pPlayer->GetDstP()->x < -51.0) m_pPlayer->SetX(1024.0);
+	else if (m_pPlayer->GetDstP()->x > 1024.0) m_pPlayer->SetX(-50.0);
+
 	// Do the rest.
 	m_pPlayer->Update();
 	PMA::Instance().Update();
@@ -174,7 +185,7 @@ void GameState::Update()
 		enemy->Update();
 	}
 	EnemyManager::DestroyInvalidEnemies();
-
+	
 	CheckCollision();
 	// Die
 	if (m_pPlayer->GetSoul() <= 0)
@@ -185,14 +196,26 @@ void GameState::Update()
 	}
 
 	UIObjectManager::UIUpdate();
+
+	if (m_MapDamageCounter > 0)
+		m_MapDamageCounter--;
 }
 
 void GameState::CheckCollision()
 {
 	COMA::CheckMapCollision(MapObjectManager::MapObjVec, m_pPlayer);
+	if(m_MapDamageCounter==0)
+	{
+		//std::cout << "test damage" << std::endl;
+		COMA::CheckPlayerMapDamage(MapObjectManager::MapObjVec, m_pPlayer);
+		//std::cout << "end test" << std::endl;
+		m_MapDamageCounter = MAPDAMAGECD;
+	}
+	
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
 		COMA::CheckMapCollision(MapObjectManager::MapObjVec, enemy);
+		COMA::CheckEnemyMapDamage(MapObjectManager::MapObjVec, enemy);
 	}
 }
 
@@ -208,6 +231,7 @@ void GameState::Render()
 		enemy->Render();
 	}
 	m_pPlayer->Render();
+	MapObjectManager::Render(false);
 	// Draw the platforms.
 	MapObjectManager::Render(false);
 
@@ -237,6 +261,7 @@ void GameState::Exit()
 	delete m_pPlayer->getAnimator();
 	delete m_pPlayer;
 
+
 	for (vector<MapObject*>::iterator obj = MapObjectManager::MapObjVec.begin(); obj != MapObjectManager::MapObjVec.end();)
 	{
 		delete* obj;
@@ -256,6 +281,7 @@ void GameState::Exit()
 		delete* projectile;
 		projectile = PMA::Instance().GetProjectiles().erase(projectile);
 	}
+
 }
 
 void GameState::Resume() { }
