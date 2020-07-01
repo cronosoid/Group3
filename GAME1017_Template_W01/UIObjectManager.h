@@ -22,7 +22,6 @@ public:
 	static void setActive(UIObject* UIAsset);
 	static void UIUpdate();
 	static void UIRender();
-
 	static std::vector<UIObject*> UIObjectVec;
 private:
 };
