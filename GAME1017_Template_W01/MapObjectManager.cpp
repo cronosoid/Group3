@@ -62,7 +62,7 @@ void MapObjectManager::Render(bool CanCollide)
 {
 	for (MapObject* mapObject : MapObjVec)
 	{
-		ifmapObject->getCanCollide()!=CanCollide)
+		if(mapObject->getCanCollide()!=CanCollide)
 		{
 			mapObject->Render();
 		}

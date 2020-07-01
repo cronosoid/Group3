@@ -75,7 +75,7 @@ void GameState::Enter()
 		MapObjectManager::CreateMapObject(kPlate, { 64.0f * i,700.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	}
 	MapObjectManager::CreateMapObject(kSpike, { 0.0f,636.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
-<	MapObjectManager::CreateMapObject(kSpike, { 64.0f,636.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kSpike, { 64.0f,636.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, { 512.0f,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, { 576.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, { 640.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());

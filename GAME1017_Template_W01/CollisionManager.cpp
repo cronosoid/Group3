@@ -49,8 +49,8 @@ void CollisionManager::CheckMapCollision(const std::vector<MapObject*> mapObject
 	obj->SetGrounded(false);
 	for (MapObject* mapObject : mapObjects) // For each platform.
 	{
-		SDL_FRect* mapObjectRect = mapObject->getFRect();
-		if (mapObject->getCollision() and COMA::AABBCheck(*obj->GetDstP(), *mapObjectRect))
+		SDL_FRect* mapObjectRect = mapObject->GetDstP();
+		if (mapObject->getCanCollide() and COMA::AABBCheck(*obj->GetDstP(), *mapObjectRect))
 		{
 			if (obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() <= mapObjectRect->y)
 			{ // Colliding top side of platform.
