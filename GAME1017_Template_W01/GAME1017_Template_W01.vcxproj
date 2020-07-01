@@ -147,6 +147,7 @@
     <ClInclude Include="Archer.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="CDBar.h" />
     <ClInclude Include="DebugManager.h" />
     <ClInclude Include="Enemies.h" />
     <ClInclude Include="EnemyManager.h" />

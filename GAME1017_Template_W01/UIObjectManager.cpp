@@ -25,6 +25,16 @@ void UIObjectManager::CreateSoulBar(SDL_FRect d1, SDL_FRect d2, SDL_Renderer* r,
 	Tempfiller = nullptr;
 }
 
+void UIObjectManager::CreateCDBar(SDL_FRect d1, SDL_FRect d2, SDL_Renderer* r)
+{
+	CDBorder* TempCDborder = new CDBorder({ 0,0,64,32 }, d1, r, TextureManager::GetTexture("CDBarBorder"));
+	UIObjectVec.push_back(TempCDborder);
+	CDFiller* TempCDFiller = new CDFiller({ 0,0,64,32 }, d1, r, TextureManager::GetTexture("CDBarFiller"));
+	UIObjectVec.push_back(TempCDFiller);
+	TempCDborder = nullptr;
+	TempCDFiller = nullptr;
+}
+
 void UIObjectManager::UIUpdate()
 {
 	for (int i = 0; i < (int)UIObjectVec.size(); i++)
