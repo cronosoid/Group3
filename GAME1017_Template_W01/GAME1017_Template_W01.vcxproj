@@ -118,7 +118,9 @@
   <ItemGroup>
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="Archer.cpp" />
+    <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="CDBar.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="DebugManager.cpp" />
     <ClCompile Include="Enemies.cpp" />
@@ -126,6 +128,7 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="Fireball.cpp" />
     <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="MapObjectManager.cpp" />
     <ClCompile Include="MoveManager.cpp" />
@@ -147,6 +150,8 @@
     <ClCompile Include="UIObjectManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Arrow.h" />
+    <ClInclude Include="CDBar.h" />
     <ClInclude Include="Animator.h" />
     <ClInclude Include="Archer.h" />
     <ClInclude Include="Button.h" />
@@ -157,6 +162,7 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EventManager.h" />
+    <ClInclude Include="Fireball.h" />
     <ClInclude Include="MoveManager.h" />
     <ClInclude Include="MapObject.h" />
     <ClInclude Include="MapObjectManager.h" />

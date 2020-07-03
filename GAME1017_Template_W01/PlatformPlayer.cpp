@@ -55,3 +55,9 @@ void PlatformPlayer::Meele()
 	std::cout << "meele\n";
 
 }
+
+void PlatformPlayer::getDamage(int dmg)
+{
+	m_curSoul -= dmg;
+}
+

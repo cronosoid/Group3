@@ -1,25 +1,34 @@
 #include "Archer.h"
+
+#include <ctime>
+
 #include "MathManager.h"
 #include "TextureManager.h"
 #include "ProjectileManager.h"
 #include <SDL_image.h>
 #include <iostream>
+#include "Arrow.h"
 
 const int MAXHEALTH = 100;
 const int ARCHERDAMAGE = 10;
 const int ARCHERDEFENCE = 10;
 
-Archer::Archer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator) :Enemies(s, d, r, t, animator)
+Archer::Archer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, PlatformPlayer* hero, std::vector<MapObject*> mapObjects, Animator* animator) :Enemies(s, d, r, t, animator)
 {
 	curStatus = IDLE;
 	health = MAXHEALTH;
 	damage = ARCHERDAMAGE;
 	defence = ARCHERDEFENCE;
+	this->hero = hero;
+	this->mapObjects = mapObjects;
 	enemyType = "Archer";
 }
 
 void Archer::Update()
 {
+	srand((unsigned)time(NULL));
+	int secRan = rand() % 3 + 1;
+	
 	movementUpdate();
 	if (m_dst.y >= 768)
 	{
@@ -39,6 +48,11 @@ void Archer::Update()
 	switch (curStatus)
 	{
 	case IDLE:
+		if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000 * secRan) < SDL_GetTicks())
+		{
+			this->lastAttackTime = SDL_GetTicks();
+			attack();
+		}
 		break;
 	case SEEKING:
 		break;
@@ -69,7 +83,7 @@ void Archer::attack()
 {
 	int face;
 	this->animator->getFace() == 0 ? face = 1 : face = -1;
-	PMA::Instance().GetProjectiles().push_back(new Projectile({ 0,0,320,320 },
+	PMA::Instance().GetProjectiles().push_back(new Arrow(hero, mapObjects,{ 0,0,320,320 },
 		{ face == 1 ? this->GetDstP()->x + this->GetDstP()->w : this->GetDstP()->x - 24,
 		this->GetDstP()->y + 42, 48, 48 },
 		Engine::Instance().GetRenderer(), TEMA::GetTexture("Arrow"), 15, face, this->damage));

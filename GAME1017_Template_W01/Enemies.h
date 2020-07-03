@@ -17,15 +17,16 @@ public:
 	bool getAlive();
 	void setAlive(bool a);
 	void getDamage(int dmg);
+	int getDamageNum() { return damage;}
 	SDL_Texture* getTex();
 	std::string getType();
 
 protected:
 	bool isActive,
-		isAlive;
-	int damage,
-		defence,
-		health;
+		 isAlive;
+	 int  damage,
+		 defence,
+		 health;
 	Uint32 lastAttackTime;
 	std::string enemyType;
 	Status curStatus;

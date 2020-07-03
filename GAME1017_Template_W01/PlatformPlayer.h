@@ -32,6 +32,7 @@ public: // Methods
 	void setMeleeTime() { lastMeleeTime = SDL_GetTicks(); }
 	Uint32 getMagicTime() { return lastMagicTime; }
 	void setMagicTime() { lastMagicTime = SDL_GetTicks(); }
+	void getDamage(int dmg);
 
 private:
 	double m_curSoul;
