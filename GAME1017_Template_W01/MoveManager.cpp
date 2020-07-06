@@ -43,6 +43,11 @@ void MoveManager::moveX(float x)
 	for (MapObject* mapObject : MapObjectManager::MapObjVec)
 	{
 		mapObject->GetDstP()->x -= x;
+		if(mapObject->getCanMove())
+		{
+			mapObject->moveStart(-x, 0.0f);
+			mapObject->moveEnd(-x, 0.0f);
+		}
 	}
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
@@ -56,7 +61,7 @@ void MoveManager::moveX(float x)
 
 bool MoveManager::checkBoundaries(float x, float velX, float y, Entity* player)
 {
-	std::cout << totalMoveX << "\n";
+	//std::cout << totalMoveX << "\n";
 	int rightBorder = windowX - windowX * MAPSCROLLINGDISTANCE;
 	int leftBorder = windowX * MAPSCROLLINGDISTANCE;
 	if ((x + velX < leftBorder and velX < 0 and totalMoveX > 0) or (x + velX > rightBorder and velX > 0 and totalMoveX < maxX))

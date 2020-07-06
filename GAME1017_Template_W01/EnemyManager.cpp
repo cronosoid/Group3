@@ -22,12 +22,13 @@ void EnemyManager::Init()
 	TEMA::RegisterTexture("../Spritesheets/Pehot2.png", "Swordman");
 }
 
-void EnemyManager::CreateEnemy(EnemyType type, SDL_FRect d, SDL_Renderer* r)
-{
+void EnemyManager::CreateEnemy(EnemyType type, int x,int y, SDL_Renderer* r)
+{	
 	switch (type)
 	{
 	case 1:
 	{
+		SDL_FRect d = { x * 64.0f,y * 64.0f,128.0f,128.0f };
 		std::cout << "ENMA:" << d.x << ", " << d.y << ", " << d.w << ", " << d.h << "\n";
 		Swordman* TempEnemy = new Swordman({ 0,0,640,640 }, d, r, TextureManager::GetTexture("Swordman"));
 		TempEnemy->addAnimator(new Animator(TempEnemy));
@@ -38,6 +39,7 @@ void EnemyManager::CreateEnemy(EnemyType type, SDL_FRect d, SDL_Renderer* r)
 	break;
 	case 2:
 	{
+		SDL_FRect d = { x * 64.0f,y * 64.0f,128.0f,128.0f };
 		Archer* TempEnemy = new Archer({ 0,0,640,640 }, d, r, TextureManager::GetTexture("Archer"));
 		TempEnemy->addAnimator(new Animator(TempEnemy));
 		EnemiesVec.push_back(TempEnemy);

@@ -38,6 +38,7 @@ public:
 	void Enter();
 	void Exit();
 	void Resume();
+	void LoadLevel_1();
 };
 
 class TitleState : public State
