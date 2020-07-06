@@ -80,7 +80,8 @@ void GameState::Enter()
 	MapObjectManager::CreateMapObject(kPlate, { 512.0f,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, { 576.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, { 640.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
-
+	MapObjectManager::CreateMapObject(kPortal, {300.0f, 300.0f, 128.0f, 128.0f }, Engine::Instance().GetRenderer());
+	
 	EnemyManager::CreateEnemy(swordman, { 600.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
 	EnemyManager::CreateEnemy(archer, { 200.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
 	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, { 105.0f,72.0f,185.0f,20.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
@@ -177,8 +178,10 @@ void GameState::Update()
 	EnemyManager::DestroyInvalidEnemies();
 
 	CheckCollision();
-	// Die
+	// Die	
 	if (m_pPlayer->GetSoul() <= 0)
+		STMA::ChangeState(new EndState());
+	if (COMA::CheckPortalCollision(MapObjectManager::MapObjVec, m_pPlayer))
 		STMA::ChangeState(new EndState());
 	if (EVMA::KeyHeld(SDL_SCANCODE_X))
 	{
@@ -191,9 +194,10 @@ void GameState::Update()
 void GameState::CheckCollision()
 {
 	COMA::CheckMapCollision(MapObjectManager::MapObjVec, m_pPlayer);
+	
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
-		COMA::CheckMapCollision(MapObjectManager::MapObjVec, enemy);
+		COMA::CheckMapCollision(MapObjectManager::MapObjVec, enemy);		
 	}
 }
 

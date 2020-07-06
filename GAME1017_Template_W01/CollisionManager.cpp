@@ -1,5 +1,6 @@
 #include "CollisionManager.h"
 #include "DebugManager.h"
+#include "StateManager.h"
 
 bool CollisionManager::AABBCheck(const SDL_FRect& object1, const SDL_FRect& object2)
 {
@@ -82,3 +83,29 @@ void CollisionManager::CheckMapCollision(const std::vector<MapObject*> mapObject
 		}
 	}
 }
+
+bool CollisionManager::CheckPortalCollision(const std::vector<MapObject*> mapObject, Entity* obj)
+{
+	/*for (int i = 0; i < (int)mapObject.size(); i++) // For each platform.
+	{
+		SDL_FRect* temp = mapObject[i]->GetDstP();
+		if (COMA::AABBCheck(*obj->GetDstP(), *temp) &&  mapObject[i]->getType() == "Portal")
+		{
+			STMA::ChangeState(new EndState());
+			break;
+		}
+	}*/
+	for (int i = 0; i < (int)mapObject.size(); i++) // For each platform.
+	{
+		if(mapObject[i]->getType()=="Portal")
+		{
+			SDL_FRect* temp = mapObject[i]->GetDstP();
+			if (COMA::AABBCheck(*obj->GetDstP(), *temp) )
+			{
+				return true;
+			}
+		}		
+	}
+	return false;
+}
+

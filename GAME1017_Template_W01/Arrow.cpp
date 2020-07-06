@@ -17,14 +17,14 @@ Arrow::Arrow(PlatformPlayer* hero, std::vector<MapObject*> mabObjects, SDL_Rect 
 void Arrow::Update()
 {	
 
-	if (hero->GetDstP()->x >= m_dst.x)
+	/*if (hero->GetDstP()->x >= m_dst.x)
 	{
 		face = 1;
 	}
 	else
 	{
 		face = -1;
-	}
+	}*/
 	
 	m_dst.x += m_speed * face;
 	
