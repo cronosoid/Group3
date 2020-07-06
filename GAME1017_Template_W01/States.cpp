@@ -62,7 +62,7 @@ GameState::GameState() {}
 void GameState::Enter()
 {
 	std::cout << "Entering GameState..." << std::endl;
-	m_pPlayer = new PlatformPlayer({ 0,0,34,50 }, { 512.0f,380.0f,64.0f,100.0f },
+	m_pPlayer = new PlatformPlayer({ 0,0,34,50 }, { 750.0f,380.0f,64.0f,100.0f },
 								   Engine::Instance().GetRenderer(), TEMA::GetTexture("KabenSheet"));
 	m_pPlayer->addAnimator(new Animator(m_pPlayer));
 	m_pPlayer->getAnimator()->addAnimation("run", 8, 2, 34, 50);
@@ -76,9 +76,10 @@ void GameState::Enter()
 		MapObjectManager::CreateMapObject(kPlate, { 64.0f * i,700.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	}
 	MapObjectManager::CreateMapObject(kSpike, { 0.0f,636.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, { 512.0f,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, { 576.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, { 640.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
+	for (int i = 0; i <= 5; i++)
+	{
+		MapObjectManager::CreateMapObject(kPlate, { 512.0f + 64.0f * i,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
+	}
 
 	EnemyManager::CreateEnemy(archer, { 600.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(swordman, { 200.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());

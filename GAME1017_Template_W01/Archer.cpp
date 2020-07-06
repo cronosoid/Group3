@@ -46,27 +46,39 @@ void Archer::Update()
 		{
 		if (m_floor)
 		{
-			float curX;
+			/*static MapObject* oldObject = nullptr; // FOR DEBUG
+			if (oldObject != nullptr)
+			{
+				oldObject->SetTexture(TEMA::GetTexture("plate"));
+			}*/
 			std::cout << "Face: " << animator->getFace() << "\n";
+			float curX;
 			animator->getFace() == 0 ? curX = m_dst.x + m_dst.w + 5 : curX = m_dst.x - 5;
 			float curY = m_dst.y + m_dst.h / 2;
 			MapObject* nextObject = COMA::FindFirstObjectOnTheRay({ curX,curY }, { 0, 1 });
+
+			//oldObject = nextObject; // FOR DEBUG
+
 			if (nextObject)
 			{
-				float dist = COMA::SquareRectDistance(*nextObject->GetDstP(), *m_floor);
-				float speed = 0.2;
+				//nextObject->SetTexture(TEMA::GetTexture("hBrick")); // FOR DEBUG
+
+				float dist = COMA::SquareRectDistance(*nextObject->GetDstP(), *m_floor->GetDstP());
+				float speed = 0.5;
 				
-				if (dist < m_floor->w * 3 + 10)
+				if (dist < pow(m_floor->GetDstP()->w * 3 + 10, 2))
 				{
 					SetAccelX((1.0 - 2.0 * animator->getFace()) * speed);
 				}
 				else
 				{
-					std::cout << dist << " vs " << m_floor->w * 2 + 10 << "\n";
+					//std::cout << dist << " vs " << pow(m_floor->GetDstP()->w * 3 + 10, 2) << "\n"; // FOR DEBUG
 					animator->getFace() == 0 ? animator->setFace(1) : animator->setFace(0);
-
-					//nextObject->SetDstSize(60,60);
 				}
+			}
+			else
+			{
+				std::cout << "No object found\n";
 			}
 		}
 		}

@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include "Sprite.h"
+#include "MapObject.h"
 
 #define GRAV 3.0
 #define JUMPFORCE 40.0
@@ -19,7 +20,7 @@ public:
 	void SetAccelX(double a);
 	void SetAccelY(double a);
 	bool IsGrounded();
-	void SetGrounded(bool g, SDL_FRect* Floor = nullptr);
+	void SetGrounded(bool g, MapObject* Floor = nullptr);
 	double GetVelX();
 	double GetVelY();
 	void SetX(float y);
@@ -28,7 +29,7 @@ public:
 	Animator* getAnimator() { return animator; }
 	void addAnimator(Animator* animator);
 	SDL_FRect* getGlobalDst() { return &globalDst; }
-	SDL_FRect* GetFloor() { return m_floor; }
+	MapObject* GetFloor() { return m_floor; }
 protected:
 	bool m_player;
 	bool m_grounded;
@@ -42,7 +43,7 @@ protected:
 		m_drag,
 		m_grav;
 	Uint32 flyingTime;
-	SDL_FRect* m_floor;
+	MapObject* m_floor;
 	Animator* animator;
 	SDL_FRect globalDst;
 };
