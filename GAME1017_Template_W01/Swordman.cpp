@@ -30,6 +30,8 @@ void Swordman::Update()
 		setAlive(false);
 		curStatus = DEAD;
 	}
+
+
 }
 
 void Swordman::Render()

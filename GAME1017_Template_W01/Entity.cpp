@@ -32,7 +32,7 @@ void Entity::SetAccelY(double a) { m_accelY = a; }
 bool Entity::IsGrounded() { return m_grounded; }
 void Entity::SetGrounded(bool g, SDL_FRect* Floor) {
 	this->m_grounded = g;
-	this->Floor = Floor;
+	this->m_floor = Floor;
 }
 double Entity::GetVelX() { return m_velX; }
 double Entity::GetVelY() { return m_velY; }

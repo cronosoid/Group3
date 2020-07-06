@@ -1,5 +1,6 @@
 #include "CollisionManager.h"
 #include "DebugManager.h"
+#include "MoveManager.h"
 
 bool CollisionManager::AABBCheck(const SDL_FRect& object1, const SDL_FRect& object2)
 {
@@ -44,6 +45,57 @@ bool CollisionManager::LinePointCheck(const SDL_FPoint object1_start, const SDL_
 	return false;
 }
 
+bool CollisionManager::PointRectCheck(const SDL_FPoint point, const SDL_FRect& object1)
+{
+	return (point.x < object1.x + object1.w and
+		point.x > object1.x and
+		point.y < object1.y + object1.h and
+		point.y > object1.y);
+}
+
+MapObject* CollisionManager::FindFirstObjectOnTheRay(SDL_FPoint Pos, SDL_FPoint Move, float maxDist)
+{
+	float len = sqrt(Move.x * Move.x + Move.y * Move.y);
+	float dx = Move.x / len;
+	float dy = Move.y / len;
+
+	float dist = 0;
+	bool distancing = false;
+	if (maxDist < 9e3)
+	{
+		maxDist *= maxDist;
+		distancing = true;
+	}
+	
+	SDL_FPoint curPos = { Pos.x, Pos.y };
+	while (curPos.x > 0 and curPos.x < MOMA::getMaxX() and curPos.y > 0 and curPos.y < MOMA::getMaxY() and dist < maxDist)
+	{
+		curPos.x += dx;
+		curPos.y += dy;
+		if (distancing)
+		{
+			dist += dx * dx + dy * dy;
+		}
+		for (MapObject* obj : MapObjectManager::MapObjVec)
+		{
+			if (obj->getCollision() and COMA::PointRectCheck(curPos, *obj->GetDstP()))
+			{
+				return obj;
+			}
+		}
+	}
+	return nullptr;
+}
+
+float CollisionManager::SquareRectDistance(const SDL_FRect& object1, const SDL_FRect& object2)
+{
+	float x1 = object1.x + object1.w / 2;
+	float x2 = object2.x + object2.w / 2;
+	float y1 = object1.y + object1.h / 2;
+	float y2 = object2.y + object2.h / 2;
+	return (pow(x1 - x2, 2.0f) + pow(y1 - y2, 2.0f));
+}
+
 void CollisionManager::CheckMapCollision(const std::vector<MapObject*> mapObjects, Entity* obj)
 {
 	obj->SetGrounded(false);
@@ -54,7 +106,11 @@ void CollisionManager::CheckMapCollision(const std::vector<MapObject*> mapObject
 		{
 			if (obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() <= mapObjectRect->y)
 			{ // Colliding top side of platform.
-				obj->SetGrounded(true, mapObjectRect);
+				if (obj->GetFloor() == nullptr
+					or SquareRectDistance(*obj->GetFloor(), *obj->GetDstP()) > SquareRectDistance(*mapObjectRect, *obj->GetDstP()))
+				{
+					obj->SetGrounded(true, mapObjectRect);
+				}
 				obj->StopY();
 				obj->SetY(mapObjectRect->y - obj->GetDstP()->h - 1);
 			}

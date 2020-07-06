@@ -80,8 +80,8 @@ void GameState::Enter()
 	MapObjectManager::CreateMapObject(kPlate, { 576.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, { 640.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 
-	EnemyManager::CreateEnemy(swordman, { 600.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
-	EnemyManager::CreateEnemy(archer, { 200.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(archer, { 600.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, { 200.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
 	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, { 105.0f,72.0f,185.0f,20.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
 }
 

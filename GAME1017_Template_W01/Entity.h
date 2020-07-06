@@ -28,6 +28,7 @@ public:
 	Animator* getAnimator() { return animator; }
 	void addAnimator(Animator* animator);
 	SDL_FRect* getGlobalDst() { return &globalDst; }
+	SDL_FRect* GetFloor() { return m_floor; }
 protected:
 	bool m_player;
 	bool m_grounded;
@@ -41,7 +42,7 @@ protected:
 		m_drag,
 		m_grav;
 	Uint32 flyingTime;
-	SDL_FRect* Floor;
+	SDL_FRect* m_floor;
 	Animator* animator;
 	SDL_FRect globalDst;
 };

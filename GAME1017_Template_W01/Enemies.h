@@ -4,7 +4,7 @@
 #include "Sprite.h"
 #include "Entity.h"
 
-enum Status { IDLE, SEEKING, FLEEING, ATTACKING, DEAD };
+enum Status { IDLE, PATROLING, SEEKING, FLEEING, ATTACKING, DEAD };
 
 class Enemies :public Entity
 {

@@ -2,6 +2,8 @@
 #include "MathManager.h"
 #include "TextureManager.h"
 #include "ProjectileManager.h"
+#include "CollisionManager.h"
+
 #include <SDL_image.h>
 #include <iostream>
 
@@ -11,7 +13,7 @@ const int ARCHERDEFENCE = 10;
 
 Archer::Archer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator) :Enemies(s, d, r, t, animator)
 {
-	curStatus = IDLE;
+	curStatus = PATROLING;
 	health = MAXHEALTH;
 	damage = ARCHERDAMAGE;
 	defence = ARCHERDEFENCE;
@@ -39,6 +41,35 @@ void Archer::Update()
 	switch (curStatus)
 	{
 	case IDLE:
+		break;
+	case PATROLING:
+		{
+		if (m_floor)
+		{
+			float curX;
+			std::cout << "Face: " << animator->getFace() << "\n";
+			animator->getFace() == 0 ? curX = m_dst.x + m_dst.w + 5 : curX = m_dst.x - 5;
+			float curY = m_dst.y + m_dst.h / 2;
+			MapObject* nextObject = COMA::FindFirstObjectOnTheRay({ curX,curY }, { 0, 1 });
+			if (nextObject)
+			{
+				float dist = COMA::SquareRectDistance(*nextObject->GetDstP(), *m_floor);
+				float speed = 0.2;
+				
+				if (dist < m_floor->w * 3 + 10)
+				{
+					SetAccelX((1.0 - 2.0 * animator->getFace()) * speed);
+				}
+				else
+				{
+					std::cout << dist << " vs " << m_floor->w * 2 + 10 << "\n";
+					animator->getFace() == 0 ? animator->setFace(1) : animator->setFace(0);
+
+					//nextObject->SetDstSize(60,60);
+				}
+			}
+		}
+		}
 		break;
 	case SEEKING:
 		break;
