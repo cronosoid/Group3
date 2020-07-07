@@ -23,7 +23,7 @@ void MoveManager::Init(SDL_Window* window, int x, int y)
 	border = windowX * 0.1;
 }
 
-void MoveManager::moveX(float x)
+void MoveManager::MoveX(float x)
 {
 	if (totalMoveX + x < 0)
 	{
@@ -54,9 +54,12 @@ void MoveManager::moveX(float x)
 	}
 }
 
-bool MoveManager::checkBoundaries(float x, float velX, float y, Entity* player)
+bool MoveManager::CheckBoundaries(float x, float velX, float y, Entity* player)
 {
-	//std::cout << totalMoveX << "\n";
+  Liqi_Week7Latest
+	std::cout << totalMoveX << "\n";
+=======
+  latest_copy
 	int rightBorder = windowX - windowX * MAPSCROLLINGDISTANCE;
 	int leftBorder = windowX * MAPSCROLLINGDISTANCE;
 	if ((x + velX < leftBorder and velX < 0 and totalMoveX > 0) or (x + velX > rightBorder and velX > 0 and totalMoveX < maxX))
