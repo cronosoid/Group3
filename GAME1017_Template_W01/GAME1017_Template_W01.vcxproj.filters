@@ -90,6 +90,7 @@
     <ClCompile Include="Projectile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Background.cpp">
     <ClCompile Include="MapObjectManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -194,6 +195,7 @@
     <ClInclude Include="Projectile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Background.h">
     <ClInclude Include="MapObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
