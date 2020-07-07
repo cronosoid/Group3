@@ -165,24 +165,8 @@ void CollisionManager::CheckEnemyMapDamage(const std::vector<MapObject*> mapObje
 		SDL_FRect* temp = mapObject->GetDstP();
 		if (COMA::AABBCheck(*obj->GetDstP(), *temp) && mapObject->getIsHurt() == true)
 		{
-				obj->getDamage(mapObject->getDamage());
-				break;
+			obj->getDamage(mapObject->getDamage());
+			break;
 		}
 	}
-}
-
-bool CollisionManager::CheckPortalCollision(const std::vector<MapObject*> mapObject, Entity* obj)
-{
-	for (int i = 0; i < (int)mapObject.size(); i++) // For each platform.
-	{
-		if(mapObject[i]->getType()=="Portal")
-		{
-			SDL_FRect* temp = mapObject[i]->GetDstP();
-			if (COMA::AABBCheck(*obj->GetDstP(), *temp) )
-			{
-				return true;
-			}
-		}		
-	}
-	return false;
 }
