@@ -21,6 +21,7 @@ void MoveManager::Init(SDL_Window* window, int x, int y)
 	maxX = x;
 	maxY = y;
 	border = windowX * 0.1;
+	totalMoveX = totalMoveY = 0;
 }
 
 void MoveManager::MoveX(float x)

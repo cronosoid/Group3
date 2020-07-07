@@ -20,7 +20,7 @@ public:
 	MapObjectManager();
 	~MapObjectManager();
 	static void Init();
-	static void CreateMapObject(MapObjectType type, int x, int y, SDL_Renderer* r);
+	static MapObject* CreateMapObject(MapObjectType type, int x, int y, SDL_Renderer* r);
 	static void CreateMoveMapObject(MapObjectType type, int x, int y, SDL_FPoint start, SDL_FPoint end, SDL_Renderer* r);
 	static void Update();
 	static void Render(bool CanCollide);

@@ -67,8 +67,7 @@ void GameState::Enter()
 	EnemyManager::Init();
 
 	//Create a test level
-	
-  
+
 	m_pPlayer = new PlatformPlayer({ 0,0,34,50 }, { 128.0f,600.0f,64.0f,100.0f },
 		Engine::Instance().GetRenderer(), TEMA::GetTexture("KabenSheet"));
 	m_pPlayer->addAnimator(new Animator(m_pPlayer));
@@ -180,20 +179,23 @@ void GameState::Update()
 	EnemyManager::DestroyInvalidEnemies();
 	
 	CheckCollision();
-	// Die	
-	if (m_pPlayer->GetSoul() <= 0)
-		STMA::ChangeState(new EndState());
-	if (COMA::CheckPortalCollision(MapObjectManager::MapObjVec, m_pPlayer))
-		STMA::ChangeState(new EndState());
-	if (EVMA::KeyHeld(SDL_SCANCODE_X))
-	{
-		STMA::ChangeState(new EndState());
-	}
 
 	UIObjectManager::UIUpdate();
 
 	if (m_MapDamageCounter > 0)
 		m_MapDamageCounter--;
+	
+	// Die	
+	if (m_pPlayer->GetSoul() <= 0)
+		STMA::ChangeState(new EndState());
+
+	if (COMA::AABBCheck(*m_pPortal->GetDstP(), *m_pPlayer->GetDstP()))
+		STMA::ChangeState(new EndState());
+
+	if (EVMA::KeyHeld(SDL_SCANCODE_X))
+	{
+		STMA::ChangeState(new EndState());
+	}
 }
 
 void GameState::CheckCollision()
@@ -242,7 +244,6 @@ void GameState::Render()
 		State::Render();
 }
 
-
 void GameState::Exit()
 {
 	for (const auto& mapElement : m_pPlayer->getAnimator()->animationsMap)
@@ -255,7 +256,6 @@ void GameState::Exit()
 
 	delete m_pPlayer->getAnimator();
 	delete m_pPlayer;
-
 
 	for (vector<MapObject*>::iterator obj = MapObjectManager::MapObjVec.begin(); obj != MapObjectManager::MapObjVec.end();)
 	{
@@ -283,7 +283,9 @@ void GameState::Resume() { }
 
 void GameState::LoadLevel_1()
 {
-	for(int i=0;i<26;i++)
+	MoveManager::Init(Engine::Instance().GetWindow(), 4416, 1300);
+
+	for(int i=0; i < 26 ;i++)
 	{
 		MapObjectManager::CreateMapObject(kPlate, i, 11, Engine::Instance().GetRenderer());
 	}
@@ -320,22 +322,23 @@ void GameState::LoadLevel_1()
 	MapObjectManager::CreateMapObject(kPlate, 56, 6, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kSpike, 64, 10, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kSpike, 70, 10, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPortal, 81, 6, Engine::Instance().GetRenderer());
 
-	MapObjectManager::CreateMapObject(kPlate, 3, 8, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 4, 8, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 5, 8, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 6, 8, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 7, 8, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 3, 7, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 4, 7, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 5, 7, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 6, 7, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 7, 7, Engine::Instance().GetRenderer());
 
-	EnemyManager::CreateEnemy(archer, 4, 5, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
+	EnemyManager::CreateEnemy(archer, 4, 3, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
 	EnemyManager::CreateEnemy(swordman, 16,8, Engine::Instance().GetRenderer(),m_pPlayer,MapObjectManager::MapObjVec);
 	EnemyManager::CreateEnemy(swordman, 23, 8, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
 	EnemyManager::CreateEnemy(swordman, 44, 8, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
 	EnemyManager::CreateEnemy(swordman, 53, 5, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
 	EnemyManager::CreateEnemy(swordman, 58, 8, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
 	EnemyManager::CreateEnemy(swordman, 72, 5, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
-	EnemyManager::CreateEnemy(archer, 79, 8, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
+	EnemyManager::CreateEnemy(archer, 1, 5, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
+
+	m_pPortal = MapObjectManager::CreateMapObject(kPortal, 81, 6, Engine::Instance().GetRenderer());
 }
 
 // End GameState.

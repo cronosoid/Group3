@@ -24,7 +24,7 @@ void MapObjectManager::Init()
 	TextureManager::RegisterTexture("Img/portal.png", "portal");
 }
 
-void MapObjectManager::CreateMapObject(MapObjectType type, int x, int y, SDL_Renderer* r)
+MapObject* MapObjectManager::CreateMapObject(MapObjectType type, int x, int y, SDL_Renderer* r)
 {
 	switch (type)
 	{
@@ -62,6 +62,7 @@ void MapObjectManager::CreateMapObject(MapObjectType type, int x, int y, SDL_Ren
 	default:
 		break;
 	}
+	return MapObjVec.back();
 }
 
 void MapObjectManager::CreateMoveMapObject(MapObjectType type, int x, int y, SDL_FPoint start, SDL_FPoint end, SDL_Renderer* r)

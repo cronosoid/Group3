@@ -16,7 +16,7 @@ const int SWORDMANDEFENCE = 10;
 
 Swordman::Swordman(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, PlatformPlayer* hero, Animator* animator) :Enemies(s, d, r, t, animator)
 {
-	curStatus = IDLE;
+	curStatus = PATROLING;
 	health = MAXHEALTH;
 	damage = SWORDMANDAMAGE;
 	defence = SWORDMANDEFENCE;
@@ -64,6 +64,36 @@ void Swordman::Update()
 		{
 			this->lastAttackTime = SDL_GetTicks();
 			attack();
+		}
+		break;
+	case PATROLING:
+		{
+			if (m_floor)
+			{
+				float curX;
+				animator->getFace() == 0 ? curX = m_dst.x + m_dst.w + 5 : curX = m_dst.x - 5;
+				float curY = m_dst.y + m_dst.h / 2;
+				MapObject* nextObject = COMA::FindFirstObjectOnTheRay({ curX,curY }, { 0, 1 });
+
+				if (nextObject)
+				{
+					float dist = COMA::SquareRectDistance(*nextObject->GetDstP(), *m_floor->GetDstP());
+					float speed = 0.5;
+
+					if (dist < pow(m_floor->GetDstP()->w * 3 + 10, 2) and abs(nextObject->GetDstP()->y - m_floor->GetDstP()->y) < 32)
+					{
+						SetAccelX((1.0 - 2.0 * animator->getFace()) * speed);
+					}
+					else
+					{
+						animator->getFace() == 0 ? animator->setFace(1) : animator->setFace(0);
+					}
+				}
+				else
+				{
+					animator->getFace() == 0 ? animator->setFace(1) : animator->setFace(0);
+				}
+			}
 		}
 		break;
 	case DEAD:
