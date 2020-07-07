@@ -1,7 +1,6 @@
 #pragma once
 #include "Enemies.h"
-
-//const int ATTACKCOOLDOWN = 1.5;
+#include "PlatformPlayer.h"
 
 class Swordman :public Enemies
 {
@@ -10,6 +9,9 @@ public:
 
 	virtual void Update() override;
 	virtual void Render() override;
+	void attack();
+	Uint32 getAttackTime() { return lastAttackTime; }
+	void setAttackTime() { lastAttackTime = SDL_GetTicks(); }
 private:
 	Uint32 lastAttackTime = 0;
 };

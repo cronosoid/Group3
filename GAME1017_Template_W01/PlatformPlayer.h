@@ -19,19 +19,22 @@ public: // Variables
 	int movement[2] = { 0,0 };
 public: // Methods
 	PlatformPlayer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator = nullptr);
+	~PlatformPlayer();
+
 	void Update();
 	void Render();
 	
 	double GetSoul();
-	void SoulRcvry();
+	void SoulRecover();
 	void ChangeSoul(int amnt);
 	void Meele();
 	//void Fireball();
-	double getHeaPercent();
+	double getHealPercent();
 	Uint32 getMeleeTime() { return lastMeleeTime; }
 	void setMeleeTime() { lastMeleeTime = SDL_GetTicks(); }
 	Uint32 getMagicTime() { return lastMagicTime; }
 	void setMagicTime() { lastMagicTime = SDL_GetTicks(); }
+	void getDamage(int dmg);
 
 private:
 	double m_curSoul;

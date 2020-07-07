@@ -6,6 +6,8 @@
 #include "SoundManager.h"
 #include "StateManager.h"
 #include "TextureManager.h"
+#include "MoveManager.h"
+
 #include <iostream>
 #define WIDTH 1024
 #define HEIGHT 768
@@ -43,12 +45,10 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	TEMA::RegisterTexture("Img/play.png", "play");
 	TEMA::RegisterTexture("Img/exit.png", "exit");
 	TEMA::RegisterTexture("Img/restart.png", "restart");
-	TEMA::RegisterTexture("Img/fireball.png", "fireball");
+	TEMA::RegisterTexture("Img/Fireball.png", "fireball");
+	TEMA::RegisterTexture("Img/HighlightedBrick.png", "hBrick");
 	TEMA::RegisterTexture("../Spritesheets/Arrow.png", "Arrow");
-	TEMA::RegisterTexture("../Spritesheets/Archer.png", "Archer");
-	TEMA::RegisterTexture("../Spritesheets/Pehot2.png", "Swordman");
-	TEMA::RegisterTexture("../Spritesheets/Soul_Bar.png", "SoulBarBorder");
-	TEMA::RegisterTexture("../Spritesheets/fitBar.png", "SoulBarFiller");
+	TEMA::RegisterTexture("../Spritesheets/Kaben_Sheet.png", "KabenSheet"); 
 
 	STMA::ChangeState(new ClickState);
 	SOMA::AllocateChannels(16);

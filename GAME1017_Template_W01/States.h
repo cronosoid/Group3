@@ -9,6 +9,7 @@
 #include "Background.h"
 #include "PlatformPlayer.h"
 #include "Animator.h"
+#include "Level.h"
 #include <vector>
 
 class State // This is the abstract base class for all specific states.
@@ -27,11 +28,14 @@ class GameState : public State
 {
 private:
 	PlatformPlayer* m_pPlayer;
-	Animator* m_pPlayerAnimator;
 	std::vector<SDL_FRect*> m_pPlatforms;
-	
+	Level* m_pLevel;
+
+	int m_MapDamageCounter;
+	const int MAPDAMAGECD = 20;//equal to FPS
+
 public:
-	GameState();
+	GameState(Level* newLevel);
 	void Update();
 	void CheckCollision();
 	void Render();

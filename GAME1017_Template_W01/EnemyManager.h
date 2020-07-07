@@ -3,6 +3,7 @@
 #include "Animator.h"
 #include "Archer.h"
 #include "Swordman.h"
+#include "PlatformPlayer.h"
 
 enum EnemyType
 {
@@ -16,9 +17,12 @@ public:
 	EnemyManager();
 	~EnemyManager();
 
-	static void CreateEnemy(EnemyType type, SDL_FRect d, SDL_Renderer* r);
+	static void Init();
+	static void CreateEnemy(EnemyType type, int x, int y, SDL_Renderer* r);
 	static void DestroyInvalidEnemies();
 	static std::vector<Enemies*> EnemiesVec;
+	static PlatformPlayer* GetTarget() { return target; }
+	static void SetTarget(PlatformPlayer* newTarget = nullptr) { target = newTarget; }
 private:
-
+	static PlatformPlayer* target;
 };

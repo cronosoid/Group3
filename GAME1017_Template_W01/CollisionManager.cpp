@@ -1,5 +1,8 @@
 #include "CollisionManager.h"
 #include "DebugManager.h"
+#include "StateManager.h"
+#include "MoveManager.h"
+#include "TextureManager.h"
 
 bool CollisionManager::AABBCheck(const SDL_FRect& object1, const SDL_FRect& object2)
 {
@@ -44,40 +47,126 @@ bool CollisionManager::LinePointCheck(const SDL_FPoint object1_start, const SDL_
 	return false;
 }
 
-void CollisionManager::CheckPlatformsCollision(const std::vector<SDL_FRect*> platforms, Entity* obj)
+bool CollisionManager::PointRectCheck(const SDL_FPoint point, const SDL_FRect& object1)
 {
-	obj->SetGrounded(false);
-	for (SDL_FRect* platfrom : platforms) // For each platform.
+	return (point.x <= object1.x + object1.w and
+		point.x >= object1.x and
+		point.y <= object1.y + object1.h and
+		point.y >= object1.y);
+}
+
+MapObject* CollisionManager::FindFirstObjectOnTheRay(SDL_FPoint Pos, SDL_FPoint Move, float maxDist)
+{
+	float len = sqrt(Move.x * Move.x + Move.y * Move.y);
+	float dx = Move.x / len;
+	float dy = Move.y / len;
+
+	float dist = 0;
+	bool distancing = false;
+	if (maxDist < 9e3)
 	{
-		if (COMA::AABBCheck(*obj->GetDstP(), *platfrom))
+		maxDist *= maxDist;
+		distancing = true;
+	}
+	
+	SDL_FPoint curPos = { Pos.x, Pos.y };
+	while (curPos.x > -MOMA::GetTotalMove().x and curPos.x < MOMA::GetMaxX() and curPos.y > 0 and curPos.y < MOMA::GetMaxY() and dist < maxDist)
+	{
+		curPos.x += dx;
+		curPos.y += dy;
+		if (distancing)
 		{
-			if (obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() <= platfrom->y)
-			{ // Colliding top side of platform.
-				obj->SetGrounded(true, platfrom);
-				obj->StopY();
-				obj->SetY(platfrom->y - obj->GetDstP()->h - 1);
+			dist += dx * dx + dy * dy;
+		}
+		for (MapObject* obj : MapObjectManager::MapObjVec)
+		{
+			if (obj->getCanCollide() and COMA::PointRectCheck(curPos, *obj->GetDstP()))
+			{
+				return obj;
 			}
-			else if (obj->GetDstP()->y - (float)obj->GetVelY() >= platfrom->y + platfrom->h)
+		}
+	}
+	return nullptr;
+}
+
+float CollisionManager::SquareRectDistance(const SDL_FRect& object1, const SDL_FRect& object2)
+{
+	float x1 = object1.x + object1.w / 2;
+	float x2 = object2.x + object2.w / 2;
+	float y1 = object1.y + object1.h / 2;
+	float y2 = object2.y + object2.h / 2;
+	return (pow(x1 - x2, 2.0f) + pow(y1 - y2, 2.0f));
+}
+
+void CollisionManager::CheckMapCollision(const std::vector<MapObject*> mapObjects, Entity* obj)
+{
+	MapObject* oldFloor = obj->GetFloor();
+	obj->SetGrounded(false);
+	for (MapObject* mapObject : mapObjects) // For each platform.
+	{
+		SDL_FRect* mapObjectRect = mapObject->GetDstP();
+		if (mapObject->getCanCollide() and COMA::AABBCheck(*obj->GetDstP(), *mapObjectRect))
+		{
+			if (obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() <= mapObjectRect->y)
+			{ // Colliding top side of platform.
+				MapObject* newFloor = oldFloor;
+				if (oldFloor == nullptr
+					or SquareRectDistance(*oldFloor->GetDstP(), *obj->GetDstP()) > SquareRectDistance(*mapObjectRect, *obj->GetDstP()))
+				{
+					newFloor = mapObject;
+				}
+				obj->SetGrounded(true, newFloor);
+				obj->StopY();
+				obj->SetY(mapObjectRect->y - obj->GetDstP()->h - 1);
+			}
+			else if (obj->GetDstP()->y - (float)obj->GetVelY() >= mapObjectRect->y + mapObjectRect->h)
 			{ // Colliding bottom side of platform.
 				obj->StopY();
-				obj->SetY(platfrom->y + platfrom->h);
+				obj->SetY(mapObjectRect->y + mapObjectRect->h);
 			}
-			else if (obj->GetDstP()->x + obj->GetDstP()->w - (float)obj->GetVelX() <= platfrom->x)
+			else if (obj->GetDstP()->x + obj->GetDstP()->w - (float)obj->GetVelX() <= mapObjectRect->x)
 			{ // Collision from left.
-				if ((obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() > platfrom->y) or not obj->IsGrounded())
+				if ((obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() > mapObjectRect->y) or not obj->IsGrounded())
 				{
 					obj->StopX();
-					obj->SetX(platfrom->x - obj->GetDstP()->w);
+					obj->SetX(mapObjectRect->x - obj->GetDstP()->w);
 				}
 			}
-			else if (obj->GetDstP()->x - (float)obj->GetVelX() >= platfrom->x + platfrom->w)
+			else if (obj->GetDstP()->x - (float)obj->GetVelX() >= mapObjectRect->x + mapObjectRect->w)
 			{ // Colliding right side of platform.
-				if ((obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() > platfrom->y) or not obj->IsGrounded())
+				if ((obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() > mapObjectRect->y) or not obj->IsGrounded())
 				{
 					obj->StopX();
-					obj->SetX(platfrom->x + platfrom->w);
+					obj->SetX(mapObjectRect->x + mapObjectRect->w);
 				}
 			}
+		}
+	}
+}
+
+void CollisionManager::CheckPlayerMapDamage(const std::vector<MapObject*> mapObject, PlatformPlayer* obj)
+{
+	for (auto mapObject : mapObject) // For each platform.
+	{
+		SDL_FRect* temp = mapObject->GetDstP();
+		if (COMA::AABBCheck(*obj->GetDstP(), *temp) && mapObject->getIsHurt() == true)
+		{
+				obj->ChangeSoul(-mapObject->getDamage());
+				std::cout << "Health: " << obj->GetSoul() << std::endl;
+				break;
+		}
+	}
+}
+
+void CollisionManager::CheckEnemyMapDamage(const std::vector<MapObject*> mapObject, Enemies* obj)
+{
+	for (auto mapObject : mapObject) // For each platform.
+	{
+		SDL_FRect* temp = mapObject->GetDstP();
+		if (COMA::AABBCheck(*obj->GetDstP(), *temp) && mapObject->getIsHurt() == true)
+		{
+			obj->getDamage(mapObject->getDamage());
+			break;
 		}
 	}
 }

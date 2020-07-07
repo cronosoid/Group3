@@ -1,5 +1,8 @@
 #pragma once
+#include <vector>
 #include "Enemies.h"
+#include "MapObject.h"
+#include "PlatformPlayer.h"
 
 const int ATTACKCOOLDOWN = 1.5;
 
@@ -11,6 +14,7 @@ public:
 	virtual void Update() override;
 	virtual void Render() override;
 	void attack();
+
 private:
 	Uint32 lastAttackTime = 0;
 };

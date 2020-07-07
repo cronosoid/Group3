@@ -3,6 +3,7 @@
 #include "EventManager.h"
 #include "SoundManager.h"
 #include "StateManager.h"
+#include "Level.h"
 #include <SDL.h>
 
 Button::Button(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t)
@@ -64,13 +65,13 @@ void PlayButton::Execute()
 {
 	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
 	SOMA::PlaySound("button");
-	STMA::ChangeState(new GameState);
+	STMA::ChangeState(new GameState(new Level1()));
 }
 
 void RestartButton::Execute()
 {
 	SOMA::PlaySound("button");
-	STMA::ChangeState(new GameState);
+	STMA::ChangeState(new GameState(new Level1()));
 }
 
 void ExitButton::Execute()
