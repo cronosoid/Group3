@@ -26,6 +26,9 @@ public:
 	static float SquareRectDistance(const SDL_FRect& object1, const SDL_FRect& object2);
 
 	static void CheckMapCollision(const std::vector<MapObject*> mapObjects, Entity* obj);
+
+	static bool CheckPortalCollision(const std::vector<MapObject*> map_objects, Entity* obj);
+	
 private:
 	CollisionManager() {}
 };

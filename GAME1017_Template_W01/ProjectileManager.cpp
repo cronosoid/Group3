@@ -12,6 +12,12 @@ void ProjectileManager::Update()
 			delete* projectile;
 			projectile = PMA::Instance().GetProjectiles().erase(projectile);
 		}
+		else if ((*projectile)->getIsActive() == false)
+		{
+			std::cout << "Proj deleted\n";
+			delete* projectile;
+			projectile = PMA::Instance().GetProjectiles().erase(projectile);
+		}
 		else
 		{
 			projectile++;

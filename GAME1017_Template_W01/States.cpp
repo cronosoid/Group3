@@ -13,6 +13,7 @@
 #include "UIObjectManager.h"
 #include "MapObjectManager.h"
 #include "MoveManager.h"
+#include "Fireball.h"
 
 #include <iostream>
 
@@ -76,13 +77,16 @@ void GameState::Enter()
 		MapObjectManager::CreateMapObject(kPlate, { 64.0f * i,700.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	}
 	MapObjectManager::CreateMapObject(kSpike, { 0.0f,636.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
-	for (int i = 0; i <= 5; i++)
-	{
-		MapObjectManager::CreateMapObject(kPlate, { 512.0f + 64.0f * i,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
-	}
-
-	EnemyManager::CreateEnemy(archer, { 600.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
-	EnemyManager::CreateEnemy(swordman, { 200.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer());
+ Liqi_Week7Latest
+	MapObjectManager::CreateMapObject(kPlate, { 512.0f,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, { 576.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, { 640.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPortal, {300.0f, 300.0f, 128.0f, 128.0f }, Engine::Instance().GetRenderer());
+	
+	EnemyManager::CreateEnemy(swordman, { 600.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
+	EnemyManager::CreateEnemy(archer, { 200.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
+=======
+ latest_copy
 	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, { 105.0f,72.0f,185.0f,20.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
 }
 
@@ -117,7 +121,7 @@ void GameState::Update()
 	{
 		if ((m_pPlayer->getMeleeTime() + MELEECOOLDOWN * 1000) < SDL_GetTicks())
 		{
-			m_pPlayer->setMeleeTime();
+			m_pPlayer->setMeleeTime(); 
 			SDL_FRect rect;
 			if (m_pPlayer->getAnimator()->getFace() == 0)
 			{
@@ -141,7 +145,6 @@ void GameState::Update()
 					std::cout << "Melee attacked!\n";
 				}
 			}
-
 			m_pPlayer->Meele();
 		}
 	}
@@ -153,11 +156,12 @@ void GameState::Update()
 			// will complete the projectile spawn in a while
 			int face;
 			m_pPlayer->getAnimator()->getFace() == 0 ? face = 1 : face = -1;
-			PMA::Instance().GetProjectiles().push_back(new Projectile({ 0,0,64,64 },
+			PMA::Instance().GetProjectiles().push_back(new Fireball(m_pPlayer, EnemyManager::EnemiesVec, MapObjectManager::MapObjVec, { 0,0,64,64 },
 				{ face == 1 ? m_pPlayer->GetDstP()->x + m_pPlayer->GetDstP()->w : m_pPlayer->GetDstP()->x - 24,
 				m_pPlayer->GetDstP()->y + 42, 48, 48 },
 				Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 15, face, m_pPlayer->m_magicDmg,
 				4, 6, 64, 64));
+			
 			m_pPlayer->ChangeSoul(-FIREBALLCOST);
 		}
 	}
@@ -177,8 +181,10 @@ void GameState::Update()
 	EnemyManager::DestroyInvalidEnemies();
 
 	CheckCollision();
-	// Die
+	// Die	
 	if (m_pPlayer->GetSoul() <= 0)
+		STMA::ChangeState(new EndState());
+	if (COMA::CheckPortalCollision(MapObjectManager::MapObjVec, m_pPlayer))
 		STMA::ChangeState(new EndState());
 	if (EVMA::KeyHeld(SDL_SCANCODE_X))
 	{
@@ -191,9 +197,10 @@ void GameState::Update()
 void GameState::CheckCollision()
 {
 	COMA::CheckMapCollision(MapObjectManager::MapObjVec, m_pPlayer);
+	
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
-		COMA::CheckMapCollision(MapObjectManager::MapObjVec, enemy);
+		COMA::CheckMapCollision(MapObjectManager::MapObjVec, enemy);		
 	}
 }
 

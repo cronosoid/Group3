@@ -28,6 +28,7 @@ private:
 	PlatformPlayer* m_pPlayer;
 	Animator* m_pPlayerAnimator;
 	std::vector<SDL_FRect*> m_pPlatforms;
+	bool Jump;
 	
 public:
 	GameState();
