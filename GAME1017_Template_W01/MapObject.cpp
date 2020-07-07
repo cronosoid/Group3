@@ -58,25 +58,7 @@ void MapObject::moveEnd(double x,double y)
 	m_endPoint.y += y;
 }
 
-
-Plate::Plate(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :MapObject(s, d, r, t)
-{
-	m_IsHurt = false;
-	m_CanCollide = true;
-	m_Damage = 0;
-  type = "Plate";
-}
-
-Plate::Plate(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, SDL_FPoint start, SDL_FPoint end):MapObject(s, d, r, t,start,end)
-{
-	m_IsHurt = false;
-	m_CanCollide = true;
-	m_Damage = 0;
-	m_moveSpeed = MOVESPEED;
-}
-
-
-void Plate::Update()
+void MapObject::moveMapObject()
 {
 	if (m_CanMove == true)
 	{
@@ -165,6 +147,28 @@ void Plate::Update()
 		default:break;
 		}
 	}
+}
+
+Plate::Plate(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :MapObject(s, d, r, t)
+{
+	m_IsHurt = false;
+	m_CanCollide = true;
+	m_Damage = 0;
+  type = "Plate";
+}
+
+Plate::Plate(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, SDL_FPoint start, SDL_FPoint end):MapObject(s, d, r, t,start,end)
+{
+	m_IsHurt = false;
+	m_CanCollide = true;
+	m_Damage = 0;
+	m_moveSpeed = MOVESPEED;
+}
+
+
+void Plate::Update()
+{
+	moveMapObject();
 }
 
 void Plate::Render()
@@ -191,93 +195,7 @@ Spike::Spike(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, SDL_FPoin
 
 void Spike::Update()
 {
-	if (m_CanMove == true)
-	{
-		switch (m_mDir)
-		{
-		case true://to end
-		{
-			if (m_startPoint.x > m_endPoint.x && m_startPoint.y == m_endPoint.y)//move left
-			{
-				m_dst.x -= m_moveSpeed;
-				if (m_dst.x <= m_endPoint.x)
-				{
-					m_dst.x = m_endPoint.x;
-					changeDir();
-				}
-			}
-			else if (m_startPoint.x < m_endPoint.x && m_startPoint.y == m_endPoint.y)//move right
-			{
-				m_dst.x += m_moveSpeed;
-				if (m_dst.x >= m_endPoint.x)
-				{
-					m_dst.x = m_endPoint.x;
-					changeDir();
-				}
-			}
-			else if (m_startPoint.x == m_endPoint.x && m_startPoint.y > m_endPoint.y)//move up
-			{
-				m_dst.y -= m_moveSpeed;
-				if (m_dst.y <= m_endPoint.y)
-				{
-					m_dst.x = m_endPoint.x;
-					changeDir();
-				}
-			}
-			else if (m_startPoint.x == m_endPoint.x && m_startPoint.y < m_endPoint.y)//move down
-			{
-				m_dst.y += m_moveSpeed;
-				if (m_dst.y >= m_endPoint.y)
-				{
-					m_dst.x = m_endPoint.x;
-					changeDir();
-				}
-			}
-			break;
-		}
-		case false://to start
-		{
-			if (m_startPoint.x < m_endPoint.x && m_startPoint.y == m_endPoint.y)//move left
-			{
-				m_dst.x -= m_moveSpeed;
-				if (m_dst.x <= m_startPoint.x)
-				{
-					m_dst.x = m_startPoint.x;
-					changeDir();
-				}
-			}
-			else if (m_startPoint.x > m_endPoint.x && m_startPoint.y == m_endPoint.y)//move right
-			{
-				m_dst.x += m_moveSpeed;
-				if (m_dst.x >= m_startPoint.x)
-				{
-					m_dst.x = m_startPoint.x;
-					changeDir();
-				}
-			}
-			else if (m_startPoint.x == m_endPoint.x && m_startPoint.y < m_endPoint.y)//move up
-			{
-				m_dst.y -= m_moveSpeed;
-				if (m_dst.y <= m_startPoint.y)
-				{
-					m_dst.x = m_startPoint.x;
-					changeDir();
-				}
-			}
-			else if (m_startPoint.x == m_endPoint.x && m_startPoint.y > m_endPoint.y)//move down
-			{
-				m_dst.y += m_moveSpeed;
-				if (m_dst.y >= m_startPoint.y)
-				{
-					m_dst.x = m_startPoint.x;
-					changeDir();
-				}
-			}
-			break;
-		}
-		default:break;
-		}
-	}
+	moveMapObject();
 }
 
 void Spike::Render()
@@ -287,8 +205,9 @@ void Spike::Render()
 
 Portal::Portal(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t):MapObject(s, d, r, t)
 {
-	isHurt = false;
-	canCollide = false;
+	m_IsHurt = false;
+	m_CanCollide = false;
+	m_Damage = 0;
 	type = "Portal";
 }
 

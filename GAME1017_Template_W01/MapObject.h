@@ -31,6 +31,7 @@ public:
 	void moveStart(double x,double y);
 	void moveEnd(double x,double y);
 	std::string getType() { return type; };
+	void moveMapObject();
 protected:
 
 };

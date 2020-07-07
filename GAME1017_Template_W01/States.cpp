@@ -67,13 +67,15 @@ void GameState::Enter()
 	EnemyManager::Init();
 
 	//Create a test level
-	LoadLevel_1();
+	
   
 	m_pPlayer = new PlatformPlayer({ 0,0,34,50 }, { 128.0f,600.0f,64.0f,100.0f },
 		Engine::Instance().GetRenderer(), TEMA::GetTexture("KabenSheet"));
 	m_pPlayer->addAnimator(new Animator(m_pPlayer));
 	m_pPlayer->getAnimator()->addAnimation("run", 8, 2, 34, 50);
 	m_pPlayer->getAnimator()->addAnimation("idle", 4, 1, 34, 50, 0, 100, 12);
+
+	LoadLevel_1();
 
 	UIObjectManager::Init();
 	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, { 105.0f,72.0f,185.0f,20.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
@@ -319,14 +321,15 @@ void GameState::LoadLevel_1()
 
 	MapObjectManager::CreateMapObject(kSpike, 64, 10, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kSpike, 70, 10, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPortal, 81, 6, Engine::Instance().GetRenderer());
 
-	EnemyManager::CreateEnemy(swordman, 16,8, Engine::Instance().GetRenderer());
-	EnemyManager::CreateEnemy(swordman, 23, 8, Engine::Instance().GetRenderer());
-	EnemyManager::CreateEnemy(swordman, 44, 8, Engine::Instance().GetRenderer());
-	EnemyManager::CreateEnemy(swordman, 53, 5, Engine::Instance().GetRenderer());
-	EnemyManager::CreateEnemy(swordman, 58, 8, Engine::Instance().GetRenderer());
-	EnemyManager::CreateEnemy(swordman, 72, 5, Engine::Instance().GetRenderer());
-	EnemyManager::CreateEnemy(archer, 79, 8, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, 16,8, Engine::Instance().GetRenderer(),m_pPlayer,MapObjectManager::MapObjVec);
+	EnemyManager::CreateEnemy(swordman, 23, 8, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
+	EnemyManager::CreateEnemy(swordman, 44, 8, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
+	EnemyManager::CreateEnemy(swordman, 53, 5, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
+	EnemyManager::CreateEnemy(swordman, 58, 8, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
+	EnemyManager::CreateEnemy(swordman, 72, 5, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
+	EnemyManager::CreateEnemy(archer, 79, 8, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
 }
 
 // End GameState.

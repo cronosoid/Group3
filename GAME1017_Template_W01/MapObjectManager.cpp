@@ -54,7 +54,7 @@ void MapObjectManager::CreateMapObject(MapObjectType type, int x, int y, SDL_Ren
 		Portal* TempMapObj = new Portal({ 0,0,320,320 }, {x*64.0f,y*64.0f,320.0f,320.0f}, r, TextureManager::GetTexture("portal"));
 		std::cout << TempMapObj->getType() << std::endl;
 		MapObjVec.push_back(TempMapObj);
-		SDL_FRect* TempFRect = TempMapObj->getFRect();
+		SDL_FRect* TempFRect = TempMapObj->GetDstP();
 		MapObjRectVec.push_back(TempFRect);
 		TempMapObj = nullptr;
 		TempFRect = nullptr;
@@ -87,20 +87,7 @@ void MapObjectManager::CreateMoveMapObject(MapObjectType type, int x, int y, SDL
 		TempMapObj = nullptr;
 		TempFRect = nullptr;
 		break;
-	}
-
-	case kPortal:
-	{
-		std::cout << "portal created" << std::endl;
-		Portal* TempMapObj = new Portal({ 0,0,320,320 }, {x*64.0f,y*64.0f,320.0f,320.0f}, r, TextureManager::GetTexture("portal"),start,end);
-		std::cout << TempMapObj->getType() << std::endl;
-		MapObjVec.push_back(TempMapObj);
-		SDL_FRect* TempFRect = TempMapObj->getFRect();
-		MapObjRectVec.push_back(TempFRect);
-		TempMapObj = nullptr;
-		TempFRect = nullptr;
-	}
-		
+	}		
 	default:
 		break;
 	}
