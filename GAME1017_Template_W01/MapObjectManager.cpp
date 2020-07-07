@@ -24,15 +24,15 @@ void MapObjectManager::Init()
 	TextureManager::RegisterTexture("Img/portal.png", "portal");
 }
 
-void MapObjectManager::CreateMapObject(MapObjectType type, SDL_FRect dst_Rect, SDL_Renderer* r)
-{ 
+void MapObjectManager::CreateMapObject(MapObjectType type, int x, int y, SDL_Renderer* r)
+{
 	switch (type)
 	{
 	case kPlate:
 	{
-		Plate* TempMapObj = new Plate({ 0,0,64,64 }, dst_Rect, r, TextureManager::GetTexture("plate"));
+		Plate* TempMapObj = new Plate({ 0,0,64,64 }, {x*64.0f,y*64.0f,64.0f,64.0f}, r, TextureManager::GetTexture("plate"));
 		MapObjVec.push_back(TempMapObj);
-		SDL_FRect* TempFRect = TempMapObj->getFRect();
+		SDL_FRect* TempFRect = TempMapObj->GetDstP();
 		MapObjRectVec.push_back(TempFRect);
 		TempMapObj = nullptr;
 		TempFRect = nullptr;
@@ -40,10 +40,49 @@ void MapObjectManager::CreateMapObject(MapObjectType type, SDL_FRect dst_Rect, S
 	}
 	case kSpike:
 	{
-		std::cout << "spike created" << std::endl;
-		Spike* TempMapObj = new Spike({ 0,0,64,64 }, dst_Rect, r, TextureManager::GetTexture("spike"));
+		Spike* TempMapObj = new Spike({ 0,0,64,64 }, { x * 64.0f,y * 64.0f,64.0f,64.0f }, r, TextureManager::GetTexture("spike"));
+		MapObjVec.push_back(TempMapObj);
+		SDL_FRect* TempFRect = TempMapObj->GetDstP();
+		MapObjRectVec.push_back(TempFRect);
+		TempMapObj = nullptr;
+		TempFRect = nullptr;
+		break;
+	}
+   case kPortal:
+	{
+		//std::cout << "portal created" << std::endl;
+		Portal* TempMapObj = new Portal({ 0,0,320,320 }, {x*64.0f,y*64.0f,320.0f,320.0f}, r, TextureManager::GetTexture("portal"));
+		std::cout << TempMapObj->getType() << std::endl;
 		MapObjVec.push_back(TempMapObj);
 		SDL_FRect* TempFRect = TempMapObj->getFRect();
+		MapObjRectVec.push_back(TempFRect);
+		TempMapObj = nullptr;
+		TempFRect = nullptr;
+	}
+	default:
+		break;
+	}
+}
+
+void MapObjectManager::CreateMoveMapObject(MapObjectType type, int x, int y, SDL_FPoint start, SDL_FPoint end, SDL_Renderer* r)
+{
+	switch (type)
+	{
+	case kPlate:
+	{
+		Plate* TempMapObj = new Plate({ 0,0,64,64 }, { x * 64.0f,y * 64.0f,64.0f,64.0f }, r, TextureManager::GetTexture("plate"),start,end);
+		MapObjVec.push_back(TempMapObj);
+		SDL_FRect* TempFRect = TempMapObj->GetDstP();
+		MapObjRectVec.push_back(TempFRect);
+		TempMapObj = nullptr;
+		TempFRect = nullptr;
+		break;
+	}
+	case kSpike:
+	{
+		Spike* TempMapObj = new Spike({ 0,0,64,64 }, { x * 64.0f,y * 64.0f,64.0f,64.0f }, r, TextureManager::GetTexture("spike"),start,end);
+		MapObjVec.push_back(TempMapObj);
+		SDL_FRect* TempFRect = TempMapObj->GetDstP();
 		MapObjRectVec.push_back(TempFRect);
 		TempMapObj = nullptr;
 		TempFRect = nullptr;
@@ -53,7 +92,7 @@ void MapObjectManager::CreateMapObject(MapObjectType type, SDL_FRect dst_Rect, S
 	case kPortal:
 	{
 		std::cout << "portal created" << std::endl;
-		Portal* TempMapObj = new Portal({ 0,0,320,320 }, dst_Rect, r, TextureManager::GetTexture("portal"));
+		Portal* TempMapObj = new Portal({ 0,0,320,320 }, {x*64.0f,y*64.0f,320.0f,320.0f}, r, TextureManager::GetTexture("portal"),start,end);
 		std::cout << TempMapObj->getType() << std::endl;
 		MapObjVec.push_back(TempMapObj);
 		SDL_FRect* TempFRect = TempMapObj->getFRect();
@@ -67,6 +106,7 @@ void MapObjectManager::CreateMapObject(MapObjectType type, SDL_FRect dst_Rect, S
 	}
 }
 
+
 void MapObjectManager::Update()
 {
 	for (int i = 0; i < (int)MapObjVec.size(); i++)
@@ -75,11 +115,12 @@ void MapObjectManager::Update()
 	}
 }
 
-void MapObjectManager::Render(bool collision)
+
+void MapObjectManager::Render(bool CanCollide)
 {
 	for (MapObject* mapObject : MapObjVec)
 	{
-		if (mapObject->getCollision() == collision)
+		if(mapObject->getCanCollide()!=CanCollide)
 		{
 			mapObject->Render();
 		}

@@ -14,7 +14,6 @@
 #include "MapObjectManager.h"
 #include "MoveManager.h"
 #include "Fireball.h"
-
 #include <iostream>
 
 // Begin State. CTRL+M+H and CTRL+M+U to turn on/off collapsed code.
@@ -63,31 +62,23 @@ GameState::GameState() {}
 void GameState::Enter()
 {
 	std::cout << "Entering GameState..." << std::endl;
-	m_pPlayer = new PlatformPlayer({ 0,0,34,50 }, { 750.0f,380.0f,64.0f,100.0f },
-								   Engine::Instance().GetRenderer(), TEMA::GetTexture("KabenSheet"));
+  
+	MapObjectManager::Init();
+	EnemyManager::Init();
+
+	//Create a test level
+	LoadLevel_1();
+  
+	m_pPlayer = new PlatformPlayer({ 0,0,34,50 }, { 128.0f,600.0f,64.0f,100.0f },
+		Engine::Instance().GetRenderer(), TEMA::GetTexture("KabenSheet"));
 	m_pPlayer->addAnimator(new Animator(m_pPlayer));
 	m_pPlayer->getAnimator()->addAnimation("run", 8, 2, 34, 50);
 	m_pPlayer->getAnimator()->addAnimation("idle", 4, 1, 34, 50, 0, 100, 12);
 
-	MapObjectManager::Init();
-
-	//Create a test level
-	for (int i = 0; i <= 34; i++)
-	{
-		MapObjectManager::CreateMapObject(kPlate, { 64.0f * i,700.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
-	}
-	MapObjectManager::CreateMapObject(kSpike, { 0.0f,636.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
- Liqi_Week7Latest
-	MapObjectManager::CreateMapObject(kPlate, { 512.0f,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, { 576.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, { 640.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPortal, {300.0f, 300.0f, 128.0f, 128.0f }, Engine::Instance().GetRenderer());
-	
-	EnemyManager::CreateEnemy(swordman, { 600.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
-	EnemyManager::CreateEnemy(archer, { 200.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
-=======
- latest_copy
+	UIObjectManager::Init();
 	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, { 105.0f,72.0f,185.0f,20.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
+
+	m_MapDamageCounter = 0;
 }
 
 void GameState::Update()
@@ -166,6 +157,12 @@ void GameState::Update()
 		}
 	}
 
+	MapObjectManager::Update();
+	
+	// Wrap the player on screen.
+	if (m_pPlayer->GetDstP()->x < -51.0) m_pPlayer->SetX(1024.0);
+	else if (m_pPlayer->GetDstP()->x > 1024.0) m_pPlayer->SetX(-50.0);
+
 	// Do the rest.
 	m_pPlayer->Update();
 	PMA::Instance().Update();
@@ -179,7 +176,7 @@ void GameState::Update()
 		enemy->Update();
 	}
 	EnemyManager::DestroyInvalidEnemies();
-
+	
 	CheckCollision();
 	// Die	
 	if (m_pPlayer->GetSoul() <= 0)
@@ -192,15 +189,26 @@ void GameState::Update()
 	}
 
 	UIObjectManager::UIUpdate();
+
+	if (m_MapDamageCounter > 0)
+		m_MapDamageCounter--;
 }
 
 void GameState::CheckCollision()
 {
 	COMA::CheckMapCollision(MapObjectManager::MapObjVec, m_pPlayer);
+	if(m_MapDamageCounter==0)
+	{
+		//std::cout << "test damage" << std::endl;
+		COMA::CheckPlayerMapDamage(MapObjectManager::MapObjVec, m_pPlayer);
+		//std::cout << "end test" << std::endl;
+		m_MapDamageCounter = MAPDAMAGECD;
+	}
 	
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
-		COMA::CheckMapCollision(MapObjectManager::MapObjVec, enemy);		
+		COMA::CheckMapCollision(MapObjectManager::MapObjVec, enemy);
+		COMA::CheckEnemyMapDamage(MapObjectManager::MapObjVec, enemy);
 	}
 }
 
@@ -216,6 +224,7 @@ void GameState::Render()
 		enemy->Render();
 	}
 	m_pPlayer->Render();
+	
 	// Draw the platforms.
 	MapObjectManager::Render(false);
 
@@ -245,6 +254,7 @@ void GameState::Exit()
 	delete m_pPlayer->getAnimator();
 	delete m_pPlayer;
 
+
 	for (vector<MapObject*>::iterator obj = MapObjectManager::MapObjVec.begin(); obj != MapObjectManager::MapObjVec.end();)
 	{
 		delete* obj;
@@ -264,9 +274,61 @@ void GameState::Exit()
 		delete* projectile;
 		projectile = PMA::Instance().GetProjectiles().erase(projectile);
 	}
+
 }
 
 void GameState::Resume() { }
+
+void GameState::LoadLevel_1()
+{
+	for(int i=0;i<26;i++)
+	{
+		MapObjectManager::CreateMapObject(kPlate, i, 11, Engine::Instance().GetRenderer());
+	}
+	MapObjectManager::CreateMapObject(kPlate, 10, 10, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 13, 10, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 29, 11,Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 30, 11, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 31, 11, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 34, 11, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 35, 11, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 36, 11, Engine::Instance().GetRenderer());
+	for(int i=39;i<85;i++)
+	{
+		MapObjectManager::CreateMapObject(kPlate, i, 11, Engine::Instance().GetRenderer());
+	}
+	
+	for(int i=48;i<58;i++)
+	{
+		MapObjectManager::CreateMapObject(kPlate, i, 10, Engine::Instance().GetRenderer());
+	}
+	for (int i = 49; i < 58; i++)
+	{
+		MapObjectManager::CreateMapObject(kPlate, i, 9, Engine::Instance().GetRenderer());
+	}
+	for (int i = 50; i < 58; i++)
+	{
+		MapObjectManager::CreateMapObject(kPlate, i, 8, Engine::Instance().GetRenderer());
+	}
+	MapObjectManager::CreateMapObject(kPlate, 51, 7, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 52, 7, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 56, 7, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 57, 7, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 52, 6, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 56, 6, Engine::Instance().GetRenderer());
+
+	MapObjectManager::CreateMapObject(kSpike, 64, 10, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kSpike, 70, 10, Engine::Instance().GetRenderer());
+
+	EnemyManager::CreateEnemy(swordman, 16,8, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, 23, 8, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, 44, 8, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, 53, 5, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, 58, 8, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, 72, 5, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(archer, 79, 8, Engine::Instance().GetRenderer());
+}
+
 // End GameState.
 
 EndState::EndState()

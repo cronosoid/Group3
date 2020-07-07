@@ -1,9 +1,5 @@
-#pragma once
-#ifndef _MAPOBJECTMANAGER_H_
-#define _MAPOBJECTMANAGER_H_
-
+﻿#pragma once
 #include <vector>
-
 #include "MapObject.h"
 
 enum MapObjectType
@@ -24,11 +20,11 @@ public:
 	MapObjectManager();
 	~MapObjectManager();
 	static void Init();
-	static void CreateMapObject(MapObjectType type, SDL_FRect dst_Rect, SDL_Renderer* r);
+	static void CreateMapObject(MapObjectType type, int x, int y, SDL_Renderer* r);
+	static void CreateMoveMapObject(MapObjectType type, int x, int y, SDL_FPoint start, SDL_FPoint end, SDL_Renderer* r);
 	static void Update();
-	static void Render(bool collision);
+	static void Render(bool CanCollide);
 	static void DestroyMapObjects();
 private:
 
 };
-#endif

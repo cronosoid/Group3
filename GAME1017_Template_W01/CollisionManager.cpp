@@ -107,8 +107,8 @@ void CollisionManager::CheckMapCollision(const std::vector<MapObject*> mapObject
 	obj->SetGrounded(false);
 	for (MapObject* mapObject : mapObjects) // For each platform.
 	{
-		SDL_FRect* mapObjectRect = mapObject->getFRect();
-		if (mapObject->getCollision() and COMA::AABBCheck(*obj->GetDstP(), *mapObjectRect))
+		SDL_FRect* mapObjectRect = mapObject->GetDstP();
+		if (mapObject->getCanCollide() and COMA::AABBCheck(*obj->GetDstP(), *mapObjectRect))
 		{
 			if (obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() <= mapObjectRect->y)
 			{ // Colliding top side of platform.
@@ -147,17 +147,35 @@ void CollisionManager::CheckMapCollision(const std::vector<MapObject*> mapObject
 	}
 }
 
+void CollisionManager::CheckPlayerMapDamage(const std::vector<MapObject*> mapObject, PlatformPlayer* obj)
+{
+	for (auto mapObject : mapObject) // For each platform.
+	{
+		SDL_FRect* temp = mapObject->GetDstP();
+		if (COMA::AABBCheck(*obj->GetDstP(), *temp) && mapObject->getIsHurt() == true)
+		{
+				obj->ChangeSoul(-mapObject->getDamage());
+				std::cout << "Health: " << obj->GetSoul() << std::endl;
+				break;
+		}
+	}
+}
+
+void CollisionManager::CheckEnemyMapDamage(const std::vector<MapObject*> mapObject, Enemies* obj)
+{
+	for (auto mapObject : mapObject) // For each platform.
+	{
+		SDL_FRect* temp = mapObject->GetDstP();
+		if (COMA::AABBCheck(*obj->GetDstP(), *temp) && mapObject->getIsHurt() == true)
+		{
+				obj->getDamage(mapObject->getDamage());
+				break;
+		}
+	}
+}
+
 bool CollisionManager::CheckPortalCollision(const std::vector<MapObject*> mapObject, Entity* obj)
 {
-	/*for (int i = 0; i < (int)mapObject.size(); i++) // For each platform.
-	{
-		SDL_FRect* temp = mapObject[i]->GetDstP();
-		if (COMA::AABBCheck(*obj->GetDstP(), *temp) &&  mapObject[i]->getType() == "Portal")
-		{
-			STMA::ChangeState(new EndState());
-			break;
-		}
-	}*/
 	for (int i = 0; i < (int)mapObject.size(); i++) // For each platform.
 	{
 		if(mapObject[i]->getType()=="Portal")
@@ -171,4 +189,3 @@ bool CollisionManager::CheckPortalCollision(const std::vector<MapObject*> mapObj
 	}
 	return false;
 }
-

@@ -9,6 +9,7 @@ PlatformPlayer::PlatformPlayer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Tex
 	:Entity(s, d, r, t, animator, true)
 {
 	m_curSoul = m_maxSoul;
+	std::cout << "Player Created" << std::endl;
 }
 
 void PlatformPlayer::Update()
