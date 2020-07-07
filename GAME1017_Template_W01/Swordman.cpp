@@ -40,7 +40,7 @@ void Swordman::Update()
 		setAlive(false);
 		curStatus = DEAD;
 	}
-Liqi_Week7Latest
+
 	else if (health < MAXHEALTH)
 	{
 		curStatus = ATTACKING;
@@ -72,10 +72,7 @@ Liqi_Week7Latest
 	default:
 		break;
 	}
-=======
 
-
-latest_copy
 }
 
 void Swordman::Render()

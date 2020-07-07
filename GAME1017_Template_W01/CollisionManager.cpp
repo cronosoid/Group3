@@ -1,11 +1,11 @@
 #include "CollisionManager.h"
 #include "DebugManager.h"
-Liqi_Week7Latest
+
 #include "StateManager.h"
-=======
+
 #include "MoveManager.h"
 #include "TextureManager.h"
-latest_copy
+
 
 bool CollisionManager::AABBCheck(const SDL_FRect& object1, const SDL_FRect& object2)
 {

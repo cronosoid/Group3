@@ -78,7 +78,7 @@ void GameState::Enter()
 		MapObjectManager::CreateMapObject(kPlate, { 64.0f * i,700.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	}
 	MapObjectManager::CreateMapObject(kSpike, { 0.0f,636.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
- Liqi_Week7Latest
+
 	MapObjectManager::CreateMapObject(kPlate, { 512.0f,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, { 576.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, { 640.0f ,508.0f,64.0f,64.0f }, Engine::Instance().GetRenderer());
@@ -86,8 +86,6 @@ void GameState::Enter()
 	
 	EnemyManager::CreateEnemy(swordman, { 600.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
 	EnemyManager::CreateEnemy(archer, { 200.0f,300.0f,128.0f,128.0f }, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
-=======
- latest_copy
 	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, { 105.0f,72.0f,185.0f,20.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
 }
 
