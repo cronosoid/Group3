@@ -318,11 +318,17 @@ void GameState::LoadLevel_1()
 	MapObjectManager::CreateMapObject(kPlate, 57, 7, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 52, 6, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 56, 6, Engine::Instance().GetRenderer());
-
 	MapObjectManager::CreateMapObject(kSpike, 64, 10, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kSpike, 70, 10, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPortal, 81, 6, Engine::Instance().GetRenderer());
 
+	MapObjectManager::CreateMapObject(kPlate, 3, 8, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 4, 8, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 5, 8, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 6, 8, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 7, 8, Engine::Instance().GetRenderer());
+
+	EnemyManager::CreateEnemy(archer, 4, 5, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
 	EnemyManager::CreateEnemy(swordman, 16,8, Engine::Instance().GetRenderer(),m_pPlayer,MapObjectManager::MapObjVec);
 	EnemyManager::CreateEnemy(swordman, 23, 8, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
 	EnemyManager::CreateEnemy(swordman, 44, 8, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
