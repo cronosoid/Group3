@@ -24,9 +24,9 @@ public:
 protected:
 	bool isActive,
 		 isAlive;
-	int  damage,
-		defence,
-		health;
+	 int  damage,
+		 defence,
+		 health;
 	Uint32 lastAttackTime;
 	std::string enemyType;
 	Status curStatus;

@@ -76,8 +76,6 @@ void GameState::Enter()
 		Engine::Instance().GetRenderer(), TEMA::GetTexture("KabenSheet"));
 
 	m_pLevel->Load(m_pPlayer);
-
-	EnemyManager::SetTarget(m_pPlayer);
 	
 	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, { 105.0f,72.0f,185.0f,20.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
 
@@ -192,7 +190,6 @@ void GameState::Exit()
 		enemy->setActive(false);
 	}
 	EnemyManager::DestroyInvalidEnemies();
-	EnemyManager::SetTarget(nullptr);
 
 	for (auto projectile = PMA::Instance().GetProjectiles().begin(); projectile != PMA::Instance().GetProjectiles().end();)
 	{
