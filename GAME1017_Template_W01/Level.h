@@ -10,6 +10,8 @@ public:
 
 	virtual void Load(PlatformPlayer* Player) = 0;
 	virtual void Update() = 0;
+	int GetLevelWidth() { return m_levelWidth; }
+	int GetLevelHight() { return m_levelHight; }
 protected:
 	int m_levelWidth, m_levelHight;
 	MapObject* m_pPortal;

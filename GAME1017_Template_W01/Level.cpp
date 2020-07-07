@@ -76,8 +76,14 @@ void Level1::Load(PlatformPlayer* Player)
 
 void Level1::Update()
 {
-	if (COMA::AABBCheck(*this->m_pPortal->GetDstP(), *this->m_pPlayer->GetDstP()))
+	if (m_pPlayer->GetDstP()->y > m_levelHight)
+	{
+		m_pPlayer->ChangeSoul(-m_pPlayer->m_maxSoul);
+	}
+	else if (COMA::AABBCheck(*this->m_pPortal->GetDstP(), *this->m_pPlayer->GetDstP()))
+	{
 		STMA::ChangeState(new GameState(new Level2));
+	}
 }
 
 Level2::Level2()
@@ -119,6 +125,12 @@ void Level2::Load(PlatformPlayer* Player)
 
 void Level2::Update()
 {
-	if (COMA::AABBCheck(*this->m_pPortal->GetDstP(), *this->m_pPlayer->GetDstP()))
+	if (m_pPlayer->GetDstP()->y > m_levelHight)
+	{
+		m_pPlayer->ChangeSoul(0);
+	}
+	else if (COMA::AABBCheck(*this->m_pPortal->GetDstP(), *this->m_pPlayer->GetDstP()))
+	{
 		STMA::ChangeState(new EndState());
+	}
 }

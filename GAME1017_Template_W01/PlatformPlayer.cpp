@@ -79,7 +79,7 @@ void PlatformPlayer::Update()
 			{
 				if (COMA::AABBCheck(rect, *enemy->GetDstP()))
 				{
-					this->SoulRcvry();
+					this->SoulRecover();
 					enemy->getDamage(this->m_meeleDmg);
 					std::cout << "Melee attacked!\n";
 				}
@@ -129,7 +129,7 @@ double PlatformPlayer::GetSoul()
 	return m_curSoul;
 }
 
-void PlatformPlayer::SoulRcvry()
+void PlatformPlayer::SoulRecover()
 {
 	m_curSoul += m_soulRecover;
 	if (m_curSoul > m_maxSoul)

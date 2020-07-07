@@ -25,7 +25,7 @@ public: // Methods
 	void Render();
 	
 	double GetSoul();
-	void SoulRcvry();
+	void SoulRecover();
 	void ChangeSoul(int amnt);
 	void Meele();
 	//void Fireball();
