@@ -129,6 +129,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="Fireball.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="MapObjectManager.cpp" />
     <ClCompile Include="MoveManager.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="Fireball.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="MoveManager.h" />
     <ClInclude Include="MapObject.h" />
     <ClInclude Include="MapObjectManager.h" />

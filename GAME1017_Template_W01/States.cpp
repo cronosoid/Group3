@@ -57,26 +57,24 @@ void TitleState::Exit()
 // End TitleState.
 
 // Begin GameState.
-GameState::GameState() {}
+GameState::GameState(Level* newLevel)
+{
+	m_pLevel = newLevel;
+}
 
 void GameState::Enter()
 {
 	std::cout << "Entering GameState..." << std::endl;
   
 	MapObjectManager::Init();
+	UIObjectManager::Init();
 	EnemyManager::Init();
-
-	//Create a test level
 
 	m_pPlayer = new PlatformPlayer({ 0,0,34,50 }, { 128.0f,600.0f,64.0f,100.0f },
 		Engine::Instance().GetRenderer(), TEMA::GetTexture("KabenSheet"));
-	m_pPlayer->addAnimator(new Animator(m_pPlayer));
-	m_pPlayer->getAnimator()->addAnimation("run", 8, 2, 34, 50);
-	m_pPlayer->getAnimator()->addAnimation("idle", 4, 1, 34, 50, 0, 100, 12);
 
-	LoadLevel_1();
-
-	UIObjectManager::Init();
+	m_pLevel->Load(m_pPlayer);
+	
 	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, { 105.0f,72.0f,185.0f,20.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
 
 	m_MapDamageCounter = 0;
@@ -84,93 +82,11 @@ void GameState::Enter()
 
 void GameState::Update()
 {
-	// Get input.
-	m_pPlayer->movement[0] = 0;
-	if (EVMA::KeyHeld(SDL_SCANCODE_A))
-	{
-		//walk left animation goes here
-		m_pPlayer->getAnimator()->setFace(1);
-		m_pPlayer->movement[0] = -1;
-		m_pPlayer->getAnimator()->setNextAnimation("run");
-		m_pPlayer->SetAccelX(-1.0);
-	}
-	else if (EVMA::KeyHeld(SDL_SCANCODE_D))
-	{
-		//walk right animation goes here
-		m_pPlayer->getAnimator()->setFace(0);
-		m_pPlayer->movement[0] = 1;
-		m_pPlayer->getAnimator()->setNextAnimation("run");
-		m_pPlayer->SetAccelX(1.0);
-	}
-	if (EVMA::KeyPressed(SDL_SCANCODE_SPACE) && m_pPlayer->IsGrounded())
-	{
-		//jumping animation
-		SOMA::PlaySound("Kaben_jump");
-		m_pPlayer->SetAccelY(-JUMPFORCE); // Sets the jump force.
-		m_pPlayer->SetGrounded(false);
-	}
-	if (EVMA::KeyHeld(SDL_SCANCODE_J)) //melee
-	{
-		if ((m_pPlayer->getMeleeTime() + MELEECOOLDOWN * 1000) < SDL_GetTicks())
-		{
-			m_pPlayer->setMeleeTime(); 
-			SDL_FRect rect;
-			if (m_pPlayer->getAnimator()->getFace() == 0)
-			{
-				rect.x = m_pPlayer->GetDstP()->x + m_pPlayer->GetDstP()->w;
-			}
-			else
-			{
-				rect.x = m_pPlayer->GetDstP()->x - m_pPlayer->GetDstP()->w;
-			}
-			
-			rect.y = m_pPlayer->GetDstP()->y;
-			rect.w = m_pPlayer->GetDstP()->w;
-			rect.h = m_pPlayer->GetDstP()->h;
-
-			for (Enemies* enemy : EnemyManager::EnemiesVec)
-			{
-				if (COMA::AABBCheck(rect, *enemy->GetDstP()))
-				{
-					m_pPlayer->SoulRcvry();
-					enemy->getDamage(m_pPlayer->m_meeleDmg);
-					std::cout << "Melee attacked!\n";
-				}
-			}
-			m_pPlayer->Meele();
-		}
-	}
-	else if (EVMA::KeyHeld(SDL_SCANCODE_I)) // fireball
-	{
-		if ((m_pPlayer->getMagicTime() + MAGICCOOLDOWN * 1000) < SDL_GetTicks())
-		{
-			m_pPlayer->setMagicTime();
-			// will complete the projectile spawn in a while
-			int face;
-			m_pPlayer->getAnimator()->getFace() == 0 ? face = 1 : face = -1;
-			PMA::Instance().GetProjectiles().push_back(new Fireball(m_pPlayer, EnemyManager::EnemiesVec, MapObjectManager::MapObjVec, { 0,0,64,64 },
-				{ face == 1 ? m_pPlayer->GetDstP()->x + m_pPlayer->GetDstP()->w : m_pPlayer->GetDstP()->x - 24,
-				m_pPlayer->GetDstP()->y + 42, 48, 48 },
-				Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 15, face, m_pPlayer->m_magicDmg,
-				4, 6, 64, 64));
-			
-			m_pPlayer->ChangeSoul(-FIREBALLCOST);
-		}
-	}
-
 	MapObjectManager::Update();
-	
-	// Wrap the player on screen.
-	if (m_pPlayer->GetDstP()->x < -51.0) m_pPlayer->SetX(1024.0);
-	else if (m_pPlayer->GetDstP()->x > 1024.0) m_pPlayer->SetX(-50.0);
 
-	// Do the rest.
 	m_pPlayer->Update();
-	PMA::Instance().Update();
 
-	if (m_pPlayer->movement[0] == 0)
-		m_pPlayer->getAnimator()->setNextAnimation("idle");
-	m_pPlayer->getAnimator()->playAnimation();
+	PMA::Instance().Update();
 
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
@@ -185,22 +101,25 @@ void GameState::Update()
 	if (m_MapDamageCounter > 0)
 		m_MapDamageCounter--;
 	
-	// Die	
+	// Die
 	if (m_pPlayer->GetSoul() <= 0)
-		STMA::ChangeState(new EndState());
-
-	if (COMA::AABBCheck(*m_pPortal->GetDstP(), *m_pPlayer->GetDstP()))
-		STMA::ChangeState(new EndState());
-
-	if (EVMA::KeyHeld(SDL_SCANCODE_X))
 	{
 		STMA::ChangeState(new EndState());
+	}
+	else if (EVMA::KeyHeld(SDL_SCANCODE_X))
+	{
+		STMA::ChangeState(new EndState());
+	}
+	else
+	{
+		m_pLevel->Update();
 	}
 }
 
 void GameState::CheckCollision()
 {
 	COMA::CheckMapCollision(MapObjectManager::MapObjVec, m_pPlayer);
+
 	if(m_MapDamageCounter==0)
 	{
 		//std::cout << "test damage" << std::endl;
@@ -221,16 +140,16 @@ void GameState::Render()
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 64, 128, 255, 255);
 	SDL_RenderClear(Engine::Instance().GetRenderer());
 
-	MapObjectManager::Render(true);
-	// Draw the player.
+	MapObjectManager::Render(true); //Draw collidable platforms
+	
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
 		enemy->Render();
 	}
+
 	m_pPlayer->Render();
 	
-	// Draw the platforms.
-	MapObjectManager::Render(false);
+	MapObjectManager::Render(false); //Draw not collidable platforms
 
 	for (Projectile* projectile : PMA::Instance().GetProjectiles())
 	{
@@ -254,7 +173,6 @@ void GameState::Exit()
 		}
 	}
 
-	delete m_pPlayer->getAnimator();
 	delete m_pPlayer;
 
 	for (vector<MapObject*>::iterator obj = MapObjectManager::MapObjVec.begin(); obj != MapObjectManager::MapObjVec.end();)
@@ -277,69 +195,10 @@ void GameState::Exit()
 		projectile = PMA::Instance().GetProjectiles().erase(projectile);
 	}
 
+	delete m_pLevel;
 }
 
-void GameState::Resume() { }
-
-void GameState::LoadLevel_1()
-{
-	MoveManager::Init(Engine::Instance().GetWindow(), 4416, 1300);
-
-	for(int i=0; i < 26 ;i++)
-	{
-		MapObjectManager::CreateMapObject(kPlate, i, 11, Engine::Instance().GetRenderer());
-	}
-	MapObjectManager::CreateMapObject(kPlate, 10, 10, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 13, 10, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 29, 11,Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 30, 11, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 31, 11, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 34, 11, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 35, 11, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 36, 11, Engine::Instance().GetRenderer());
-	for(int i=39;i<85;i++)
-	{
-		MapObjectManager::CreateMapObject(kPlate, i, 11, Engine::Instance().GetRenderer());
-	}
-	
-	for(int i=48;i<58;i++)
-	{
-		MapObjectManager::CreateMapObject(kPlate, i, 10, Engine::Instance().GetRenderer());
-	}
-	for (int i = 49; i < 58; i++)
-	{
-		MapObjectManager::CreateMapObject(kPlate, i, 9, Engine::Instance().GetRenderer());
-	}
-	for (int i = 50; i < 58; i++)
-	{
-		MapObjectManager::CreateMapObject(kPlate, i, 8, Engine::Instance().GetRenderer());
-	}
-	MapObjectManager::CreateMapObject(kPlate, 51, 7, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 52, 7, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 56, 7, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 57, 7, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 52, 6, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 56, 6, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kSpike, 64, 10, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kSpike, 70, 10, Engine::Instance().GetRenderer());
-
-	MapObjectManager::CreateMapObject(kPlate, 3, 7, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 4, 7, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 5, 7, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 6, 7, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 7, 7, Engine::Instance().GetRenderer());
-
-	EnemyManager::CreateEnemy(archer, 4, 3, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
-	EnemyManager::CreateEnemy(swordman, 16,8, Engine::Instance().GetRenderer(),m_pPlayer,MapObjectManager::MapObjVec);
-	EnemyManager::CreateEnemy(swordman, 23, 8, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
-	EnemyManager::CreateEnemy(swordman, 44, 8, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
-	EnemyManager::CreateEnemy(swordman, 53, 5, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
-	EnemyManager::CreateEnemy(swordman, 58, 8, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
-	EnemyManager::CreateEnemy(swordman, 72, 5, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
-	EnemyManager::CreateEnemy(archer, 1, 5, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
-
-	m_pPortal = MapObjectManager::CreateMapObject(kPortal, 81, 6, Engine::Instance().GetRenderer());
-}
+void GameState::Resume() {}
 
 // End GameState.
 
