@@ -41,6 +41,31 @@ void EnemyManager::CreateEnemy(EnemyType type, SDL_FRect d, SDL_Renderer* r)
 	break;
 	}
 }
+//void EnemyManager::MoveEnemy(EnemyType type, SDL_FRect d, SDL_Renderer* r)
+//{
+//	switch (type)
+//	{
+//	case 1:
+//	{
+//		std::cout << "ENMA:" << d.x << ", " << d.y << ", " << d.w << ", " << d.h << "\n";
+//		Swordman* TempEnemy = new Swordman({ 0,0,620,640 }, d, r, TextureManager::GetTexture("Swordman"));
+//		TempEnemy->addAnimator(new Animator(TempEnemy));
+//		EnemiesVec.push_back(TempEnemy);
+//		TempEnemy = nullptr;
+//		std::cout << "Swordman moved!" << std::endl;
+//	}
+//	break;
+//	case 2:
+//	{
+//		Archer* TempEnemy = new Archer({ 0,0,620,640 }, d, r, TextureManager::GetTexture("Archer"));
+//		TempEnemy->addAnimator(new Animator(TempEnemy));
+//		EnemiesVec.push_back(TempEnemy);
+//		TempEnemy = nullptr;
+//		std::cout << "Archer moved!" << std::endl;
+//	}
+//	break;
+//	}
+//}
 
 void EnemyManager::DestroyInvalidEnemies()
 {

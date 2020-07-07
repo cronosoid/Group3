@@ -138,8 +138,20 @@ void GameState::Update()
 					m_pPlayer->SoulRcvry();
 					enemy->getDamage(m_pPlayer->m_meeleDmg);
 					std::cout << "Melee attacked!\n";
+					
+					if (m_pPlayer->getAnimator()->getFace() == 0)
+					{
+						enemy->GetDstP()->x += 50 ;
+					}
+					if (m_pPlayer->getAnimator()->getFace() == 1)
+					{
+						enemy->GetDstP()->x -= 50;
+					}
+					
+					std::cout << "Enemy moved! \n";
 				}
 			}
+			
 
 			m_pPlayer->Meele();
 		}
@@ -169,10 +181,13 @@ void GameState::Update()
 		m_pPlayer->getAnimator()->setNextAnimation("idle");
 	m_pPlayer->getAnimator()->playAnimation();
 
+
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
 		enemy->Update();
+		
 	}
+
 	EnemyManager::DestroyInvalidEnemies();
 
 	CheckCollision();
@@ -205,7 +220,7 @@ void GameState::Render()
 	// Draw the player.
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
-		enemy->Render();
+		enemy->Render();           
 	}
 	m_pPlayer->Render();
 	// Draw the platforms.

@@ -2,8 +2,7 @@
 #include "DebugManager.h"
 
 bool CollisionManager::AABBCheck(const SDL_FRect& object1, const SDL_FRect& object2)
-{
-	return (object1.x < object2.x + object2.w and
+{	return (object1.x < object2.x + object2.w and
 		object1.x + object1.w > object2.x and
 		object1.y < object2.y + object2.h and
 		object1.y + object1.h > object2.y);
