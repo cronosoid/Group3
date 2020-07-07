@@ -18,6 +18,7 @@ Label::~Label()
 
 void Label::Render()
 {
+	
 	SDL_RenderCopyF(Engine::Instance().GetRenderer(), m_pTexture, 0, &m_rTextRect);
 }
 

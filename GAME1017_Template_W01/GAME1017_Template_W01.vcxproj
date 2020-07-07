@@ -120,7 +120,7 @@
     <ClCompile Include="Archer.cpp" />
     <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="Button.cpp" />
-    <ClCompile Include="CDBar.cpp" />
+    <ClCompile Include="CDCount.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="DebugManager.cpp" />
     <ClCompile Include="Enemies.cpp" />
@@ -151,10 +151,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Arrow.h" />
-    <ClInclude Include="CDBar.h" />
     <ClInclude Include="Animator.h" />
     <ClInclude Include="Archer.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="CDCount.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="DebugManager.h" />
     <ClInclude Include="Enemies.h" />

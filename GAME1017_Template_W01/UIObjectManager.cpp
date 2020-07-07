@@ -24,15 +24,15 @@ void UIObjectManager::CreateSoulBar(SDL_FRect d1, SDL_FRect d2, SDL_Renderer* r,
 	Tempfiller = nullptr;
 }
 
-void UIObjectManager::CreateCDBar(SDL_FRect d1, SDL_FRect d2, SDL_Renderer* r, PlatformPlayer* hero)
-{
-	CDBarBorder* TempCDBarBorder = new CDBarBorder({}, d1, r, TextureManager::GetTexture(("CDBarBorder")));
-	UIObjectVec.push_back(TempCDBarBorder);
-	CDBarFiller* TempCDBarFiller = new CDBarFiller({}, d2, r, TextureManager::GetTexture("CDBarfiller"), hero);
-	UIObjectVec.push_back(TempCDBarFiller);
-	TempCDBarFiller = nullptr;
-	TempCDBarFiller = nullptr;
-}
+//void UIObjectManager::CreateCDBar(SDL_FRect d1, SDL_FRect d2, SDL_Renderer* r, PlatformPlayer* hero)
+//{
+//	CDBarBorder* TempCDBarBorder = new CDBarBorder({0, 0, 64, 32}, d1, r, TextureManager::GetTexture(("CDBarBorder")));
+//	UIObjectVec.push_back(TempCDBarBorder);
+//	CDBarFiller* TempCDBarFiller = new CDBarFiller({0, 0, 64, 32}, d2, r, TextureManager::GetTexture("CDBarFiller"), hero);
+//	UIObjectVec.push_back(TempCDBarFiller);
+//	TempCDBarFiller = nullptr;
+//	TempCDBarFiller = nullptr;
+//}
 
 void UIObjectManager::UIUpdate()
 {

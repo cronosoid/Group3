@@ -14,7 +14,6 @@
 #include "MapObjectManager.h"
 #include "MoveManager.h"
 #include "Fireball.h"
-
 #include <iostream>
 
 // Begin State. CTRL+M+H and CTRL+M+U to turn on/off collapsed code.
@@ -68,7 +67,9 @@ void GameState::Enter()
 	m_pPlayer->addAnimator(new Animator(m_pPlayer));
 	m_pPlayer->getAnimator()->addAnimation("run", 8, 2, 34, 50);
 	m_pPlayer->getAnimator()->addAnimation("idle", 4, 1, 34, 50, 0, 100, 12);
-
+	
+	m_pCDLabel = new Label("font", 0.0, 0.0, "Fireball Ready!");
+	
 	MapObjectManager::Init();
 
 	//Create a test level
@@ -150,6 +151,7 @@ void GameState::Update()
 		if ((m_pPlayer->getMagicTime() + MAGICCOOLDOWN * 1000) < SDL_GetTicks())
 		{
 			m_pPlayer->setMagicTime();
+			std::cout << "MagicTime: " << m_pPlayer->getMagicTime() << std::endl;
 			// will complete the projectile spawn in a while
 			int face;
 			m_pPlayer->getAnimator()->getFace() == 0 ? face = 1 : face = -1;
@@ -163,6 +165,17 @@ void GameState::Update()
 		}
 	}
 
+	m_CDTimer = SDL_GetTicks() - m_pPlayer->getMagicTime();
+	std::cout << "CDTimer: " << m_CDTimer <<"Magic Time: "<<m_pPlayer->getMagicTime()<< std::endl;
+
+	if((int)m_CDTimer< MAGICCOOLDOWN * 1000)
+	{
+		m_CDTime = (MAGICCOOLDOWN * 1000 - m_CDTimer)/1000;
+		std::cout << "CDTime: " << m_CDTime << std::endl;
+		//std::string CD = std::to_string(m_CDTime);
+		//m_pCDLabel->SetText(CD.c_str());
+	}
+	
 	// Do the rest.
 	m_pPlayer->Update();
 	PMA::Instance().Update();
@@ -212,7 +225,13 @@ void GameState::Render()
 	{
 		enemy->Render();
 	}
+
+	if (m_CDTime < 0.1 || m_CDTime > 0.9)
+	{
+		m_pCDLabel->Render();
+	}
 	m_pPlayer->Render();
+	
 	// Draw the platforms.
 	MapObjectManager::Render(false);
 

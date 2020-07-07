@@ -46,7 +46,8 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	TEMA::RegisterTexture("../Spritesheets/Pehot2.png", "Swordman");
 	TEMA::RegisterTexture("../Spritesheets/Soul_Bar.png", "SoulBarBorder");
 	TEMA::RegisterTexture("../Spritesheets/fitBar.png", "SoulBarFiller");
-	TEMA::RegisterTexture("../Spritesheets/Kaben_Sheet.png", "KabenSheet"); 
+	TEMA::RegisterTexture("../Spritesheets/Kaben_Sheet.png", "KabenSheet");
+	FOMA::RegisterFont("Img/LTYPE.TTF", "font", 20);
 
 	MoveManager::Init(m_pWindow,1000,1300);
 

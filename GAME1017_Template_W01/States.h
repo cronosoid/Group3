@@ -7,6 +7,7 @@
 #include <SDL.h>
 #include "Button.h"
 #include "PlatformPlayer.h"
+#include "Label.h"
 #include "Animator.h"
 #include <vector>
 
@@ -27,8 +28,11 @@ class GameState : public State
 private:
 	PlatformPlayer* m_pPlayer;
 	Animator* m_pPlayerAnimator;
+	Label* m_pCDLabel;
+	int m_CDTimer{};
+	double m_CDTime;
+	//std::string CDText{"Fireball Ready!"};
 	std::vector<SDL_FRect*> m_pPlatforms;
-	bool Jump;
 	
 public:
 	GameState();
