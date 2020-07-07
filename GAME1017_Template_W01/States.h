@@ -52,7 +52,7 @@ public:
 	void Enter();
 	void Exit();
 private:
-	Button* m_playBtn;
+	Button *m_level1Btn,*m_level2Btn;
 };
 
 class EndState : public State

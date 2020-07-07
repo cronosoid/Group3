@@ -29,7 +29,8 @@ TitleState::TitleState() {}
 
 void TitleState::Enter()
 {
-	m_playBtn = new PlayButton({ 0,0,400,100 }, { 312.0f,100.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
+	m_level1Btn = new PlayButtonFirst({ 0,0,400,100 }, { 312.0f,100.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
+	m_level2Btn = new PlayButtonSecond({ 0,0,400,100 }, { 312.0f,300.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
 	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
 	SOMA::Load("Aud/Fire.wav", "jump", SOUND_SFX);
 	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
@@ -38,7 +39,7 @@ void TitleState::Enter()
 
 void TitleState::Update()
 {
-	if (m_playBtn->Update() == 1)
+	if (m_level1Btn->Update() == 1 || m_level2Btn->Update() == 1)
 		return;
 }
 
@@ -46,7 +47,8 @@ void TitleState::Render()
 {
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 128, 0, 255, 255);
 	SDL_RenderClear(Engine::Instance().GetRenderer());
-	m_playBtn->Render();
+	m_level1Btn->Render();
+	m_level2Btn->Render();
 	State::Render();
 }
 

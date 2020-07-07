@@ -20,12 +20,20 @@ protected: // Private but inherited!
 
 // List button subclasses here...
 
-class PlayButton : public Button
+class PlayButtonFirst : public Button
 {
 private:
 	void Execute();
 public:
-	PlayButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t);
+	PlayButtonFirst(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t);
+};
+
+class PlayButtonSecond : public Button
+{
+private:
+	void Execute();
+public:
+	PlayButtonSecond(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t);
 };
 
 class RestartButton : public Button

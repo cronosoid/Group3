@@ -62,14 +62,14 @@ void Level1::Load(PlatformPlayer* Player)
 	MapObjectManager::CreateMapObject(kPlate, 6, 7, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 7, 7, Engine::Instance().GetRenderer());
 
-	EnemyManager::CreateEnemy(archer, 4, 3, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, 4, 3, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(swordman, 16, 8, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(swordman, 23, 8, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(swordman, 44, 8, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(swordman, 53, 5, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(swordman, 58, 8, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(swordman, 72, 5, Engine::Instance().GetRenderer());
-	//EnemyManager::CreateEnemy(archer, 1, 5, Engine::Instance().GetRenderer());
+	
 
 	this->m_pPortal = MapObjectManager::CreateMapObject(kPortal, 81, 6, Engine::Instance().GetRenderer());
 }
@@ -88,7 +88,7 @@ void Level1::Update()
 
 Level2::Level2()
 {
-	m_levelWidth = 4416;
+	m_levelWidth = 5504;
 	m_levelHight = 1300;
 }
 
@@ -98,29 +98,92 @@ void Level2::Load(PlatformPlayer* Player)
 
 	this->m_pPlayer = Player;
 
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 7; i++)
 	{
 		MapObjectManager::CreateMapObject(kPlate, i, 11, Engine::Instance().GetRenderer());
 	}
-	for (int i = 22; i < 27; i++)
-	{
-		MapObjectManager::CreateMapObject(kPlate, i, 9, Engine::Instance().GetRenderer());
-	}
-	for (int i = 29; i < 35; i++)
-	{
-		MapObjectManager::CreateMapObject(kPlate, i, 9, Engine::Instance().GetRenderer());
-	}
-	for (int i = 37; i < 60; i++)
+	MapObjectManager::CreateMapObject(kPlate, 10, 11, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 11, 11, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 12, 11, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 15, 11, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 16, 11, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 17, 11, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 18, 9, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 19, 9, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 20, 9, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 21, 11, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 22, 11, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 23, 11, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 24, 11, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 25, 9, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 26, 9, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 27, 9, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 28, 7, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 29, 7, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 30, 7, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 31, 9, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 32, 9, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 33, 9, Engine::Instance().GetRenderer());
+	for (int i = 34; i < 66; i++)
 	{
 		MapObjectManager::CreateMapObject(kPlate, i, 11, Engine::Instance().GetRenderer());
 	}
-	for (int i = 62; i < 85; i++)
+	MapObjectManager::CreateMapObject(kPlate, 25, 9, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 53, 9, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 54, 9, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 55, 7, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 56, 7, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 57, 7, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 66, 10, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 66, 9, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 69, 9, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 70, 9, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 71, 9, Engine::Instance().GetRenderer());
+	for (int i = 72; i < 102; i++)
 	{
 		MapObjectManager::CreateMapObject(kPlate, i, 11, Engine::Instance().GetRenderer());
 	}
+	MapObjectManager::CreateMapObject(kPlate, 85, 8, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 86, 8, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 87, 8, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 89, 8, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 90, 8, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 91, 8, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 93, 8, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 94, 8, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 95, 8, Engine::Instance().GetRenderer());
 
+	MapObjectManager::CreateMapObject(kSpike, 39, 10, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kSpike, 42, 10, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kSpike, 43, 10, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kSpike, 44, 10, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kSpike, 47, 10, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kSpike, 55, 10, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kSpike, 56, 10, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kSpike, 57, 10, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kSpike, 76, 10, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kSpike, 77, 10, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kSpike, 80, 10, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kSpike, 81, 10, Engine::Instance().GetRenderer());
 
-	this->m_pPortal = MapObjectManager::CreateMapObject(kPortal, 81, 6, Engine::Instance().GetRenderer());
+	this->m_pPortal = MapObjectManager::CreateMapObject(kPortal, 98, 6, Engine::Instance().GetRenderer());
+
+	EnemyManager::CreateEnemy(swordman, 11, 9, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, 29, 5, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, 32, 7, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, 36, 9, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, 52, 7, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, 55, 5, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, 70, 7, Engine::Instance().GetRenderer());
+
+	EnemyManager::CreateEnemy(archer, 25, 7, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(archer, 48, 9, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(archer, 61, 9, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(archer, 85, 9, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(archer, 89, 9, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(archer, 94, 9, Engine::Instance().GetRenderer());
+
+	std::cout << "Portal: " << this->m_pPortal->GetDstP()->x/64 << " " << this->m_pPortal->GetDstP()->y/64 << std::endl;
 }
 
 void Level2::Update()
