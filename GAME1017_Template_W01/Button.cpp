@@ -70,13 +70,13 @@ void PlayButton::Execute()
 
 void RestartButton::Execute()
 {
-	SOMA::PlaySound("beep");
+	SOMA::PlaySound("button");
 	STMA::ChangeState(new GameState(new Level1()));
 }
 
 void ExitButton::Execute()
 {
-	SOMA::PlaySound("beep");
+	SOMA::PlaySound("button");
 	Engine::Instance().setRunning(false);	
 	exit(0);
 }
