@@ -28,7 +28,6 @@ class GameState : public State
 private:
 	PlatformPlayer* m_pPlayer;
 	std::vector<SDL_FRect*> m_pPlatforms;
-
 	Level* m_pLevel;
 
 	int m_MapDamageCounter;

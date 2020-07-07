@@ -23,7 +23,7 @@ void Level1::Load(PlatformPlayer* Player)
 		MapObjectManager::CreateMapObject(kPlate, i, 11, Engine::Instance().GetRenderer());
 	}
 	MapObjectManager::CreateMapObject(kPlate, 10, 10, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 13, 10, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 16, 10, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 29, 11, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 30, 11, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 31, 11, Engine::Instance().GetRenderer());
@@ -62,14 +62,14 @@ void Level1::Load(PlatformPlayer* Player)
 	MapObjectManager::CreateMapObject(kPlate, 6, 7, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 7, 7, Engine::Instance().GetRenderer());
 
-	EnemyManager::CreateEnemy(archer, 4, 3, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
-	EnemyManager::CreateEnemy(swordman, 16, 8, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
-	EnemyManager::CreateEnemy(swordman, 23, 8, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
-	EnemyManager::CreateEnemy(swordman, 44, 8, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
-	EnemyManager::CreateEnemy(swordman, 53, 5, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
-	EnemyManager::CreateEnemy(swordman, 58, 8, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
-	EnemyManager::CreateEnemy(swordman, 72, 5, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
-	EnemyManager::CreateEnemy(archer, 1, 5, Engine::Instance().GetRenderer(), m_pPlayer, MapObjectManager::MapObjVec);
+	EnemyManager::CreateEnemy(archer, 4, 3, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, 16, 8, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, 23, 8, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, 44, 8, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, 53, 5, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, 58, 8, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(swordman, 72, 5, Engine::Instance().GetRenderer());
+	//EnemyManager::CreateEnemy(archer, 1, 5, Engine::Instance().GetRenderer());
 
 	this->m_pPortal = MapObjectManager::CreateMapObject(kPortal, 81, 6, Engine::Instance().GetRenderer());
 }

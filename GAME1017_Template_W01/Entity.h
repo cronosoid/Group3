@@ -41,7 +41,8 @@ protected:
 		m_maxJumpVelocity,
 		m_maxFallVelocity,
 		m_drag,
-		m_grav;
+		m_grav,
+		m_speed;
 	Uint32 flyingTime;
 	MapObject* m_floor;
 	Animator* animator;
