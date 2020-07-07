@@ -64,6 +64,7 @@ Plate::Plate(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :MapObjec
 	m_IsHurt = false;
 	m_CanCollide = true;
 	m_Damage = 0;
+  type = "Plate";
 }
 
 Plate::Plate(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, SDL_FPoint start, SDL_FPoint end):MapObject(s, d, r, t,start,end)
@@ -176,6 +177,7 @@ Spike::Spike(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :MapObjec
 	m_IsHurt = true;
 	m_CanCollide = false;
 	m_Damage = 10;
+  type = "Spike";
 }
 
 Spike::Spike(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, SDL_FPoint start, SDL_FPoint end) :MapObject(s, d, r, t, start, end)
@@ -283,5 +285,21 @@ void Spike::Render()
 	Sprite::Render();
 }
 
+Portal::Portal(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t):MapObject(s, d, r, t)
+{
+	isHurt = false;
+	canCollide = false;
+	type = "Portal";
+}
+
+void Portal::Update()
+{
+	
+}
+
+void Portal::Render()
+{
+	Sprite::Render();
+}
 
 

@@ -13,6 +13,7 @@
 #include "UIObjectManager.h"
 #include "MapObjectManager.h"
 #include "MoveManager.h"
+#include "Fireball.h"
 #include <iostream>
 
 // Begin State. CTRL+M+H and CTRL+M+U to turn on/off collapsed code.
@@ -61,14 +62,13 @@ GameState::GameState() {}
 void GameState::Enter()
 {
 	std::cout << "Entering GameState..." << std::endl;
-	
+  
 	MapObjectManager::Init();
 	EnemyManager::Init();
 
 	//Create a test level
 	LoadLevel_1();
-
-	
+  
 	m_pPlayer = new PlatformPlayer({ 0,0,34,50 }, { 128.0f,600.0f,64.0f,100.0f },
 		Engine::Instance().GetRenderer(), TEMA::GetTexture("KabenSheet"));
 	m_pPlayer->addAnimator(new Animator(m_pPlayer));
@@ -112,7 +112,7 @@ void GameState::Update()
 	{
 		if ((m_pPlayer->getMeleeTime() + MELEECOOLDOWN * 1000) < SDL_GetTicks())
 		{
-			m_pPlayer->setMeleeTime();
+			m_pPlayer->setMeleeTime(); 
 			SDL_FRect rect;
 			if (m_pPlayer->getAnimator()->getFace() == 0)
 			{
@@ -136,7 +136,6 @@ void GameState::Update()
 					std::cout << "Melee attacked!\n";
 				}
 			}
-
 			m_pPlayer->Meele();
 		}
 	}
@@ -148,11 +147,12 @@ void GameState::Update()
 			// will complete the projectile spawn in a while
 			int face;
 			m_pPlayer->getAnimator()->getFace() == 0 ? face = 1 : face = -1;
-			PMA::Instance().GetProjectiles().push_back(new Projectile({ 0,0,64,64 },
+			PMA::Instance().GetProjectiles().push_back(new Fireball(m_pPlayer, EnemyManager::EnemiesVec, MapObjectManager::MapObjVec, { 0,0,64,64 },
 				{ face == 1 ? m_pPlayer->GetDstP()->x + m_pPlayer->GetDstP()->w : m_pPlayer->GetDstP()->x - 24,
 				m_pPlayer->GetDstP()->y + 42, 48, 48 },
 				Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 15, face, m_pPlayer->m_magicDmg,
 				4, 6, 64, 64));
+			
 			m_pPlayer->ChangeSoul(-FIREBALLCOST);
 		}
 	}
@@ -178,8 +178,10 @@ void GameState::Update()
 	EnemyManager::DestroyInvalidEnemies();
 	
 	CheckCollision();
-	// Die
+	// Die	
 	if (m_pPlayer->GetSoul() <= 0)
+		STMA::ChangeState(new EndState());
+	if (COMA::CheckPortalCollision(MapObjectManager::MapObjVec, m_pPlayer))
 		STMA::ChangeState(new EndState());
 	if (EVMA::KeyHeld(SDL_SCANCODE_X))
 	{

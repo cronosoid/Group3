@@ -16,12 +16,12 @@ public:
 	~MoveManager();
 
 	static void Init(SDL_Window* window, int maxX, int maxY);
-	static void moveX(float x);
-	static int getMaxX() { return maxX; }
-	static int getMaxY() { return maxY; }
-	static bool checkBoundaries(float x, float velX, float y, Entity* player);
-	static SDL_FRect getTotalMove() { return {(float)totalMoveX, (float)totalMoveY, 0, 0}; }
-	static int getRightBorder() { return maxX; }
+	static void MoveX(float x);
+	static int GetMaxX() { return maxX; }
+	static int GetMaxY() { return maxY; }
+	static bool CheckBoundaries(float x, float velX, float y, Entity* player);
+	static SDL_FRect GetTotalMove() { return {(float)totalMoveX, (float)totalMoveY, 0, 0}; }
+	static int GetRightBorder() { return maxX; }
 
 private:
 	static int maxX, maxY;

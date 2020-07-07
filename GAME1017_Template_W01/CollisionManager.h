@@ -26,7 +26,13 @@ public:
 
 	static void CheckPlayerMapDamage(const std::vector<MapObject*> mapObject, PlatformPlayer* obj);
 	static void CheckEnemyMapDamage(const std::vector<MapObject*> mapObject, Enemies* obj);
+	static bool PointRectCheck(const SDL_FPoint point, const SDL_FRect& object1);
+	static MapObject* FindFirstObjectOnTheRay(SDL_FPoint Pos, SDL_FPoint Move, float maxDist = 9e3);
+	static float SquareRectDistance(const SDL_FRect& object1, const SDL_FRect& object2);
 	static void CheckMapCollision(const std::vector<MapObject*> mapObjects, Entity* obj);
+
+	static bool CheckPortalCollision(const std::vector<MapObject*> map_objects, Entity* obj);
+	
 private:
 	CollisionManager() {}
 };

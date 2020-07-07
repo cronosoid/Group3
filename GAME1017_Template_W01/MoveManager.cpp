@@ -23,7 +23,7 @@ void MoveManager::Init(SDL_Window* window, int x, int y)
 	border = windowX * 0.1;
 }
 
-void MoveManager::moveX(float x)
+void MoveManager::MoveX(float x)
 {
 	if (totalMoveX + x < 0)
 	{
@@ -59,7 +59,7 @@ void MoveManager::moveX(float x)
 	}
 }
 
-bool MoveManager::checkBoundaries(float x, float velX, float y, Entity* player)
+bool MoveManager::CheckBoundaries(float x, float velX, float y, Entity* player)
 {
 	//std::cout << totalMoveX << "\n";
 	int rightBorder = windowX - windowX * MAPSCROLLINGDISTANCE;

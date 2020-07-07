@@ -41,6 +41,7 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	m_fps = (Uint32)round((1 / (double)FPS) * 1000); // Sets FPS in milliseconds and rounds.
 	TEMA::RegisterTexture("Img/play.png", "play");
 	TEMA::RegisterTexture("Img/Fireball.png", "fireball");
+	TEMA::RegisterTexture("Img/HighlightedBrick.png", "hBrick");
 	TEMA::RegisterTexture("../Spritesheets/Arrow.png", "Arrow");
 	TEMA::RegisterTexture("../Spritesheets/Kaben_Sheet.png", "KabenSheet"); 
 

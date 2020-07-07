@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Sprite.h"
 
+
 class MapObject :public Sprite
 {
 public:
@@ -12,6 +13,7 @@ protected:
 		m_mDir;//true:to end false: to start
 	int m_Damage;
 	float m_moveSpeed;
+  std::string type;//used as tag for different map objects
 	SDL_FPoint m_startPoint, m_endPoint;
 public:
 	MapObject(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t);
@@ -20,6 +22,7 @@ public:
 	//make sure start and end are on a line
 	virtual void Update() = 0;
 	virtual void Render() = 0;
+
 	bool getIsHurt();
 	bool getCanCollide();
 	bool getCanMove();
@@ -27,6 +30,7 @@ public:
 	void changeDir();
 	void moveStart(double x,double y);
 	void moveEnd(double x,double y);
+	std::string getType() { return type; };
 protected:
 
 };
@@ -42,6 +46,7 @@ public:
 	Plate(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, SDL_FPoint start, SDL_FPoint end);
 	void Update() override;
 	void Render() override;
+	
 private:
 
 };
@@ -57,6 +62,17 @@ public:
 	Spike(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, SDL_FPoint start, SDL_FPoint end);
 	void Update() override;
 	void Render() override;
+private:
+
+};
+
+class Portal: public MapObject
+{
+public:
+	Portal(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t);
+	void Update() override;
+	void Render() override;
+	
 private:
 
 };

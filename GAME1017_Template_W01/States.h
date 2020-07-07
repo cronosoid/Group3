@@ -28,8 +28,10 @@ private:
 	PlatformPlayer* m_pPlayer;
 	Animator* m_pPlayerAnimator;
 	std::vector<SDL_FRect*> m_pPlatforms;
+
 	int m_MapDamageCounter;
 	const int MAPDAMAGECD = 60;//equal to FPS
+
 public:
 	GameState();
 	void Update();

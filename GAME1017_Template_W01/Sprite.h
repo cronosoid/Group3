@@ -17,6 +17,7 @@ public: // Inherited and public.
 	void SetAngle(double a) { m_angle = a; }
 	void SetSrcCords(int x, int y);
 	void SetDstSize(int w, int h);
+	void SetTexture(SDL_Texture* text) { m_pText = text; }
 	
 protected: // Private BUT inherited.
 	double m_angle;

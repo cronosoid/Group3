@@ -1,5 +1,11 @@
 #include "CollisionManager.h"
 #include "DebugManager.h"
+Liqi_Week7Latest
+#include "StateManager.h"
+=======
+#include "MoveManager.h"
+#include "TextureManager.h"
+latest_copy
 
 bool CollisionManager::AABBCheck(const SDL_FRect& object1, const SDL_FRect& object2)
 {
@@ -44,8 +50,60 @@ bool CollisionManager::LinePointCheck(const SDL_FPoint object1_start, const SDL_
 	return false;
 }
 
+bool CollisionManager::PointRectCheck(const SDL_FPoint point, const SDL_FRect& object1)
+{
+	return (point.x <= object1.x + object1.w and
+		point.x >= object1.x and
+		point.y <= object1.y + object1.h and
+		point.y >= object1.y);
+}
+
+MapObject* CollisionManager::FindFirstObjectOnTheRay(SDL_FPoint Pos, SDL_FPoint Move, float maxDist)
+{
+	float len = sqrt(Move.x * Move.x + Move.y * Move.y);
+	float dx = Move.x / len;
+	float dy = Move.y / len;
+
+	float dist = 0;
+	bool distancing = false;
+	if (maxDist < 9e3)
+	{
+		maxDist *= maxDist;
+		distancing = true;
+	}
+	
+	SDL_FPoint curPos = { Pos.x, Pos.y };
+	while (curPos.x > -MOMA::GetTotalMove().x and curPos.x < MOMA::GetMaxX() and curPos.y > 0 and curPos.y < MOMA::GetMaxY() and dist < maxDist)
+	{
+		curPos.x += dx;
+		curPos.y += dy;
+		if (distancing)
+		{
+			dist += dx * dx + dy * dy;
+		}
+		for (MapObject* obj : MapObjectManager::MapObjVec)
+		{
+			if (obj->getCollision() and COMA::PointRectCheck(curPos, *obj->GetDstP()))
+			{
+				return obj;
+			}
+		}
+	}
+	return nullptr;
+}
+
+float CollisionManager::SquareRectDistance(const SDL_FRect& object1, const SDL_FRect& object2)
+{
+	float x1 = object1.x + object1.w / 2;
+	float x2 = object2.x + object2.w / 2;
+	float y1 = object1.y + object1.h / 2;
+	float y2 = object2.y + object2.h / 2;
+	return (pow(x1 - x2, 2.0f) + pow(y1 - y2, 2.0f));
+}
+
 void CollisionManager::CheckMapCollision(const std::vector<MapObject*> mapObjects, Entity* obj)
 {
+	MapObject* oldFloor = obj->GetFloor();
 	obj->SetGrounded(false);
 	for (MapObject* mapObject : mapObjects) // For each platform.
 	{
@@ -54,7 +112,13 @@ void CollisionManager::CheckMapCollision(const std::vector<MapObject*> mapObject
 		{
 			if (obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() <= mapObjectRect->y)
 			{ // Colliding top side of platform.
-				obj->SetGrounded(true, mapObjectRect);
+				MapObject* newFloor = oldFloor;
+				if (oldFloor == nullptr
+					or SquareRectDistance(*oldFloor->GetDstP(), *obj->GetDstP()) > SquareRectDistance(*mapObjectRect, *obj->GetDstP()))
+				{
+					newFloor = mapObject;
+				}
+				obj->SetGrounded(true, newFloor);
 				obj->StopY();
 				obj->SetY(mapObjectRect->y - obj->GetDstP()->h - 1);
 			}
@@ -108,4 +172,20 @@ void CollisionManager::CheckEnemyMapDamage(const std::vector<MapObject*> mapObje
 				break;
 		}
 	}
+}
+
+bool CollisionManager::CheckPortalCollision(const std::vector<MapObject*> mapObject, Entity* obj)
+{
+	for (int i = 0; i < (int)mapObject.size(); i++) // For each platform.
+	{
+		if(mapObject[i]->getType()=="Portal")
+		{
+			SDL_FRect* temp = mapObject[i]->GetDstP();
+			if (COMA::AABBCheck(*obj->GetDstP(), *temp) )
+			{
+				return true;
+			}
+		}		
+	}
+	return false;
 }

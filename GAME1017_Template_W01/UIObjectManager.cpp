@@ -14,12 +14,12 @@ UIObjectManager::~UIObjectManager()
 
 }
 
+
 void UIObjectManager::Init()
 {
 	TEMA::RegisterTexture("../Spritesheets/Soul_Bar.png", "SoulBarBorder");
 	TEMA::RegisterTexture("../Spritesheets/fitBar.png", "SoulBarFiller");
 }
-
 
 void UIObjectManager::CreateSoulBar(SDL_FRect d1, SDL_FRect d2, SDL_Renderer* r, PlatformPlayer* hero)
 {
@@ -29,6 +29,16 @@ void UIObjectManager::CreateSoulBar(SDL_FRect d1, SDL_FRect d2, SDL_Renderer* r,
 	UIObjectVec.push_back(Tempfiller);
 	Tempborder = nullptr;
 	Tempfiller = nullptr;
+}
+
+void UIObjectManager::CreateCDBar(SDL_FRect d1, SDL_FRect d2, SDL_Renderer* r, PlatformPlayer* hero)
+{
+	CDBarBorder* TempCDBarBorder = new CDBarBorder({}, d1, r, TextureManager::GetTexture(("CDBarBorder")));
+	UIObjectVec.push_back(TempCDBarBorder);
+	CDBarFiller* TempCDBarFiller = new CDBarFiller({}, d2, r, TextureManager::GetTexture("CDBarfiller"), hero);
+	UIObjectVec.push_back(TempCDBarFiller);
+	TempCDBarFiller = nullptr;
+	TempCDBarFiller = nullptr;
 }
 
 void UIObjectManager::UIUpdate()

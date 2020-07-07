@@ -5,7 +5,8 @@
 enum MapObjectType
 {
 	kPlate = 1,
-	kSpike
+	kSpike,
+	kPortal
 };
 
 class MapObjectManager
