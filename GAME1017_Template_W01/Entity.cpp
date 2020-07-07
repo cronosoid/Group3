@@ -2,6 +2,7 @@
 #include <algorithm>
 #include "Engine.h"
 #include "MoveManager.h"
+#include "TextureManager.h"
 
 Entity::Entity(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator, bool player)
 	:Sprite(s, d, r, t)
@@ -16,7 +17,7 @@ Entity::Entity(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animato
 	this->flyingTime = 0;
 	this->animator = animator;
 	this->m_player = player;
-	this->globalDst = {d.x + MOMA::getTotalMove().x, d.y + MOMA::getTotalMove().y, d.w, d.h};
+	this->globalDst = {d.x + MOMA::GetTotalMove().x, d.y + MOMA::GetTotalMove().y, d.w, d.h};
 }
 
 void Entity::Stop() // If you want a dead stop both axes.
@@ -30,9 +31,9 @@ void Entity::StopY() { m_velY = 0.0; }
 void Entity::SetAccelX(double a) { m_accelX = a; }
 void Entity::SetAccelY(double a) { m_accelY = a; }
 bool Entity::IsGrounded() { return m_grounded; }
-void Entity::SetGrounded(bool g, SDL_FRect* Floor) {
+void Entity::SetGrounded(bool g, MapObject* Floor) {
 	this->m_grounded = g;
-	this->Floor = Floor;
+	this->m_floor = Floor;
 }
 double Entity::GetVelX() { return m_velX; }
 double Entity::GetVelY() { return m_velY; }
@@ -59,21 +60,21 @@ void Entity::movementUpdate()
 	this->m_velY += this->m_accelY + this->m_grav * gravAcceleration; // Adjust gravity to get slower jump.
 	this->m_velY = std::min(std::max(this->m_velY, -this->m_maxJumpVelocity), (this->m_grav * this->m_maxFallVelocity));
 	
-	if (this->m_player and MoveManager::checkBoundaries(this->m_dst.x, (int)this->m_velX, this->m_dst.y + (int)this->m_velY, this))
+	if (this->m_player and MoveManager::CheckBoundaries(this->m_dst.x, (int)this->m_velX, this->m_dst.y + (int)this->m_velY, this))
 	{
-		MoveManager::moveX((int)this->m_velX);
+		MoveManager::MoveX((int)this->m_velX);
 	}
 	else
 	{
 		this->m_dst.x += (int)this->m_velX;
 	}
-	this->getGlobalDst()->x = this->GetDstP()->x + MOMA::getTotalMove().x;
+	this->getGlobalDst()->x = this->GetDstP()->x + MOMA::GetTotalMove().x;
 
 	this->m_dst.y += (int)this->m_velY;
 
 	if (this->m_player)
 	{
-		this->m_dst.x = std::min(std::max(this->m_dst.x, 0.0f), (float)MOMA::getRightBorder() - this->m_dst.w);
+		this->m_dst.x = std::min(std::max(this->m_dst.x, 0.0f), (float)MOMA::GetRightBorder() - this->m_dst.w);
 	}
 
 	if (abs(this->m_velX) < 0.001f)
