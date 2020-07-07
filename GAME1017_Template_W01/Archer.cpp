@@ -64,8 +64,8 @@ void Archer::Update()
 			if (oldObject != nullptr)
 			{
 				oldObject->SetTexture(TEMA::GetTexture("plate"));
-			}*/
-			std::cout << "Face: " << animator->getFace() << "\n";
+			}
+			std::cout << "Face: " << animator->getFace() << "\n";*/
 			float curX;
 			animator->getFace() == 0 ? curX = m_dst.x + m_dst.w + 5 : curX = m_dst.x - 5;
 			float curY = m_dst.y + m_dst.h / 2;
@@ -89,10 +89,6 @@ void Archer::Update()
 					//std::cout << dist << " vs " << pow(m_floor->GetDstP()->w * 3 + 10, 2) << "\n"; // FOR DEBUG
 					animator->getFace() == 0 ? animator->setFace(1) : animator->setFace(0);
 				}
-			}
-			else
-			{
-				std::cout << "No object found\n";
 			}
 		}
 		}
