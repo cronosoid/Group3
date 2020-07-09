@@ -4,7 +4,7 @@
 #include "Sprite.h"
 #include "Entity.h"
 
-enum Status { IDLE, PATROLING, SEEKING, FLEEING, ATTACKING, DEAD };
+enum Status { IDLE, PATROLING, SEEKING, FLEEING, ATTACKING, STUNNED, DEAD };
 
 class Enemies :public Entity
 {
@@ -17,6 +17,7 @@ public:
 	bool getAlive();
 	void setAlive(bool a);
 	void getDamage(int dmg);
+	void Stun(int frames) { m_stunTime = abs(frames); }
 	int getDamageNum() { return damage;}
 	SDL_Texture* getTex();
 	std::string getType();
@@ -28,6 +29,7 @@ protected:
 		defence,
 		health;
 	Uint32 lastAttackTime;
+	Uint32 m_stunTime;
 	std::string enemyType;
 	Status curStatus;
 };

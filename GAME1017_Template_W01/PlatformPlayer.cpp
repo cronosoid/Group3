@@ -81,6 +81,7 @@ void PlatformPlayer::Update()
 				{
 					this->SoulRecover();
 					enemy->getDamage(this->m_meeleDmg);
+					enemy->Stun(MELEESTUNTIME);
 					std::cout << "Melee attacked!\n";
 				}
 			}

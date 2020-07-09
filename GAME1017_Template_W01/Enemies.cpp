@@ -8,6 +8,7 @@ Enemies::Enemies(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Anima
 {
 	isActive = true;
 	isAlive = true;
+	m_stunTime = 0;
 }
 
 void Enemies::setActive(bool a) { isActive = a; }

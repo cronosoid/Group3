@@ -7,6 +7,10 @@
 
 const int ATTACKINTERVAL = 40; // In frames
 const int STOPAFTERGOTATTACKED = 8; // In frames
+
+const int MELEESTUNTIME = 24; // In frames
+const int FIREBALLSTUNTIME = 24; // In frames
+
 const double MELEECOOLDOWN = 1.0;
 const double MAGICCOOLDOWN = 1.0;
 const double FIREBALLCOST = 10.0;

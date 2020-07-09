@@ -12,19 +12,20 @@ void Fireball::Update()
 {
 	Projectile::Update();
 
-	for (int i = 0; i < (int)EnemiesVec.size(); i++)
+	for (Enemies* enemy : EnemiesVec)
 	{
-		if (COMA::AABBCheck(*this->GetDstP(), *EnemiesVec[i]->GetDstP()))
+		if (COMA::AABBCheck(*this->GetDstP(), *enemy->GetDstP()))
 		{
-			EnemiesVec[i]->getDamage(hero->m_magicDmg);
+			enemy->getDamage(hero->m_magicDmg);
+			enemy->Stun(MELEESTUNTIME);
 			this->isActive = false;
 			break;
 		}
 	}
 
-	for (int i = 0; i <(int)mapObjects.size(); i++)
+	for (MapObject* object : mapObjects)
 	{
-		if (COMA::AABBCheck(*this->GetDstP(), *mapObjects[i]->GetDstP()))
+		if (COMA::AABBCheck(*this->GetDstP(), *object->GetDstP()))
 		{
 			this->isActive = false;
 			break;

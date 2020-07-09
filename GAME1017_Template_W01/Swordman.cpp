@@ -62,17 +62,17 @@ void Swordman::Update()
 		curStatus = DEAD;
 	}
 
+	if (m_stunTime > 0)
+	{
+		m_stunTime--;
+		curStatus = STUNNED;
+	}
+
 	switch (curStatus)
 	{
 	case IDLE:
 	{
-		srand((unsigned)time(NULL));
-		int secRan = rand() % 3 + 1;
-		if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000 * secRan) < SDL_GetTicks())
-		{
-			this->lastAttackTime = SDL_GetTicks();
-			attack();
-		}
+		
 	}
 	break;
 	case PATROLING:
@@ -169,6 +169,11 @@ void Swordman::Update()
 			std::cout << "Seeking\n";
 			attackWaitTime = 0;
 			curStatus = SEEKING;
+		}
+		break;
+	case STUNNED:
+		{
+			// Play stunned animation
 		}
 		break;
 	case DEAD:
