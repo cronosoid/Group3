@@ -21,6 +21,8 @@ const int ATTACKDISTANCE = 300;
 const float WALKSPEED = 0.4;
 const float RUNSPEED = 0.55;
 
+const int MAXATTACKWAITTIME = 30; // in frames
+
 Archer::Archer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator) :Enemies(s, d, r, t, animator)
 {
 	this->curStatus = PATROLING;
@@ -38,6 +40,8 @@ void Archer::Update()
 	{
 		setActive(false);
 	}
+
+	static int attackWaitTime = 0;
 
 	float squareDistToPlayer = COMA::SquareRectDistance(*this->GetDstP(), *EnemyManager::GetTarget()->GetDstP());
 	if (curStatus != ATTACKING)
@@ -155,10 +159,15 @@ void Archer::Update()
 	case ATTACKING:
 		if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
 		{
+			attackWaitTime = MAXATTACKWAITTIME;
 			this->lastAttackTime = SDL_GetTicks();
 			attack();
 		}
-		curStatus = SEEKING;
+		if (--attackWaitTime <= 0)
+		{
+			attackWaitTime = 0;
+			curStatus = SEEKING;
+		}
 		break;
 	case DEAD:
 		break;

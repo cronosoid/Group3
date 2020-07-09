@@ -190,7 +190,7 @@ void Level2::Update()
 {
 	if (m_pPlayer->GetDstP()->y > m_levelHight)
 	{
-		m_pPlayer->ChangeSoul(0);
+		m_pPlayer->ChangeSoul(-m_pPlayer->m_maxSoul);
 	}
 	else if (COMA::AABBCheck(*this->m_pPortal->GetDstP(), *this->m_pPlayer->GetDstP()))
 	{

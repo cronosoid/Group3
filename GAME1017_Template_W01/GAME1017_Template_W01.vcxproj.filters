@@ -2,208 +2,208 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Engine.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Animator.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Archer.cpp">
-      <Filter>Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemies.cpp">
-      <Filter>Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="Swordman.cpp">
-      <Filter>Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="EventManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="FontManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="MapObjectManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="MathManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="MoveManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="ProjectileManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="StateManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="UIObjectManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
     <ClCompile Include="Background.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="CDBar.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Label.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="SoulBar.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UIObject.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="States.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Sprite.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="MapObject.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="PlatformPlayer.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Projectile.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Level.cpp">
-      <Filter>Engine</Filter>
+      <Filter>UI\Header</Filter>
     </ClCompile>
     <ClCompile Include="Button.cpp">
-      <Filter>UI</Filter>
+      <Filter>UI\Header</Filter>
     </ClCompile>
-    <ClCompile Include="Fireball.cpp">
-      <Filter>Objects</Filter>
+    <ClCompile Include="CDBar.cpp">
+      <Filter>UI\Header</Filter>
+    </ClCompile>
+    <ClCompile Include="Label.cpp">
+      <Filter>UI\Header</Filter>
+    </ClCompile>
+    <ClCompile Include="SoulBar.cpp">
+      <Filter>UI\Header</Filter>
+    </ClCompile>
+    <ClCompile Include="UIObject.cpp">
+      <Filter>UI\Header</Filter>
     </ClCompile>
     <ClCompile Include="Arrow.cpp">
-      <Filter>Objects</Filter>
+      <Filter>Objects\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Fireball.cpp">
+      <Filter>Objects\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Managers\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugManager.cpp">
+      <Filter>Managers\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>Managers\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Managers\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="FontManager.cpp">
+      <Filter>Managers\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MapObjectManager.cpp">
+      <Filter>Managers\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MathManager.cpp">
+      <Filter>Managers\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveManager.cpp">
+      <Filter>Managers\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectileManager.cpp">
+      <Filter>Managers\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Managers\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="StateManager.cpp">
+      <Filter>Managers\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Managers\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="UIObjectManager.cpp">
+      <Filter>Managers\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>Engine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Engine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Engine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Engine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PlatformPlayer.cpp">
+      <Filter>Engine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Engine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="States.cpp">
+      <Filter>Engine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Objects\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MapObject.cpp">
+      <Filter>Objects\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Archer.cpp">
+      <Filter>Enemies\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemies.cpp">
+      <Filter>Enemies\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Swordman.cpp">
+      <Filter>Enemies\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Animator.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Archer.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemies.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="Swordman.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="EventManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="FontManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="MapObjectManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="MathManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="MoveManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="ProjectileManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="StateManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="UIObjectManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
     <ClInclude Include="Background.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="CDBar.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Label.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="SoulBar.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UIObject.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="States.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="MapObject.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="PlatformPlayer.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Projectile.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Level.h">
-      <Filter>Engine</Filter>
+      <Filter>UI\Source</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
-      <Filter>UI</Filter>
+      <Filter>UI\Source</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities.h">
-      <Filter>Engine</Filter>
+    <ClInclude Include="CDBar.h">
+      <Filter>UI\Source</Filter>
     </ClInclude>
-    <ClInclude Include="Fireball.h">
-      <Filter>Objects</Filter>
+    <ClInclude Include="Label.h">
+      <Filter>UI\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="SoulBar.h">
+      <Filter>UI\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="UIObject.h">
+      <Filter>UI\Source</Filter>
     </ClInclude>
     <ClInclude Include="Arrow.h">
-      <Filter>Objects</Filter>
+      <Filter>Objects\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Fireball.h">
+      <Filter>Objects\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Managers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugManager.h">
+      <Filter>Managers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>Managers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Managers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="FontManager.h">
+      <Filter>Managers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MapObjectManager.h">
+      <Filter>Managers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MathManager.h">
+      <Filter>Managers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveManager.h">
+      <Filter>Managers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectileManager.h">
+      <Filter>Managers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Managers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="StateManager.h">
+      <Filter>Managers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Managers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="UIObjectManager.h">
+      <Filter>Managers\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Engine\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Engine\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Engine\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Engine\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PlatformPlayer.h">
+      <Filter>Engine\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Engine\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="States.h">
+      <Filter>Engine\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities.h">
+      <Filter>Engine\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Objects\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MapObject.h">
+      <Filter>Objects\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Archer.h">
+      <Filter>Enemies\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemies.h">
+      <Filter>Enemies\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Swordman.h">
+      <Filter>Enemies\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -244,6 +244,30 @@
     </Filter>
     <Filter Include="Engine\Source">
       <UniqueIdentifier>{e23e6111-878c-40ea-9c90-5bbce2b3e22a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemies\Header">
+      <UniqueIdentifier>{b3fde1a7-bc62-4f15-8801-aa55fea786f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemies\Source">
+      <UniqueIdentifier>{1a2f388c-52b9-473d-9e14-5f8ba33d8ea3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\Header">
+      <UniqueIdentifier>{1b179d0b-2b00-4be3-a51d-6c468b10f5ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\Source">
+      <UniqueIdentifier>{11d5db77-a872-4d15-847b-cf09a4aa349e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Header">
+      <UniqueIdentifier>{5e8a9d43-81d6-4a66-b965-bee7867d2927}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Source">
+      <UniqueIdentifier>{0a660f7c-585c-43f2-8e1f-318ead133961}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Header">
+      <UniqueIdentifier>{f56de532-b642-49e6-9cb7-a444175059bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Source">
+      <UniqueIdentifier>{6b54b650-8283-4c72-b910-4a42d7a12525}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
