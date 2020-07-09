@@ -5,6 +5,8 @@
 #include "Sprite.h"
 #include "Entity.h"
 
+const int ATTACKINTERVAL = 40; // In frames
+const int STOPAFTERGOTATTACKED = 8; // In frames
 const double MELEECOOLDOWN = 1.0;
 const double MAGICCOOLDOWN = 1.0;
 const double FIREBALLCOST = 10.0;
@@ -35,11 +37,14 @@ public: // Methods
 	Uint32 getMagicTime() { return lastMagicTime; }
 	void setMagicTime() { lastMagicTime = SDL_GetTicks(); }
 	void getDamage(int dmg);
+	Uint32 GetLastAttackedTime() { return m_lastAttacked; }
+	void SetLastAttackedTime() { m_lastAttacked = ATTACKINTERVAL; }
 
 private:
 	double m_curSoul;
 	Uint32 lastMeleeTime;
 	Uint32 lastMagicTime;
+	Uint32 m_lastAttacked = 0;
 };
 
 #endif

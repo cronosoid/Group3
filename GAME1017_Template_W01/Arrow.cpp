@@ -16,16 +16,6 @@ Arrow::Arrow(PlatformPlayer* hero, std::vector<MapObject*> mabObjects, SDL_Rect 
 
 void Arrow::Update()
 {	
-
-	/*if (hero->GetDstP()->x >= m_dst.x)
-	{
-		face = 1;
-	}
-	else
-	{
-		face = -1;
-	}*/
-	
 	m_dst.x += m_speed * face;
 	
 	if (m_curFrame >= m_framesFrequency)
@@ -46,9 +36,12 @@ void Arrow::Update()
 		m_curFrame++;
 	}
 	
-	if (COMA::AABBCheck(*this->GetDstP(), *hero->GetDstP()))
+	if (COMA::AABBCheck(*this->GetDstP(), *hero->GetDstP())
+		and hero->GetLastAttackedTime() <= 0)
 	{
 		hero->getDamage(ARCHERDAMAGE);
+		hero->SetLastAttackedTime();
+		hero->StopX();
 		isActive = false;
 	}
 

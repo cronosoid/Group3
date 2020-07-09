@@ -201,9 +201,12 @@ void Swordman::attack()
 	rect.w = this->GetDstP()->w;
 	rect.h = this->GetDstP()->h;
 
-	if (COMA::AABBCheck(rect, *EnemyManager::GetTarget()->GetDstP()))
+	if (COMA::AABBCheck(rect, *EnemyManager::GetTarget()->GetDstP())
+		and static_cast<PlatformPlayer*>(EnemyManager::GetTarget())->GetLastAttackedTime() <= 0)
 	{
 		EnemyManager::GetTarget()->getDamage(SWORDMANDAMAGE);
+		static_cast<PlatformPlayer*>(EnemyManager::GetTarget())->SetLastAttackedTime();
+		EnemyManager::GetTarget()->StopX();
 		std::cout << "Swordman Melee!\n";
 	}
 }

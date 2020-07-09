@@ -107,8 +107,18 @@ void PlatformPlayer::Update()
 
 	if (this->movement[0] == 0)
 		this->getAnimator()->setNextAnimation("idle");
-	this->getAnimator()->playAnimation();
+	
+	if (m_lastAttacked > 0)
+	{
+		m_lastAttacked--;
+		if (m_lastAttacked > ATTACKINTERVAL - STOPAFTERGOTATTACKED)
+		{
+			// this->getAnimator()->setNextAnimation("attacked");
+			this->SetAccelX(0);
+		}
+	}
 
+	this->getAnimator()->playAnimation();
 	movementUpdate();
 }
 
