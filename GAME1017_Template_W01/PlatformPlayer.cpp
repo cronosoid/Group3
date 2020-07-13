@@ -142,7 +142,7 @@ void PlatformPlayer::Update()
 			{
 				this->SetAccelY(-15);
 				this->SetGrounded(false);
-				std::cout << "Grounded: " <<std::endl;
+				//std::cout << "Grounded: " <<std::endl;
 			}				
 			else
 			{
@@ -162,7 +162,7 @@ void PlatformPlayer::Update()
 
 	this->getAnimator()->playAnimation();
 	movementUpdate();
-	std::cout << "X: " << this->GetVelX() << " Y: " << this->GetVelY() << std::endl;
+	//std::cout << "X: " << this->GetVelX() << " Y: " << this->GetVelY() << std::endl;
 }
 
 void PlatformPlayer::Render()
