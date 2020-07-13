@@ -16,6 +16,7 @@
 #include "MoveManager.h"
 #include "Fireball.h"
 #include <iostream>
+#include <ctime>
 
 // Begin State. CTRL+M+H and CTRL+M+U to turn on/off collapsed code.
 void State::Render()
@@ -97,6 +98,11 @@ void TitleState::Exit()
 // End TitleState.
 
 // Begin GameState.
+
+int GameState::m_score=0;
+int GameState::m_time=0;
+int GameState::m_currentLevel=0;
+
 GameState::GameState(Level* newLevel)
 {
 	m_pLevel = newLevel;
@@ -108,7 +114,7 @@ void GameState::Enter()
 
 	SOMA::PlayMusic("bamboo", -1, 0);
 	
-  MapObjectManager::Init();
+	MapObjectManager::Init();
 	UIObjectManager::Init();
 	EnemyManager::Init();
 
@@ -123,6 +129,10 @@ void GameState::Enter()
 	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, { 105.0f,72.0f,185.0f,20.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
 
 	m_MapDamageCounter = 0;
+	m_currentLevel = m_pLevel->getLevelNum();
+	m_score = 0;
+	m_start = clock();
+	std::cout << "Start: " << (int)m_start << std::endl;
 }
 
 void GameState::Update()
@@ -211,6 +221,10 @@ void GameState::Render()
 
 void GameState::Exit()
 {
+	m_end=clock();
+	m_time = (int)(m_end - m_start)/1000;
+	std::cout << "End: " << (int)m_end << std::endl;
+	std::cout << "Time: " << (int)m_time << std::endl;
 	for (const auto& mapElement : m_pPlayer->getAnimator()->animationsMap)
 	{
 		if (mapElement.second != nullptr)
@@ -271,7 +285,6 @@ void EndState::Update()
 
 void EndState::Render()
 {
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 128, 0, 255, 255);
 	SDL_RenderClear(Engine::Instance().GetRenderer());
 	e_background->Render();
 	m_restartBtn->Render();
@@ -286,3 +299,83 @@ void EndState::Exit()
 	delete m_exitBtn;
 	m_exitBtn = nullptr;
 }
+//End EndState
+
+//Begin CongratulationState
+
+CongratulationState::CongratulationState()
+{
+	
+}
+
+void CongratulationState::Enter()
+{
+	SOMA::PlayMusic("ambient", -1, 0);
+	e_background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("end_background"));
+	m_Congratulation = new Sprite({ 0,0,400,92 }, { 300.0f,150.0f,400.0f,92.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("congratulations"));
+	switch (GameState::m_currentLevel)
+	{
+	case 1:
+	{
+		m_nextLevelBtn = new NextLevelButton({ 0,0,400,100 }, { 312.0f,400.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("nextLevel"), 2);
+		break;
+	}
+	case 2:
+	{
+		m_nextLevelBtn = new NextLevelButton({ 0,0,400,100 }, { 312.0f,400.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("nextLevel"), 3);
+		break;
+	}
+	case 3:
+	{
+		break;
+	}
+	default:break;
+	}
+	m_exitBtn = new ExitButton({ 0,0,400,100 }, { 312.0f,525.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("exit"));
+	m_scoreLabel = new Label("Ltype", 450,260, " ");
+	std::string Score = "Score: " + std::to_string(GameState::m_score);
+	m_scoreLabel->SetText(Score.c_str());
+	m_timeLabel = new Label("Ltype", 450, 300, " ");
+	std::string Time = "Time: " + std::to_string(GameState::m_time) + "s";
+	m_timeLabel->SetText(Time.c_str());
+}
+
+void CongratulationState::Update()
+{
+	if (m_nextLevelBtn != nullptr)
+	{
+		if (m_nextLevelBtn->Update() == 1)
+			return;
+	}	
+	if (m_exitBtn->Update() == 1)
+		return;
+}
+
+void CongratulationState::Render()
+{
+	SDL_RenderClear(Engine::Instance().GetRenderer());
+	e_background->Render();
+	m_Congratulation->Render();
+	if(m_nextLevelBtn!=nullptr)
+		m_nextLevelBtn->Render();
+	m_exitBtn->Render();
+	m_scoreLabel->Render();
+	m_timeLabel->Render();
+	State::Render();
+}
+
+void CongratulationState::Exit()
+{
+	delete m_Congratulation;
+	m_Congratulation = nullptr;
+	delete m_exitBtn;
+	m_exitBtn = nullptr;
+	if(m_nextLevelBtn!=nullptr)
+	{
+		delete m_nextLevelBtn;
+		m_nextLevelBtn = nullptr;
+	}
+}
+
+//End CongratulationState
+

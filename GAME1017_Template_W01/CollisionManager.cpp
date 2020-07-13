@@ -149,9 +149,10 @@ void CollisionManager::CheckPlayerMapDamage(const std::vector<MapObject*> mapObj
 	for (auto mapObject : mapObject) // For each platform.
 	{
 		SDL_FRect* temp = mapObject->GetDstP();
-		if (COMA::AABBCheck(*obj->GetDstP(), *temp) && mapObject->getIsHurt() == true)
+		if (COMA::AABBCheck(*obj->GetDstP(), *temp) && mapObject->getIsHurt() == true && obj->GetLastAttackedTime()<=0)
 		{
 				obj->ChangeSoul(-mapObject->getDamage());
+				obj->SetLastAttackedTime();
 				std::cout << "Health: " << obj->GetSoul() << std::endl;
 				break;
 		}
