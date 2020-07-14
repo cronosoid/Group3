@@ -72,7 +72,7 @@ void Swordman::Update()
 	{
 	case IDLE:
 	{
-		
+
 	}
 	break;
 	case PATROLING:
@@ -159,23 +159,23 @@ void Swordman::Update()
 	case ATTACKING:
 		if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
 		{
-			//std::cout << "Attacked\n";
+			std::cout << "Attacked\n";
 			attackWaitTime = MAXATTACKWAITTIME;
 			this->lastAttackTime = SDL_GetTicks();
 			attack();
 		}
 		if (--attackWaitTime <= 0)
 		{
-			//std::cout << "Seeking\n";
+			std::cout << "Seeking\n";
 			attackWaitTime = 0;
 			curStatus = SEEKING;
 		}
 		break;
 	case STUNNED:
-		{
-			// Play stunned animation
-		}
-		break;
+	{
+		// Play stunned animation
+	}
+	break;
 	case DEAD:
 		break;
 	default:
@@ -186,7 +186,7 @@ void Swordman::Update()
 void Swordman::Render()
 {
 	m_pText = TextureManager::GetTexture("Swordman");
-	
+
 	SDL_RenderCopy(m_pRend, m_pText, &m_src, &MAMA::ConvertFRect2Rect(m_dst));
 }
 

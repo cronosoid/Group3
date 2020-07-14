@@ -86,7 +86,9 @@ void Entity::movementUpdate()
 
 	if (abs(this->m_velX) < 0.001f)
 		this->m_velX = 0;
-
+	if (abs(this->m_velY) < 0.001f)
+		this->m_velY = 0;
+	
 	this->m_accelX = this->m_accelY = 0.0;
 }
 

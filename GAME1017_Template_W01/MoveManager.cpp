@@ -104,7 +104,7 @@ bool MoveManager::CheckXBoundaries(float x, float velX, Entity* player)
 }
 bool MoveManager::checkYBoundaries(float y, float velY, Entity* player)
 {
-	std::cout << totalMoveY << "\n";
+	//std::cout << totalMoveY << "\n";
 	int upBorder = windowY * MAPSCROLLINGYUPDISTANCE;
 	int downBorder = windowY - windowY * MAPSCROLLINGYDOWNDISTANCE;
 	if ((y + velY < upBorder and velY < 0 and totalMoveY > -maxY) or (y + velY > downBorder and velY > 0 and totalMoveY < 0))

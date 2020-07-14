@@ -22,10 +22,10 @@ void Level1::Load(PlatformPlayer* Player)
 	{
 		MapObjectManager::CreateMapObject(kPlate, i, 11, Engine::Instance().GetRenderer());
 	}
-	for (int i = 10; i < 40; i++) // STAIRS
+	/*for (int i = 10; i < 40; i++) // STAIRS
 	{
 		MapObjectManager::CreateMapObject(kPlate, i, 20 - i, Engine::Instance().GetRenderer());
-	}
+	}*/
 	MapObjectManager::CreateMapObject(kPlate, 10, 10, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 16, 10, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 29, 11, Engine::Instance().GetRenderer());

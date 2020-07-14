@@ -70,7 +70,7 @@ MapObject* CollisionManager::FindFirstObjectOnTheRay(SDL_FPoint Pos, SDL_FPoint 
 	}
 	
 	SDL_FPoint curPos = { Pos.x, Pos.y };
-	while (curPos.x > -MOMA::GetTotalMove().x and curPos.x < MOMA::GetMaxX() and curPos.y > 0 and curPos.y < MOMA::GetMaxY() and dist < maxDist)
+	while (curPos.x > -MOMA::GetTotalMove().x and curPos.x < MOMA::GetMaxX() and curPos.y > -MOMA::GetMaxY() and curPos.y < MOMA::GetWindowY() and dist < maxDist)
 	{
 		curPos.x += dx;
 		curPos.y += dy;
