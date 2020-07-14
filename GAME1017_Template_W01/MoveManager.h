@@ -8,6 +8,7 @@
 #include <vector>
 
 const float MAPSCROLLINGDISTANCE = 0.3f;
+const float MAPSCROLLINGyDISTANCE = 0.7f;
 
 class MoveManager
 {
@@ -17,9 +18,11 @@ public:
 
 	static void Init(SDL_Window* window, int maxX, int maxY);
 	static void MoveX(float x);
+	static void MoveY(float x);
 	static int GetMaxX() { return maxX; }
 	static int GetMaxY() { return maxY; }
-	static bool CheckBoundaries(float x, float velX, float y, Entity* player);
+	static bool CheckXBoundaries(float x, float velX, float y, Entity* player);
+	static bool checkYBoundaries(float Y, float velY, float x, Entity* player);
 	static SDL_FRect GetTotalMove() { return {(float)totalMoveX, (float)totalMoveY, 0, 0}; }
 	static int GetRightBorder() { return maxX; }
 

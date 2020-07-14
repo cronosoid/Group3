@@ -59,13 +59,54 @@ void MoveManager::MoveX(float x)
 		projectile->GetDstP()->x -= x;
 	}
 }
+void MoveManager::MoveY(float x)
+{
+	if (totalMoveY + x < 0)
+	{
+		x = -totalMoveY;
+		totalMoveY = 0;
+	}
+	else if (totalMoveY + x > maxY)
+	{
+		totalMoveY = maxY;
+		x = maxY - totalMoveY;
+	}
+	else
+	{
+		totalMoveY += x;
+	}
 
-bool MoveManager::CheckBoundaries(float x, float velX, float y, Entity* player)
+	for (MapObject* mapObject : MapObjectManager::MapObjVec)
+	{
+		mapObject->GetDstP()->y -= x;
+	}
+	for (Enemies* enemy : EnemyManager::EnemiesVec)
+	{
+		enemy->GetDstP()->y -= x;
+	}
+	for (Projectile* projectile : PMA::Instance().GetProjectiles())
+	{
+		projectile->GetDstP()->y -= x;
+	}
+}
+
+bool MoveManager::CheckXBoundaries(float x, float velX, float y, Entity* player)
 {
 	//std::cout << totalMoveX << "\n";
 	int rightBorder = windowX - windowX * MAPSCROLLINGDISTANCE;
 	int leftBorder = windowX * MAPSCROLLINGDISTANCE;
 	if ((x + velX < leftBorder and velX < 0 and totalMoveX > 0) or (x + velX > rightBorder and velX > 0 and totalMoveX < maxX))
+	{
+		return true;
+	}
+	return false;
+}
+bool MoveManager::checkYBoundaries(float Y, float velY, float x, Entity* player)
+{
+	std::cout << totalMoveY << "\n";
+	int upBorder = windowY - windowY * MAPSCROLLINGDISTANCE;
+	int downBorder = windowY * MAPSCROLLINGyDISTANCE;
+	if ((Y + velY < upBorder and velY < 0 and totalMoveY > 0) or (Y + velY > downBorder and velY > 0 and totalMoveY < maxY))
 	{
 		return true;
 	}
