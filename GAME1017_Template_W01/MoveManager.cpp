@@ -29,6 +29,7 @@ void MoveManager::MoveX(float x)
 	if (totalMoveX + x < 0)
 	{
 		x = -totalMoveX;
+		totalMoveX = 0;		x = -totalMoveX;
 		totalMoveX = 0;
 	}
 	else if (totalMoveX + x > maxX)
@@ -59,55 +60,54 @@ void MoveManager::MoveX(float x)
 		projectile->GetDstP()->x -= x;
 	}
 }
-void MoveManager::MoveY(float x)
+void MoveManager::MoveY(float y)
 {
-	if (totalMoveY + x < 0)
+	if (totalMoveY + y > 0)
 	{
-		x = -totalMoveY;
+		y = -totalMoveY;
 		totalMoveY = 0;
 	}
-	else if (totalMoveY + x > maxY)
+	else if (totalMoveY + y < -maxY)
 	{
-		totalMoveY = maxY;
-		x = maxY - totalMoveY;
+		y = -maxY - totalMoveY;
+		totalMoveY = -maxY;
 	}
 	else
 	{
-		totalMoveY += x;
+		totalMoveY += y;
 	}
 
 	for (MapObject* mapObject : MapObjectManager::MapObjVec)
 	{
-		mapObject->GetDstP()->y -= x;
+		mapObject->GetDstP()->y -= y;
 	}
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
-		enemy->GetDstP()->y -= x;
+		enemy->GetDstP()->y -= y;
 	}
 	for (Projectile* projectile : PMA::Instance().GetProjectiles())
 	{
-		projectile->GetDstP()->y -= x;
+		projectile->GetDstP()->y -= y;
 	}
 }
 
-bool MoveManager::CheckXBoundaries(float x, float velX, float y, Entity* player)
+bool MoveManager::CheckXBoundaries(float x, float velX, Entity* player)
 {
 	//std::cout << totalMoveX << "\n";
 	int rightBorder = windowX - windowX * MAPSCROLLINGDISTANCE;
 	int leftBorder = windowX * MAPSCROLLINGDISTANCE;
-	std::cout << rightBorder<< endl;
 	if ((x + velX < leftBorder and velX < 0 and totalMoveX > 0) or (x + velX > rightBorder and velX > 0 and totalMoveX < maxX))
 	{
 		return true;
 	}
 	return false;
 }
-bool MoveManager::checkYBoundaries(float Y, float velY, float x, Entity* player)
+bool MoveManager::checkYBoundaries(float y, float velY, Entity* player)
 {
-	/*std::cout << totalMoveY << "\n";*/
-	int upBorder = windowY - windowY * MAPSCROLLINGyDISTANCE;
-	int downBorder = windowY * MAPSCROLLINGyDISTANCE;
-	if ((Y + velY < upBorder and velY < 0 and totalMoveY > 0) or (Y + velY > downBorder and velY > 0 and totalMoveY < maxY))
+	std::cout << totalMoveY << "\n";
+	int upBorder = windowY * MAPSCROLLINGYUPDISTANCE;
+	int downBorder = windowY - windowY * MAPSCROLLINGYDOWNDISTANCE;
+	if ((y + velY < upBorder and velY < 0 and totalMoveY > -maxY) or (y + velY > downBorder and velY > 0 and totalMoveY < 0))
 	{
 		return true;
 	}

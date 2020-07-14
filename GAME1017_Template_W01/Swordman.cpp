@@ -159,14 +159,14 @@ void Swordman::Update()
 	case ATTACKING:
 		if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
 		{
-			std::cout << "Attacked\n";
+			//std::cout << "Attacked\n";
 			attackWaitTime = MAXATTACKWAITTIME;
 			this->lastAttackTime = SDL_GetTicks();
 			attack();
 		}
 		if (--attackWaitTime <= 0)
 		{
-			std::cout << "Seeking\n";
+			//std::cout << "Seeking\n";
 			attackWaitTime = 0;
 			curStatus = SEEKING;
 		}

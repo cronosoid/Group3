@@ -9,7 +9,7 @@ Level::Level() {}
 Level1::Level1()
 {
 	m_levelWidth = 4416;
-	m_levelHight = 1300;
+	m_levelHight = 400;
 }
 
 void Level1::Load(PlatformPlayer* Player)
@@ -21,6 +21,10 @@ void Level1::Load(PlatformPlayer* Player)
 	for (int i = 0; i < 26; i++)
 	{
 		MapObjectManager::CreateMapObject(kPlate, i, 11, Engine::Instance().GetRenderer());
+	}
+	for (int i = 10; i < 40; i++) // STAIRS
+	{
+		MapObjectManager::CreateMapObject(kPlate, i, 20 - i, Engine::Instance().GetRenderer());
 	}
 	MapObjectManager::CreateMapObject(kPlate, 10, 10, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 16, 10, Engine::Instance().GetRenderer());
@@ -76,7 +80,7 @@ void Level1::Load(PlatformPlayer* Player)
 
 void Level1::Update()
 {
-	if (m_pPlayer->GetDstP()->y > m_levelHight)
+	if (m_pPlayer->GetDstP()->y > MOMA::GetWindowY())
 	{
 		m_pPlayer->ChangeSoul(-m_pPlayer->m_maxSoul);
 	}
@@ -188,7 +192,7 @@ void Level2::Load(PlatformPlayer* Player)
 
 void Level2::Update()
 {
-	if (m_pPlayer->GetDstP()->y > m_levelHight)
+	if (m_pPlayer->GetDstP()->y > MOMA::GetWindowY())
 	{
 		m_pPlayer->ChangeSoul(-m_pPlayer->m_maxSoul);
 	}

@@ -8,8 +8,8 @@
 #include <vector>
 
 const float MAPSCROLLINGDISTANCE = 0.3f;
-const float MAPSCROLLINGyDISTANCE = 0.9f;
-
+const float MAPSCROLLINGYUPDISTANCE = 0.3f;
+const float MAPSCROLLINGYDOWNDISTANCE = 0.3f;
 
 class MoveManager
 {
@@ -22,11 +22,13 @@ public:
 	static void MoveY(float x);
 	static int GetMaxX() { return maxX; }
 	static int GetMaxY() { return maxY; }
-	static bool CheckXBoundaries(float x, float velX, float y, Entity* player);
-	static bool checkYBoundaries(float Y, float velY, float x, Entity* player);
+	static bool CheckXBoundaries(float x, float velX, Entity* player);
+	static bool checkYBoundaries(float y, float velY, Entity* player);
 	static SDL_FRect GetTotalMove() { return {(float)totalMoveX, (float)totalMoveY, 0, 0}; }
 	static int GetRightBorder() { return maxX; }
-
+	static int GetWindowY() { return windowY; }
+	static int GetWindowX() { return windowX; }
+	
 private:
 	static int maxX, maxY;
 	static int windowX, windowY;
