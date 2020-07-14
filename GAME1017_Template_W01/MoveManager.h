@@ -8,7 +8,8 @@
 #include <vector>
 
 const float MAPSCROLLINGDISTANCE = 0.3f;
-const float MAPSCROLLINGyDISTANCE = 0.7f;
+const float MAPSCROLLINGyDISTANCE = 0.9f;
+
 
 class MoveManager
 {
