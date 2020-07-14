@@ -66,6 +66,7 @@ public:
 	void Exit();
 private:
 	Button* m_playBtn;
+	Button* m_helpBtn;
 	Background* t_background;
 };
 
@@ -81,6 +82,25 @@ private:
 	Button* m_restartBtn;
 	Button* m_exitBtn;
 	Background* e_background;
+};
+
+class HelpState: public State
+{
+public:
+	HelpState();
+	void Update();
+	void Render();
+	void Enter();
+	void Exit();
+private:
+	Button* m_backBtn;
+	Background* t_background;
+
+	Label* firSen;
+	Label* secSen;
+	Label* thrSen;
+	Label* fouSen;
+	Label* fifSen;
 };
 
 #endif

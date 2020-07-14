@@ -61,6 +61,9 @@ void Button::Render()
 PlayButton::PlayButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t) :Button(src, dst, r, t) {}
 RestartButton::RestartButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t) : Button(src, dst, r, t) {}
 ExitButton::ExitButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t) : Button(src, dst, r, t) {}
+HelpButton::HelpButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t): Button(src, dst, r, t) {}
+BackButton::BackButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t): Button(src, dst, r, t) {}
+
 void PlayButton::Execute()
 {
 	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
@@ -79,4 +82,16 @@ void ExitButton::Execute()
 	SOMA::PlaySound("button");
 	Engine::Instance().setRunning(false);	
 	exit(0);
+}
+
+void HelpButton::Execute()
+{
+	SOMA::PlaySound("button");
+	STMA::ChangeState(new HelpState());
+}
+
+void BackButton::Execute()
+{
+	SOMA::PlaySound("button");
+	STMA::ChangeState(new TitleState());
 }

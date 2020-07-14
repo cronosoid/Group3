@@ -62,6 +62,7 @@ TitleState::TitleState() {}
 void TitleState::Enter()
 {
 	m_playBtn = new PlayButton({ 0,0,400,100 }, { 60.0f,350.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
+	m_helpBtn = new HelpButton({ 0,0,400,100 }, { 560.0f,350.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
 	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
 	SOMA::Load("Aud/Fire.wav", "jump", SOUND_SFX);
 	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
@@ -78,6 +79,8 @@ void TitleState::Update()
 {
 	if (m_playBtn->Update() == 1)
 		return;
+	if (m_helpBtn->Update() ==1)
+		return;
 }
 
 void TitleState::Render()
@@ -86,6 +89,7 @@ void TitleState::Render()
 	SDL_RenderClear(Engine::Instance().GetRenderer());
 	t_background->Render();
 	m_playBtn->Render();
+	m_helpBtn->Render();
 	State::Render();
 }
 
@@ -285,4 +289,54 @@ void EndState::Exit()
 	m_restartBtn = nullptr;
 	delete m_exitBtn;
 	m_exitBtn = nullptr;
+}
+
+HelpState::HelpState()
+{
+	
+}
+
+void HelpState::Enter()
+{
+	firSen = new Label("font", 350, 200, "Use A or D to move left or right");
+	secSen = new Label("font", 350, 250, "Press space bar to jump");
+	thrSen = new Label("font", 350, 300, "Press J to melee attack");
+	fouSen = new Label("font", 350, 350, "Press I to shoot fireball");
+	fifSen = new Label("font", 350, 400, "Press L to dash");
+	m_backBtn = new BackButton({ 0,0,400,100 }, { 350.0f,550.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
+	t_background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("background"));
+}
+
+void HelpState::Render()
+{
+	t_background->Render();
+	firSen->Render();
+	secSen->Render();
+	thrSen->Render();
+	fouSen->Render();
+	fifSen->Render();
+	m_backBtn->Render();
+	
+}
+
+void HelpState::Update()
+{
+	if (m_backBtn->Update() == 1)
+		return;
+}
+
+void HelpState::Exit()
+{
+	delete m_backBtn;
+	m_backBtn = nullptr;
+	delete firSen;
+	firSen = nullptr;
+	delete secSen;
+	secSen = nullptr;
+	delete thrSen;
+	thrSen = nullptr;
+	delete fouSen;
+	fouSen = nullptr;
+	delete fifSen;
+	fifSen = nullptr;
 }

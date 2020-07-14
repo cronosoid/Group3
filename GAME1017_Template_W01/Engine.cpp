@@ -49,7 +49,7 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	TEMA::RegisterTexture("Img/HighlightedBrick.png", "hBrick");
 	TEMA::RegisterTexture("../Spritesheets/Arrow.png", "Arrow");
 	TEMA::RegisterTexture("../Spritesheets/Kaben_Sheet.png", "KabenSheet"); 
-
+	FOMA::RegisterFont("Img/LTYPE.TTF", "font",20);
 	STMA::ChangeState(new ClickState);
 	SOMA::AllocateChannels(16);
 	m_running = true; // Everything is okay, start the engine.
