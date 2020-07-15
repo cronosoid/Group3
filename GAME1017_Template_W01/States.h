@@ -95,12 +95,7 @@ public:
 private:
 	Button* m_backBtn;
 	Background* t_background;
-
-	Label* firSen;
-	Label* secSen;
-	Label* thrSen;
-	Label* fouSen;
-	Label* fifSen;
+	std::vector<Label*> textLabelVec;
 };
 
 #endif

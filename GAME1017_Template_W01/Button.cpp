@@ -87,11 +87,11 @@ void ExitButton::Execute()
 void HelpButton::Execute()
 {
 	SOMA::PlaySound("button");
-	STMA::ChangeState(new HelpState());
+	STMA::PushState(new HelpState());
 }
 
 void BackButton::Execute()
 {
 	SOMA::PlaySound("button");
-	STMA::ChangeState(new TitleState());
+	STMA::PopState();
 }

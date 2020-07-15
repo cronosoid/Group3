@@ -298,11 +298,14 @@ HelpState::HelpState()
 
 void HelpState::Enter()
 {
-	firSen = new Label("font", 350, 200, "Use A or D to move left or right");
-	secSen = new Label("font", 350, 250, "Press space bar to jump");
-	thrSen = new Label("font", 350, 300, "Press J to melee attack");
-	fouSen = new Label("font", 350, 350, "Press I to shoot fireball");
-	fifSen = new Label("font", 350, 400, "Press L to dash");
+	textLabelVec.push_back(new Label("font", 350, 200, "Hold A or D to move left or right"));
+	textLabelVec.push_back(new Label("font", 350, 230, "Press SPACE to jump"));
+	textLabelVec.push_back(new Label("font", 350, 260, "Press L to dash"));
+	textLabelVec.push_back(new Label("font", 350, 290, "Press I to cast fireball"));
+	textLabelVec.push_back(new Label("font", 230, 350, "Soul represents both your health and mana"));
+	textLabelVec.push_back(new Label("font", 230, 380, "Casting fireball consumes your soul"));
+	textLabelVec.push_back(new Label("font", 230, 410, "Use melee attack on enemies to replenish your soul"));
+
 	m_backBtn = new BackButton({ 0,0,400,100 }, { 350.0f,550.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
 	t_background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("background"));
 }
@@ -310,11 +313,10 @@ void HelpState::Enter()
 void HelpState::Render()
 {
 	t_background->Render();
-	firSen->Render();
-	secSen->Render();
-	thrSen->Render();
-	fouSen->Render();
-	fifSen->Render();
+	for (int i = 0; i < textLabelVec.size(); i++)
+	{
+		textLabelVec[i]->Render();
+	}
 	m_backBtn->Render();
 	
 }
@@ -329,14 +331,10 @@ void HelpState::Exit()
 {
 	delete m_backBtn;
 	m_backBtn = nullptr;
-	delete firSen;
-	firSen = nullptr;
-	delete secSen;
-	secSen = nullptr;
-	delete thrSen;
-	thrSen = nullptr;
-	delete fouSen;
-	fouSen = nullptr;
-	delete fifSen;
-	fifSen = nullptr;
+
+	 for (auto label = textLabelVec.begin(); label != textLabelVec.end();)
+	 {
+		 delete* label;
+		 label = textLabelVec.erase(label);
+	 }
 }
