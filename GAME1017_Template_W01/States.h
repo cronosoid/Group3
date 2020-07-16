@@ -33,6 +33,10 @@ private:
 
 	int m_MapDamageCounter;
 	const int MAPDAMAGECD = 20;//equal to FPS
+	static int m_score;
+	static int m_time;
+	static int m_currentLevel;
+	double m_start, m_end;
 
 public:
 	GameState(Level* newLevel);
@@ -42,6 +46,9 @@ public:
 	void Enter();
 	void Exit();
 	void Resume();
+
+public:
+	friend class CongratulationState;
 };
 
 class ClickState : public State
@@ -81,6 +88,22 @@ private:
 	Button* m_restartBtn;
 	Button* m_exitBtn;
 	Background* e_background;
+	int m_score,m_time;
+};
+
+class CongratulationState:public State
+{
+public:
+	CongratulationState();
+	void Update();
+	void Render();
+	void Enter();
+	void Exit();
+private:
+	Button* m_nextLevelBtn,*m_exitBtn;
+	Background* e_background;
+	Sprite* m_Congratulation;
+	Label* m_scoreLabel, * m_timeLabel;
 };
 
 #endif

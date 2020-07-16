@@ -10,6 +10,7 @@ Level1::Level1()
 {
 	m_levelWidth = 4416;
 	m_levelHight = 400;
+	m_currentLevel = 1;
 }
 
 void Level1::Load(PlatformPlayer* Player)
@@ -86,14 +87,15 @@ void Level1::Update()
 	}
 	else if (COMA::AABBCheck(*this->m_pPortal->GetDstP(), *this->m_pPlayer->GetDstP()))
 	{
-		STMA::ChangeState(new GameState(new Level2));
+		STMA::ChangeState(new CongratulationState);
 	}
 }
 
 Level2::Level2()
 {
 	m_levelWidth = 5504;
-	m_levelHight = 1300;
+	m_levelHight = 400;
+	m_currentLevel = 2;
 }
 
 void Level2::Load(PlatformPlayer* Player)
@@ -160,7 +162,7 @@ void Level2::Load(PlatformPlayer* Player)
 	MapObjectManager::CreateMapObject(kSpike, 39, 10, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kSpike, 42, 10, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kSpike, 43, 10, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kSpike, 44, 10, Engine::Instance().GetRenderer());
+	//MapObjectManager::CreateMapObject(kSpike, 44, 10, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kSpike, 47, 10, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kSpike, 55, 10, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kSpike, 56, 10, Engine::Instance().GetRenderer());
@@ -198,6 +200,40 @@ void Level2::Update()
 	}
 	else if (COMA::AABBCheck(*this->m_pPortal->GetDstP(), *this->m_pPlayer->GetDstP()))
 	{
-		STMA::ChangeState(new EndState());
+		//STMA::ChangeState(new EndState());
+		STMA::ChangeState(new CongratulationState);
+	}
+}
+
+Level3::Level3()
+{
+	m_levelWidth = 5504;
+	m_levelHight = 400;
+	m_currentLevel = 3;
+}
+
+void Level3::Load(PlatformPlayer* Player)
+{
+	MoveManager::Init(Engine::Instance().GetWindow(), m_levelWidth, m_levelHight);
+
+	this->m_pPlayer = Player;
+
+	for (int i = 0; i < 7; i++)
+	{
+		MapObjectManager::CreateMapObject(kPlate, i, 11, Engine::Instance().GetRenderer());
+	}
+	this->m_pPortal = MapObjectManager::CreateMapObject(kPortal, 5, 6, Engine::Instance().GetRenderer());
+}
+
+void Level3::Update()
+{
+	if (m_pPlayer->GetDstP()->y > MOMA::GetWindowY())
+	{
+		m_pPlayer->ChangeSoul(-m_pPlayer->m_maxSoul);
+	}
+	else if (COMA::AABBCheck(*this->m_pPortal->GetDstP(), *this->m_pPlayer->GetDstP()))
+	{
+		//STMA::ChangeState(new EndState());
+		STMA::ChangeState(new CongratulationState);
 	}
 }

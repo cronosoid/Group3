@@ -11,6 +11,7 @@
 #include "ProjectileManager.h"
 #include "CollisionManager.h"
 #include "EnemyManager.h"
+#include "SoundManager.h"
 
 const int MAXHEALTH = 100;
 const int SWORDMANDAMAGE = 10;
@@ -159,14 +160,14 @@ void Swordman::Update()
 	case ATTACKING:
 		if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
 		{
-			std::cout << "Attacked\n";
+			//std::cout << "Attacked\n";
 			attackWaitTime = MAXATTACKWAITTIME;
 			this->lastAttackTime = SDL_GetTicks();
 			attack();
 		}
 		if (--attackWaitTime <= 0)
 		{
-			std::cout << "Seeking\n";
+			//std::cout << "Seeking\n";
 			attackWaitTime = 0;
 			curStatus = SEEKING;
 		}
@@ -212,6 +213,7 @@ void Swordman::attack()
 		EnemyManager::GetTarget()->getDamage(SWORDMANDAMAGE);
 		static_cast<PlatformPlayer*>(EnemyManager::GetTarget())->SetLastAttackedTime();
 		EnemyManager::GetTarget()->StopX();
+		SOMA::PlaySound("SwordHit");
 		std::cout << "Swordman Melee!\n";
 	}
 }

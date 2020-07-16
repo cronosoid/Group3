@@ -4,6 +4,7 @@
 
 #include "CollisionManager.h"
 #include "Archer.h"
+#include "SoundManager.h"
 
 const int ARCHERDAMAGE = 10;
 
@@ -42,6 +43,7 @@ void Arrow::Update()
 		hero->getDamage(ARCHERDAMAGE);
 		hero->SetLastAttackedTime();
 		hero->StopX();
+		SOMA::PlaySound("ArrowHit");
 		isActive = false;
 	}
 

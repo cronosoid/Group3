@@ -15,12 +15,14 @@ const double MELEECOOLDOWN = 1.0;
 const double MAGICCOOLDOWN = 1.0;
 const double FIREBALLCOST = 10.0;
 
+const int CANNOTCONTROLTIME = 20;
+
 class PlatformPlayer : public Entity
 {
 public: // Variables
-	const double m_maxSoul = 100;
-	const int m_meeleDmg = 20;
-	const int m_magicDmg = 35;
+	const double m_maxSoul = 100.0;
+	const int m_meeleDmg = 50;
+	const int m_magicDmg = 50;
 	const int m_soulRecover = 5;
 	int movement[2] = { 0,0 };
 public: // Methods
@@ -43,12 +45,17 @@ public: // Methods
 	void getDamage(int dmg);
 	Uint32 GetLastAttackedTime() { return m_lastAttacked; }
 	void SetLastAttackedTime() { m_lastAttacked = ATTACKINTERVAL; }
+	bool getIsUnderAttack() { return m_isUnderAttack; }
+	void setIsUnderAttack(bool a) { m_isUnderAttack = a; }
+	bool getCanControl() { return m_canControl; }
+	void setCanControl(bool a) { m_canControl = a; };
 
 private:
 	double m_curSoul;
 	Uint32 lastMeleeTime;
 	Uint32 lastMagicTime;
 	Uint32 m_lastAttacked = 0;
+	bool m_isUnderAttack,m_canControl;
 };
 
 #endif

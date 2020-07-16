@@ -63,7 +63,7 @@ RestartButton::RestartButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_T
 ExitButton::ExitButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t) : Button(src, dst, r, t) {}
 void PlayButton::Execute()
 {
-	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
+	
 	SOMA::PlaySound("button");
 	STMA::ChangeState(new GameState(new Level1()));
 }
@@ -80,3 +80,29 @@ void ExitButton::Execute()
 	Engine::Instance().setRunning(false);	
 	exit(0);
 }
+
+NextLevelButton::NextLevelButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t, int nextLevelNum):Button(src,dst,r,t)
+{
+	NextLevelNum = nextLevelNum;
+}
+
+
+void NextLevelButton::Execute()
+{
+	SOMA::PlaySound("button");
+	switch(NextLevelNum)
+	{
+	case 2:
+		{
+		STMA::ChangeState(new GameState(new Level2()));
+		break;
+		}
+	case 3:
+		{
+		STMA::ChangeState(new GameState(new Level3()));
+		break;
+		}
+	default:break;
+	}	
+}
+

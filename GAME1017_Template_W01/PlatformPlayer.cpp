@@ -21,6 +21,9 @@ PlatformPlayer::PlatformPlayer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Tex
 	this->getAnimator()->addAnimation("run", 8, 2, 34, 50);
 	this->getAnimator()->addAnimation("idle", 4, 1, 34, 50, 0, 100, 12);
 
+	m_isUnderAttack = false;
+	m_canControl = true;
+
 	std::cout << "Player Created" << std::endl;
 }
 
@@ -32,82 +35,92 @@ PlatformPlayer::~PlatformPlayer()
 
 void PlatformPlayer::Update()
 {
-	this->movement[0] = 0;
-	if (EVMA::KeyHeld(SDL_SCANCODE_A))
+	if(m_lastAttacked>0)
 	{
-		//walk left animation goes here
-		this->getAnimator()->setFace(1);
-		this->movement[0] = -1;
-		this->getAnimator()->setNextAnimation("run");
-		this->SetAccelX(-1.0);
+		setIsUnderAttack(true);
+		if(m_lastAttacked>ATTACKINTERVAL-CANNOTCONTROLTIME)
+			setCanControl(false);
 	}
-	else if (EVMA::KeyHeld(SDL_SCANCODE_D))
+	if(m_canControl)
 	{
-		//walk right animation goes here
-		this->getAnimator()->setFace(0);
-		this->movement[0] = 1;
-		this->getAnimator()->setNextAnimation("run");
-		this->SetAccelX(1.0);
-	}
-	if (EVMA::KeyPressed(SDL_SCANCODE_SPACE) && this->IsGrounded())
-	{
-		//jumping animation
-		SOMA::PlaySound("Kaben_jump");
-		this->SetAccelY(-JUMPFORCE); // Sets the jump force.
-		this->SetGrounded(false);
-	}
-	if (EVMA::KeyHeld(SDL_SCANCODE_J)) //melee
-	{
-		if ((this->getMeleeTime() + MELEECOOLDOWN * 1000) < SDL_GetTicks())
+		this->movement[0] = 0;
+		if (EVMA::KeyHeld(SDL_SCANCODE_A))
 		{
-			this->setMeleeTime();
-			SDL_FRect rect;
-			if (this->getAnimator()->getFace() == 0)
+			//walk left animation goes here
+			this->getAnimator()->setFace(1);
+			this->movement[0] = -1;
+			this->getAnimator()->setNextAnimation("run");
+			this->SetAccelX(-1.0);
+		}
+		else if (EVMA::KeyHeld(SDL_SCANCODE_D))
+		{
+			//walk right animation goes here
+			this->getAnimator()->setFace(0);
+			this->movement[0] = 1;
+			this->getAnimator()->setNextAnimation("run");
+			this->SetAccelX(1.0);
+		}
+		if (EVMA::KeyPressed(SDL_SCANCODE_SPACE) && this->IsGrounded())
+		{
+			//jumping animation
+			SOMA::PlaySound("Kaben_jump");
+			this->SetAccelY(-JUMPFORCE); // Sets the jump force.
+			this->SetGrounded(false);
+		}
+		if (EVMA::KeyHeld(SDL_SCANCODE_J)) //melee
+		{
+			if ((this->getMeleeTime() + MELEECOOLDOWN * 1000) < SDL_GetTicks())
 			{
-				rect.x = this->GetDstP()->x + this->GetDstP()->w;
-			}
-			else
-			{
-				rect.x = this->GetDstP()->x - this->GetDstP()->w;
-			}
-
-			rect.y = this->GetDstP()->y;
-			rect.w = this->GetDstP()->w;
-			rect.h = this->GetDstP()->h;
-
-			for (Enemies* enemy : EnemyManager::EnemiesVec)
-			{
-				if (COMA::AABBCheck(rect, *enemy->GetDstP()))
+				this->setMeleeTime();
+				SDL_FRect rect;
+				if (this->getAnimator()->getFace() == 0)
 				{
-					this->SoulRecover();
-					enemy->getDamage(this->m_meeleDmg);
-					enemy->Stun(MELEESTUNTIME);
-					std::cout << "Melee attacked!\n";
+					rect.x = this->GetDstP()->x + this->GetDstP()->w;
 				}
+				else
+				{
+					rect.x = this->GetDstP()->x - this->GetDstP()->w;
+				}
+
+				rect.y = this->GetDstP()->y;
+				rect.w = this->GetDstP()->w;
+				rect.h = this->GetDstP()->h;
+
+				for (Enemies* enemy : EnemyManager::EnemiesVec)
+				{
+					if (COMA::AABBCheck(rect, *enemy->GetDstP()))
+					{
+						this->SoulRecover();
+						enemy->getDamage(this->m_meeleDmg);
+						enemy->Stun(MELEESTUNTIME);
+						std::cout << "Melee attacked!\n";
+					}
+				}
+				this->Meele();
 			}
-			this->Meele();
 		}
-	}
-	else if (EVMA::KeyHeld(SDL_SCANCODE_I)) // fireball
-	{
-		if ((this->getMagicTime() + MAGICCOOLDOWN * 1000) < SDL_GetTicks())
+		else if (EVMA::KeyHeld(SDL_SCANCODE_I)) // fireball
 		{
-			this->setMagicTime();
-			// will complete the projectile spawn in a while
-			int face;
-			this->getAnimator()->getFace() == 0 ? face = 1 : face = -1;
-			PMA::Instance().GetProjectiles().push_back(new Fireball(this, EnemyManager::EnemiesVec, MapObjectManager::MapObjVec, { 0,0,64,64 },
-				{ face == 1 ? this->GetDstP()->x + this->GetDstP()->w : this->GetDstP()->x - 24,
-				this->GetDstP()->y + 42, 48, 48 },
-				Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 15, face, this->m_magicDmg,
-				4, 6, 64, 64));
+			if ((this->getMagicTime() + MAGICCOOLDOWN * 1000) < SDL_GetTicks())
+			{
+				this->setMagicTime();
+				// will complete the projectile spawn in a while
+				int face;
+				this->getAnimator()->getFace() == 0 ? face = 1 : face = -1;
+				PMA::Instance().GetProjectiles().push_back(new Fireball(this, EnemyManager::EnemiesVec, MapObjectManager::MapObjVec, { 0,0,64,64 },
+					{ face == 1 ? this->GetDstP()->x + this->GetDstP()->w : this->GetDstP()->x - 24,
+					this->GetDstP()->y + 42, 48, 48 },
+					Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 15, face, this->m_magicDmg,
+					4, 6, 64, 64));
 
-			this->ChangeSoul(-FIREBALLCOST);
+				this->ChangeSoul(-FIREBALLCOST);
+			}
 		}
-	}
 
-	if (this->movement[0] == 0)
-		this->getAnimator()->setNextAnimation("idle");
+		if (this->movement[0] == 0)
+			this->getAnimator()->setNextAnimation("idle");
+	}
+	
 	
 	if (m_lastAttacked > 0)
 	{
@@ -115,12 +128,41 @@ void PlatformPlayer::Update()
 		if (m_lastAttacked > ATTACKINTERVAL - STOPAFTERGOTATTACKED)
 		{
 			// this->getAnimator()->setNextAnimation("attacked");
-			this->SetAccelX(0);
+			//Kaben will move back
+			if (this->getAnimator()->getFace())
+			{
+				this->SetAccelX(1);
+			}				
+			else
+			{
+				this->SetAccelX(-1);
+			}				
+			
+			if (this->IsGrounded())
+			{
+				this->SetAccelY(-15);
+				this->SetGrounded(false);
+				//std::cout << "Grounded: " <<std::endl;
+			}				
+			else
+			{
+				this->SetAccelY(1);
+			}
+				
+		}
+		if(m_lastAttacked<=ATTACKINTERVAL-CANNOTCONTROLTIME)//Invincibility should last a little longer than the player can't control
+		{
+			setCanControl(true);
+		}
+		if(m_lastAttacked==0)
+		{
+			setIsUnderAttack(false);
 		}
 	}
 
 	this->getAnimator()->playAnimation();
 	movementUpdate();
+	//std::cout << "X: " << this->GetVelX() << " Y: " << this->GetVelY() << std::endl;
 }
 
 void PlatformPlayer::Render()
