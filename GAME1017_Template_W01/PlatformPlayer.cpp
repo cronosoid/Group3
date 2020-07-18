@@ -93,10 +93,15 @@ void PlatformPlayer::Update()
 						this->SoulRecover();
 						enemy->getDamage(this->m_meeleDmg);
 						enemy->Stun(MELEESTUNTIME);
+						SOMA::PlaySound("SwordHit");
 						std::cout << "Melee attacked!\n";
 					}
+				
+						
+					
 				}
 				this->Meele();
+				SOMA::PlaySound("Sword_swoosh");
 			}
 		}
 		else if (EVMA::KeyHeld(SDL_SCANCODE_I)) // fireball
@@ -105,6 +110,7 @@ void PlatformPlayer::Update()
 			{
 				this->setMagicTime();
 				// will complete the projectile spawn in a while
+				SOMA::PlaySound("Fireball_shot");
 				int face;
 				this->getAnimator()->getFace() == 0 ? face = 1 : face = -1;
 				PMA::Instance().GetProjectiles().push_back(new Fireball(this, EnemyManager::EnemiesVec, MapObjectManager::MapObjVec, { 0,0,64,64 },
@@ -201,7 +207,7 @@ void PlatformPlayer::ChangeSoul(int amnt)
 void PlatformPlayer::Meele()
 {
 
-	std::cout << "meele\n";
+	std::cout << "Meele\n";
 
 }
 

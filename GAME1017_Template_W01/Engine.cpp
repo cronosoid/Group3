@@ -39,9 +39,11 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	}
 	else return false; // SDL init fail.
 	m_fps = (Uint32)round((1 / (double)FPS) * 1000); // Sets FPS in milliseconds and rounds.
-	TEMA::RegisterTexture("Img/background.png", "background");
-	TEMA::RegisterTexture("Img/end_background.png", "end_background");
-	TEMA::RegisterTexture("Img/click.png", "click");
+	
+	TEMA::RegisterTexture("Img/background.png", "background"); // Title Background
+	TEMA::RegisterTexture("Img/end_background.png", "end_background"); // Alt-State background
+	TEMA::RegisterTexture("Img/bamboo_background.png", "bamboo_background"); // Level Background
+	TEMA::RegisterTexture("Img/click.png", "click"); 
 	TEMA::RegisterTexture("Img/play.png", "play");
 	TEMA::RegisterTexture("Img/exit.png", "exit");
 	TEMA::RegisterTexture("Img/restart.png", "restart");

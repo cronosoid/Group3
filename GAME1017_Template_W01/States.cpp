@@ -66,10 +66,11 @@ void TitleState::Enter()
 	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
 	SOMA::Load("Aud/Fire.wav", "jump", SOUND_SFX);
 	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
+	SOMA::Load("Aud/Sword_swoosh.wav", "Sword_swoosh", SOUND_SFX);
+	SOMA::Load("Aud/Fireball_shot.wav", "Fireball_shot", SOUND_SFX);
 	SOMA::Load("Aud/bamboo.mp3", "bamboo", SOUND_MUSIC);
 	SOMA::Load("Aud/horn.mp3", "horn", SOUND_MUSIC);
 	SOMA::Load("Aud/ambient.mp3", "ambient", SOUND_MUSIC);
-	TEMA::RegisterTexture("../Spritesheets/fireball.png", "fireball");
 	SOMA::PlayMusic("horn", -1, 0);
 	SOMA::SetMusicVolume(16);
 	t_background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("background"));
