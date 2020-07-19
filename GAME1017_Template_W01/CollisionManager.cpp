@@ -2,6 +2,7 @@
 #include "DebugManager.h"
 #include "StateManager.h"
 #include "MoveManager.h"
+#include "SoundManager.h"
 #include "TextureManager.h"
 
 bool CollisionManager::AABBCheck(const SDL_FRect& object1, const SDL_FRect& object2)
@@ -154,6 +155,7 @@ void CollisionManager::CheckPlayerMapDamage(const std::vector<MapObject*> mapObj
 				obj->ChangeSoul(-mapObject->getDamage());
 				obj->SetLastAttackedTime();
 				std::cout << "Health: " << obj->GetSoul() << std::endl;
+				SOMA::PlaySound("Spike_hit");
 				break;
 		}
 	}
@@ -167,6 +169,7 @@ void CollisionManager::CheckEnemyMapDamage(const std::vector<MapObject*> mapObje
 		if (COMA::AABBCheck(*obj->GetDstP(), *temp) && mapObject->getIsHurt() == true)
 		{
 			obj->getDamage(mapObject->getDamage());
+			SOMA::PlaySound("Spike_hit");
 			break;
 		}
 	}

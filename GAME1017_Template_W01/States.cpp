@@ -68,6 +68,7 @@ void TitleState::Enter()
 	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
 	SOMA::Load("Aud/Sword_swoosh.wav", "Sword_swoosh", SOUND_SFX);
 	SOMA::Load("Aud/Fireball_shot.wav", "Fireball_shot", SOUND_SFX);
+	SOMA::Load("Aud/Spike_hit.wav", "Spike_hit", SOUND_SFX);
 	SOMA::Load("Aud/bamboo.mp3", "bamboo", SOUND_MUSIC);
 	SOMA::Load("Aud/horn.mp3", "horn", SOUND_MUSIC);
 	SOMA::Load("Aud/ambient.mp3", "ambient", SOUND_MUSIC);
