@@ -18,9 +18,9 @@ void Level1::Load(PlatformPlayer* Player)
 	MoveManager::Init(Engine::Instance().GetWindow(), m_levelWidth, m_levelHight);
 
 	this->m_pPlayer = Player;
-	MapObjectManager::CreateMoveMapObject(kPlate, 13, 8, { 768.f,576.0f }, { 768.f,192.0f }, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMoveMapObject(kPlate, 14, 8, { 832.f,576.0f }, { 832.f,192.0f }, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMoveMapObject(kPlate, 15, 8, { 896.f,576.0f }, { 896.f,192.0f }, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMoveMapObject(kPlate, 12, 8, { 768.f,576.0f }, { 768.f,192.0f }, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMoveMapObject(kPlate, 13, 8, { 832.f,576.0f }, { 832.f,192.0f }, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMoveMapObject(kPlate, 14, 8, { 896.f,576.0f }, { 896.f,192.0f }, Engine::Instance().GetRenderer());
 	
 	for (int i = 0; i < 26; i++)
 	{
