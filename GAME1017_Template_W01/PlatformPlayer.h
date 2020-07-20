@@ -20,11 +20,12 @@ const int CANNOTCONTROLTIME = 20;
 class PlatformPlayer : public Entity
 {
 public: // Variables
-	const double m_maxSoul = 100.0;
+	const double m_maxSoul = 1000.0;
 	const int m_meeleDmg = 50;
 	const int m_magicDmg = 50;
 	const int m_soulRecover = 5;
 	int movement[2] = { 0,0 };
+	int m_hitDir;//0: default 1:left 2:right
 public: // Methods
 	PlatformPlayer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator = nullptr);
 	~PlatformPlayer();
@@ -49,6 +50,8 @@ public: // Methods
 	void setIsUnderAttack(bool a) { m_isUnderAttack = a; }
 	bool getCanControl() { return m_canControl; }
 	void setCanControl(bool a) { m_canControl = a; };
+	int getHitDir() { return m_hitDir; }
+	void setHitDir(int dir) { m_hitDir = dir; }
 
 private:
 	double m_curSoul;

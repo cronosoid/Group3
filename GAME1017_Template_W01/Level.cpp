@@ -18,7 +18,10 @@ void Level1::Load(PlatformPlayer* Player)
 	MoveManager::Init(Engine::Instance().GetWindow(), m_levelWidth, m_levelHight);
 
 	this->m_pPlayer = Player;
-
+	MapObjectManager::CreateMoveMapObject(kPlate, 13, 8, { 768.f,576.0f }, { 768.f,192.0f }, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMoveMapObject(kPlate, 14, 8, { 832.f,576.0f }, { 832.f,192.0f }, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMoveMapObject(kPlate, 15, 8, { 896.f,576.0f }, { 896.f,192.0f }, Engine::Instance().GetRenderer());
+	
 	for (int i = 0; i < 26; i++)
 	{
 		MapObjectManager::CreateMapObject(kPlate, i, 11, Engine::Instance().GetRenderer());
@@ -63,9 +66,9 @@ void Level1::Load(PlatformPlayer* Player)
 	MapObjectManager::CreateMapObject(kPlate, 6, 7, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 7, 7, Engine::Instance().GetRenderer());
 
-	EnemyManager::CreateEnemy(swordman, 4, 3, Engine::Instance().GetRenderer());
-	EnemyManager::CreateEnemy(swordman, 16, 8, Engine::Instance().GetRenderer());
-	EnemyManager::CreateEnemy(swordman, 23, 8, Engine::Instance().GetRenderer());
+	//EnemyManager::CreateEnemy(swordman, 4, 3, Engine::Instance().GetRenderer());
+	//EnemyManager::CreateEnemy(swordman, 16, 8, Engine::Instance().GetRenderer());
+	//EnemyManager::CreateEnemy(swordman, 23, 8, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(swordman, 44, 8, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(swordman, 53, 5, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(swordman, 58, 8, Engine::Instance().GetRenderer());

@@ -210,6 +210,14 @@ void Swordman::attack()
 	if (COMA::AABBCheck(rect, *EnemyManager::GetTarget()->GetDstP())
 		and static_cast<PlatformPlayer*>(EnemyManager::GetTarget())->GetLastAttackedTime() <= 0)
 	{
+		if (this->getAnimator()->getFace() == 0)
+		{
+			EnemyManager::GetTarget()->setHitDir(1);//set hit direction as left
+		}
+		else
+		{
+			EnemyManager::GetTarget()->setHitDir(2);//set hit direction as right
+		}
 		EnemyManager::GetTarget()->getDamage(SWORDMANDAMAGE);
 		static_cast<PlatformPlayer*>(EnemyManager::GetTarget())->SetLastAttackedTime();
 		EnemyManager::GetTarget()->StopX();

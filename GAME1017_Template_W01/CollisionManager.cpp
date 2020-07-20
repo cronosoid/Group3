@@ -151,10 +151,21 @@ void CollisionManager::CheckPlayerMapDamage(const std::vector<MapObject*> mapObj
 		SDL_FRect* temp = mapObject->GetDstP();
 		if (COMA::AABBCheck(*obj->GetDstP(), *temp) && mapObject->getIsHurt() == true && obj->GetLastAttackedTime()<=0)
 		{
-				obj->ChangeSoul(-mapObject->getDamage());
-				obj->SetLastAttackedTime();
-				std::cout << "Health: " << obj->GetSoul() << std::endl;
-				break;
+			if(obj->GetDstP()->x < (mapObject->GetDstP()->x + mapObject->GetDstP()->w) && obj->GetDstP()->x > mapObject->GetDstP()->x)
+			{
+				obj->setHitDir(1);//set hit direction as left
+				//std::cout << "Kaben: " << obj->GetDstP()->x << " Spike: " << mapObject->GetDstP()->x << std::endl;
+				//std::cout << "set map object hit direction as left" << std::endl;
+			}
+			else if((obj->GetDstP()->x + obj->GetDstP()->w) > mapObject->GetDstP()->x && obj->GetDstP()->x < mapObject->GetDstP()->x)
+			{
+				obj->setHitDir(2);
+				std::cout << "set map object hit direction as right" << std::endl;
+			}
+			obj->ChangeSoul(-mapObject->getDamage());
+			obj->SetLastAttackedTime();
+			std::cout << "Health: " << obj->GetSoul() << std::endl;
+			break;
 		}
 	}
 }

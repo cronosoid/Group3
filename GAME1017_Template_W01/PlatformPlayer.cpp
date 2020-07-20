@@ -128,12 +128,13 @@ void PlatformPlayer::Update()
 		if (m_lastAttacked > ATTACKINTERVAL - STOPAFTERGOTATTACKED)
 		{
 			// this->getAnimator()->setNextAnimation("attacked");
+			
 			//Kaben will move back
-			if (this->getAnimator()->getFace())
+			if (getHitDir()==1)
 			{
 				this->SetAccelX(1);
 			}				
-			else
+			else if (getHitDir() == 2)
 			{
 				this->SetAccelX(-1);
 			}				
@@ -157,6 +158,7 @@ void PlatformPlayer::Update()
 		if(m_lastAttacked==0)
 		{
 			setIsUnderAttack(false);
+			setHitDir(0);
 		}
 	}
 
