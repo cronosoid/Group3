@@ -2,7 +2,6 @@
 #include "Engine.h"
 #include <algorithm>
 #include <iostream>
-
 #include "TextureManager.h"
 #include "EventManager.h"
 #include "SoundManager.h"
@@ -20,7 +19,7 @@ PlatformPlayer::PlatformPlayer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Tex
 
 	this->getAnimator()->addAnimation("run", 8, 2, 34, 50);
 	this->getAnimator()->addAnimation("idle", 4, 1, 34, 50, 0, 100, 12);
-
+	
 	std::cout << "Player Created" << std::endl;
 }
 
@@ -65,10 +64,12 @@ void PlatformPlayer::Update()
 			if (this->getAnimator()->getFace() == 0)
 			{
 				rect.x = this->GetDstP()->x + this->GetDstP()->w;
+				
 			}
 			else
 			{
 				rect.x = this->GetDstP()->x - this->GetDstP()->w;
+				
 			}
 
 			rect.y = this->GetDstP()->y;
@@ -100,12 +101,29 @@ void PlatformPlayer::Update()
 				{ face == 1 ? this->GetDstP()->x + this->GetDstP()->w : this->GetDstP()->x - 24,
 				this->GetDstP()->y + 42, 48, 48 },
 				Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 15, face, this->m_magicDmg,
-				4, 6, 64, 64));
+				4, 6, 39, 32));
 
 			this->ChangeSoul(-FIREBALLCOST);
 		}
 	}
 
+	if (EVMA::KeyPressed(SDL_SCANCODE_L))
+	{
+		if ((this->GetLastDashTime() + DASHCOOLDOWN * 1000) < SDL_GetTicks())
+		{
+			this->SetLastDashTime();
+			StopY();
+			if (getAnimator()->getFace() == 0)
+			{
+				m_accelX += 150;
+			}
+			else
+			{
+				m_accelX -= 150;
+			}
+		}
+	}
+	
 	if (this->movement[0] == 0)
 		this->getAnimator()->setNextAnimation("idle");
 	

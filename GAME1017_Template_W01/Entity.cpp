@@ -57,8 +57,10 @@ void Entity::movementUpdate()
 	this->m_velX = std::min(std::max(this->m_velX, -this->m_maxVelX), (this->m_maxVelX));
 
 	// Now do Y axis.
+
 	this->m_velY += this->m_accelY + this->m_grav * gravAcceleration; // Adjust gravity to get slower jump.
 	this->m_velY = std::min(std::max(this->m_velY, -this->m_maxJumpVelocity), (this->m_grav * this->m_maxFallVelocity));
+	
 	
 	if (this->m_player and MoveManager::CheckBoundaries(this->m_dst.x, (int)this->m_velX, this->m_dst.y + (int)this->m_velY, this))
 	{

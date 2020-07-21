@@ -33,6 +33,7 @@ public:
 protected:
 	bool m_player;
 	bool m_grounded;
+	bool m_gravityEnable;
 	double m_accelX,
 		m_accelY,
 		m_velX,

@@ -14,6 +14,7 @@ const int FIREBALLSTUNTIME = 24; // In frames
 const double MELEECOOLDOWN = 1.0;
 const double MAGICCOOLDOWN = 1.0;
 const double FIREBALLCOST = 10.0;
+const double DASHCOOLDOWN = 1.0;
 
 class PlatformPlayer : public Entity
 {
@@ -43,12 +44,15 @@ public: // Methods
 	void getDamage(int dmg);
 	Uint32 GetLastAttackedTime() { return m_lastAttacked; }
 	void SetLastAttackedTime() { m_lastAttacked = ATTACKINTERVAL; }
+	Uint32 GetLastDashTime() { return lastDashTime; }
+	void SetLastDashTime(){ lastDashTime = SDL_GetTicks(); }
 
 private:
 	double m_curSoul;
 	Uint32 lastMeleeTime;
 	Uint32 lastMagicTime;
 	Uint32 m_lastAttacked = 0;
+	Uint32 lastDashTime;
 };
 
 #endif
