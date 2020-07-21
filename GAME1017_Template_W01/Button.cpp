@@ -86,7 +86,6 @@ NextLevelButton::NextLevelButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, S
 	NextLevelNum = nextLevelNum;
 }
 
-
 void NextLevelButton::Execute()
 {
 	SOMA::PlaySound("button");

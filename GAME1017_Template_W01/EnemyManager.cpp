@@ -1,10 +1,15 @@
 #include "EnemyManager.h"
+
 #include"TextureManager.h"
-#include <time.h>
-#include <cstdlib>
-#include <iostream>
 #include "PlatformPlayer.h"
 #include"SoundManager.h"
+#include "Swordman.h"
+#include "Archer.h"
+#include "Boss.h"
+
+#include <time.h>
+#include <iostream>
+
 
 std::vector<Enemies*> EnemyManager::EnemiesVec;
 PlatformPlayer* EnemyManager::target;
@@ -18,7 +23,6 @@ EnemyManager::~EnemyManager()
 {
 
 }
-
 
 void EnemyManager::Init()
 {
@@ -35,7 +39,6 @@ void EnemyManager::CreateEnemy(EnemyType type, int x, int y, SDL_Renderer* r)
 	case 1:
 	{
 		SDL_FRect d = { x * 64.0f,y * 64.0f,128.0f,128.0f };
-		std::cout << "ENMA:" << d.x << ", " << d.y << ", " << d.w << ", " << d.h << "\n";
 		Swordman* TempEnemy = new Swordman({ 0,0,640,640 }, d, r, TextureManager::GetTexture("Swordman"));
 		TempEnemy->addAnimator(new Animator(TempEnemy));
 		EnemiesVec.push_back(TempEnemy);
@@ -54,6 +57,16 @@ void EnemyManager::CreateEnemy(EnemyType type, int x, int y, SDL_Renderer* r)
 	}
 	break;
 	}
+}
+
+void EnemyManager::SpawnBoss(int x, int y, SDL_Renderer* r)
+{
+	SDL_FRect d = { x * 64.0f,y * 64.0f,384.0f,384.0f };
+	Boss* TempEnemy = new Boss({ 0,0,640,640 }, d, r, TextureManager::GetTexture("Swordman")); // Will be "Boss"
+	TempEnemy->addAnimator(new Animator(TempEnemy));
+	EnemiesVec.push_back(TempEnemy);
+	TempEnemy = nullptr;
+	std::cout << "Boss Created!" << std::endl;
 }
 
 void EnemyManager::DestroyInvalidEnemies()

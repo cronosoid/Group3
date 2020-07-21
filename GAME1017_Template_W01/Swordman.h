@@ -1,6 +1,5 @@
 #pragma once
 #include "Enemies.h"
-#include "PlatformPlayer.h"
 
 class Swordman :public Enemies
 {

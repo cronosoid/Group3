@@ -1,13 +1,13 @@
 #pragma once
+#ifndef _BOSS_H_
+#define _BOSS_H_
 
 #include "Enemies.h"
 
-const int ATTACKCOOLDOWN = 1.5;
-
-class Archer :public Enemies
+class Boss :public Enemies
 {
 public:
-	Archer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator = nullptr);
+	Boss(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator = nullptr);
 
 	virtual void Update() override;
 	virtual void Render() override;
@@ -16,3 +16,5 @@ public:
 private:
 	Uint32 lastAttackTime = 0;
 };
+
+#endif

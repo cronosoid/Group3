@@ -101,6 +101,9 @@
     <ClCompile Include="Swordman.cpp">
       <Filter>Enemies\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Enemies\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h">
@@ -203,6 +206,9 @@
       <Filter>Enemies\Header</Filter>
     </ClInclude>
     <ClInclude Include="Swordman.h">
+      <Filter>Enemies\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
       <Filter>Enemies\Header</Filter>
     </ClInclude>
   </ItemGroup>

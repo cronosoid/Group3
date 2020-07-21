@@ -218,11 +218,14 @@ void Level3::Load(PlatformPlayer* Player)
 
 	this->m_pPlayer = Player;
 
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < 50; i++)
 	{
 		MapObjectManager::CreateMapObject(kPlate, i, 11, Engine::Instance().GetRenderer());
 	}
-	this->m_pPortal = MapObjectManager::CreateMapObject(kPortal, 5, 6, Engine::Instance().GetRenderer());
+
+	EnemyManager::SpawnBoss(15, 4, Engine::Instance().GetRenderer());
+	
+	//this->m_pPortal = MapObjectManager::CreateMapObject(kPortal, 5, 6, Engine::Instance().GetRenderer());
 }
 
 void Level3::Update()
@@ -230,10 +233,5 @@ void Level3::Update()
 	if (m_pPlayer->GetDstP()->y > MOMA::GetWindowY())
 	{
 		m_pPlayer->ChangeSoul(-m_pPlayer->m_maxSoul);
-	}
-	else if (COMA::AABBCheck(*this->m_pPortal->GetDstP(), *this->m_pPlayer->GetDstP()))
-	{
-		//STMA::ChangeState(new EndState());
-		STMA::ChangeState(new CongratulationState);
 	}
 }
