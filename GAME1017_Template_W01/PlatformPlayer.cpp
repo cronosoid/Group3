@@ -129,11 +129,11 @@ void PlatformPlayer::Update()
 		{
 			// this->getAnimator()->setNextAnimation("attacked");
 			//Kaben will move back
-			if (this->getAnimator()->getFace())
+			if (getHitDir()==1)
 			{
 				this->SetAccelX(1);
 			}				
-			else
+			else if (getHitDir() == 2)
 			{
 				this->SetAccelX(-1);
 			}				

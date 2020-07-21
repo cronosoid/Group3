@@ -40,6 +40,14 @@ void Arrow::Update()
 	if (COMA::AABBCheck(*this->GetDstP(), *hero->GetDstP())
 		and hero->GetLastAttackedTime() <= 0)
 	{
+		if (this->GetDstP()->x < (hero->GetDstP()->x + hero->GetDstP()->w))
+		{
+			hero->setHitDir(2);//set hit direction as right
+		}
+		else if ((this->GetDstP()->x + this->GetDstP()->w) > hero->GetDstP()->x)
+		{
+			hero->setHitDir(1);
+		}
 		hero->getDamage(ARCHERDAMAGE);
 		hero->SetLastAttackedTime();
 		hero->StopX();

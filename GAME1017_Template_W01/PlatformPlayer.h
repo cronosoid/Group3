@@ -49,6 +49,8 @@ public: // Methods
 	void setIsUnderAttack(bool a) { m_isUnderAttack = a; }
 	bool getCanControl() { return m_canControl; }
 	void setCanControl(bool a) { m_canControl = a; };
+	int getHitDir() { return m_hitDir; }
+	void setHitDir(int dir) { m_hitDir = dir; }
 
 private:
 	double m_curSoul;
@@ -56,6 +58,7 @@ private:
 	Uint32 lastMagicTime;
 	Uint32 m_lastAttacked = 0;
 	bool m_isUnderAttack,m_canControl;
+	int m_hitDir;//0: default 1:left 2:right
 };
 
 #endif
