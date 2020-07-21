@@ -5,7 +5,7 @@
 #include "MapObject.h"
 
 #define GRAV 3.0
-#define JUMPFORCE 30.0
+#define JUMPFORCE 50.0 // Was 30, 50 for test
 #define FALLCOF 20.0
 
 class Animator;
