@@ -13,6 +13,7 @@ Arrow::Arrow(PlatformPlayer* hero, std::vector<MapObject*> mabObjects, SDL_Rect 
 {
 	this->hero = hero;
 	this->mapObjects = mapObjects;
+	this->SetAngle(180 * (face - 1) / 2 );
 }
 
 void Arrow::Update()
@@ -40,13 +41,13 @@ void Arrow::Update()
 	if (COMA::AABBCheck(*this->GetDstP(), *hero->GetDstP())
 		and hero->GetLastAttackedTime() <= 0)
 	{
-		if (this->GetDstP()->x < (hero->GetDstP()->x + hero->GetDstP()->w))
+		if (face == 1)
+		{
+			hero->setHitDir(1);//set hit direction as left
+		}
+		else
 		{
 			hero->setHitDir(2);//set hit direction as right
-		}
-		else if ((this->GetDstP()->x + this->GetDstP()->w) > hero->GetDstP()->x)
-		{
-			hero->setHitDir(1);
 		}
 		hero->getDamage(ARCHERDAMAGE);
 		hero->SetLastAttackedTime();

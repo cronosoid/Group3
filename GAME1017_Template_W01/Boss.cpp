@@ -214,7 +214,7 @@ void Boss::attack()
 	SDL_FRect rect;
 	if (this->getAnimator()->getFace() == 0)
 	{
-		rect.x = this->GetDstP()->x + this->GetDstP()->w;
+		rect.x = this->GetDstP()->x;
 	}
 	else
 	{
@@ -222,12 +222,20 @@ void Boss::attack()
 	}
 
 	rect.y = this->GetDstP()->y;
-	rect.w = this->GetDstP()->w;
+	rect.w = this->GetDstP()->w * 2;
 	rect.h = this->GetDstP()->h;
 
 	if (COMA::AABBCheck(rect, *EnemyManager::GetTarget()->GetDstP())
 		and static_cast<PlatformPlayer*>(EnemyManager::GetTarget())->GetLastAttackedTime() <= 0)
 	{
+		if (this->getAnimator()->getFace() == 0)
+		{
+			EnemyManager::GetTarget()->setHitDir(1);//set hit direction as left
+		}
+		else
+		{
+			EnemyManager::GetTarget()->setHitDir(2);//set hit direction as right
+		}
 		EnemyManager::GetTarget()->getDamage(BOSSDAMAGE);
 		static_cast<PlatformPlayer*>(EnemyManager::GetTarget())->SetLastAttackedTime();
 		EnemyManager::GetTarget()->StopX();
