@@ -21,13 +21,16 @@ public:
 	int getDamageNum() { return damage;}
 	SDL_Texture* getTex();
 	std::string getType();
-
+	int GetHealth() { return health; }
+	int GetMaxHealth() { return maxHealth; }
+	
 protected:
 	bool isActive,
 		 isAlive;
 	int  damage,
 		defence,
-		health;
+		health,
+		maxHealth;
 	Uint32 lastAttackTime;
 	Uint32 m_stunTime;
 	std::string enemyType;

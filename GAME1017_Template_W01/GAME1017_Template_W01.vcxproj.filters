@@ -104,6 +104,9 @@
     <ClCompile Include="Boss.cpp">
       <Filter>Enemies\Source</Filter>
     </ClCompile>
+    <ClCompile Include="BossHealthbar.cpp">
+      <Filter>UI\Header</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h">
@@ -210,6 +213,9 @@
     </ClInclude>
     <ClInclude Include="Boss.h">
       <Filter>Enemies\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="BossHealthbar.h">
+      <Filter>UI\Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

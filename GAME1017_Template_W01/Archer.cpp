@@ -26,7 +26,7 @@ const int MAXATTACKWAITTIME = 30; // in frames
 Archer::Archer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator) :Enemies(s, d, r, t, animator)
 {
 	this->curStatus = PATROLING;
-	this->health = MAXHEALTH;
+	this->health = this->maxHealth = MAXHEALTH;
 	this->damage = ARCHERDAMAGE;
 	this->defence = ARCHERDEFENCE;
 	this->enemyType = "Archer";

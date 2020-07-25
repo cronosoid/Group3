@@ -32,7 +32,7 @@ const int ULTIMATECD = 10 * 60;
 Boss::Boss(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator) :Enemies(s, d, r, t, animator)
 {
 	this->curStatus = PATROLING;
-	this->health = MAXHEALTH;
+	this->health = this->maxHealth = MAXHEALTH;
 	this->damage = BOSSDAMAGE;
 	this->defence = BOSSDEFENCE;
 	this->enemyType = "Boss";
@@ -40,8 +40,16 @@ Boss::Boss(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* a
 
 	this->m_pText = TextureManager::GetTexture("Swordman"); // Will be "Boss" texture
 
+	this->m_healthbar = new BossHealthbar(this);
+	
 	this->m_summonCd = 10 * 60;
 }
+
+Boss::~Boss()
+{
+	delete m_healthbar;
+}
+
 
 void Boss::HandleSpells()
 {
@@ -63,6 +71,8 @@ void Boss::HandleSpells()
 
 void Boss::Update()
 {
+	m_healthbar->Update();
+	
 	movementUpdate();
 	
 	if (m_dst.y >= 768)
@@ -205,7 +215,7 @@ void Boss::Update()
 
 void Boss::Render()
 {
-
+	m_healthbar->Render();
 	SDL_RenderCopyF(m_pRend, m_pText, &m_src, &m_dst);
 }
 
