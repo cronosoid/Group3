@@ -11,7 +11,7 @@
 #include "EnemyManager.h"
 #include "SoundManager.h"
 
-const int MAXHEALTH = 1000;
+const int MAXHEALTH = 100;
 
 const int BOSSDAMAGE = 30;
 const int BOSSDEFENCE = 10;
@@ -98,6 +98,7 @@ void Boss::Update()
 	if (health <= 0)
 	{
 		setAlive(false);
+		EnemyManager::DestroyBoss();
 		curStatus = DEAD;
 	}
 
@@ -207,6 +208,8 @@ void Boss::Update()
 	}
 	break;
 	case DEAD:
+		std::cout << "Dead";
+		
 		break;
 	default:
 		break;

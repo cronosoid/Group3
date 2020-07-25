@@ -137,7 +137,6 @@ void GameState::Enter()
 
 void GameState::Update()
 {
-
 	MapObjectManager::Update();
 
 	m_pPlayer->Update();

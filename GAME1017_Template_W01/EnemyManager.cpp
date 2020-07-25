@@ -89,3 +89,8 @@ void EnemyManager::DestroyInvalidEnemies()
 		}
 	}
 }
+
+void EnemyManager::DestroyBoss()
+{
+	m_boss = nullptr;
+}
