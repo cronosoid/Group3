@@ -23,6 +23,8 @@ public:
 	static std::vector<Enemies*> EnemiesVec;
 	static PlatformPlayer* GetTarget() { return target; }
 	static void SetTarget(PlatformPlayer* newTarget = nullptr) { target = newTarget; }
+	static Enemies* GetBoss() { return m_boss; }
 private:
 	static PlatformPlayer* target;
+	static Enemies* m_boss;
 };

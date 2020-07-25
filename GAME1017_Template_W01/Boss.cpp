@@ -26,6 +26,9 @@ const float RUNSPEED = 0.2;
 const int MAXATTACKWAITTIME = 70; // in frames
 const float ATTACKCOOLDOWN = 1.5;
 
+const int SUMMONCD = 20 * 60;
+const int ULTIMATECD = 10 * 60;
+
 Boss::Boss(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator) :Enemies(s, d, r, t, animator)
 {
 	this->curStatus = PATROLING;
@@ -34,11 +37,34 @@ Boss::Boss(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* a
 	this->defence = BOSSDEFENCE;
 	this->enemyType = "Boss";
 	this->m_speed = WALKSPEED;
+
+	this->m_pText = TextureManager::GetTexture("Swordman"); // Will be "Boss" texture
+
+	this->m_summonCd = 10 * 60;
+}
+
+void Boss::HandleSpells()
+{
+	if (m_summonCd++ > SUMMONCD)
+	{
+		m_summonCd = 0;
+
+		SDL_FPoint bossPos = {m_dst.x / 64, m_dst.y / 64 };
+		
+		for (int i = 1; i <= 3; i++)
+		{
+			EnemyType type = swordman;
+			if (rand() % 2 == 0)
+				type = archer;
+			EnemyManager::CreateEnemy(type, bossPos.x - 2 + i * 2, 0, Engine::Instance().GetRenderer());
+		}
+	}
 }
 
 void Boss::Update()
 {
 	movementUpdate();
+	
 	if (m_dst.y >= 768)
 	{
 		setActive(false);
@@ -71,6 +97,8 @@ void Boss::Update()
 		curStatus = STUNNED;
 	}
 
+	HandleSpells();
+	
 	switch (curStatus)
 	{
 	case IDLE:
@@ -177,7 +205,6 @@ void Boss::Update()
 
 void Boss::Render()
 {
-	m_pText = TextureManager::GetTexture("Swordman"); // Will be "Boss" texture
 
 	SDL_RenderCopyF(m_pRend, m_pText, &m_src, &m_dst);
 }

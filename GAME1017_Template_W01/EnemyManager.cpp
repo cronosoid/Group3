@@ -13,6 +13,7 @@
 
 std::vector<Enemies*> EnemyManager::EnemiesVec;
 PlatformPlayer* EnemyManager::target;
+Enemies* EnemyManager::m_boss;
 
 EnemyManager::EnemyManager()
 {
@@ -61,12 +62,16 @@ void EnemyManager::CreateEnemy(EnemyType type, int x, int y, SDL_Renderer* r)
 
 void EnemyManager::SpawnBoss(int x, int y, SDL_Renderer* r)
 {
-	SDL_FRect d = { x * 64.0f,y * 64.0f,384.0f,384.0f };
-	Boss* TempEnemy = new Boss({ 0,0,640,640 }, d, r, TextureManager::GetTexture("Swordman")); // Will be "Boss"
-	TempEnemy->addAnimator(new Animator(TempEnemy));
-	EnemiesVec.push_back(TempEnemy);
-	TempEnemy = nullptr;
-	std::cout << "Boss Created!" << std::endl;
+	if (!m_boss)
+	{
+		SDL_FRect d = { x * 64.0f,y * 64.0f,384.0f,384.0f };
+		Boss* TempEnemy = new Boss({ 0,0,640,640 }, d, r, TextureManager::GetTexture("Swordman")); // Will be "Boss"
+		TempEnemy->addAnimator(new Animator(TempEnemy));
+		EnemiesVec.push_back(TempEnemy);
+		m_boss = TempEnemy;
+		TempEnemy = nullptr;
+		std::cout << "Boss Created!" << std::endl;
+	}
 }
 
 void EnemyManager::DestroyInvalidEnemies()

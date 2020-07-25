@@ -144,9 +144,16 @@ void GameState::Update()
 
 	PMA::Instance().Update();
 
+	if (EnemyManager::GetBoss())
+	{
+		EnemyManager::GetBoss()->Update();
+	}
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
-		enemy->Update();
+		if (enemy->getType() != "Boss")
+		{
+			enemy->Update();
+		}
 	}
 	EnemyManager::DestroyInvalidEnemies();
 	
@@ -245,7 +252,10 @@ void GameState::Exit()
 
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
-		enemy->setActive(false);
+		if (enemy != nullptr)
+		{
+			enemy->setActive(false);
+		}
 	}
 	EnemyManager::DestroyInvalidEnemies();
 	EnemyManager::SetTarget(nullptr);

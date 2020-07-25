@@ -11,10 +11,15 @@ public:
 
 	virtual void Update() override;
 	virtual void Render() override;
+
+	void HandleSpells();
 	void attack();
 
 private:
 	Uint32 lastAttackTime = 0;
+
+	Uint16 m_summonCd;
+	Uint16 m_ultimateCd;
 };
 
 #endif
