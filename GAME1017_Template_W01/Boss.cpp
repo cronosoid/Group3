@@ -29,8 +29,8 @@ const float ATTACKCOOLDOWN = 1.5;
 const int SUMMONCD = 20 * 60;
 const int ULTIMATECD = 10 * 60;
 
-const float w = 34.0;
-const float h = 50.0;
+const float w = 384.0;
+const float h = 384.0;
 
 Boss::Boss(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator) :Enemies(s, d, {0,0,w,h}, r, t, animator)
 {
@@ -230,16 +230,16 @@ void Boss::attack()
 	SDL_FRect rect;
 	if (this->getAnimator()->getFace() == 0)
 	{
-		rect.x = this->GetDstP()->x;
+		rect.x = m_body.x;
 	}
 	else
 	{
-		rect.x = this->GetDstP()->x - this->GetDstP()->w;
+		rect.x = m_body.x - m_body.w;
 	}
 
-	rect.y = this->GetDstP()->y;
-	rect.w = this->GetDstP()->w * 2;
-	rect.h = this->GetDstP()->h;
+	rect.y = m_body.y;
+	rect.w = m_body.w * 2;
+	rect.h = m_body.h;
 
 	if (COMA::AABBCheck(rect, *EnemyManager::GetTarget()->GetDstP())
 		and static_cast<PlatformPlayer*>(EnemyManager::GetTarget())->GetLastAttackedTime() <= 0)
