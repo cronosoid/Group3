@@ -65,7 +65,7 @@ void PlayButton::Execute()
 {
 	
 	SOMA::PlaySound("button");
-	STMA::ChangeState(new GameState(new Level3()));
+	STMA::ChangeState(new GameState(new Level1()));
 }
 
 void RestartButton::Execute()

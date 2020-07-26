@@ -24,7 +24,10 @@ const float RUNSPEED = 0.55;
 
 const int MAXATTACKWAITTIME = 30; // in frames
 
-Swordman::Swordman(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator) :Enemies(s, d, r, t, animator)
+const float w = 128.0;
+const float h = 128.0;
+
+Swordman::Swordman(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator) :Enemies(s, d, {0,0,w,h}, r, t, animator)
 {
 	this->curStatus = PATROLING;
 	this->health = this->maxHealth = MAXHEALTH;
@@ -89,8 +92,8 @@ void Swordman::Update()
 			this->m_speed = WALKSPEED;
 
 			float curX;
-			animator->getFace() == 0 ? curX = m_dst.x + m_dst.w + 5 : curX = m_dst.x - 5;
-			float curY = m_dst.y + m_dst.h / 2;
+			animator->getFace() == 0 ? curX = m_body.x + m_body.w + 5 : curX = m_body.x - 5;
+			float curY = m_body.y + m_body.h / 2;
 			MapObject* nextObject = COMA::FindFirstObjectOnTheRay({ curX,curY }, { 0, 1 });
 
 			//oldObject = nextObject; // FOR DEBUG
@@ -123,7 +126,7 @@ void Swordman::Update()
 		this->m_speed = RUNSPEED + (rand() % 10) / 10.0;
 
 		PlatformPlayer* player = EnemyManager::GetTarget();
-		float dist = player->GetDstP()->x - this->m_dst.x;
+		float dist = player->GetDstP()->x - this->m_body.x;
 
 		float direction = 0;
 		if (dist != 0)
@@ -136,8 +139,8 @@ void Swordman::Update()
 			animator->setFace(1);
 
 		float curX;
-		animator->getFace() == 0 ? curX = m_dst.x + m_dst.w + 5 : curX = m_dst.x - 5;
-		float curY = m_dst.y;
+		animator->getFace() == 0 ? curX = m_body.x + m_body.w + 5 : curX = m_body.x - 5;
+		float curY = m_body.y;
 		MapObject* nextObject = COMA::FindFirstObjectOnTheRay({ curX,curY }, { 0, 1 });
 
 		if (nextObject and squareDistToPlayer > pow(STOPDISTANCE, 2))
@@ -196,16 +199,16 @@ void Swordman::attack()
 	SDL_FRect rect;
 	if (this->getAnimator()->getFace() == 0)
 	{
-		rect.x = this->GetDstP()->x + this->GetDstP()->w;
+		rect.x = m_body.x + m_body.w;
 	}
 	else
 	{
-		rect.x = this->GetDstP()->x - this->GetDstP()->w;
+		rect.x = m_body.x - m_body.w;
 	}
 
-	rect.y = this->GetDstP()->y;
-	rect.w = this->GetDstP()->w;
-	rect.h = this->GetDstP()->h;
+	rect.y = m_body.y;
+	rect.w = m_body.w;
+	rect.h = m_body.h;
 
 	if (COMA::AABBCheck(rect, *EnemyManager::GetTarget()->GetDstP())
 		and static_cast<PlatformPlayer*>(EnemyManager::GetTarget())->GetLastAttackedTime() <= 0)

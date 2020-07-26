@@ -220,6 +220,8 @@ void GameState::Render()
 
 	UIObjectManager::UIRender();
 
+	//SDL_RenderFillRectF(Engine::Instance().GetRenderer(), m_pPlayer->GetBody());
+
 	// If GameState != current state.
 	if (dynamic_cast<GameState*>(STMA::GetStates().back()))
 		State::Render();

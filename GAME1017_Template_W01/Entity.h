@@ -5,7 +5,7 @@
 #include "MapObject.h"
 
 #define GRAV 3.0
-#define JUMPFORCE 30.0
+#define JUMPFORCE 35.0
 #define FALLCOF 20.0
 
 class Animator;
@@ -13,7 +13,7 @@ class Animator;
 class Entity :public Sprite
 {
 public:
-	Entity(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator, bool player = false);
+	Entity(SDL_Rect s, SDL_FRect d, SDL_FRect b, SDL_Renderer* r, SDL_Texture* t, Animator* animator, bool player = false);
 	void Stop();
 	void StopX();
 	void StopY();
@@ -30,6 +30,8 @@ public:
 	void addAnimator(Animator* animator);
 	SDL_FRect* getGlobalDst() { return &globalDst; }
 	MapObject* GetFloor() { return m_floor; }
+
+	SDL_FRect* GetBody() { return &m_body; }
 protected:
 	bool m_player;
 	bool m_grounded;
@@ -47,6 +49,7 @@ protected:
 	MapObject* m_floor;
 	Animator* animator;
 	SDL_FRect globalDst;
+	SDL_FRect m_body;
 };
 
 #include "Animator.h"

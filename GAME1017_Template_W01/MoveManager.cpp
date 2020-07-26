@@ -29,7 +29,7 @@ void MoveManager::MoveX(float x)
 	if (totalMoveX + x < 0)
 	{
 		x = -totalMoveX;
-		totalMoveX = 0;		x = -totalMoveX;
+		totalMoveX = 0;	
 		totalMoveX = 0;
 	}
 	else if (totalMoveX + x > maxX)
@@ -53,7 +53,7 @@ void MoveManager::MoveX(float x)
 	}
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
-		enemy->GetDstP()->x -= x;
+		enemy->GetBody()->x -= x;
 	}
 	for (Projectile* projectile : PMA::Instance().GetProjectiles())
 	{
@@ -83,7 +83,7 @@ void MoveManager::MoveY(float y)
 	}
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
-		enemy->GetDstP()->y -= y;
+		enemy->GetBody()->y -= y;
 	}
 	for (Projectile* projectile : PMA::Instance().GetProjectiles())
 	{

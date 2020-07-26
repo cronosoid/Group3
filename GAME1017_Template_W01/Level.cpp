@@ -84,11 +84,11 @@ void Level1::Load(PlatformPlayer* Player)
 
 void Level1::Update()
 {
-	if (m_pPlayer->GetDstP()->y > MOMA::GetWindowY())
+	if (m_pPlayer->GetBody()->y > MOMA::GetWindowY())
 	{
 		m_pPlayer->ChangeSoul(-m_pPlayer->m_maxSoul);
 	}
-	else if (COMA::AABBCheck(*this->m_pPortal->GetDstP(), *this->m_pPlayer->GetDstP()))
+	else if (COMA::AABBCheck(*this->m_pPortal->GetDstP(), *this->m_pPlayer->GetBody()))
 	{
 		STMA::ChangeState(new CongratulationState);
 	}
@@ -197,11 +197,11 @@ void Level2::Load(PlatformPlayer* Player)
 
 void Level2::Update()
 {
-	if (m_pPlayer->GetDstP()->y > MOMA::GetWindowY())
+	if (m_pPlayer->GetBody()->y > MOMA::GetWindowY())
 	{
 		m_pPlayer->ChangeSoul(-m_pPlayer->m_maxSoul);
 	}
-	else if (COMA::AABBCheck(*this->m_pPortal->GetDstP(), *this->m_pPlayer->GetDstP()))
+	else if (COMA::AABBCheck(*this->m_pPortal->GetDstP(), *this->m_pPlayer->GetBody()))
 	{
 		//STMA::ChangeState(new EndState());
 		STMA::ChangeState(new CongratulationState);
@@ -234,7 +234,7 @@ void Level3::Load(PlatformPlayer* Player)
 
 void Level3::Update()
 {
-	if (m_pPlayer->GetDstP()->y > MOMA::GetWindowY())
+	if (m_pPlayer->GetBody()->y > MOMA::GetWindowY())
 	{
 		m_pPlayer->ChangeSoul(-m_pPlayer->m_maxSoul);
 	}

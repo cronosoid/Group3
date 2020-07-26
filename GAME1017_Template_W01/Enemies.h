@@ -9,7 +9,7 @@ enum Status { IDLE, PATROLING, SEEKING, FLEEING, ATTACKING, STUNNED, DEAD };
 class Enemies :public Entity
 {
 public:
-	Enemies(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator);
+	Enemies(SDL_Rect s, SDL_FRect d, SDL_FRect b, SDL_Renderer* r, SDL_Texture* t, Animator* animator);
 	virtual void Update() = 0;
 	virtual void Render() = 0;
 	bool getActive();

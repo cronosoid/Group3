@@ -3,8 +3,8 @@
 #include <iostream>
 #include "Engine.h"
 
-Enemies::Enemies(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator)
-	:Entity(s, d, r, t, animator)
+Enemies::Enemies(SDL_Rect s, SDL_FRect d, SDL_FRect b, SDL_Renderer* r, SDL_Texture* t, Animator* animator)
+	:Entity(s, d, b, r, t, animator)
 {
 	isActive = true;
 	isAlive = true;

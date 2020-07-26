@@ -11,7 +11,7 @@
 #include "EnemyManager.h"
 #include "SoundManager.h"
 
-const int MAXHEALTH = 100;
+const int MAXHEALTH = 1000;
 
 const int BOSSDAMAGE = 30;
 const int BOSSDEFENCE = 10;
@@ -29,7 +29,10 @@ const float ATTACKCOOLDOWN = 1.5;
 const int SUMMONCD = 20 * 60;
 const int ULTIMATECD = 10 * 60;
 
-Boss::Boss(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator) :Enemies(s, d, r, t, animator)
+const float w = 34.0;
+const float h = 50.0;
+
+Boss::Boss(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator) :Enemies(s, d, {0,0,w,h}, r, t, animator)
 {
 	this->curStatus = PATROLING;
 	this->health = this->maxHealth = MAXHEALTH;

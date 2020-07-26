@@ -12,7 +12,7 @@ public: // Inherited and public.
 		:m_src(s), m_dst(d), m_pRend(r), m_pText(t), m_angle(0.0) {}
 	virtual void Render();
 	SDL_Rect* GetSrcP() { return &m_src; }
-	SDL_FRect* GetDstP() { return &m_dst; }
+	virtual SDL_FRect* GetDstP() { return &m_dst; }
 	double& GetAngle() { return m_angle; }
 	void SetAngle(double a) { m_angle = a; }
 	void SetSrcCords(int x, int y);

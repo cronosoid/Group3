@@ -11,8 +11,11 @@
 #include "ProjectileManager.h"
 #include "Fireball.h"
 
+const float w = 68.0;
+const float h = 100.0;
+
 PlatformPlayer::PlatformPlayer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator)
-	:Entity(s, d, r, t, animator, true)
+	:Entity(s, d, { 0, 0, w, h}, r, t, animator, true)
 {
 	this->m_curSoul = m_maxSoul;
 
@@ -88,7 +91,7 @@ void PlatformPlayer::Update()
 
 				for (Enemies* enemy : EnemyManager::EnemiesVec)
 				{
-					if (COMA::AABBCheck(rect, *enemy->GetDstP()))
+					if (COMA::AABBCheck(rect, *enemy->GetBody()))
 					{
 						this->SoulRecover();
 						enemy->getDamage(this->m_meeleDmg);
@@ -108,8 +111,8 @@ void PlatformPlayer::Update()
 				int face;
 				this->getAnimator()->getFace() == 0 ? face = 1 : face = -1;
 				PMA::Instance().GetProjectiles().push_back(new Fireball(this, EnemyManager::EnemiesVec, MapObjectManager::MapObjVec, { 0,0,64,64 },
-					{ face == 1 ? this->GetDstP()->x + this->GetDstP()->w : this->GetDstP()->x - 24,
-					this->GetDstP()->y + 42, 48, 48 },
+					{ face == 1 ? this->GetBody()->x + this->GetBody()->w : this->GetBody()->x - 24,
+					this->GetBody()->y + 42, 48, 48 },
 					Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 15, face, this->m_magicDmg,
 					4, 6, 64, 64));
 

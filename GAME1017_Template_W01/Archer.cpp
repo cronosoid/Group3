@@ -23,7 +23,10 @@ const float RUNSPEED = 0.55;
 
 const int MAXATTACKWAITTIME = 30; // in frames
 
-Archer::Archer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator) :Enemies(s, d, r, t, animator)
+const float w = 128.0;
+const float h = 128.0;
+
+Archer::Archer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator) :Enemies(s, d, {0,0,w,h}, r, t, animator)
 {
 	this->curStatus = PATROLING;
 	this->health = this->maxHealth = MAXHEALTH;
