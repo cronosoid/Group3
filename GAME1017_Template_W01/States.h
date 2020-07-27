@@ -98,4 +98,20 @@ private:
 	std::vector<Label*> textLabelVec;
 };
 
+class PauseHelpState : public State
+{
+public:
+	PauseHelpState();
+	void Update();
+	void Render();
+	void Enter();
+	void Exit();
+private:
+	Button* m_backPauBtn;
+	Button* m_helpBtn;
+	Button* m_menuBtn;
+	Background* t_background;
+	std::vector<Label*> textLabelVec;
+};
+
 #endif

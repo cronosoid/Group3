@@ -63,6 +63,7 @@ RestartButton::RestartButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_T
 ExitButton::ExitButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t) : Button(src, dst, r, t) {}
 HelpButton::HelpButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t): Button(src, dst, r, t) {}
 BackButton::BackButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t): Button(src, dst, r, t) {}
+MenuButton::MenuButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t) : Button(src, dst, r, t) {}
 
 void PlayButton::Execute()
 {
@@ -94,4 +95,10 @@ void BackButton::Execute()
 {
 	SOMA::PlaySound("button");
 	STMA::PopState();
+}
+
+void MenuButton::Execute()
+{
+	SOMA::PlaySound("button");
+	STMA::ChangeState(new TitleState());
 }

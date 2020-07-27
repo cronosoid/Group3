@@ -131,7 +131,11 @@ void GameState::Enter()
 
 void GameState::Update()
 {
-
+	if (EVMA::KeyHeld(SDL_SCANCODE_P))
+	{
+		STMA::PushState(new PauseHelpState());
+	}
+	
 	MapObjectManager::Update();
 
 	m_pPlayer->Update();
@@ -337,4 +341,38 @@ void HelpState::Exit()
 		 delete* label;
 		 label = textLabelVec.erase(label);
 	 }
+}
+
+PauseHelpState::PauseHelpState()
+{
+}
+
+void PauseHelpState::Enter()
+{
+	m_backPauBtn = new BackButton({ 0,0,400,100 }, { 350.0f,200.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("back"));
+	m_helpBtn = new HelpButton({ 0,0,400,100 }, { 350.0f,350.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("help"));
+	m_menuBtn = new MenuButton({ 0,0,400,100 }, { 350.0f,500.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("back"));
+	t_background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("background"));
+}
+
+void PauseHelpState::Update()
+{
+	if (m_backPauBtn->Update() == 1 || m_helpBtn->Update() == 1 || m_menuBtn->Update() == 1)
+		return;
+}
+
+void PauseHelpState::Render()
+{
+	t_background->Render();
+	for (int i = 0; i < textLabelVec.size(); i++)
+	{
+		textLabelVec[i]->Render();
+	}
+	m_backPauBtn->Render();
+	m_helpBtn->Render();
+	m_menuBtn->Render();
+}
+
+void PauseHelpState::Exit()
+{
 }

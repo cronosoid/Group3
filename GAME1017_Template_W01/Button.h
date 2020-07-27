@@ -59,4 +59,12 @@ private:
 public:
 	BackButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t);
 };
+
+class MenuButton : public Button
+{
+private:
+	void Execute() override;
+public:
+	MenuButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t);
+};
 #endif
