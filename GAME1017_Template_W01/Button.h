@@ -54,5 +54,15 @@ private:
 	int NextLevelNum;
 };
 
+class Level3Button :public Button
+{
+private:
+	void Execute();
+public:
+	Level3Button(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t);
+private:
+	int NextLevelNum;
+};
+
 
 #endif

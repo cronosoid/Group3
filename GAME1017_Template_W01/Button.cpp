@@ -86,6 +86,8 @@ NextLevelButton::NextLevelButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, S
 	NextLevelNum = nextLevelNum;
 }
 
+
+
 void NextLevelButton::Execute()
 {
 	SOMA::PlaySound("button");
@@ -105,3 +107,12 @@ void NextLevelButton::Execute()
 	}	
 }
 
+void Level3Button::Execute()
+{
+	SOMA::PlaySound("button");
+	STMA::ChangeState(new GameState(new Level3()));
+}
+
+Level3Button::Level3Button(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t):Button(src,dst,r,t)
+{
+}
