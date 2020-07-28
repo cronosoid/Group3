@@ -20,9 +20,9 @@ const int CANNOTCONTROLTIME = 20;
 class PlatformPlayer : public Entity
 {
 public: // Variables
-	const double m_maxSoul = 100.0;
-	const int m_meeleDmg = 50;
-	const int m_magicDmg = 50;
+	const double m_maxSoul = 1000.0;
+	const int m_meeleDmg = 35;
+	const int m_magicDmg = 40;
 	const int m_soulRecover = 5;
 	int movement[2] = { 0,0 };
 public: // Methods
