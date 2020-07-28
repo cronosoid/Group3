@@ -75,7 +75,7 @@ void Animator::playAnimation()
 void Animator::addAnimation(const std::string& key, Uint32 maxFrames, Uint32 priority, Uint32 moveX, Uint32 moveY, Uint32 startX
 	, Uint32 startY, Uint32 framesFrequency)
 {
-	animationsMap[key] = new Animation(maxFrames, priority, moveX, moveY, startX, startY);
+	animationsMap[key] = new Animation(maxFrames, priority, moveX, moveY, startX, startY, framesFrequency);
 	animationsMap[key]->setName(key);
 }
 
@@ -87,10 +87,8 @@ void Animator::update()
 		if (SDL_GetTicks() - (*animRec)->curTick >= (*animRec)->animation->getFramesFrequency())
 		{
 			(*animRec)->curTick = SDL_GetTicks();
-			(*animRec)->curFrame++;
 			if (++(*animRec)->curFrame >= (*animRec)->animation->getMaxFrames())
 			{
-				std::cout << "Delete the record\n";
 				delete *animRec;
 				animRec = animRecords.erase(animRec);
 				moved = true;

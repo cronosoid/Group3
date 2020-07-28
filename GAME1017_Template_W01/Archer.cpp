@@ -40,7 +40,7 @@ Archer::Archer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animato
 
 	this->getAnimator()->addAnimation("run", 4, 2, 64, 64);
 	this->getAnimator()->addAnimation("idle", 3, 1, 64, 64, 0, 128, 12);
-	this->getAnimator()->addAnimation("shot", 8, 3, 64, 64, 0, 256, 4);
+	this->getAnimator()->addAnimation("shot", 8, 3, 64, 64, 0, 256, 6);
 }
 
 void Archer::Update()
@@ -168,7 +168,6 @@ void Archer::Update()
 		break;
 	case FLEEING:
 		{
-			std::cout << "FLEEING\n";
 			
 			this->m_speed = RUNSPEED + (rand() % 10) / 10.0;
 
