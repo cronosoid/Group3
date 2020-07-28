@@ -225,7 +225,6 @@ void Level3::Load(PlatformPlayer* Player)
 	for (int i = 0; i < 30; i++)
 	{
 		MapObjectManager::CreateMapObject(kPlate, i, 11, Engine::Instance().GetRenderer());
-		MapObjectManager::CreateMapObject(kPlate, i, 0, Engine::Instance().GetRenderer());
 	}
 
 	for(int i=1;i<11;i++)
