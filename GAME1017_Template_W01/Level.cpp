@@ -222,7 +222,7 @@ void Level3::Load(PlatformPlayer* Player)
 {
 	MoveManager::Init(Engine::Instance().GetWindow(), m_levelWidth, m_levelHight);
 
-	/*for (int i = 0; i < 16; i++)
+	for (int i = 0; i < 30; i++)
 	{
 		MapObjectManager::CreateMapObject(kPlate, i, 11, Engine::Instance().GetRenderer());
 		MapObjectManager::CreateMapObject(kPlate, i, 0, Engine::Instance().GetRenderer());
@@ -231,16 +231,16 @@ void Level3::Load(PlatformPlayer* Player)
 	for(int i=1;i<11;i++)
 	{
 		MapObjectManager::CreateMapObject(kPlate, 0, i, Engine::Instance().GetRenderer());
-		MapObjectManager::CreateMapObject(kPlate, 15, i, Engine::Instance().GetRenderer());
-	}*/
+		MapObjectManager::CreateMapObject(kPlate, 29, i, Engine::Instance().GetRenderer());
+	}
 
-	//EnemyManager::SpawnBoss(6, 5, Engine::Instance().GetRenderer());
+	EnemyManager::SpawnBoss(6, 5, Engine::Instance().GetRenderer());
+	this->m_pPlayer = Player;
 	
-	//this->m_pPortal = MapObjectManager::CreateMapObject(kPortal, 5, 6 - ymove, Engine::Instance().GetRenderer());
+	/*this->m_pPortal = MapObjectManager::CreateMapObject(kPortal, 5, 6 - ymove, Engine::Instance().GetRenderer());
 
 	int ymove = 12;
 
-	this->m_pPlayer = Player;
 	this->m_pPlayer->GetBody()->y = this->m_pPlayer->GetBody()->y - 64 * ymove;
 	
 	for (int i = 0; i < 46; i++)
@@ -302,9 +302,7 @@ void Level3::Load(PlatformPlayer* Player)
 	MapObjectManager::CreateMoveMapObject(kSpike, 77, 10 - ymove, { 4928.0f,576.0f }, { 4928.0f,384.0f }, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMoveMapObject(kSpike, 82, 8 - ymove, { 5248.0f,576.0f }, { 5248.0f,192.0f }, Engine::Instance().GetRenderer());
 
-	EnemyManager::SpawnBoss(91, 15, Engine::Instance().GetRenderer());
-
-	//MOMA::MoveY(150);
+	EnemyManager::SpawnBoss(91, 15, Engine::Instance().GetRenderer());*/
 }
 
 void Level3::Update()
