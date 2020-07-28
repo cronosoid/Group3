@@ -6,6 +6,7 @@
 
 std::vector<MapObject*> MapObjectManager::MapObjVec;
 std::vector<SDL_FRect*> MapObjectManager::MapObjRectVec;
+std::vector<UnstableBrick*> MapObjectManager::UnstableBrickVec;
 
 MapObjectManager::MapObjectManager()
 {
@@ -22,6 +23,7 @@ void MapObjectManager::Init()
 	TextureManager::RegisterTexture("Img/brick.png", "plate");
 	TextureManager::RegisterTexture("Img/spike.png", "spike");
 	TextureManager::RegisterTexture("Img/portal.png", "portal");
+	TextureManager::RegisterTexture("Img/BrokenBrick.png", "unstableBrick");
 }
 
 MapObject* MapObjectManager::CreateMapObject(MapObjectType type, int x, int y, SDL_Renderer* r)
@@ -50,14 +52,25 @@ MapObject* MapObjectManager::CreateMapObject(MapObjectType type, int x, int y, S
 	}
    case kPortal:
 	{
-		//std::cout << "portal created" << std::endl;
+		std::cout << "portal created" << std::endl;
 		Portal* TempMapObj = new Portal({ 0,0,320,320 }, {x*64.0f,y*64.0f,320.0f,320.0f}, r, TextureManager::GetTexture("portal"));
-		std::cout << TempMapObj->getType() << std::endl;
+		//std::cout << TempMapObj->getType() << std::endl;
 		MapObjVec.push_back(TempMapObj);
 		SDL_FRect* TempFRect = TempMapObj->GetDstP();
 		MapObjRectVec.push_back(TempFRect);
 		TempMapObj = nullptr;
 		TempFRect = nullptr;
+	}
+   case kUnstableBrick:
+	{
+	   UnstableBrick* TempMapObj = new UnstableBrick({ 0,0,64,64 }, { x * 64.0f,y * 64.0f,64.0f,64.0f }, r, TextureManager::GetTexture("unstableBrick"));
+	   MapObjVec.push_back(TempMapObj);
+	   UnstableBrickVec.push_back(TempMapObj);
+	   SDL_FRect* TempFRect = TempMapObj->GetDstP();
+	   MapObjRectVec.push_back(TempFRect);
+	   TempMapObj = nullptr;
+	   TempFRect = nullptr;
+	   break;
 	}
 	default:
 		break;
@@ -82,13 +95,25 @@ void MapObjectManager::CreateMoveMapObject(MapObjectType type, int x, int y, SDL
 	case kSpike:
 	{
 		Spike* TempMapObj = new Spike({ 0,0,64,64 }, { x * 64.0f,y * 64.0f,64.0f,64.0f }, r, TextureManager::GetTexture("spike"),start,end);
+		//std::cout << "Moving Spike Created" << std::endl;
 		MapObjVec.push_back(TempMapObj);
 		SDL_FRect* TempFRect = TempMapObj->GetDstP();
 		MapObjRectVec.push_back(TempFRect);
 		TempMapObj = nullptr;
 		TempFRect = nullptr;
 		break;
-	}		
+	}
+	case kUnstableBrick:
+	{
+		UnstableBrick* TempMapObj = new UnstableBrick({ 0,0,64,64 }, { x * 64.0f,y * 64.0f,64.0f,64.0f }, r, TextureManager::GetTexture("unstableBrick"),start,end);
+		MapObjVec.push_back(TempMapObj);
+		UnstableBrickVec.push_back(TempMapObj);
+		SDL_FRect* TempFRect = TempMapObj->GetDstP();
+		MapObjRectVec.push_back(TempFRect);
+		TempMapObj = nullptr;
+		TempFRect = nullptr;
+		break;
+	}
 	default:
 		break;
 	}
@@ -115,7 +140,7 @@ void MapObjectManager::Render(bool CanCollide)
 	}
 }
 
-void MapObjectManager::DestroyMapObjects()
+void MapObjectManager::DestroyAllMapObjects()
 {
 	for (auto mapobj = MapObjVec.begin(); mapobj != MapObjVec.end(); )
 	{
@@ -125,3 +150,15 @@ void MapObjectManager::DestroyMapObjects()
 	}
 }
 
+void MapObjectManager::DestroyInvalidMapObject()
+{
+	for (auto mapobj = MapObjVec.begin(); mapobj != MapObjVec.end(); )
+	{
+		if(not (*mapobj)->getActive())
+		{
+			delete* mapobj;
+			mapobj = MapObjVec.erase(mapobj);
+		}		
+		++mapobj;
+	}
+}

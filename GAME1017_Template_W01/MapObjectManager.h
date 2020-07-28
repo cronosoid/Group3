@@ -6,7 +6,8 @@ enum MapObjectType
 {
 	kPlate = 1,
 	kSpike,
-	kPortal
+	kPortal,
+	kUnstableBrick
 };
 
 class MapObjectManager
@@ -14,6 +15,7 @@ class MapObjectManager
 public:
 	static std::vector<MapObject*> MapObjVec;
 	static std::vector<SDL_FRect*> MapObjRectVec;
+	static std::vector<UnstableBrick*> UnstableBrickVec;
 private:
 
 public:
@@ -24,7 +26,8 @@ public:
 	static void CreateMoveMapObject(MapObjectType type, int x, int y, SDL_FPoint start, SDL_FPoint end, SDL_Renderer* r);
 	static void Update();
 	static void Render(bool CanCollide);
-	static void DestroyMapObjects();
+	static void DestroyAllMapObjects();
+	static void DestroyInvalidMapObject();
 private:
 
 };

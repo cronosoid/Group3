@@ -63,7 +63,7 @@ TitleState::TitleState() {}
 void TitleState::Enter()
 {
 	m_playBtn = new PlayButton({ 0,0,400,100 }, { 60.0f,350.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
-	//m_pLevel3Btn = new Level3Button({ 0,0,400,100 }, { 60.0f,550.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
+	m_pLevel3Btn = new Level3Button({ 0,0,400,100 }, { 60.0f,550.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
 	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
 	SOMA::Load("Aud/Fire.wav", "jump", SOUND_SFX);
 	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
@@ -80,8 +80,8 @@ void TitleState::Update()
 {
 	if (m_playBtn->Update() == 1)
 		return;
-	//if (m_pLevel3Btn->Update() == 1)
-		//return;
+	if (m_pLevel3Btn->Update() == 1)
+		return;
 }
 
 void TitleState::Render()
@@ -90,7 +90,7 @@ void TitleState::Render()
 	SDL_RenderClear(Engine::Instance().GetRenderer());
 	t_background->Render();
 	m_playBtn->Render();
-	//m_pLevel3Btn->Render();
+	m_pLevel3Btn->Render();
 	State::Render();
 }
 
@@ -143,6 +143,7 @@ void GameState::Update()
 {
 
 	MapObjectManager::Update();
+	MapObjectManager::DestroyInvalidMapObject();
 
 	m_pPlayer->Update();
 
@@ -155,6 +156,8 @@ void GameState::Update()
 	EnemyManager::DestroyInvalidEnemies();
 	
 	CheckCollision();
+	//std::cout << MapObjectManager::UnstableBrickVec[0]->getStatus() << " " << MapObjectManager::UnstableBrickVec[1]->getStatus() << " " << MapObjectManager::UnstableBrickVec[2]->getStatus() << std::endl;
+	//std::cout << MapObjectManager::UnstableBrickVec[0]->getActive() << " " << MapObjectManager::UnstableBrickVec[1]->getActive() << " " << MapObjectManager::UnstableBrickVec[2]->getActive() << std::endl;
 
 	UIObjectManager::UIUpdate();
 
@@ -177,7 +180,8 @@ void GameState::Update()
 }
 
 void GameState::CheckCollision()
-{
+{	
+	COMA::CheckUnstableBrickCollision(MapObjectManager::UnstableBrickVec, m_pPlayer);
 	COMA::CheckMapCollision(MapObjectManager::MapObjVec, m_pPlayer);
 
 	if(m_MapDamageCounter==0)

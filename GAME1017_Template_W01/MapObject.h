@@ -7,7 +7,8 @@ class MapObject :public Sprite
 public:
 
 protected:
-	bool m_IsHurt,
+	bool m_isActive,
+		m_IsHurt,
 		m_CanCollide,
 		m_CanMove,
 		m_mDir;//true:to end false: to start
@@ -23,6 +24,7 @@ public:
 	virtual void Update() = 0;
 	virtual void Render() = 0;
 
+	bool getActive();
 	bool getIsHurt();
 	bool getCanCollide();
 	bool getCanMove();
@@ -74,6 +76,26 @@ public:
 	void Update() override;
 	void Render() override;
 	
+private:
+
+};
+
+class UnstableBrick:public MapObject
+{
+public:
+
+private:
+	const int MOVESPEED = 2.0;
+	const int BREAKTIME = 50;
+	int m_brokenTime;
+	int m_status;//1:normal 2:breaking
+public:
+	UnstableBrick(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t);
+	UnstableBrick(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, SDL_FPoint start, SDL_FPoint end);
+	void Update() override;
+	void Render() override;
+	void changeStatus(int state);
+	int getStatus();
 private:
 
 };
