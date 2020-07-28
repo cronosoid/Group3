@@ -98,8 +98,8 @@ void Level1::Update()
 		STMA::ChangeState(new CongratulationState);
 	}
 
-	std::cout << "Portal" << this->m_pPortal->GetDstP()->x << ", " << this->m_pPortal->GetDstP()->y << ", " << this->m_pPortal->GetDstP()->w << ", " << this->m_pPortal->GetDstP()->h << "\n";
-	std::cout << "Player" << this->m_pPlayer->GetBody()->x << ", " << this->m_pPlayer->GetBody()->y << ", " << this->m_pPlayer->GetBody()->w << ", " << this->m_pPlayer->GetBody()->h << "\n";
+	//std::cout << "Portal" << this->m_pPortal->GetDstP()->x << ", " << this->m_pPortal->GetDstP()->y << ", " << this->m_pPortal->GetDstP()->w << ", " << this->m_pPortal->GetDstP()->h << "\n";
+	//std::cout << "Player" << this->m_pPlayer->GetBody()->x << ", " << this->m_pPlayer->GetBody()->y << ", " << this->m_pPlayer->GetBody()->w << ", " << this->m_pPlayer->GetBody()->h << "\n";
 }
 
 Level2::Level2()

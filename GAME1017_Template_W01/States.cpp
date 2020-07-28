@@ -408,13 +408,13 @@ HelpState::HelpState()
 
 void HelpState::Enter()
 {
-	textLabelVec.push_back(new Label("font", 350, 200, "Hold A or D to move left or right"));
-	textLabelVec.push_back(new Label("font", 350, 230, "Press SPACE to jump"));
-	textLabelVec.push_back(new Label("font", 350, 260, "Press L to dash"));
-	textLabelVec.push_back(new Label("font", 350, 290, "Press I to cast fireball"));
-	textLabelVec.push_back(new Label("font", 230, 350, "Soul represents both your health and mana"));
-	textLabelVec.push_back(new Label("font", 230, 380, "Casting fireball consumes your soul"));
-	textLabelVec.push_back(new Label("font", 230, 410, "Use melee attack on enemies to replenish your soul"));
+	textLabelVec.push_back(new Label("Ltype", 350, 200, "Hold A or D to move left or right"));
+	textLabelVec.push_back(new Label("Ltype", 350, 230, "Press SPACE to jump"));
+	textLabelVec.push_back(new Label("Ltype", 350, 260, "Press L to dash"));
+	textLabelVec.push_back(new Label("Ltype", 350, 290, "Press I to cast fireball"));
+	textLabelVec.push_back(new Label("Ltype", 230, 350, "Soul represents both your health and mana"));
+	textLabelVec.push_back(new Label("Ltype", 230, 380, "Casting fireball consumes your soul"));
+	textLabelVec.push_back(new Label("Ltype", 230, 410, "Use melee attack on enemies to replenish your soul"));
 
 	m_backBtn = new BackButton({ 0,0,400,100 }, { 350.0f,550.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("back"));
 	t_background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("background"));

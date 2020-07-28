@@ -3,7 +3,7 @@
 
 void FontManager::RegisterFont(const char * path, const std::string key, const int size)
 {
-	if (!TTF_WasInit() && TTF_Init() == 0)
+	if (TTF_Init() == 0)
 		std::cout << "Font init success!" << std::endl;
 	else 
 	{

@@ -60,7 +60,7 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	TEMA::RegisterTexture("../Spritesheets/Swordman_sheet.png", "Swordman");
 	TEMA::RegisterTexture("../Spritesheets/Archer_sheet.png", "Archer");
 	
-	FOMA::RegisterFont("Img/LTYPE.TTF", "font", 20);
+	//FOMA::RegisterFont("Img/LTYPE.TTF", "font", 20);
 
 	FOMA::RegisterFont("Img/LTYPE.ttf", "Ltype", 24);
 	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
