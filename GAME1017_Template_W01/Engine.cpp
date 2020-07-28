@@ -43,7 +43,11 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	TEMA::RegisterTexture("Img/end_background.png", "end_background");
 	TEMA::RegisterTexture("Img/click.png", "click");
 	TEMA::RegisterTexture("Img/play.png", "play");
+	TEMA::RegisterTexture("Img/back.png", "back");
+	TEMA::RegisterTexture("Img/help.png", "help");
 	TEMA::RegisterTexture("Img/exit.png", "exit");
+	TEMA::RegisterTexture("Img/resume.png", "resume");
+	TEMA::RegisterTexture("Img/mainmenu.png", "mainmenu");
 	TEMA::RegisterTexture("Img/restart.png", "restart");
 	TEMA::RegisterTexture("Img/NxtLvl.png", "nextLevel");
 	TEMA::RegisterTexture("Img/congratulations.png", "congratulations");
@@ -52,12 +56,14 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	TEMA::RegisterTexture("Img/HealthBar.png", "healthBar");
 	TEMA::RegisterTexture("Img/HealthBarScale.png", "healthBarScale");
 	TEMA::RegisterTexture("../Spritesheets/Arrow.png", "Arrow");
-	TEMA::RegisterTexture("../Spritesheets/Kaben_Sheet.png", "KabenSheet");
-	
+	TEMA::RegisterTexture("../Spritesheets/Kaben_Sheet.png", "KabenSheet"); 
+
+	FOMA::RegisterFont("Img/LTYPE.TTF", "font", 20);
+
 	FOMA::RegisterFont("Img/LTYPE.ttf", "Ltype", 24);
 	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
-
-	STMA::ChangeState(new TitleState);
+	
+	STMA::ChangeState(new ClickState);
 	SOMA::AllocateChannels(16);
 	m_running = true; // Everything is okay, start the engine.
 	cout << "Engine Init success!" << endl;

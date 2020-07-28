@@ -73,6 +73,7 @@ public:
 	void Exit();
 private:
 	Button* m_playBtn;
+	Button* m_helpBtn;
 	Background* t_background;
 };
 
@@ -104,6 +105,36 @@ private:
 	Background* e_background;
 	Sprite* m_Congratulation;
 	Label* m_scoreLabel, * m_timeLabel;
+};
+
+class HelpState: public State
+{
+public:
+	HelpState();
+	void Update();
+	void Render();
+	void Enter();
+	void Exit();
+private:
+	Button* m_backBtn;
+	Background* t_background;
+	std::vector<Label*> textLabelVec;
+};
+
+class PauseHelpState : public State
+{
+public:
+	PauseHelpState();
+	void Update();
+	void Render();
+	void Enter();
+	void Exit();
+private:
+	Button* m_backPauBtn;
+	Button* m_helpBtn;
+	Button* m_menuBtn;
+	Background* t_background;
+	std::vector<Label*> textLabelVec;
 };
 
 #endif

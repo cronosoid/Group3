@@ -61,6 +61,10 @@ void Button::Render()
 PlayButton::PlayButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t) :Button(src, dst, r, t) {}
 RestartButton::RestartButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t) : Button(src, dst, r, t) {}
 ExitButton::ExitButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t) : Button(src, dst, r, t) {}
+HelpButton::HelpButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t): Button(src, dst, r, t) {}
+BackButton::BackButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t): Button(src, dst, r, t) {}
+MenuButton::MenuButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t) : Button(src, dst, r, t) {}
+
 void PlayButton::Execute()
 {
 	SOMA::PlaySound("button");
@@ -76,11 +80,12 @@ void RestartButton::Execute()
 void ExitButton::Execute()
 {
 	SOMA::PlaySound("button");
-	Engine::Instance().setRunning(false);	
+	Engine::Instance().setRunning(false);
 	exit(0);
 }
 
-NextLevelButton::NextLevelButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t, int nextLevelNum):Button(src,dst,r,t)
+
+NextLevelButton::NextLevelButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t, int nextLevelNum) :Button(src, dst, r, t)
 {
 	NextLevelNum = nextLevelNum;
 }
@@ -88,19 +93,36 @@ NextLevelButton::NextLevelButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, S
 void NextLevelButton::Execute()
 {
 	SOMA::PlaySound("button");
-	switch(NextLevelNum)
+	switch (NextLevelNum)
 	{
 	case 2:
-		{
+	{
 		STMA::ChangeState(new GameState(new Level2()));
 		break;
-		}
+	}
 	case 3:
-		{
+	{
 		STMA::ChangeState(new GameState(new Level3()));
 		break;
-		}
+	}
 	default:break;
-	}	
+	}
 }
 
+void HelpButton::Execute()
+{
+	SOMA::PlaySound("button");
+	STMA::PushState(new HelpState());
+}
+
+void BackButton::Execute()
+{
+	SOMA::PlaySound("button");
+	STMA::PopState();
+}
+
+void MenuButton::Execute()
+{
+	SOMA::PlaySound("button");
+	STMA::ChangeState(new TitleState());
+}

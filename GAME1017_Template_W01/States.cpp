@@ -63,6 +63,7 @@ TitleState::TitleState() {}
 void TitleState::Enter()
 {
 	m_playBtn = new PlayButton({ 0,0,400,100 }, { 60.0f,350.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
+	m_helpBtn = new HelpButton({ 0,0,400,100 }, { 560.0f,350.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("help"));
 	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
 	SOMA::Load("Aud/Fire.wav", "jump", SOUND_SFX);
 	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
@@ -79,6 +80,8 @@ void TitleState::Update()
 {
 	if (m_playBtn->Update() == 1)
 		return;
+	if (m_helpBtn->Update() ==1)
+		return;
 }
 
 void TitleState::Render()
@@ -87,6 +90,7 @@ void TitleState::Render()
 	SDL_RenderClear(Engine::Instance().GetRenderer());
 	t_background->Render();
 	m_playBtn->Render();
+	m_helpBtn->Render();
 	State::Render();
 }
 
@@ -137,6 +141,11 @@ void GameState::Enter()
 
 void GameState::Update()
 {
+	if (EVMA::KeyHeld(SDL_SCANCODE_P))
+	{
+		STMA::PushState(new PauseHelpState());
+	}
+	
 	MapObjectManager::Update();
 
 	m_pPlayer->Update();
@@ -388,5 +397,90 @@ void CongratulationState::Exit()
 	}
 }
 
-//End CongratulationState
+HelpState::HelpState()
+{
 
+}
+
+void HelpState::Enter()
+{
+	textLabelVec.push_back(new Label("font", 350, 200, "Hold A or D to move left or right"));
+	textLabelVec.push_back(new Label("font", 350, 230, "Press SPACE to jump"));
+	textLabelVec.push_back(new Label("font", 350, 260, "Press L to dash"));
+	textLabelVec.push_back(new Label("font", 350, 290, "Press I to cast fireball"));
+	textLabelVec.push_back(new Label("font", 230, 350, "Soul represents both your health and mana"));
+	textLabelVec.push_back(new Label("font", 230, 380, "Casting fireball consumes your soul"));
+	textLabelVec.push_back(new Label("font", 230, 410, "Use melee attack on enemies to replenish your soul"));
+
+	m_backBtn = new BackButton({ 0,0,400,100 }, { 350.0f,550.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("back"));
+	t_background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("background"));
+}
+
+void HelpState::Render()
+{
+	t_background->Render();
+	for (int i = 0; i < textLabelVec.size(); i++)
+	{
+		textLabelVec[i]->Render();
+	}
+	m_backBtn->Render();
+
+}
+
+void HelpState::Update()
+{
+	if (m_backBtn->Update() == 1)
+		return;
+}
+
+void HelpState::Exit()
+{
+	delete m_backBtn;
+	m_backBtn = nullptr;
+
+	for (auto label = textLabelVec.begin(); label != textLabelVec.end();)
+	{
+		delete* label;
+		label = textLabelVec.erase(label);
+	}
+}
+
+PauseHelpState::PauseHelpState()
+{
+}
+
+void PauseHelpState::Enter()
+{
+	m_backPauBtn = new BackButton({ 0,0,400,100 }, { 350.0f,200.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("resume"));
+	m_helpBtn = new HelpButton({ 0,0,400,100 }, { 350.0f,350.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("help"));
+	m_menuBtn = new MenuButton({ 0,0,400,100 }, { 350.0f,500.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("mainmenu"));
+	t_background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("background"));
+}
+
+void PauseHelpState::Update()
+{
+	if (m_backPauBtn->Update() == 1 || m_helpBtn->Update() == 1 || m_menuBtn->Update() == 1)
+		return;
+}
+
+void PauseHelpState::Render()
+{
+	t_background->Render();
+	for (int i = 0; i < textLabelVec.size(); i++)
+	{
+		textLabelVec[i]->Render();
+	}
+	m_backPauBtn->Render();
+	m_helpBtn->Render();
+	m_menuBtn->Render();
+}
+
+void PauseHelpState::Exit()
+{
+	delete m_backPauBtn;
+	m_backPauBtn = nullptr;
+	delete m_backPauBtn;
+	m_backPauBtn = nullptr;
+	delete m_menuBtn;
+	m_menuBtn = nullptr;
+}

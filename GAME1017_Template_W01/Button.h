@@ -44,15 +44,37 @@ public:
 	ExitButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t);
 };
 
-class NextLevelButton:public Button
+class NextLevelButton :public Button
 {
 private:
 	void Execute();
 public:
-	NextLevelButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t,int nextLevelNum);
+	NextLevelButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t, int nextLevelNum);
 private:
 	int NextLevelNum;
 };
 
+class HelpButton : public Button
+{
+private:
+	void Execute();
+public:
+	HelpButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t);
+};
 
+class BackButton : public Button
+{
+private:
+	void Execute();
+public:
+	BackButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t);
+};
+
+class MenuButton : public Button
+{
+private:
+	void Execute() override;
+public:
+	MenuButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t);
+};
 #endif
