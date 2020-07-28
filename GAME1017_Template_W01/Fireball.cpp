@@ -14,7 +14,7 @@ void Fireball::Update()
 
 	for (Enemies* enemy : EnemiesVec)
 	{
-		if (COMA::AABBCheck(*this->GetDstP(), *enemy->GetDstP()))
+		if (COMA::AABBCheck(*this->GetDstP(), *enemy->GetBody()))
 		{
 			enemy->getDamage(hero->m_magicDmg);
 			enemy->Stun(MELEESTUNTIME);

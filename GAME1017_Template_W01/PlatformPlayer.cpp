@@ -80,16 +80,16 @@ void PlatformPlayer::Update()
 				SDL_FRect rect;
 				if (this->getAnimator()->getFace() == 0)
 				{
-					rect.x = this->GetDstP()->x + this->GetDstP()->w;
+					rect.x = this->m_body.x + this->m_body.w;
 				}
 				else
 				{
-					rect.x = this->GetDstP()->x - this->GetDstP()->w;
+					rect.x = this->m_body.x - this->m_body.w;
 				}
 
-				rect.y = this->GetDstP()->y;
-				rect.w = this->GetDstP()->w;
-				rect.h = this->GetDstP()->h;
+				rect.y = this->m_body.y;
+				rect.w = this->m_body.w;
+				rect.h = this->m_body.h;
 
 				for (Enemies* enemy : EnemyManager::EnemiesVec)
 				{

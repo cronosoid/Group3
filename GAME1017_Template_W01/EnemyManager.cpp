@@ -49,7 +49,7 @@ void EnemyManager::CreateEnemy(EnemyType type, int x, int y, SDL_Renderer* r)
 	break;
 	case 2:
 	{
-		SDL_FRect d = { x * 64.0f,y * 64.0f,192.0f,192.0f };
+		SDL_FRect d = { x * 64.0f,y * 64.0f,128.0f,128.0f };
 		Archer* TempEnemy = new Archer({ 0,0,64,64 }, d, r, TextureManager::GetTexture("Archer"));
 		TempEnemy->addAnimator(new Animator(TempEnemy));
 		EnemiesVec.push_back(TempEnemy);

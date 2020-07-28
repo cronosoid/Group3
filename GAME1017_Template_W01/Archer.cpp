@@ -35,13 +35,17 @@ Archer::Archer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animato
 	this->defence = ARCHERDEFENCE;
 	this->enemyType = "Archer";
 	this->m_speed = WALKSPEED;
+
+	this->addAnimator(new Animator(this));
+
+	this->getAnimator()->addAnimation("run", 4, 2, 64, 64);
+	this->getAnimator()->addAnimation("idle", 3, 1, 64, 64, 0, 128, 12);
+	this->getAnimator()->addAnimation("shot", 8, 3, 64, 64, 0, 256, 4);
 }
 
 void Archer::Update()
 {	
-	movementUpdate();
-
-	if (m_dst.y >= MOMA::GetWindowY() - MOMA::GetTotalMove().y)
+	if (m_body.y >= MOMA::GetWindowY() - MOMA::GetTotalMove().y)
 	{
 		setActive(false);
 	}
@@ -152,7 +156,7 @@ void Archer::Update()
 				SetAccelX(direction * m_speed);
 				if (m_floor and nextObject->GetDstP()->y < m_floor->GetDstP()->y)
 				{
-					this->SetAccelY(-JUMPFORCE/2);
+					this->SetAccelY(-JUMPFORCE);
 				}
 			}
 
@@ -191,7 +195,7 @@ void Archer::Update()
 				SetAccelX(-direction * m_speed);
 				if (m_floor and nextObject->GetDstP()->y < m_floor->GetDstP()->y)
 				{
-					this->SetAccelY(-JUMPFORCE / 2);
+					this->SetAccelY(-JUMPFORCE);
 				}
 			}
 
@@ -204,6 +208,7 @@ void Archer::Update()
 	case ATTACKING:
 		if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
 		{
+			this->getAnimator()->playFullAnimation("shot");
 			float direction = 0;
 			float dist = EnemyManager::GetTarget()->GetDstP()->x - this->m_dst.x;
 			if (dist != 0)
@@ -237,6 +242,16 @@ void Archer::Update()
 	default:
 		break;
 	}
+
+	if (this->GetVelX() == 0)
+		this->getAnimator()->setNextAnimation("idle");
+	else
+		this->getAnimator()->setNextAnimation("run");
+
+	movementUpdate();
+
+	this->getAnimator()->update();
+	this->getAnimator()->playAnimation();
 }
 
 void Archer::Render()
@@ -251,7 +266,7 @@ void Archer::attack()
 	int face;
 	this->animator->getFace() == 0 ? face = 1 : face = -1;
 	PMA::Instance().GetProjectiles().push_back(new Arrow(EnemyManager::GetTarget(), MapObjectManager::MapObjVec,{ 0,0,320,320 },
-		{ face == 1 ? this->GetDstP()->x + this->GetDstP()->w : this->GetDstP()->x - 24,
-		this->GetDstP()->y + 42, 48, 48 },
+		{ face == 1 ? this->m_body.x + this->m_body.w : this->m_body.x - 24,
+		this->m_body.y + 42, 48, 48 },
 		Engine::Instance().GetRenderer(), TEMA::GetTexture("Arrow"), 15, face, this->damage));
 }

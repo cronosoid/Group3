@@ -74,7 +74,7 @@ void Level1::Load(PlatformPlayer* Player)
 	MapObjectManager::CreateMapObject(kPlate, 6, 7, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 7, 7, Engine::Instance().GetRenderer());
 
-	EnemyManager::CreateEnemy(swordman, 4, 3, Engine::Instance().GetRenderer());
+	EnemyManager::CreateEnemy(archer, 4, 3, Engine::Instance().GetRenderer());
 	////EnemyManager::CreateEnemy(swordman, 16, 8, Engine::Instance().GetRenderer());
 	//EnemyManager::CreateEnemy(swordman, 23, 8, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(swordman, 44, 8, Engine::Instance().GetRenderer());

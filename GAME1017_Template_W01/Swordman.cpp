@@ -40,7 +40,7 @@ Swordman::Swordman(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Ani
 	this->addAnimator(new Animator(this));
 	
 	this->getAnimator()->addAnimation("run", 4, 2, 64, 64);
-	this->getAnimator()->addAnimation("idle", 4, 1, 64, 64, 0, 128, 12);
+	this->getAnimator()->addAnimation("idle", 3, 1, 64, 64, 0, 128, 12);
 	this->getAnimator()->addAnimation("melee", 9, 3, 64, 64, 0, 256, 4);
 }
 
@@ -154,7 +154,7 @@ void Swordman::Update()
 			SetAccelX(direction * m_speed);
 			if (m_floor and nextObject->GetDstP()->y < m_floor->GetDstP()->y)
 			{
-				this->SetAccelY(-JUMPFORCE / 2);
+				this->SetAccelY(-JUMPFORCE);
 			}
 		}
 
