@@ -349,9 +349,9 @@ PauseHelpState::PauseHelpState()
 
 void PauseHelpState::Enter()
 {
-	m_backPauBtn = new BackButton({ 0,0,400,100 }, { 350.0f,200.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("back"));
+	m_backPauBtn = new BackButton({ 0,0,400,100 }, { 350.0f,200.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("resume"));
 	m_helpBtn = new HelpButton({ 0,0,400,100 }, { 350.0f,350.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("help"));
-	m_menuBtn = new MenuButton({ 0,0,400,100 }, { 350.0f,500.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("back"));
+	m_menuBtn = new MenuButton({ 0,0,400,100 }, { 350.0f,500.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("mainmenu"));
 	t_background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("background"));
 }
 
@@ -375,4 +375,10 @@ void PauseHelpState::Render()
 
 void PauseHelpState::Exit()
 {
+	delete m_backPauBtn;
+	m_backPauBtn = nullptr;
+	delete m_backPauBtn;
+	m_backPauBtn = nullptr;
+	delete m_menuBtn;
+	m_menuBtn = nullptr;
 }
