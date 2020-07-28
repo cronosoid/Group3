@@ -36,19 +36,24 @@ Swordman::Swordman(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Ani
 	this->defence = SWORDMANDEFENCE;
 	this->enemyType = "Swordman";
 	this->m_speed = WALKSPEED;
+
+	this->addAnimator(new Animator(this));
+	
+	this->getAnimator()->addAnimation("run", 4, 2, 64, 64);
+	this->getAnimator()->addAnimation("idle", 4, 1, 64, 64, 0, 128, 12);
+	this->getAnimator()->addAnimation("melee", 9, 3, 64, 64, 0, 256, 4);
 }
 
 void Swordman::Update()
 {
-	movementUpdate();
-	if (m_dst.y >= MOMA::GetWindowY() - MOMA::GetTotalMove().y)
+	if (m_body.y >= MOMA::GetWindowY() - MOMA::GetTotalMove().y)
 	{
 		setActive(false);
 	}
 
 	static int attackWaitTime = 0;
 
-	float squareDistToPlayer = COMA::SquareRectDistance(*this->GetDstP(), *EnemyManager::GetTarget()->GetDstP());
+	float squareDistToPlayer = COMA::SquareRectDistance(this->m_body, *EnemyManager::GetTarget()->GetDstP());
 	if (curStatus != ATTACKING)
 	{
 		if (squareDistToPlayer < pow(DETECTDISTANCE, 2))
@@ -127,7 +132,7 @@ void Swordman::Update()
 		this->m_speed = RUNSPEED + (rand() % 10) / 10.0;
 
 		PlatformPlayer* player = EnemyManager::GetTarget();
-		float dist = player->GetDstP()->x - this->m_body.x;
+		float dist = player->GetBody()->x - this->m_body.x;
 
 		float direction = 0;
 		if (dist != 0)
@@ -165,6 +170,7 @@ void Swordman::Update()
 		if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
 		{
 			//std::cout << "Attacked\n";
+			this->getAnimator()->playFullAnimation("melee");
 			attackWaitTime = MAXATTACKWAITTIME;
 			this->lastAttackTime = SDL_GetTicks();
 			attack();
@@ -186,6 +192,16 @@ void Swordman::Update()
 	default:
 		break;
 	}
+
+	if (this->GetVelX() == 0)
+		this->getAnimator()->setNextAnimation("idle");
+	else
+		this->getAnimator()->setNextAnimation("run");
+	
+	movementUpdate();
+
+	this->getAnimator()->update();
+	this->getAnimator()->playAnimation();
 }
 
 void Swordman::Render()

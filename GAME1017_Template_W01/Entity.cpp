@@ -99,7 +99,7 @@ void Entity::movementUpdate()
 	this->m_accelX = this->m_accelY = 0.0;
 
 	this->m_dst.x = this->m_body.x + (this->m_body.w - this->m_dst.w) / 2;
-	this->m_dst.y = this->m_body.y + (this->m_body.h - this->m_dst.h) / 2;
+	this->m_dst.y = this->m_body.y + (this->m_body.h - this->m_dst.h);
 }
 
 void Entity::addAnimator(Animator* animator)

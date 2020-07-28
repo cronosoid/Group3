@@ -31,7 +31,7 @@ void Animator::playFullAnimation(const std::string& type)
 			return;
 		}
 	}
-
+	std::cout << "New anim record: " << type << "\n";
 	animRecords.push_back(new AnimRecord(animationsMap[type]));
 }
 
@@ -83,17 +83,23 @@ void Animator::update()
 {
 	for (auto animRec = animRecords.begin(); animRec != animRecords.end();)
 	{
+		bool moved = false;
 		if (SDL_GetTicks() - (*animRec)->curTick >= (*animRec)->animation->getFramesFrequency())
 		{
 			(*animRec)->curTick = SDL_GetTicks();
 			(*animRec)->curFrame++;
 			if (++(*animRec)->curFrame >= (*animRec)->animation->getMaxFrames())
 			{
+				std::cout << "Delete the record\n";
 				delete *animRec;
 				animRec = animRecords.erase(animRec);
+				moved = true;
 			}
 		}
-		animRec++;
+		if (not moved)
+		{
+			animRec++;
+		}
 	}
 
 	Animation* nextAnim = animationsMap[nextAnimation];

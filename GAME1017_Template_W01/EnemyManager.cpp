@@ -39,8 +39,8 @@ void EnemyManager::CreateEnemy(EnemyType type, int x, int y, SDL_Renderer* r)
 	{
 	case 1:
 	{
-		SDL_FRect d = { x * 64.0f,y * 64.0f,128.0f,128.0f };
-		Swordman* TempEnemy = new Swordman({ 0,0,640,640 }, d, r, TextureManager::GetTexture("Swordman"));
+		SDL_FRect d = { x * 64.0f,y * 64.0f,192.0f,192.0f };
+		Swordman* TempEnemy = new Swordman({ 0,0,64,64 }, d, r, TextureManager::GetTexture("Swordman"));
 		TempEnemy->addAnimator(new Animator(TempEnemy));
 		EnemiesVec.push_back(TempEnemy);
 		TempEnemy = nullptr;
@@ -49,8 +49,8 @@ void EnemyManager::CreateEnemy(EnemyType type, int x, int y, SDL_Renderer* r)
 	break;
 	case 2:
 	{
-		SDL_FRect d = { x * 64.0f,y * 64.0f,128.0f,128.0f };
-		Archer* TempEnemy = new Archer({ 0,0,640,640 }, d, r, TextureManager::GetTexture("Archer"));
+		SDL_FRect d = { x * 64.0f,y * 64.0f,192.0f,192.0f };
+		Archer* TempEnemy = new Archer({ 0,0,64,64 }, d, r, TextureManager::GetTexture("Archer"));
 		TempEnemy->addAnimator(new Animator(TempEnemy));
 		EnemiesVec.push_back(TempEnemy);
 		TempEnemy = nullptr;

@@ -21,9 +21,10 @@ PlatformPlayer::PlatformPlayer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Tex
 
 	this->addAnimator(new Animator(this));
 
-	this->getAnimator()->addAnimation("run", 8, 2, 34, 50);
-	this->getAnimator()->addAnimation("idle", 4, 1, 34, 50, 0, 100, 12);
-
+	this->getAnimator()->addAnimation("run", 7, 2, 192, 64);
+	this->getAnimator()->addAnimation("idle", 4, 1, 192, 64, 0, 128, 12);
+	this->getAnimator()->addAnimation("melee", 7, 3, 192, 64,0,256,4);
+	
 	m_isUnderAttack = false;
 	m_canControl = true;
 
@@ -74,6 +75,7 @@ void PlatformPlayer::Update()
 		{
 			if ((this->getMeleeTime() + MELEECOOLDOWN * 1000) < SDL_GetTicks())
 			{
+				this->getAnimator()->playFullAnimation("melee");
 				this->setMeleeTime();
 				SDL_FRect rect;
 				if (this->getAnimator()->getFace() == 0)
@@ -151,9 +153,8 @@ void PlatformPlayer::Update()
 			{
 				this->SetAccelY(1);
 			}
-				
 		}
-		if(m_lastAttacked<=ATTACKINTERVAL-CANNOTCONTROLTIME)//Invincibility should last a little longer than the player can't control
+		if(m_lastAttacked <= ATTACKINTERVAL- CANNOTCONTROLTIME)//Invincibility should last a little longer than the player can't control
 		{
 			setCanControl(true);
 		}
@@ -163,6 +164,7 @@ void PlatformPlayer::Update()
 		}
 	}
 
+	this->getAnimator()->update();
 	this->getAnimator()->playAnimation();
 	movementUpdate();
 	//std::cout << "X: " << this->GetVelX() << " Y: " << this->GetVelY() << std::endl;
