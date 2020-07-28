@@ -7,6 +7,8 @@
 #include <string>
 #include <map>
 #include <iostream>
+#include <vector>
+
 #include "Entity.h"
 
 // Animation engine by Maxim Dobrivskiy
@@ -27,6 +29,8 @@ public: // Methods
 	Uint32 getPriotity() { return priority; }
 	Uint32 getMaxFrames() { return maxFrames; }
 	Uint32 getFramesFrequency() { return framesFrequency; }
+	std::string getName() { return name; }
+	void setName(std::string name) { this->name = name; }
 private: // Variables
 	Uint32 maxFrames;
 	Uint32 moveX;
@@ -35,6 +39,16 @@ private: // Variables
 	Uint32 startY;
 	Uint32 priority;
 	Uint32 framesFrequency;
+	std::string name;
+};
+
+class AnimRecord
+{
+public:
+	AnimRecord(Animation* animation);
+	Animation* animation;
+	Uint32 curFrame;
+	Uint32 curTick;
 };
 
 class Animator
@@ -46,9 +60,12 @@ public: // Methods
 	Uint32 getFace() { return faceSide; }
 	void setFace(Uint32 face) { face == 0 ? faceSide = 0 : faceSide = 1; }//Setting the face. 0 is right, 1 is left
 	void setNextAnimation(const std::string& type);//Make a request to play an animation with specific name in the end of the frame
+	void playFullAnimation(const std::string& type);
 	void playAnimation();//Plays the animation with the highest priority in the "hill"
 	void addAnimation(const std::string& key, Uint32 maxFrames, Uint32 priority, Uint32 moveX, Uint32 moveY = 0, Uint32 startX = 0, Uint32 startY = 0, Uint32 framesFrequency = 8);
 	//Adding animation in the animations map, which can be easily played by calling setNextAnimation(*animation name*)
+	void update();
+	
 private: // Variables
 	Uint32 faceSide;
 	Uint32 animFrame;
@@ -58,6 +75,8 @@ private: // Variables
 	std::string nextAnimation;
 	Entity* entity;
 	std::string curAnimType;
+
+	std::vector<AnimRecord*> animRecords;
 };
 
 #endif
