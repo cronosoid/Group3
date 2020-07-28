@@ -158,7 +158,10 @@ void MapObjectManager::DestroyInvalidMapObject()
 		{
 			delete* mapobj;
 			mapobj = MapObjVec.erase(mapobj);
-		}		
-		++mapobj;
+		}
+		else
+		{
+			++mapobj;
+		}
 	}
 }

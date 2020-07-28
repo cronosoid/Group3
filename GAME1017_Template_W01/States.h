@@ -74,7 +74,7 @@ public:
 private:
 	Button* m_playBtn;
 	Background* t_background;
-	Button* m_pLevel3Btn;
+	//Button* m_pLevel3Btn;
 };
 
 class EndState : public State
