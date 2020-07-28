@@ -231,6 +231,9 @@
     <Image Include="Img\PlayerShip.png">
       <Filter>Assets</Filter>
     </Image>
+    <Image Include="..\Spritesheets\KabenSheet2.png">
+      <Filter>Assets</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">

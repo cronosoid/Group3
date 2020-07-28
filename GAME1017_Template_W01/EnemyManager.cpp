@@ -27,8 +27,9 @@ EnemyManager::~EnemyManager()
 
 void EnemyManager::Init()
 {
-	TEMA::RegisterTexture("../Spritesheets/Archer.png", "Archer");
-	TEMA::RegisterTexture("../Spritesheets/Pehot2.png", "Swordman");
+	TEMA::RegisterTexture("../Spritesheets/Swordman_sheet.png", "Swordman");
+	TEMA::RegisterTexture("../Spritesheets/Archer_sheet.png", "Archer");
+
 	SOMA::Load("Aud/Arrow_hit.wav", "ArrowHit", SOUND_SFX);
 	SOMA::Load("Aud/Sword_hit.wav", "SwordHit", SOUND_SFX);
 }
@@ -42,6 +43,7 @@ void EnemyManager::CreateEnemy(EnemyType type, int x, int y, SDL_Renderer* r)
 		SDL_FRect d = { x * 64.0f,y * 64.0f,128.0f,128.0f };
 		Swordman* TempEnemy = new Swordman({ 0,0,640,640 }, d, r, TextureManager::GetTexture("Swordman"));
 		TempEnemy->addAnimator(new Animator(TempEnemy));
+		/*TempEnemy->getAnimator()->addAnimation("run",)*/
 		EnemiesVec.push_back(TempEnemy);
 		TempEnemy = nullptr;
 		std::cout << "Swordman Created!" << std::endl;

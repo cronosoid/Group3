@@ -52,7 +52,7 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	TEMA::RegisterTexture("Img/HealthBar.png", "healthBar");
 	TEMA::RegisterTexture("Img/HealthBarScale.png", "healthBarScale");
 	TEMA::RegisterTexture("../Spritesheets/Arrow.png", "Arrow");
-	TEMA::RegisterTexture("../Spritesheets/Kaben_Sheet.png", "KabenSheet");
+	TEMA::RegisterTexture("../Spritesheets/KabenSheet2.png", "KabenSheet");
 	
 	FOMA::RegisterFont("Img/LTYPE.ttf", "Ltype", 24);
 	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
@@ -115,7 +115,7 @@ int Engine::Run()
 {
 	if (m_running) // What does this do and what can it prevent?
 		return -1;
-	if (Init("Mastiv First", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, 0) == false)
+	if (Init("Horn And Honor", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, 0) == false)
 		return 1;
 	while (m_running) // Main engine loop.
 	{

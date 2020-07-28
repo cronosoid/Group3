@@ -118,7 +118,7 @@ void GameState::Enter()
 	UIObjectManager::Init();
 	EnemyManager::Init();
 
-	m_pPlayer = new PlatformPlayer({ 0,0,34,50 }, { 128.0f,600.0f,64.0f,100.0f },
+	m_pPlayer = new PlatformPlayer({ 0,0,103, 35 }, { 128.0f,600.0f,100.0f,100.0f },
 		Engine::Instance().GetRenderer(), TEMA::GetTexture("KabenSheet"));
 
 	m_pLevel->Load(m_pPlayer);

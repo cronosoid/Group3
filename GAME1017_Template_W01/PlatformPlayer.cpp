@@ -21,8 +21,11 @@ PlatformPlayer::PlatformPlayer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Tex
 
 	this->addAnimator(new Animator(this));
 
-	this->getAnimator()->addAnimation("run", 8, 2, 34, 50);
-	this->getAnimator()->addAnimation("idle", 4, 1, 34, 50, 0, 100, 12);
+	this->getAnimator()->addAnimation("run", 8, 2, 103, 34);
+	this->getAnimator()->addAnimation("idle", 4, 1, 103, 34, 0, 72, 12);
+	this->getAnimator()->addAnimation("attack", 8, 3, 103, 34, 0, 140);
+	this->getAnimator()->addAnimation("death", 8, 4, 103, 34, 0, 216);
+	
 
 	m_isUnderAttack = false;
 	m_canControl = true;
@@ -79,10 +82,12 @@ void PlatformPlayer::Update()
 				if (this->getAnimator()->getFace() == 0)
 				{
 					rect.x = this->GetDstP()->x + this->GetDstP()->w;
+					this->getAnimator()->setNextAnimation("attack");
 				}
 				else
 				{
 					rect.x = this->GetDstP()->x - this->GetDstP()->w;
+					this->getAnimator()->setNextAnimation("attack");
 				}
 
 				rect.y = this->GetDstP()->y;

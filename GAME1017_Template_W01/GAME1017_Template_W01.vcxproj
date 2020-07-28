@@ -193,6 +193,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\Documents\Kaben_Run.png" />
+    <Image Include="..\Spritesheets\KabenSheet2.png" />
     <Image Include="img\circle.png" />
     <Image Include="Img\Enemies.png" />
     <Image Include="Img\PlayerShip.png" />
