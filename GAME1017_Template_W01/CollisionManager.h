@@ -30,6 +30,7 @@ public:
 	static MapObject* FindFirstObjectOnTheRay(SDL_FPoint Pos, SDL_FPoint Move, float maxDist = 9e3);
 	static float SquareRectDistance(const SDL_FRect& object1, const SDL_FRect& object2);
 	static void CheckMapCollision(const std::vector<MapObject*> mapObjects, Entity* obj);
+	static void CheckUnstableBrickCollision(const std::vector<UnstableBrick*> bricks, Entity* obj);
 	
 private:
 	CollisionManager() {}

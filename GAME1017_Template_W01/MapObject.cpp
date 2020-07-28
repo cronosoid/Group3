@@ -4,7 +4,8 @@
 
 MapObject::MapObject(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :Sprite(s, d, r, t)
 {
-	m_CanMove = false;	
+	m_CanMove = false;
+	m_isActive = true;
 }
 
 MapObject::MapObject(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, SDL_FPoint start, SDL_FPoint end) : Sprite(s, d, r, t)
@@ -13,8 +14,14 @@ MapObject::MapObject(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, S
 	m_endPoint = end;
 	m_CanMove = true;
 	m_mDir = true;
+	m_isActive = true;
 }
 
+
+bool MapObject::getActive()
+{
+	return m_isActive;
+}
 
 bool MapObject::getIsHurt()
 {
@@ -146,7 +153,8 @@ void MapObject::moveMapObject()
 		}
 		default:break;
 		}
-	}
+		//std::cout << m_dst.x << " " << m_dst.y << std::endl;
+	}	
 }
 
 Plate::Plate(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :MapObject(s, d, r, t)
@@ -162,6 +170,7 @@ Plate::Plate(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, SDL_FPoin
 	m_IsHurt = false;
 	m_CanCollide = true;
 	m_Damage = 0;
+	type = "Plate";
 	m_moveSpeed = MOVESPEED;
 }
 
@@ -189,6 +198,7 @@ Spike::Spike(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, SDL_FPoin
 	m_IsHurt = true;
 	m_CanCollide = false;
 	m_Damage = 10;
+	type = "Spike";
 	m_moveSpeed = MOVESPEED;
 }
 
@@ -219,6 +229,59 @@ void Portal::Update()
 void Portal::Render()
 {
 	Sprite::Render();
+}
+
+UnstableBrick::UnstableBrick(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :MapObject(s, d, r, t)
+{
+	m_IsHurt = false;
+	m_CanCollide = true;
+	m_Damage = 0;
+	type = "UnstableBrick";
+	m_status = 1;//normal
+
+	m_brokenTime = BREAKTIME;
+}
+
+UnstableBrick::UnstableBrick(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, SDL_FPoint start, SDL_FPoint end):MapObject(s,d,r,t,start,end)
+{
+	m_IsHurt = false;
+	m_CanCollide = true;
+	m_Damage = 0;
+	type = "UnstableBrick";	
+	m_status = 1;//normal
+
+	m_brokenTime = BREAKTIME;
+	m_moveSpeed = MOVESPEED;
+}
+
+
+void UnstableBrick::Update()
+{
+	moveMapObject();
+	if (m_status == 2)//breaking
+	{
+		m_brokenTime--;
+		//std::cout << "breaking" << m_brokenTime<< std::endl;
+		if(m_brokenTime==0)
+		{
+			m_isActive = false;
+		}
+	}
+}
+
+void UnstableBrick::Render()
+{
+	Sprite::Render();
+}
+
+void UnstableBrick::changeStatus(int state)
+{
+	m_status = state;
+}
+
+int UnstableBrick::getStatus()
+{
+	return m_status;
 }
 
 

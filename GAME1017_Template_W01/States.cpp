@@ -147,6 +147,7 @@ void GameState::Update()
 	}
 	
 	MapObjectManager::Update();
+	MapObjectManager::DestroyInvalidMapObject();
 
 	m_pPlayer->Update();
 
@@ -166,6 +167,8 @@ void GameState::Update()
 	EnemyManager::DestroyInvalidEnemies();
 	
 	CheckCollision();
+	//std::cout << MapObjectManager::UnstableBrickVec[0]->getStatus() << " " << MapObjectManager::UnstableBrickVec[1]->getStatus() << " " << MapObjectManager::UnstableBrickVec[2]->getStatus() << std::endl;
+	//std::cout << MapObjectManager::UnstableBrickVec[0]->getActive() << " " << MapObjectManager::UnstableBrickVec[1]->getActive() << " " << MapObjectManager::UnstableBrickVec[2]->getActive() << std::endl;
 
 	UIObjectManager::UIUpdate();
 
@@ -188,7 +191,8 @@ void GameState::Update()
 }
 
 void GameState::CheckCollision()
-{
+{	
+	COMA::CheckUnstableBrickCollision(MapObjectManager::UnstableBrickVec, m_pPlayer);
 	COMA::CheckMapCollision(MapObjectManager::MapObjVec, m_pPlayer);
 
 	if(m_MapDamageCounter==0)

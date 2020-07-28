@@ -80,6 +80,11 @@ void MoveManager::MoveY(float y)
 	for (MapObject* mapObject : MapObjectManager::MapObjVec)
 	{
 		mapObject->GetDstP()->y -= y;
+		if (mapObject->getCanMove())
+		{
+			mapObject->moveStart(0.0f, -y);
+			mapObject->moveEnd(0.0f, -y);
+		}
 	}
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{

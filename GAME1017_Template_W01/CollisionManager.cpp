@@ -105,7 +105,7 @@ void CollisionManager::CheckMapCollision(const std::vector<MapObject*> mapObject
 	for (MapObject* mapObject : mapObjects) // For each platform.
 	{
 		SDL_FRect* mapObjectRect = mapObject->GetDstP();
-		SDL_FRect* entityRect = obj->GetBody();
+		DL_FRect* entityRect = obj->GetBody();
 		if (mapObject->getCanCollide() and COMA::AABBCheck(*entityRect, *mapObjectRect))
 		{
 			if (entityRect->y + entityRect->h - (float)obj->GetVelY() <= mapObjectRect->y + mapObjectRect->h * 0.2)
@@ -141,6 +141,26 @@ void CollisionManager::CheckMapCollision(const std::vector<MapObject*> mapObject
 					obj->SetX(mapObjectRect->x + mapObjectRect->w);
 				}
 			}
+		}
+	}	
+}
+
+void CollisionManager::CheckUnstableBrickCollision(const std::vector<UnstableBrick*> bricks, Entity* obj)
+{
+	for (auto mapObject : bricks)
+	{
+		SDL_FRect* mapObjectRect = mapObject->GetDstP();
+		//std::cout << mapObject->getCanCollide() << " " << COMA::AABBCheck(*obj->GetDstP(), *mapObjectRect) << std::endl;
+		if (mapObject->getCanCollide() && COMA::AABBCheck(*obj->GetDstP(), *mapObjectRect) )
+		{
+			if (obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() <= mapObjectRect->y + mapObjectRect->h / 2)
+			{ // Colliding top side of platform.
+				if(mapObject->getStatus()==1)
+				{
+					mapObject->changeStatus(2);//change status into breaking
+					std::cout << "change into state 2" << std::endl;
+				}				
+			}			
 		}
 	}
 }
