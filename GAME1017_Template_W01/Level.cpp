@@ -83,7 +83,7 @@ void Level1::Load(PlatformPlayer* Player)
 	EnemyManager::CreateEnemy(swordman, 58, 8, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(swordman, 72, 5, Engine::Instance().GetRenderer());
 	
-	this->m_pPortal = MapObjectManager::CreateMapObject(kPortal, 5, 6, Engine::Instance().GetRenderer());
+	this->m_pPortal = MapObjectManager::CreateMapObject(kPortal, 81, 6, Engine::Instance().GetRenderer());
 }
 
 void Level1::Update()
