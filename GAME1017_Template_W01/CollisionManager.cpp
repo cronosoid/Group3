@@ -105,7 +105,7 @@ void CollisionManager::CheckMapCollision(const std::vector<MapObject*> mapObject
 	for (MapObject* mapObject : mapObjects) // For each platform.
 	{
 		SDL_FRect* mapObjectRect = mapObject->GetDstP();
-		DL_FRect* entityRect = obj->GetBody();
+		SDL_FRect* entityRect = obj->GetBody();
 		if (mapObject->getCanCollide() and COMA::AABBCheck(*entityRect, *mapObjectRect))
 		{
 			if (entityRect->y + entityRect->h - (float)obj->GetVelY() <= mapObjectRect->y + mapObjectRect->h * 0.2)
@@ -150,15 +150,15 @@ void CollisionManager::CheckUnstableBrickCollision(const std::vector<UnstableBri
 	for (auto mapObject : bricks)
 	{
 		SDL_FRect* mapObjectRect = mapObject->GetDstP();
+		SDL_FRect* body = obj->GetBody();
 		//std::cout << mapObject->getCanCollide() << " " << COMA::AABBCheck(*obj->GetDstP(), *mapObjectRect) << std::endl;
-		if (mapObject->getCanCollide() && COMA::AABBCheck(*obj->GetDstP(), *mapObjectRect) )
+		if (mapObject->getCanCollide() && COMA::AABBCheck(*body, *mapObjectRect) )
 		{
-			if (obj->GetDstP()->y + obj->GetDstP()->h - (float)obj->GetVelY() <= mapObjectRect->y + mapObjectRect->h / 2)
+			if (body->y + body->h - (float)obj->GetVelY() <= mapObjectRect->y + mapObjectRect->h * 0.2)
 			{ // Colliding top side of platform.
 				if(mapObject->getStatus()==1)
 				{
 					mapObject->changeStatus(2);//change status into breaking
-					std::cout << "change into state 2" << std::endl;
 				}				
 			}			
 		}
@@ -170,15 +170,16 @@ void CollisionManager::CheckPlayerMapDamage(const std::vector<MapObject*> mapObj
 	for (auto mapObject : mapObject) // For each platform.
 	{
 		SDL_FRect* temp = mapObject->GetDstP();
-		if (COMA::AABBCheck(*obj->GetDstP(), *temp) && mapObject->getIsHurt() == true && obj->GetLastAttackedTime()<=0)
+		SDL_FRect* body = obj->GetBody();
+		if (COMA::AABBCheck(*body, *temp) && mapObject->getIsHurt() == true && obj->GetLastAttackedTime()<=0)
 		{
-			if (obj->GetDstP()->x < (mapObject->GetDstP()->x + mapObject->GetDstP()->w) && obj->GetDstP()->x > mapObject->GetDstP()->x)
+			if (body->x < (mapObject->GetDstP()->x + mapObject->GetDstP()->w) && body->x > mapObject->GetDstP()->x)
 			{
 				obj->setHitDir(1);//set hit direction as left
-				//std::cout << "Kaben: " << obj->GetDstP()->x << " Spike: " << mapObject->GetDstP()->x << std::endl;
+				//std::cout << "Kaben: " << body->x << " Spike: " << mapObject->GetDstP()->x << std::endl;
 				//std::cout << "set map object hit direction as left" << std::endl;
 			}
-			else if ((obj->GetDstP()->x + obj->GetDstP()->w) > mapObject->GetDstP()->x && obj->GetDstP()->x < mapObject->GetDstP()->x)
+			else if ((body->x + body->w) > mapObject->GetDstP()->x && body->x < mapObject->GetDstP()->x)
 			{
 				obj->setHitDir(2);
 				//std::cout << "set map object hit direction as right" << std::endl;
@@ -196,7 +197,7 @@ void CollisionManager::CheckEnemyMapDamage(const std::vector<MapObject*> mapObje
 	for (auto mapObject : mapObject) // For each platform.
 	{
 		SDL_FRect* temp = mapObject->GetDstP();
-		if (COMA::AABBCheck(*obj->GetDstP(), *temp) && mapObject->getIsHurt() == true)
+		if (COMA::AABBCheck(*obj->GetBody(), *temp) && mapObject->getIsHurt() == true)
 		{
 			obj->getDamage(mapObject->getDamage());
 			break;

@@ -152,6 +152,18 @@ void MapObjectManager::DestroyAllMapObjects()
 
 void MapObjectManager::DestroyInvalidMapObject()
 {
+	for (auto mapobj = UnstableBrickVec.begin(); mapobj != UnstableBrickVec.end(); )
+	{
+		if (not (*mapobj)->getActive())
+		{
+			mapobj = UnstableBrickVec.erase(mapobj);
+		}
+		else
+		{
+			++mapobj;
+		}
+	}
+	
 	for (auto mapobj = MapObjVec.begin(); mapobj != MapObjVec.end(); )
 	{
 		if(not (*mapobj)->getActive())

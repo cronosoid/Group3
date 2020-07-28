@@ -7,6 +7,8 @@ int MoveManager::windowX, MoveManager::windowY;
 int MoveManager::border;
 int MoveManager::totalMoveX, MoveManager::totalMoveY;
 
+const float STATICSPEED = 0;// 3.0;
+
 MoveManager::MoveManager()
 {
 }
@@ -112,9 +114,16 @@ bool MoveManager::checkYBoundaries(float y, float velY, Entity* player)
 	//std::cout << totalMoveY << "\n";
 	int upBorder = windowY * MAPSCROLLINGYUPDISTANCE;
 	int downBorder = windowY - windowY * MAPSCROLLINGYDOWNDISTANCE;
-	if ((y + velY < upBorder and velY < 0 and totalMoveY > -maxY) or (y + velY > downBorder and velY > 0 and totalMoveY < 0))
+	
+	if ((y + velY < upBorder and velY <= STATICSPEED and totalMoveY > -maxY) or (y + velY > downBorder and velY >= STATICSPEED and totalMoveY < 0))
 	{
+		std::cout << "check fin\n";
 		return true;
 	}
 	return false;
+}
+
+void MoveManager::SetY(int y)
+{
+	totalMoveY = y;
 }

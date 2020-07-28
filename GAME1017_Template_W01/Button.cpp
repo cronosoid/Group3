@@ -68,7 +68,7 @@ MenuButton::MenuButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture
 void PlayButton::Execute()
 {
 	SOMA::PlaySound("button");
-	STMA::ChangeState(new GameState(new Level1()));
+	STMA::ChangeState(new GameState(new Level3()));
 }
 
 void RestartButton::Execute()

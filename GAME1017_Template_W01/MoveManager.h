@@ -28,6 +28,7 @@ public:
 	static int GetRightBorder() { return maxX; }
 	static int GetWindowY() { return windowY; }
 	static int GetWindowX() { return windowX; }
+	static void SetY(int y);
 	
 private:
 	static int maxX, maxY;

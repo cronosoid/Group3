@@ -9,6 +9,7 @@
 #include"TextureManager.h"
 #include "CollisionManager.h"
 #include "EnemyManager.h"
+#include "MoveManager.h"
 #include "SoundManager.h"
 
 const int MAXHEALTH = 1000;
@@ -78,10 +79,10 @@ void Boss::Update()
 	
 	movementUpdate();
 	
-	if (m_dst.y >= 768)
+	/*if (m_dst.y >= MOMA::GetWindowY() - MOMA::GetTotalMove().y)
 	{
 		setActive(false);
-	}
+	}*/
 
 	static int attackWaitTime = 0;
 

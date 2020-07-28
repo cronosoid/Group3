@@ -80,6 +80,10 @@ void EnemyManager::DestroyInvalidEnemies()
 	{
 		if (not (*enemy)->getActive())
 		{
+			if (*enemy == m_boss)
+			{
+				DestroyBoss();
+			}
 			delete* enemy;
 			enemy = EnemiesVec.erase(enemy);
 		}
