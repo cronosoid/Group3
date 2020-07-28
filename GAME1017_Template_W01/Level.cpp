@@ -83,7 +83,7 @@ void Level1::Load(PlatformPlayer* Player)
 	EnemyManager::CreateEnemy(swordman, 58, 8, Engine::Instance().GetRenderer());
 	EnemyManager::CreateEnemy(swordman, 72, 5, Engine::Instance().GetRenderer());
 	
-	this->m_pPortal = MapObjectManager::CreateMapObject(kPortal, 81, 6, Engine::Instance().GetRenderer());
+	this->m_pPortal = MapObjectManager::CreateMapObject(kPortal, 5, 6, Engine::Instance().GetRenderer());
 }
 
 void Level1::Update()
@@ -94,8 +94,12 @@ void Level1::Update()
 	}
 	else if (COMA::AABBCheck(*this->m_pPortal->GetDstP(), *this->m_pPlayer->GetBody()))
 	{
+		std::cout << "Portal\n";
 		STMA::ChangeState(new CongratulationState);
 	}
+
+	std::cout << "Portal" << this->m_pPortal->GetDstP()->x << ", " << this->m_pPortal->GetDstP()->y << ", " << this->m_pPortal->GetDstP()->w << ", " << this->m_pPortal->GetDstP()->h << "\n";
+	std::cout << "Player" << this->m_pPlayer->GetBody()->x << ", " << this->m_pPlayer->GetBody()->y << ", " << this->m_pPlayer->GetBody()->w << ", " << this->m_pPlayer->GetBody()->h << "\n";
 }
 
 Level2::Level2()
