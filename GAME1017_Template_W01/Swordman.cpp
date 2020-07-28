@@ -11,6 +11,7 @@
 #include "ProjectileManager.h"
 #include "CollisionManager.h"
 #include "EnemyManager.h"
+#include "MoveManager.h"
 #include "SoundManager.h"
 
 const int MAXHEALTH = 100;
@@ -40,7 +41,7 @@ Swordman::Swordman(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Ani
 void Swordman::Update()
 {
 	movementUpdate();
-	if (m_dst.y >= 768)
+	if (m_dst.y >= MOMA::GetWindowY() - MOMA::GetTotalMove().y)
 	{
 		setActive(false);
 	}

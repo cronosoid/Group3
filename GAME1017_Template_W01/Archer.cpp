@@ -11,6 +11,7 @@
 #include <SDL_image.h>
 #include <iostream>
 #include "Arrow.h"
+#include "MoveManager.h"
 
 const int MAXHEALTH = 100;
 const int ARCHERDAMAGE = 10;
@@ -39,7 +40,8 @@ Archer::Archer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animato
 void Archer::Update()
 {	
 	movementUpdate();
-	if (m_dst.y >= 768)
+
+	if (m_dst.y >= MOMA::GetWindowY() - MOMA::GetTotalMove().y)
 	{
 		setActive(false);
 	}

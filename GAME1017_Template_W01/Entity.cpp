@@ -63,6 +63,7 @@ void Entity::movementUpdate()
 	this->m_velX = std::min(std::max(this->m_velX, -this->m_maxVelX), (this->m_maxVelX));
 
 	// Now do Y axis.
+
 	this->m_velY += this->m_accelY + this->m_grav * gravAcceleration; // Adjust gravity to get slower jump.
 	this->m_velY = std::min(std::max(this->m_velY, -this->m_maxJumpVelocity), (this->m_grav * this->m_maxFallVelocity));
 	
