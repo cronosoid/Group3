@@ -145,7 +145,7 @@ void Archer::Update()
 			float curY = m_dst.y;
 			MapObject* nextObject = COMA::FindFirstObjectOnTheRay({ curX,curY }, { 0, 1 });
 
-			if (nextObject and squareDistToPlayer > pow(STOPDISTANCE,2))
+			if (nextObject and not nextObject->getIsHurt() and squareDistToPlayer > pow(STOPDISTANCE,2))
 			{
 				SetAccelX(direction * m_speed);
 				if (m_floor and nextObject->GetDstP()->y < m_floor->GetDstP()->y)
@@ -184,7 +184,7 @@ void Archer::Update()
 			float curY = m_dst.y;
 			MapObject* nextObject = COMA::FindFirstObjectOnTheRay({ curX,curY }, { 0, 1 });
 
-			if (nextObject and squareDistToPlayer > pow(STOPDISTANCE, 2))
+			if (nextObject and not nextObject->getIsHurt() and squareDistToPlayer > pow(STOPDISTANCE, 2))
 			{
 				SetAccelX(-direction * m_speed);
 				if (m_floor and nextObject->GetDstP()->y < m_floor->GetDstP()->y)

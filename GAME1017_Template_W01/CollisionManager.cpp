@@ -80,7 +80,7 @@ MapObject* CollisionManager::FindFirstObjectOnTheRay(SDL_FPoint Pos, SDL_FPoint 
 		}
 		for (MapObject* obj : MapObjectManager::MapObjVec)
 		{
-			if (obj->getCanCollide() and COMA::PointRectCheck(curPos, *obj->GetDstP()))
+			if ((obj->getCanCollide() or obj->getIsHurt()) and COMA::PointRectCheck(curPos, *obj->GetDstP()))
 			{
 				return obj;
 			}
@@ -108,7 +108,7 @@ void CollisionManager::CheckMapCollision(const std::vector<MapObject*> mapObject
 		SDL_FRect* entityRect = obj->GetBody();
 		if (mapObject->getCanCollide() and COMA::AABBCheck(*entityRect, *mapObjectRect))
 		{
-			if (entityRect->y + entityRect->h - (float)obj->GetVelY() <= mapObjectRect->y + mapObjectRect->h / 2)
+			if (entityRect->y + entityRect->h - (float)obj->GetVelY() <= mapObjectRect->y + mapObjectRect->h * 0.2)
 			{ // Colliding top side of platform.
 				MapObject* newFloor = oldFloor;
 				if (oldFloor == nullptr

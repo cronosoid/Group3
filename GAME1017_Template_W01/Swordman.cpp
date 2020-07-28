@@ -142,8 +142,8 @@ void Swordman::Update()
 		animator->getFace() == 0 ? curX = m_body.x + m_body.w + 5 : curX = m_body.x - 5;
 		float curY = m_body.y;
 		MapObject* nextObject = COMA::FindFirstObjectOnTheRay({ curX,curY }, { 0, 1 });
-
-		if (nextObject and squareDistToPlayer > pow(STOPDISTANCE, 2))
+		
+		if (nextObject and not nextObject->getIsHurt() and squareDistToPlayer > pow(STOPDISTANCE, 2))
 		{
 			SetAccelX(direction * m_speed);
 			if (m_floor and nextObject->GetDstP()->y < m_floor->GetDstP()->y)
@@ -199,7 +199,7 @@ void Swordman::attack()
 	SDL_FRect rect;
 	if (this->getAnimator()->getFace() == 0)
 	{
-		rect.x = m_body.x + m_body.w;
+		rect.x = m_body.x;
 	}
 	else
 	{
@@ -207,7 +207,7 @@ void Swordman::attack()
 	}
 
 	rect.y = m_body.y;
-	rect.w = m_body.w;
+	rect.w = m_body.w * 2;
 	rect.h = m_body.h;
 
 	if (COMA::AABBCheck(rect, *EnemyManager::GetTarget()->GetDstP())

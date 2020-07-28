@@ -180,8 +180,8 @@ Spike::Spike(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :MapObjec
 {
 	m_IsHurt = true;
 	m_CanCollide = false;
-	m_Damage = 10;
-  type = "Spike";
+	m_Damage = 0;
+	type = "Spike";
 }
 
 Spike::Spike(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, SDL_FPoint start, SDL_FPoint end) :MapObject(s, d, r, t, start, end)
@@ -207,7 +207,7 @@ Portal::Portal(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t):MapObje
 {
 	m_IsHurt = false;
 	m_CanCollide = false;
-	m_Damage = 0;
+	m_Damage = 10;
 	type = "Portal";
 }
 
