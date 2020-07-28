@@ -37,5 +37,5 @@ void Projectile::Update()
 	else
 	{
 		m_curFrame++;
-	} 	
+	}
 }

@@ -112,11 +112,11 @@ void PlatformPlayer::Update()
 				// will complete the projectile spawn in a while
 				int face;
 				this->getAnimator()->getFace() == 0 ? face = 1 : face = -1;
-				PMA::Instance().GetProjectiles().push_back(new Fireball(this, EnemyManager::EnemiesVec, MapObjectManager::MapObjVec, { 0,0,64,64 },
+				PMA::Instance().GetProjectiles().push_back(new Fireball(this, EnemyManager::EnemiesVec, MapObjectManager::MapObjVec, { 0,0,39,32 },
 					{ face == 1 ? this->GetBody()->x + this->GetBody()->w : this->GetBody()->x - 24,
 					this->GetBody()->y + 42, 48, 48 },
 					Engine::Instance().GetRenderer(), TEMA::GetTexture("fireball"), 15, face, this->m_magicDmg,
-					4, 6, 64, 64));
+					4, 6, 39, 32));
 
 				this->ChangeSoul(-FIREBALLCOST);
 			}
