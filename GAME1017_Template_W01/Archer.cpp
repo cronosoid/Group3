@@ -51,7 +51,10 @@ void Archer::Update()
 	{
 		if (squareDistToPlayer < pow(DETECTDISTANCE, 2))
 		{
-			curStatus = SEEKING;
+			if (this->health > this->maxHealth * 0.5)
+				curStatus = SEEKING;
+			else
+				curStatus = FLEEING;
 		}
 		else
 		{
@@ -158,10 +161,58 @@ void Archer::Update()
 		}
 		break;
 	case FLEEING:
+		{
+			std::cout << "FLEEING\n";
+			
+			this->m_speed = RUNSPEED + (rand() % 10) / 10.0;
+
+			PlatformPlayer* player = EnemyManager::GetTarget();
+			float dist = player->GetDstP()->x - this->m_dst.x;
+
+			float direction = 1;
+			if (dist != 0)
+			{
+				direction = abs(dist) / dist;
+			}
+			if (direction == 1)
+				animator->setFace(1);
+			else if (direction == -1)
+				animator->setFace(0);
+
+			float curX;
+			animator->getFace() == 0 ? curX = m_dst.x + m_dst.w + 5 : curX = m_dst.x - 5;
+			float curY = m_dst.y;
+			MapObject* nextObject = COMA::FindFirstObjectOnTheRay({ curX,curY }, { 0, 1 });
+
+			if (nextObject and squareDistToPlayer > pow(STOPDISTANCE, 2))
+			{
+				SetAccelX(-direction * m_speed);
+				if (m_floor and nextObject->GetDstP()->y < m_floor->GetDstP()->y)
+				{
+					this->SetAccelY(-JUMPFORCE / 2);
+				}
+			}
+
+			if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
+			{
+				curStatus = ATTACKING;
+			}
+		}
 		break;
 	case ATTACKING:
 		if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
 		{
+			float direction = 0;
+			float dist = EnemyManager::GetTarget()->GetDstP()->x - this->m_dst.x;
+			if (dist != 0)
+			{
+				direction = abs(dist) / dist;
+			}
+			if (direction == 1)
+				animator->setFace(0);
+			else if (direction == -1)
+				animator->setFace(1);
+			
 			attackWaitTime = MAXATTACKWAITTIME;
 			this->lastAttackTime = SDL_GetTicks();
 			attack();
@@ -169,7 +220,10 @@ void Archer::Update()
 		if (--attackWaitTime <= 0)
 		{
 			attackWaitTime = 0;
-			curStatus = SEEKING;
+			if (this->health > this->maxHealth * 0.5)
+				curStatus = SEEKING;
+			else
+				curStatus = FLEEING;
 		}
 		break;
 	case STUNNED:
