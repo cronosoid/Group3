@@ -31,7 +31,7 @@ void Animator::playFullAnimation(const std::string& type)
 			return;
 		}
 	}
-	std::cout << "New anim record: " << type << "\n";
+	
 	animRecords.push_back(new AnimRecord(animationsMap[type]));
 }
 
@@ -81,6 +81,17 @@ void Animator::addAnimation(const std::string& key, Uint32 maxFrames, Uint32 pri
 
 void Animator::update()
 {
+	Animation* nextAnim = animationsMap[nextAnimation];
+	for (AnimRecord* rec : animRecords)
+	{
+		if ((nextAnim == nullptr) or (rec->animation->getPriotity() >= nextAnim->getPriotity()))
+		{
+			nextAnimation = rec->animation->getName();
+		}
+	}
+	
+	playAnimation();
+
 	for (auto animRec = animRecords.begin(); animRec != animRecords.end();)
 	{
 		bool moved = false;
@@ -89,7 +100,8 @@ void Animator::update()
 			(*animRec)->curTick = SDL_GetTicks();
 			if (++(*animRec)->curFrame >= (*animRec)->animation->getMaxFrames())
 			{
-				delete *animRec;
+				delete* animRec;
+				std::cout << "erased anim\n";
 				animRec = animRecords.erase(animRec);
 				moved = true;
 			}
@@ -97,15 +109,6 @@ void Animator::update()
 		if (not moved)
 		{
 			animRec++;
-		}
-	}
-
-	Animation* nextAnim = animationsMap[nextAnimation];
-	for (AnimRecord* rec : animRecords)
-	{
-		if ((nextAnim == nullptr) or (rec->animation->getPriotity() >= nextAnim->getPriotity()))
-		{
-			nextAnimation = rec->animation->getName();
 		}
 	}
 }

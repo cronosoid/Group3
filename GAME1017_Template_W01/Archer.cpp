@@ -250,7 +250,6 @@ void Archer::Update()
 	movementUpdate();
 
 	this->getAnimator()->update();
-	this->getAnimator()->playAnimation();
 }
 
 void Archer::Render()

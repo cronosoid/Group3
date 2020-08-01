@@ -32,6 +32,8 @@ public:
 	MapObject* GetFloor() { return m_floor; }
 
 	SDL_FRect* GetBody() { return &m_body; }
+
+	bool IsPlayer() { return m_player; }
 protected:
 	bool m_player;
 	bool m_grounded;

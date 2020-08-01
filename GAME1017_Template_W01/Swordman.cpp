@@ -201,7 +201,6 @@ void Swordman::Update()
 	movementUpdate();
 
 	this->getAnimator()->update();
-	this->getAnimator()->playAnimation();
 }
 
 void Swordman::Render()

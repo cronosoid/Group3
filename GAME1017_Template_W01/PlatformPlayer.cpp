@@ -23,7 +23,7 @@ PlatformPlayer::PlatformPlayer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Tex
 
 	this->getAnimator()->addAnimation("run", 7, 2, 192, 64);
 	this->getAnimator()->addAnimation("idle", 4, 1, 192, 64, 0, 128, 12);
-	this->getAnimator()->addAnimation("melee", 7, 3, 192, 64,0,256,4);
+	this->getAnimator()->addAnimation("melee", 7, 3, 192, 64,0,256,6);
 	
 	m_isUnderAttack = false;
 	m_canControl = true;
@@ -165,7 +165,6 @@ void PlatformPlayer::Update()
 	}
 
 	this->getAnimator()->update();
-	this->getAnimator()->playAnimation();
 	movementUpdate();
 	//std::cout << "X: " << this->GetVelX() << " Y: " << this->GetVelY() << std::endl;
 }
