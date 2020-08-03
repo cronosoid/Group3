@@ -129,9 +129,13 @@ void GameState::Enter()
 
 	m_pLevel->Load(m_pPlayer);
 
-	EnemyManager::SetTarget(m_pPlayer);
+	m_backgroundArr[0] = new Background({ 0,0,1024,768 }, { 0,0, 1024,768 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("lv_bg"));
+	m_backgroundArr[1] = new Background({ 0,0,1024,768 }, { 1024,0,1024,768 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("lv_bg"));
 
-	
+	m_midgroundArr[0] = new Background({ 0,0,1024,768 }, { 0,0, 1024,768 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("lv_mg"));
+	m_midgroundArr[1] = new Background({ 0,0,1024,768 }, { 1024,0, 1024,768 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("lv_mg"));
+
+	EnemyManager::SetTarget(m_pPlayer);
 	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, { 105.0f,72.0f,185.0f,20.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
 
 	m_MapDamageCounter = 0;
@@ -143,6 +147,22 @@ void GameState::Enter()
 
 void GameState::Update()
 {
+	//background scrolling
+	for (int i = 0; i < 2; i++)
+	{
+		m_backgroundArr[i]->GetDstP()->x -= 1;
+		if (m_backgroundArr[i]->GetDstP()->x <= -1024)
+			m_backgroundArr[i]->GetDstP()->x += m_backgroundArr[i]->GetDstP()->w * 2;
+	}
+
+	//midground scorlling
+	for (int i = 0; i < 2; i++)
+	{
+		m_midgroundArr[i]->GetDstP()->x -= 2;
+		if (m_midgroundArr[i]->GetDstP()->x <= -1024)
+			m_midgroundArr[i]->GetDstP()->x += m_midgroundArr[i]->GetDstP()->w * 2;
+	}
+	
 	if (EVMA::KeyHeld(SDL_SCANCODE_P))
 	{
 		STMA::PushState(new PauseHelpState());
@@ -214,9 +234,21 @@ void GameState::CheckCollision()
 
 void GameState::Render()
 {
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 64, 128, 255, 255);
-	SDL_RenderClear(Engine::Instance().GetRenderer());
+	/*SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 64, 128, 255, 255);
+	SDL_RenderClear(Engine::Instance().GetRenderer());*/
 
+	for (int i = 0; i < 2; i++)
+	{
+		cout << "aaa" << endl;
+		m_backgroundArr[i]->Render();
+	}
+
+	for (int i = 0; i < 2; i++)
+	{
+		m_midgroundArr[i]->Render();
+	}
+	
+	
 	MapObjectManager::Render(true); //Draw collidable platforms
 	
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
@@ -224,8 +256,8 @@ void GameState::Render()
 		SDL_Color red = { 255, 0, 0, 255 };
 		SDL_Color green = { 0, 255, 0, 255 };
 
-		DEMA::DrawLine({ (int)enemy->GetCenter().x, (int)enemy->GetCenter().y }, { (int)m_pPlayer->GetCenter().x, (int)m_pPlayer->GetCenter().y },
-			(enemy->HavePlayerLOS() ? green : red));
+		/*DEMA::DrawLine({ (int)enemy->GetCenter().x, (int)enemy->GetCenter().y }, { (int)m_pPlayer->GetCenter().x, (int)m_pPlayer->GetCenter().y },
+			(enemy->HavePlayerLOS() ? green : red));*/
 		enemy->Render();
 	}
 
