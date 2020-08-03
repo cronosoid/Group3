@@ -36,6 +36,8 @@ void Level1::Load(PlatformPlayer* Player)
 	}*/
 	MapObjectManager::CreateMapObject(kPlate, 10, 10, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 16, 10, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 17, 10, Engine::Instance().GetRenderer());
+	MapObjectManager::CreateMapObject(kPlate, 17, 9, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 29, 11, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 30, 11, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 31, 11, Engine::Instance().GetRenderer());

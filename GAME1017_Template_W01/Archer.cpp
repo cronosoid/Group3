@@ -14,13 +14,16 @@
 const int MAXHEALTH = 100;
 const int ARCHERDAMAGE = 10;
 const int ARCHERDEFENCE = 10;
-const int DETECTDISTANCE = 550;
-const int STOPDISTANCE = 100;
+const int DETECTDISTANCE = 750;
+const int STOPDISTANCE = 150;
 const int ATTACKDISTANCE = 300;
+
 const float WALKSPEED = 0.4;
 const float RUNSPEED = 0.55;
+const float HIDEPERCENTAGE = 0.7;
+const float FLEEPROCENTAGE = 0.4;
 
-const int MAXATTACKWAITTIME = 30; // in frames
+const int MAXATTACKWAITTIME = FPS * 1; // in frames
 
 const float w = 128.0;
 const float h = 128.0;
@@ -43,7 +46,9 @@ Archer::Archer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animato
 
 void Archer::Update()
 {
-	m_playerLOS = COMA::HaveLOS(this, EnemyManager::GetTarget());
+	PlatformPlayer* player = EnemyManager::GetTarget();
+	
+	m_playerLOS = COMA::HaveLOS(this, player);
 
 	if (m_playerLOS) m_lastDetectTime = FPS * 5;
 	if (m_lastDetectTime > 0) m_lastDetectTime--;
@@ -55,16 +60,24 @@ void Archer::Update()
 		setActive(false);
 	}
 
-	static int attackWaitTime = 0;
-
-	float squareDistToPlayer = COMA::SquareRectDistance(*this->GetDstP(), *EnemyManager::GetTarget()->GetDstP());
+	if (m_hided > 0) m_hided--;
+	
+	float squareDistToPlayer = COMA::SquareRectDistance(*this->GetDstP(), *player->GetDstP());
 	if (curStatus != ATTACKING)
 	{
 		if (squareDistToPlayer < pow(DETECTDISTANCE, 2) and knowWherePlayerIs)
 		{
-			if (this->health > this->maxHealth * 0.5)
+			if (this->health > this->maxHealth * FLEEPROCENTAGE)
 			{
-				curStatus = SEEKING;
+				if (this->health > this->maxHealth * HIDEPERCENTAGE or m_hided > 0)
+				{
+					if (squareDistToPlayer < pow(STOPDISTANCE, 2))
+						curStatus = FLEEING;
+					else
+						curStatus = SEEKING;
+				}
+				else
+					curStatus = HIDING;
 			}
 			else
 				curStatus = FLEEING;
@@ -86,7 +99,7 @@ void Archer::Update()
 		m_stunTime--;
 		curStatus = STUNNED;
 	}
-
+	
 	switch (curStatus)
 	{
 	case IDLE:
@@ -138,75 +151,25 @@ void Archer::Update()
 		break;
 	case SEEKING:
 		{
-			this->m_speed = RUNSPEED + (rand()%10)/10.0;
-			
-			PlatformPlayer* player = EnemyManager::GetTarget();
-			float dist = player->GetDstP()->x - this->m_dst.x;
-
-			float direction = 0;
-			if (dist != 0)
-			{
-				direction = abs(dist) / dist;
-			}
-			if (direction == 1)
-				animator->setFace(0);
-			else if (direction == -1)
-				animator->setFace(1);
-
-			float curX;
-			animator->getFace() == 0 ? curX = m_dst.x + m_dst.w + 5 : curX = m_dst.x - 5;
-			float curY = m_dst.y;
-			MapObject* nextObject = COMA::FindFirstObjectOnTheRay({ curX,curY }, { 0, 1 });
-
-			if (nextObject and not nextObject->getIsHurt() and squareDistToPlayer > pow(STOPDISTANCE,2) and knowWherePlayerIs)
-			{
-				SetAccelX(direction * m_speed);
-				if (m_floor and nextObject->GetDstP()->y < m_floor->GetDstP()->y)
-				{
-					this->SetAccelY(-JUMPFORCE);
-				}
-			}
-
+			Seek(RUNSPEED,squareDistToPlayer,STOPDISTANCE,ATTACKDISTANCE,knowWherePlayerIs);
 			if (squareDistToPlayer < pow(ATTACKDISTANCE, 2))
 			{
-				curStatus = ATTACKING;
+				if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
+				{
+					curStatus = ATTACKING;
+				}
 			}
 		}
 		break;
 	case FLEEING:
 		{
-			this->m_speed = RUNSPEED + (rand() % 10) / 10.0;
-
-			PlatformPlayer* player = EnemyManager::GetTarget();
-			float dist = player->GetDstP()->x - this->m_dst.x;
-
-			float direction = 1;
-			if (dist != 0)
+			Flee(RUNSPEED, squareDistToPlayer, ATTACKDISTANCE, STOPDISTANCE);
+			if (squareDistToPlayer < pow(ATTACKDISTANCE, 2))
 			{
-				direction = abs(dist) / dist;
-			}
-			if (direction == 1)
-				animator->setFace(1);
-			else if (direction == -1)
-				animator->setFace(0);
-
-			float curX;
-			animator->getFace() == 0 ? curX = m_dst.x + m_dst.w + 5 : curX = m_dst.x - 5;
-			float curY = m_dst.y;
-			MapObject* nextObject = COMA::FindFirstObjectOnTheRay({ curX,curY }, { 0, 1 });
-
-			if (nextObject and not nextObject->getIsHurt() and squareDistToPlayer > pow(STOPDISTANCE, 2))
-			{
-				SetAccelX(-direction * m_speed);
-				if (m_floor and nextObject->GetDstP()->y < m_floor->GetDstP()->y)
+				if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
 				{
-					this->SetAccelY(-JUMPFORCE);
+					curStatus = ATTACKING;
 				}
-			}
-
-			if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
-			{
-				curStatus = ATTACKING;
 			}
 		}
 		break;
@@ -215,7 +178,7 @@ void Archer::Update()
 		{
 			this->getAnimator()->playFullAnimation("shot");
 			float direction = 0;
-			float dist = EnemyManager::GetTarget()->GetDstP()->x - this->m_dst.x;
+			float dist = player->GetDstP()->x - this->m_dst.x;
 			if (dist != 0)
 			{
 				direction = abs(dist) / dist;
@@ -226,13 +189,14 @@ void Archer::Update()
 				animator->setFace(1);
 			
 			attackWaitTime = MAXATTACKWAITTIME;
+			
 			this->lastAttackTime = SDL_GetTicks();
 			attack();
 		}
 		if (--attackWaitTime <= 0)
 		{
 			attackWaitTime = 0;
-			if (this->health > this->maxHealth * 0.5)
+			if (this->health > this->maxHealth * FLEEPROCENTAGE)
 				curStatus = SEEKING;
 			else
 				curStatus = FLEEING;
@@ -241,6 +205,11 @@ void Archer::Update()
 	case STUNNED:
 		{
 			// Play stunned animation
+		}
+		break;
+	case HIDING:
+		{
+			Hide(RUNSPEED, squareDistToPlayer, ATTACKDISTANCE, STOPDISTANCE);
 		}
 		break;
 	case DEAD:

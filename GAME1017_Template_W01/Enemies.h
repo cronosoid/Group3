@@ -3,15 +3,25 @@
 
 #include "Sprite.h"
 #include "Entity.h"
+#include "PlatformPlayer.h"
 
-enum Status { IDLE, PATROLING, SEEKING, FLEEING, ATTACKING, STUNNED, DEAD };
+enum Status { IDLE, PATROLING, SEEKING, HIDING, FLEEING, ATTACKING, STUNNED, DEAD };
+
+const float HIDECOOLDOWN = 10.0;
+const float HIDETIME = 4.0;
 
 class Enemies :public Entity
 {
 public:
 	Enemies(SDL_Rect s, SDL_FRect d, SDL_FRect b, SDL_Renderer* r, SDL_Texture* t, Animator* animator);
+	
 	virtual void Update() = 0;
 	virtual void Render() = 0;
+
+	void Flee(float RUNSPEED, float squareDistToPlayer, float ATTACKDISTANCE, float STOPDISTANCE);
+	void Seek(float RUNSPEED, float squareDistToPlayer, float STOPDISTANCE, float ATTACKDISTANCE, bool knowWherePlayer);
+	void Hide(float RUNSPEED, float squareDistToPlayer, float ATTACKDISTANCE, float STOPDISTANCE);
+	
 	bool getActive();
 	void setActive(bool a);
 	bool getAlive();
@@ -32,9 +42,16 @@ protected:
 		defence,
 		health,
 		maxHealth;
+	
+	Uint32 attackWaitTime;
 	Uint32 lastAttackTime;
 	Uint32 m_stunTime;
+	
 	Uint32 m_lastDetectTime;
+	Uint32 m_hided;
+	Uint32 m_waitBehindTheCover;
+	Uint32 m_noLOStime;
+	
 	std::string enemyType;
 	Status curStatus;
 	bool m_playerLOS;

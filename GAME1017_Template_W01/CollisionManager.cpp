@@ -191,7 +191,7 @@ void CollisionManager::CheckMapCollision(const std::vector<MapObject*> mapObject
 				obj->StopY();
 				obj->SetY(mapObjectRect->y + mapObjectRect->h);
 			}
-			else if (entityRect->x + entityRect->w - (float)obj->GetVelX() <= mapObjectRect->x)
+			if (entityRect->x + entityRect->w - (float)obj->GetVelX() <= mapObjectRect->x)
 			{ // Collision from left.
 				if ((entityRect->y + entityRect->h - (float)obj->GetVelY() > mapObjectRect->y) or not obj->IsGrounded())
 				{

@@ -24,7 +24,10 @@ const int ATTACKDISTANCE = 100;
 const float WALKSPEED = 0.4;
 const float RUNSPEED = 0.55;
 
-const int MAXATTACKWAITTIME = 30; // in frames
+const float HIDEPERCENTAGE = 0.6;
+const float FLEEPROCENTAGE = 0.2;
+
+const int MAXATTACKWAITTIME = FPS * 0.5; // in frames
 
 const float w = 128.0;
 const float h = 128.0;
@@ -58,15 +61,26 @@ void Swordman::Update()
 	{
 		setActive(false);
 	}
-	
-	static int attackWaitTime = 0;
 
 	float squareDistToPlayer = COMA::SquareRectDistance(this->m_body, *EnemyManager::GetTarget()->GetDstP());
 	if (curStatus != ATTACKING)
 	{
-		if (squareDistToPlayer < pow(DETECTDISTANCE, 2) and (knowWherePlayerIs))
+		if (squareDistToPlayer < pow(DETECTDISTANCE, 2) and knowWherePlayerIs)
 		{
-			curStatus = SEEKING;
+			if (this->health > this->maxHealth * FLEEPROCENTAGE)
+			{
+				if (this->health > this->maxHealth * HIDEPERCENTAGE or m_hided > 0)
+				{
+					if (squareDistToPlayer < pow(STOPDISTANCE, 2))
+						curStatus = FLEEING;
+					else
+						curStatus = SEEKING;
+				}
+				else
+					curStatus = HIDING;
+			}
+			else
+				curStatus = FLEEING;
 		}
 		else
 		{
@@ -136,50 +150,37 @@ void Swordman::Update()
 	}
 	break;
 	case SEEKING:
-	{
-		this->m_speed = RUNSPEED + (rand() % 10) / 10.0;
-
-		PlatformPlayer* player = EnemyManager::GetTarget();
-		float dist = player->GetBody()->x - this->m_body.x;
-
-		float direction = 0;
-		if (dist != 0)
 		{
-			direction = abs(dist) / dist;
-		}
-		if (direction == 1)
-			animator->setFace(0);
-		else if (direction == -1)
-			animator->setFace(1);
-
-		float curX;
-		animator->getFace() == 0 ? curX = m_body.x + m_body.w + 5 : curX = m_body.x - 5;
-		float curY = m_body.y;
-		MapObject* nextObject = COMA::FindFirstObjectOnTheRay({ curX,curY }, { 0, 1 });
-		
-		if (nextObject and not nextObject->getIsHurt() and squareDistToPlayer > pow(STOPDISTANCE, 2))
-		{
-			SetAccelX(direction * m_speed);
-			if (m_floor and nextObject->GetDstP()->y < m_floor->GetDstP()->y)
+			Seek(RUNSPEED, squareDistToPlayer, STOPDISTANCE, ATTACKDISTANCE, knowWherePlayerIs);
+			if (squareDistToPlayer < pow(ATTACKDISTANCE, 2))
 			{
-				this->SetAccelY(-JUMPFORCE);
+				if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
+				{
+					curStatus = ATTACKING;
+				}
 			}
 		}
-
-		if (squareDistToPlayer < pow(ATTACKDISTANCE, 2))
-		{
-			curStatus = ATTACKING;
-		}
-	}
 	break;
 	case FLEEING:
+		{
+			Flee(RUNSPEED, squareDistToPlayer, ATTACKDISTANCE, STOPDISTANCE);
+			if (squareDistToPlayer < pow(ATTACKDISTANCE, 2))
+			{
+				if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
+				{
+					curStatus = ATTACKING;
+				}
+			}
+		}
 		break;
 	case ATTACKING:
 		if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
 		{
 			//std::cout << "Attacked\n";
 			this->getAnimator()->playFullAnimation("melee");
+			
 			attackWaitTime = MAXATTACKWAITTIME;
+			
 			this->lastAttackTime = SDL_GetTicks();
 			attack();
 		}
@@ -187,14 +188,22 @@ void Swordman::Update()
 		{
 			//std::cout << "Seeking\n";
 			attackWaitTime = 0;
-			curStatus = SEEKING;
+			if (this->health > this->maxHealth * FLEEPROCENTAGE)
+				curStatus = SEEKING;
+			else
+				curStatus = FLEEING;
 		}
 		break;
 	case STUNNED:
-	{
-		// Play stunned animation
-	}
+		{
+			// Play stunned animation
+		}
 	break;
+	case HIDING:
+		{
+			Hide(RUNSPEED, squareDistToPlayer, ATTACKDISTANCE, STOPDISTANCE);
+		}
+		break;
 	case DEAD:
 		break;
 	default:
@@ -234,7 +243,7 @@ void Swordman::attack()
 	rect.w = m_body.w * 2;
 	rect.h = m_body.h;
 
-	if (COMA::AABBCheck(rect, *EnemyManager::GetTarget()->GetDstP())
+	if (COMA::AABBCheck(rect, *EnemyManager::GetTarget()->GetBody())
 		and static_cast<PlatformPlayer*>(EnemyManager::GetTarget())->GetLastAttackedTime() <= 0)
 	{
 		if (this->getAnimator()->getFace() == 0)
