@@ -8,7 +8,9 @@ Enemies::Enemies(SDL_Rect s, SDL_FRect d, SDL_FRect b, SDL_Renderer* r, SDL_Text
 {
 	isActive = true;
 	isAlive = true;
+	m_playerLOS = false;
 	m_stunTime = 0;
+	m_lastDetectTime = 0;
 }
 
 void Enemies::setActive(bool a) { isActive = a; }

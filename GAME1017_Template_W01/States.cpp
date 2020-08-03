@@ -18,6 +18,8 @@
 #include <iostream>
 #include <ctime>
 
+#include "DebugManager.h"
+
 // Begin State. CTRL+M+H and CTRL+M+U to turn on/off collapsed code.
 void State::Render()
 {
@@ -219,6 +221,11 @@ void GameState::Render()
 	
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
 	{
+		SDL_Color red = { 255, 0, 0, 255 };
+		SDL_Color green = { 0, 255, 0, 255 };
+
+		DEMA::DrawLine({ (int)enemy->GetCenter().x, (int)enemy->GetCenter().y }, { (int)m_pPlayer->GetCenter().x, (int)m_pPlayer->GetCenter().y },
+			(enemy->HavePlayerLOS() ? green : red));
 		enemy->Render();
 	}
 

@@ -27,7 +27,10 @@ public:
 	static void CheckPlayerMapDamage(const std::vector<MapObject*> mapObject, PlatformPlayer* obj);
 	static void CheckEnemyMapDamage(const std::vector<MapObject*> mapObject, Enemies* obj);
 	static bool PointRectCheck(const SDL_FPoint point, const SDL_FRect& object1);
+	static bool LineLineCheck(SDL_FPoint line1_start, SDL_FPoint line1_end, SDL_FPoint line2_start, SDL_FPoint line2_end);
+	static bool LineRectCheck(const SDL_FPoint& line1_start, const SDL_FPoint& line1_end, const SDL_FRect* box);
 	static MapObject* FindFirstObjectOnTheRay(SDL_FPoint Pos, SDL_FPoint Move, float maxDist = 9e3);
+	static bool HaveLOS(Entity* from, Entity* to);
 	static float SquareRectDistance(const SDL_FRect& object1, const SDL_FRect& object2);
 	static void CheckMapCollision(const std::vector<MapObject*> mapObjects, Entity* obj);
 	static void CheckUnstableBrickCollision(const std::vector<UnstableBrick*> bricks, Entity* obj);

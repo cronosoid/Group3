@@ -1,17 +1,15 @@
 #include "Archer.h"
-
-#include <ctime>
-
 #include "MathManager.h"
 #include "TextureManager.h"
 #include "ProjectileManager.h"
 #include "CollisionManager.h"
 #include "EnemyManager.h"
+#include "Arrow.h"
+#include "MoveManager.h"
 
 #include <SDL_image.h>
 #include <iostream>
-#include "Arrow.h"
-#include "MoveManager.h"
+#include <ctime>
 
 const int MAXHEALTH = 100;
 const int ARCHERDAMAGE = 10;
@@ -44,7 +42,14 @@ Archer::Archer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animato
 }
 
 void Archer::Update()
-{	
+{
+	m_playerLOS = COMA::HaveLOS(this, EnemyManager::GetTarget());
+
+	if (m_playerLOS) m_lastDetectTime = FPS * 5;
+	if (m_lastDetectTime > 0) m_lastDetectTime--;
+	
+	bool knowWherePlayerIs = m_playerLOS or m_lastDetectTime > 0;
+	
 	if (m_body.y >= MOMA::GetWindowY() - MOMA::GetTotalMove().y)
 	{
 		setActive(false);
@@ -55,10 +60,12 @@ void Archer::Update()
 	float squareDistToPlayer = COMA::SquareRectDistance(*this->GetDstP(), *EnemyManager::GetTarget()->GetDstP());
 	if (curStatus != ATTACKING)
 	{
-		if (squareDistToPlayer < pow(DETECTDISTANCE, 2))
+		if (squareDistToPlayer < pow(DETECTDISTANCE, 2) and knowWherePlayerIs)
 		{
 			if (this->health > this->maxHealth * 0.5)
+			{
 				curStatus = SEEKING;
+			}
 			else
 				curStatus = FLEEING;
 		}
@@ -151,7 +158,7 @@ void Archer::Update()
 			float curY = m_dst.y;
 			MapObject* nextObject = COMA::FindFirstObjectOnTheRay({ curX,curY }, { 0, 1 });
 
-			if (nextObject and not nextObject->getIsHurt() and squareDistToPlayer > pow(STOPDISTANCE,2))
+			if (nextObject and not nextObject->getIsHurt() and squareDistToPlayer > pow(STOPDISTANCE,2) and knowWherePlayerIs)
 			{
 				SetAccelX(direction * m_speed);
 				if (m_floor and nextObject->GetDstP()->y < m_floor->GetDstP()->y)
@@ -168,7 +175,6 @@ void Archer::Update()
 		break;
 	case FLEEING:
 		{
-			
 			this->m_speed = RUNSPEED + (rand() % 10) / 10.0;
 
 			PlatformPlayer* player = EnemyManager::GetTarget();
@@ -236,6 +242,7 @@ void Archer::Update()
 		{
 			// Play stunned animation
 		}
+		break;
 	case DEAD:
 		break;
 	default:

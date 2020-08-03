@@ -18,3 +18,8 @@ void Sprite::SetDstSize(int w, int h)
 	m_dst.w = w;
 	m_dst.h = h;
 }
+
+SDL_FPoint Sprite::GetCenter()
+{
+	return { m_dst.x + m_dst.w / 2, m_dst.y + m_dst.h / 2 };
+}

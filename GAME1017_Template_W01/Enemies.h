@@ -23,6 +23,7 @@ public:
 	std::string getType();
 	int GetHealth() { return health; }
 	int GetMaxHealth() { return maxHealth; }
+	bool HavePlayerLOS() { return m_playerLOS; }
 	
 protected:
 	bool isActive,
@@ -33,6 +34,8 @@ protected:
 		maxHealth;
 	Uint32 lastAttackTime;
 	Uint32 m_stunTime;
+	Uint32 m_lastDetectTime;
 	std::string enemyType;
 	Status curStatus;
+	bool m_playerLOS;
 };

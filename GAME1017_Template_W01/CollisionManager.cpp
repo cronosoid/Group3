@@ -55,6 +55,72 @@ bool CollisionManager::PointRectCheck(const SDL_FPoint point, const SDL_FRect& o
 		point.y >= object1.y);
 }
 
+bool CollisionManager::LineLineCheck(SDL_FPoint line1_start, SDL_FPoint line1_end, SDL_FPoint line2_start, SDL_FPoint line2_end)
+{
+	const auto x1 = line1_start.x;
+	const auto x2 = line1_end.x;
+	const auto x3 = line2_start.x;
+	const auto x4 = line2_end.x;
+	const auto y1 = line1_start.y;
+	const auto y2 = line1_end.y;
+	const auto y3 = line2_start.y;
+	const auto y4 = line2_end.y;
+
+	// calculate the distance to intersection point
+	const auto uA = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
+	const auto uB = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
+
+	// if uA and uB are between 0-1, lines are colliding
+	if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool CollisionManager::LineRectCheck(const SDL_FPoint& line1_start, const SDL_FPoint& line1_end, const SDL_FRect* box)
+{
+	const auto x1 = line1_start.x;
+	const auto x2 = line1_end.x;
+	const auto y1 = line1_start.y;
+	const auto y2 = line1_end.y;
+	const auto rx = box->x;
+	const auto ry = box->y;
+	const auto rw = box->w;
+	const auto rh = box->h;
+
+	// check if the line has hit any of the rectangle's sides
+	// uses the Line/Line function below
+	const bool left = LineLineCheck({ x1, y1 }, { x2, y2 }, { rx, ry }, { rx, ry + rh });
+	const bool right = LineLineCheck({ x1, y1 }, { x2, y2 }, { rx + rw, ry }, { rx + rw, ry + rh });
+	const bool top = LineLineCheck({ x1, y1 }, { x2, y2 }, { rx, ry }, { rx + rw, ry });
+	const bool bottom = LineLineCheck({ x1, y1 }, { x2, y2 }, { rx, ry + rh }, { rx + rw, ry + rh });
+
+	// if ANY of the above are true, the line
+	// has hit the rectangle
+	if (left || right || top || bottom) {
+		return true;
+	}
+
+	return false;
+}
+
+bool CollisionManager::HaveLOS(Entity* from, Entity* to)
+{
+	for (MapObject* obj : MapObjectManager::MapObjVec)
+	{
+		const SDL_FRect* box = obj->GetDstP();
+
+		if (obj->getCanCollide() and LineRectCheck(from->GetCenter(), to->GetCenter(), box))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
 MapObject* CollisionManager::FindFirstObjectOnTheRay(SDL_FPoint Pos, SDL_FPoint Move, float maxDist)
 {
 	float len = sqrt(Move.x * Move.x + Move.y * Move.y);

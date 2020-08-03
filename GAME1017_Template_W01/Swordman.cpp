@@ -10,6 +10,7 @@
 #include "CollisionManager.h"
 #include "ProjectileManager.h"
 #include "CollisionManager.h"
+#include "DebugManager.h"
 #include "EnemyManager.h"
 #include "MoveManager.h"
 #include "SoundManager.h"
@@ -46,17 +47,24 @@ Swordman::Swordman(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Ani
 
 void Swordman::Update()
 {
+	m_playerLOS = COMA::HaveLOS(this, EnemyManager::GetTarget());
+
+	if (m_playerLOS) m_lastDetectTime = FPS * 5;
+	if (m_lastDetectTime > 0) m_lastDetectTime--;
+
+	bool knowWherePlayerIs = m_playerLOS or m_lastDetectTime > 0;
+	
 	if (m_body.y >= MOMA::GetWindowY() - MOMA::GetTotalMove().y)
 	{
 		setActive(false);
 	}
-
+	
 	static int attackWaitTime = 0;
 
 	float squareDistToPlayer = COMA::SquareRectDistance(this->m_body, *EnemyManager::GetTarget()->GetDstP());
 	if (curStatus != ATTACKING)
 	{
-		if (squareDistToPlayer < pow(DETECTDISTANCE, 2))
+		if (squareDistToPlayer < pow(DETECTDISTANCE, 2) and (knowWherePlayerIs))
 		{
 			curStatus = SEEKING;
 		}
