@@ -174,6 +174,30 @@ void CollisionManager::CheckMapCollision(const std::vector<MapObject*> mapObject
 		SDL_FRect* entityRect = obj->GetBody();
 		if (mapObject->getCanCollide() and COMA::AABBCheck(*entityRect, *mapObjectRect))
 		{
+			if (entityRect->x + entityRect->w - (float)obj->GetVelX() <= mapObjectRect->x)
+			{ // Collision from left.
+				if ((entityRect->y + entityRect->h - (float)obj->GetVelY() > mapObjectRect->y))
+				{
+					obj->StopX();
+					obj->SetX(mapObjectRect->x - entityRect->w);
+				}
+			}
+			else if (entityRect->x - (float)obj->GetVelX() >= mapObjectRect->x + mapObjectRect->w)
+			{ // Colliding right side of platform.
+				if ((entityRect->y + entityRect->h - (float)obj->GetVelY() > mapObjectRect->y))
+				{
+					obj->StopX();
+					obj->SetX(mapObjectRect->x + mapObjectRect->w);
+				}
+			}
+		}
+	}
+	for (MapObject* mapObject : mapObjects) // For each platform.
+	{
+		SDL_FRect* mapObjectRect = mapObject->GetDstP();
+		SDL_FRect* entityRect = obj->GetBody();
+		if (mapObject->getCanCollide() and COMA::AABBCheck(*entityRect, *mapObjectRect))
+		{
 			if (entityRect->y + entityRect->h - (float)obj->GetVelY() <= mapObjectRect->y + mapObjectRect->h * 0.2)
 			{ // Colliding top side of platform.
 				MapObject* newFloor = oldFloor;
@@ -191,22 +215,7 @@ void CollisionManager::CheckMapCollision(const std::vector<MapObject*> mapObject
 				obj->StopY();
 				obj->SetY(mapObjectRect->y + mapObjectRect->h);
 			}
-			if (entityRect->x + entityRect->w - (float)obj->GetVelX() <= mapObjectRect->x)
-			{ // Collision from left.
-				if ((entityRect->y + entityRect->h - (float)obj->GetVelY() > mapObjectRect->y) or not obj->IsGrounded())
-				{
-					obj->StopX();
-					obj->SetX(mapObjectRect->x - entityRect->w);
-				}
-			}
-			else if (entityRect->x - (float)obj->GetVelX() >= mapObjectRect->x + mapObjectRect->w)
-			{ // Colliding right side of platform.
-				if ((entityRect->y + entityRect->h - (float)obj->GetVelY() > mapObjectRect->y) or not obj->IsGrounded())
-				{
-					obj->StopX();
-					obj->SetX(mapObjectRect->x + mapObjectRect->w);
-				}
-			}
+			
 		}
 	}	
 }
