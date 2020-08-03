@@ -2,7 +2,7 @@
 
 #include "Enemies.h"
 
-const int ATTACKCOOLDOWN = 1.5;
+const int ATTACKCOOLDOWN = 2;
 
 class Archer :public Enemies
 {

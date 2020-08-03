@@ -23,7 +23,7 @@ const float RUNSPEED = 0.55;
 const float HIDEPERCENTAGE = 0.7;
 const float FLEEPROCENTAGE = 0.4;
 
-const int MAXATTACKWAITTIME = FPS * 1; // in frames
+const int MAXATTACKWAITTIME = FPS * 0.5; // in frames
 
 const float w = 128.0;
 const float h = 128.0;
