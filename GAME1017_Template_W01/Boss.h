@@ -8,7 +8,7 @@
 class Boss :public Enemies
 {
 public:
-	Boss(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator = nullptr);
+	Boss(SDL_FRect d, SDL_Renderer* r, Animator* animator = nullptr);
 	~Boss();
 	
 	virtual void Update() override;

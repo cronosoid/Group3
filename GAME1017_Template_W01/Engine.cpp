@@ -59,6 +59,7 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	TEMA::RegisterTexture("../Spritesheets/Kaben_Sheet.png", "KabenSheet"); 
 	TEMA::RegisterTexture("../Spritesheets/Swordman_sheet.png", "Swordman");
 	TEMA::RegisterTexture("../Spritesheets/Archer_sheet.png", "Archer");
+	TEMA::RegisterTexture("../Spritesheets/Boss_sheet.png", "Boss");
 	
 	FOMA::RegisterFont("Img/LTYPE.TTF", "font", 20);
 

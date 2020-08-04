@@ -64,8 +64,8 @@ void EnemyManager::SpawnBoss(int x, int y, SDL_Renderer* r)
 {
 	if (!m_boss)
 	{
-		SDL_FRect d = { x * 64.0f,y * 64.0f,384.0f,384.0f };
-		Boss* TempEnemy = new Boss({ 0,0,640,640 }, d, r, TextureManager::GetTexture("Swordman")); // Will be "Boss"
+		SDL_FRect d = { x * 64.0f,y * 64.0f,256.0f,256.0f };
+		Boss* TempEnemy = new Boss(d, r); // Will be "Boss"
 		TempEnemy->addAnimator(new Animator(TempEnemy));
 		EnemiesVec.push_back(TempEnemy);
 		m_boss = TempEnemy;

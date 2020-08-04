@@ -33,7 +33,7 @@ const int ULTIMATECD = 10 * 60;
 const float w = 384.0;
 const float h = 384.0;
 
-Boss::Boss(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator) :Enemies(s, d, {0,0,w,h}, r, t, animator)
+Boss::Boss(SDL_FRect d, SDL_Renderer* r, Animator* animator) :Enemies({ 0,0,64,64 }, d, {0,0,w,h}, r, TEMA::GetTexture("Boss"), animator)
 {
 	this->curStatus = PATROLING;
 	this->health = this->maxHealth = MAXHEALTH;
@@ -42,11 +42,17 @@ Boss::Boss(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* a
 	this->enemyType = "Boss";
 	this->m_speed = WALKSPEED;
 
-	this->m_pText = TextureManager::GetTexture("Swordman"); // Will be "Boss" texture
-
 	this->m_healthbar = new BossHealthbar(this);
 	
 	this->m_summonCd = 10 * 60;
+
+	this->addAnimator(new Animator(this));
+
+	this->getAnimator()->addAnimation("run", 4, 2, 64, 64,0,0,16);
+	this->getAnimator()->addAnimation("idle", 4, 1, 64, 64, 0, 128, 16);
+	this->getAnimator()->addAnimation("punch", 4, 3, 64, 64, 0, 256, 10);
+	this->getAnimator()->addAnimation("ground_slam", 8, 3, 64, 64, 0, 384, 8);
+	this->getAnimator()->addAnimation("summon", 4, 3, 64, 64, 0, 512, 16);
 }
 
 Boss::~Boss()
@@ -61,6 +67,8 @@ void Boss::HandleSpells()
 	{
 		m_summonCd = 0;
 
+		this->getAnimator()->playFullAnimation("summon");
+		
 		SDL_FPoint bossPos = {m_dst.x / 64, m_dst.y / 64 };
 		
 		for (int i = 1; i <= 3; i++)
@@ -70,6 +78,7 @@ void Boss::HandleSpells()
 				type = archer;
 			EnemyManager::CreateEnemy(type, bossPos.x - 2 + i * 2, 0, Engine::Instance().GetRenderer());
 		}
+		
 	}
 }
 
@@ -196,6 +205,7 @@ void Boss::Update()
 	case ATTACKING:
 		if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
 		{
+			this->getAnimator()->playFullAnimation("punch");
 			attackWaitTime = MAXATTACKWAITTIME;
 			this->lastAttackTime = SDL_GetTicks();
 			attack();
@@ -218,6 +228,13 @@ void Boss::Update()
 	default:
 		break;
 	}
+
+	if (this->GetVelX() == 0)
+		this->getAnimator()->setNextAnimation("idle");
+	else
+		this->getAnimator()->setNextAnimation("run");
+
+	this->getAnimator()->update();
 }
 
 void Boss::Render()
