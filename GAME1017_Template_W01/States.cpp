@@ -66,6 +66,7 @@ void TitleState::Enter()
 {
 	m_playBtn = new PlayButton({ 0,0,400,100 }, { 60.0f,350.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
 	m_helpBtn = new HelpButton({ 0,0,400,100 }, { 560.0f,350.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("help"));
+	m_pLevel3Btn = new Level3Button({ 0,0,400,100 }, { 60.0f,450.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
 	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
 	SOMA::Load("Aud/Fire.wav", "jump", SOUND_SFX);
 	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
@@ -84,6 +85,8 @@ void TitleState::Update()
 		return;
 	if (m_helpBtn->Update() ==1)
 		return;
+	if (m_pLevel3Btn->Update() == 1)
+		return;
 }
 
 void TitleState::Render()
@@ -93,6 +96,7 @@ void TitleState::Render()
 	t_background->Render();
 	m_playBtn->Render();
 	m_helpBtn->Render();
+	m_pLevel3Btn->Render();
 	State::Render();
 }
 
