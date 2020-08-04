@@ -54,7 +54,6 @@ void PlatformPlayer::Update()
 			//walk left animation goes here
 			if (EVMA::KeyPressed(SDL_SCANCODE_A))
 			{
-				SOMA::Load("Aud/Kaben_WalkLoop.wav", "Run", SOUND_SFX);
 				SOMA::PlaySound("Run", 1, 4);
 			}
 			this->getAnimator()->setFace(1);
@@ -71,7 +70,6 @@ void PlatformPlayer::Update()
 			//walk right animation goes here
 			if (EVMA::KeyPressed(SDL_SCANCODE_D))
 			{
-				SOMA::Load("Aud/Kaben_WalkLoop.wav", "Run", SOUND_SFX);
 				SOMA::PlaySound("Run", 1, 4);
 			}
 			this->getAnimator()->setFace(0);
