@@ -76,9 +76,11 @@ void TitleState::Enter()
 	
 	//Music
 	SOMA::Load("Aud/bamboo.mp3", "Bamboo", SOUND_MUSIC);
+	SOMA::Load("Aud/Congratz.mp3", "Congratz", SOUND_MUSIC);
 	SOMA::Load("Aud/horn.mp3", "Horn", SOUND_MUSIC);
 	SOMA::Load("Aud/ambient.mp3", "Ambient", SOUND_MUSIC);
 	SOMA::SetMusicVolume(15);
+
 
 	TEMA::RegisterTexture("../Spritesheets/fireball.png", "fireball");
 	SOMA::PlayMusic("Horn", -1, 0);
@@ -126,6 +128,7 @@ void GameState::Enter()
 {
 	std::cout << "Entering GameState..." << std::endl;
 
+	SOMA::SetMusicVolume(10);
 	SOMA::PlayMusic("Bamboo", -1, 0);
 	
 	MapObjectManager::Init();
@@ -305,6 +308,7 @@ EndState::EndState()
 void EndState::Enter()
 {
 	Mix_Pause(4);
+	SOMA::SetMusicVolume(25);
 	SOMA::PlayMusic("Ambient", -1, 0);
 	e_background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("end_background"));
 	m_restartBtn = new RestartButton({ 0,0,400,100 }, { 312.0f,225.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("restart"));
@@ -347,8 +351,9 @@ CongratulationState::CongratulationState()
 void CongratulationState::Enter()
 {
 	Mix_Pause(4);
-	std::cout << "Entering congratz state" << endl;
-	SOMA::PlayMusic("Ambient", -1, 0);
+	/*std::cout << "Entering congratz state" << endl;*/
+	SOMA::SetMusicVolume(20);
+	SOMA::PlayMusic("Congratz", -1, 0);
 	e_background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("end_background"));
 	m_Congratulation = new Sprite({ 0,0,400,92 }, { 300.0f,150.0f,400.0f,92.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("congratulations"));
 	switch (GameState::m_currentLevel)
