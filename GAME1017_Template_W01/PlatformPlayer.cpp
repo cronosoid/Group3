@@ -51,6 +51,7 @@ void PlatformPlayer::Update()
 		if (EVMA::KeyHeld(SDL_SCANCODE_A))
 		{
 			//walk left animation goes here
+			
 			this->getAnimator()->setFace(1);
 			this->movement[0] = -1;
 			this->getAnimator()->setNextAnimation("run");
@@ -59,6 +60,7 @@ void PlatformPlayer::Update()
 		else if (EVMA::KeyHeld(SDL_SCANCODE_D))
 		{
 			//walk right animation goes here
+			
 			this->getAnimator()->setFace(0);
 			this->movement[0] = 1;
 			this->getAnimator()->setNextAnimation("run");
@@ -75,6 +77,7 @@ void PlatformPlayer::Update()
 		{
 			if ((this->getMeleeTime() + MELEECOOLDOWN * 1000) < SDL_GetTicks())
 			{
+				
 				this->getAnimator()->playFullAnimation("melee");
 				this->setMeleeTime();
 				SDL_FRect rect;
@@ -98,6 +101,7 @@ void PlatformPlayer::Update()
 						this->SoulRecover();
 						enemy->getDamage(this->m_meeleDmg);
 						enemy->Stun(MELEESTUNTIME);
+						SOMA::PlaySound("SwordHit");
 						std::cout << "Melee attacked!\n";
 					}
 				}
@@ -112,6 +116,7 @@ void PlatformPlayer::Update()
 				// will complete the projectile spawn in a while
 				int face;
 				this->getAnimator()->getFace() == 0 ? face = 1 : face = -1;
+				SOMA::PlaySound("FireBall", 0, 1);
 				PMA::Instance().GetProjectiles().push_back(new Fireball(this, EnemyManager::EnemiesVec, MapObjectManager::MapObjVec, { 0,0,39,32 },
 					{ face == 1 ? this->GetBody()->x + this->GetBody()->w : this->GetBody()->x - 24,
 					this->GetBody()->y + 42, 48, 48 },

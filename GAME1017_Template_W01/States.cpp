@@ -64,15 +64,23 @@ void TitleState::Enter()
 {
 	m_playBtn = new PlayButton({ 0,0,400,100 }, { 60.0f,350.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
 	m_helpBtn = new HelpButton({ 0,0,400,100 }, { 560.0f,350.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("help"));
-	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
-	SOMA::Load("Aud/Fire.wav", "jump", SOUND_SFX);
+
+	//Sound effects
+	SOMA::Load("Aud/button.wav", "Button", SOUND_SFX);
 	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
-	SOMA::Load("Aud/bamboo.mp3", "bamboo", SOUND_MUSIC);
-	SOMA::Load("Aud/horn.mp3", "horn", SOUND_MUSIC);
-	SOMA::Load("Aud/ambient.mp3", "ambient", SOUND_MUSIC);
+	SOMA::Load("Aud/Kaben_WalkLoop.wav", "Run", SOUND_SFX);
+	SOMA::Load("Aud/Fireball_shot.wav", "FireBall", SOUND_SFX);
+	SOMA::Load("Aud/Spike_hit.wav", "SpikeHit", SOUND_SFX);
+	
+	//Music
+	SOMA::Load("Aud/bamboo.mp3", "Bamboo", SOUND_MUSIC);
+	SOMA::Load("Aud/horn.mp3", "Horn", SOUND_MUSIC);
+	SOMA::Load("Aud/ambient.mp3", "Ambient", SOUND_MUSIC);
+
 	TEMA::RegisterTexture("../Spritesheets/fireball.png", "fireball");
-	SOMA::PlayMusic("horn", -1, 0);
+	SOMA::PlayMusic("Horn", -1, 0);
 	SOMA::SetMusicVolume(16);
+
 	t_background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("background"));
 }
 
@@ -116,7 +124,7 @@ void GameState::Enter()
 {
 	std::cout << "Entering GameState..." << std::endl;
 
-	SOMA::PlayMusic("bamboo", -1, 0);
+	SOMA::PlayMusic("Bamboo", -1, 0);
 	
 	MapObjectManager::Init();
 	UIObjectManager::Init();
@@ -293,7 +301,7 @@ EndState::EndState()
 
 void EndState::Enter()
 {
-	SOMA::PlayMusic("ambient", -1, 0);
+	SOMA::PlayMusic("Ambient", -1, 0);
 	e_background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("end_background"));
 	m_restartBtn = new RestartButton({ 0,0,400,100 }, { 312.0f,225.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("restart"));
 	m_exitBtn = new ExitButton({ 0,0,400,100 }, { 312.0f,425.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("exit"));
@@ -334,7 +342,7 @@ CongratulationState::CongratulationState()
 
 void CongratulationState::Enter()
 {
-	SOMA::PlayMusic("ambient", -1, 0);
+	SOMA::PlayMusic("Ambient", -1, 0);
 	e_background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("end_background"));
 	m_Congratulation = new Sprite({ 0,0,400,92 }, { 300.0f,150.0f,400.0f,92.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("congratulations"));
 	switch (GameState::m_currentLevel)

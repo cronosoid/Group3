@@ -59,6 +59,7 @@ private:
 	Uint32 m_lastAttacked = 0;
 	bool m_isUnderAttack,m_canControl;
 	int m_hitDir;//0: default 1:left 2:right
+	bool sfxPlaying = false;
 };
 
 #endif
