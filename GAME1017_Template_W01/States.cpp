@@ -72,6 +72,7 @@ void TitleState::Enter()
 	SOMA::Load("Aud/Spike_hit.wav", "SpikeHit", SOUND_SFX);
 	SOMA::Load("Aud/Kaben_WalkLoop.wav", "Run", SOUND_SFX);
 	SOMA::Load("Aud/Kaben_death.wav", "Death", SOUND_SFX);
+	SOMA::Load("Aud/Sword_swoosh.wav", "Swoosh", SOUND_SFX);
 	SOMA::SetSoundVolume(35);
 	
 	//Music

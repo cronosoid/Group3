@@ -54,6 +54,7 @@ void PlatformPlayer::Update()
 			//walk left animation goes here
 			if (EVMA::KeyPressed(SDL_SCANCODE_A))
 			{
+				Mix_Volume(4, 8);
 				SOMA::PlaySound("Run", 1, 4);
 			}
 			this->getAnimator()->setFace(1);
@@ -70,7 +71,9 @@ void PlatformPlayer::Update()
 			//walk right animation goes here
 			if (EVMA::KeyPressed(SDL_SCANCODE_D))
 			{
+				Mix_Volume(4, 8);
 				SOMA::PlaySound("Run", 1, 4);
+				
 			}
 			this->getAnimator()->setFace(0);
 			this->movement[0] = 1;
@@ -94,6 +97,8 @@ void PlatformPlayer::Update()
 			{
 				
 				this->getAnimator()->playFullAnimation("melee");
+				Mix_Volume(7, 40);
+				SOMA::PlaySound("Swoosh", 0 ,7);
 				this->setMeleeTime();
 				SDL_FRect rect;
 				if (this->getAnimator()->getFace() == 0)
