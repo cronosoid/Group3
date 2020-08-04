@@ -52,7 +52,7 @@ void Arrow::Update()
 		hero->getDamage(ARCHERDAMAGE);
 		hero->SetLastAttackedTime();
 		hero->StopX();
-		SOMA::PlaySound("ArrowHit");
+		SOMA::PlaySound("arrowHit");
 		isActive = false;
 	}
 

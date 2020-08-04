@@ -240,7 +240,7 @@ void Archer::attack()
 	int face;
 	this->animator->getFace() == 0 ? face = 1 : face = -1;
 	PMA::Instance().GetProjectiles().push_back(new Arrow(EnemyManager::GetTarget(), MapObjectManager::MapObjVec,{ 0,0,320,320 },
-		{ face == 1 ? this->m_body.x + this->m_body.w : this->m_body.x - 24,
+		{ face == 1 ? this->m_body.x + this->m_body.w * 0.75f : this->m_body.x - this->m_body.w * 0.25f,
 		this->m_body.y + 42, 48, 48 },
 		Engine::Instance().GetRenderer(), TEMA::GetTexture("Arrow"), 15, face, this->damage));
 }

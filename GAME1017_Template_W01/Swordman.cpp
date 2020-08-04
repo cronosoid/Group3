@@ -257,7 +257,7 @@ void Swordman::attack()
 		EnemyManager::GetTarget()->getDamage(SWORDMANDAMAGE);
 		static_cast<PlatformPlayer*>(EnemyManager::GetTarget())->SetLastAttackedTime();
 		EnemyManager::GetTarget()->StopX();
-		SOMA::PlaySound("SwordHit");
+		SOMA::PlaySound("swordHit");
 		std::cout << "Swordman Melee!\n";
 	}
 }

@@ -64,7 +64,8 @@ void SoundManager::Unload(const std::string& id, const SoundType type)
 }
 
 void SoundManager::PlayMusic(const std::string& id, const int loop/* = -1 */, const int fade_in/* = 0 */)
-{	
+{
+	StopMusic();
 	std::cout << "Playing music..." << fade_in << std::endl;
 	if (Mix_FadeInMusic(s_music[id], loop, fade_in) == -1)
 	{

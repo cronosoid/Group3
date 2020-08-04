@@ -124,6 +124,7 @@ void BackButton::Execute()
 void MenuButton::Execute()
 {
 	SOMA::PlaySound("button");
+	STMA::PopState();
 	STMA::ChangeState(new TitleState());
 }
 
