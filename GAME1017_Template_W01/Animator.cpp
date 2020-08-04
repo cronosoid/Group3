@@ -1,4 +1,5 @@
 #include "Animator.h"
+#include "SoundManager.h"
 
 Animator::Animator(Entity* Player)
 {
@@ -77,6 +78,7 @@ void Animator::addAnimation(const std::string& key, Uint32 maxFrames, Uint32 pri
 {
 	animationsMap[key] = new Animation(maxFrames, priority, moveX, moveY, startX, startY, framesFrequency);
 	animationsMap[key]->setName(key);
+	
 }
 
 void Animator::update()

@@ -68,7 +68,6 @@ void TitleState::Enter()
 	//Sound effects
 	SOMA::Load("Aud/button.wav", "Button", SOUND_SFX);
 	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
-	SOMA::Load("Aud/Kaben_WalkLoop.wav", "Run", SOUND_SFX);
 	SOMA::Load("Aud/Fireball_shot.wav", "FireBall", SOUND_SFX);
 	SOMA::Load("Aud/Spike_hit.wav", "SpikeHit", SOUND_SFX);
 	

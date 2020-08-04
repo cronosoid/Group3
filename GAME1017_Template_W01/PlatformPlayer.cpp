@@ -11,6 +11,7 @@
 #include "ProjectileManager.h"
 #include "Fireball.h"
 
+
 const float w = 68.0;
 const float h = 100.0;
 
@@ -51,20 +52,36 @@ void PlatformPlayer::Update()
 		if (EVMA::KeyHeld(SDL_SCANCODE_A))
 		{
 			//walk left animation goes here
-			
+			if (EVMA::KeyPressed(SDL_SCANCODE_A))
+			{
+				SOMA::Load("Aud/Kaben_WalkLoop.wav", "Run", SOUND_SFX);
+				SOMA::PlaySound("Run", 1, 4);
+			}
 			this->getAnimator()->setFace(1);
 			this->movement[0] = -1;
 			this->getAnimator()->setNextAnimation("run");
 			this->SetAccelX(-1.0);
 		}
+		if (EVMA::KeyReleased(SDL_SCANCODE_A))
+		{
+			Mix_Pause(4);
+		}
 		else if (EVMA::KeyHeld(SDL_SCANCODE_D))
 		{
 			//walk right animation goes here
-			
+			if (EVMA::KeyPressed(SDL_SCANCODE_D))
+			{
+				SOMA::Load("Aud/Kaben_WalkLoop.wav", "Run", SOUND_SFX);
+				SOMA::PlaySound("Run", 1, 4);
+			}
 			this->getAnimator()->setFace(0);
 			this->movement[0] = 1;
 			this->getAnimator()->setNextAnimation("run");
 			this->SetAccelX(1.0);
+		}
+		if (EVMA::KeyReleased(SDL_SCANCODE_D))
+		{
+			Mix_Pause(4);
 		}
 		if (EVMA::KeyPressed(SDL_SCANCODE_SPACE) && this->IsGrounded())
 		{
@@ -129,6 +146,7 @@ void PlatformPlayer::Update()
 
 		if (this->movement[0] == 0)
 			this->getAnimator()->setNextAnimation("idle");
+		
 	}
 	
 	
