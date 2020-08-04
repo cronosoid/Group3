@@ -9,7 +9,7 @@ Level::Level() {}
 
 Level1::Level1()
 {
-	m_levelWidth = 6592;
+	m_levelWidth = 6784;
 	m_levelHight = 1000;
 	m_currentLevel = 1;
 }
@@ -208,12 +208,13 @@ void Level2::Load(PlatformPlayer* Player)
 	{
 		MapObjectManager::CreateMapObject(kPlate, i, 11, Engine::Instance().GetRenderer());
 	}
+	MapObjectManager::CreateMapObject(kPlate, 82, 10, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 85, 8, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 86, 8, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 87, 8, Engine::Instance().GetRenderer());
+	//MapObjectManager::CreateMapObject(kPlate, 87, 8, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 89, 8, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 90, 8, Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 91, 8, Engine::Instance().GetRenderer());
+	//MapObjectManager::CreateMapObject(kPlate, 91, 8, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 93, 8, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 94, 8, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 95, 8, Engine::Instance().GetRenderer());
@@ -385,10 +386,19 @@ void Level3::Load(PlatformPlayer* Player)
 
 void Level3::Update()
 {
-	if (EnemyManager::EnemiesVec.empty())
+	//std::cout << "boss: " << EnemyManager::GetBossActive() << std::endl;
+	if (!EnemyManager::GetBossActive())
 	{
 		if (this->m_pPortal == nullptr)
-			this->m_pPortal = MapObjectManager::CreateMapObject(kPortal, 91, 17, Engine::Instance().GetRenderer());
+		{
+			this->m_pPortal = MapObjectManager::CreateMapObject(kPortal, m_bossLocX+2, 4, Engine::Instance().GetRenderer());
+			//std::cout << "Portal:" << this->m_pPortal->GetDstP()->x << " " << this->m_pPortal->GetDstP()->y << std::endl;
+		}			
+	}
+	else
+	{
+		m_bossLocX = (int)(EnemyManager::GetBossLocX()/ 64);
+		//std::cout << m_bossLocX << std::endl;
 	}
 	if (m_pPlayer->GetBody()->y > MOMA::GetWindowY())
 	{

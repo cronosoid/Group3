@@ -29,7 +29,7 @@ public:
 	static int GetWindowY() { return windowY; }
 	static int GetWindowX() { return windowX; }
 	static void SetY(int y);
-	
+	static int getTotalMoveX() { return totalMoveX; }
 private:
 	static int maxX, maxY;
 	static int windowX, windowY;

@@ -51,9 +51,9 @@ MapObject* MapObjectManager::CreateMapObject(MapObjectType type, int x, int y, S
 		break;
 	}
    case kPortal:
-	{
-		std::cout << "portal created" << std::endl;
+	{		
 		Portal* TempMapObj = new Portal({ 0,0,320,320 }, {x*64.0f,y*64.0f,320.0f,320.0f}, r, TextureManager::GetTexture("portal"));
+		std::cout << "portal created " <<TempMapObj->GetDstP()->x<<" "<<TempMapObj->GetDstP()->y<< std::endl;
 		//std::cout << TempMapObj->getType() << std::endl;
 		MapObjVec.push_back(TempMapObj);
 		SDL_FRect* TempFRect = TempMapObj->GetDstP();
@@ -135,7 +135,7 @@ void MapObjectManager::Render(bool CanCollide)
 {
 	for (MapObject* mapObject : MapObjVec)
 	{
-		if(mapObject->getCanCollide()!=CanCollide)
+		if(mapObject->getCanCollide()==CanCollide)
 		{
 			mapObject->Render();
 		}

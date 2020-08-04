@@ -46,10 +46,10 @@ void Enemies::Flee(const float RUNSPEED, const float squareDistToPlayer, const f
 	if (nextObject and not nextObject->getIsHurt())
 	{
 		SetAccelX(-direction * m_speed);
-		if (m_floor and nextObject->GetDstP()->y < m_floor->GetDstP()->y)
-		{
-			this->SetAccelY(-JUMPFORCE);
-		}
+		//if (m_floor and nextObject->GetDstP()->y < m_floor->GetDstP()->y)
+		//{
+		//	this->SetAccelY(-JUMPFORCE);
+		//}
 	}
 }
 
@@ -79,10 +79,10 @@ void Enemies::Seek(const float RUNSPEED, const float squareDistToPlayer, const f
 	if (nextObject and not nextObject->getIsHurt() and squareDistToPlayer > pow(STOPDISTANCE, 2) and knowWherePlayer)
 	{
 		SetAccelX(direction * m_speed);
-		if (m_floor and nextObject->GetDstP()->y < m_floor->GetDstP()->y)
+		/*if (m_floor and nextObject->GetDstP()->y < m_floor->GetDstP()->y)
 		{
 			this->SetAccelY(-JUMPFORCE);
-		}
+		}*/
 	}
 }
 

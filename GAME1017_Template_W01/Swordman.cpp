@@ -16,18 +16,18 @@
 #include "SoundManager.h"
 
 const int MAXHEALTH = 100;
-const int SWORDMANDAMAGE = 10;
+const int SWORDMANDAMAGE = 15;
 const int SWORDMANDEFENCE = 10;
-const int DETECTDISTANCE = 400;
+const int DETECTDISTANCE = 200;
 const int STOPDISTANCE = 0;
 const int ATTACKDISTANCE = 100;
-const float WALKSPEED = 0.3;
-const float RUNSPEED = 0.4;
+const float WALKSPEED = 0.2;
+const float RUNSPEED = 0.25;
 
 const float HIDEPERCENTAGE = 0.6;
 const float FLEEPROCENTAGE = 0.2;
 
-const int MAXATTACKWAITTIME = FPS * 0.5; // in frames
+const int MAXATTACKWAITTIME = FPS * 1.0; // in frames
 
 const float w = 128.0;
 const float h = 128.0;
@@ -45,7 +45,7 @@ Swordman::Swordman(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Ani
 	
 	this->getAnimator()->addAnimation("run", 4, 2, 64, 64);
 	this->getAnimator()->addAnimation("idle", 3, 1, 64, 64, 0, 128, 12);
-	this->getAnimator()->addAnimation("melee", 9, 3, 64, 64, 0, 256, 4);
+	this->getAnimator()->addAnimation("melee", 9, 3, 64, 64, 0, 256, 8);
 }
 
 void Swordman::Update()

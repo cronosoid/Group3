@@ -25,6 +25,8 @@ public:
 	static void SetTarget(PlatformPlayer* newTarget = nullptr) { target = newTarget; }
 	static Enemies* GetBoss() { return m_boss; }
 	static void DestroyBoss();
+	static bool GetBossActive() { return (m_boss != nullptr); }
+	static float GetBossLocX() { return m_boss->GetDstP()->x; }
 private:
 	static PlatformPlayer* target;
 	static Enemies* m_boss;
