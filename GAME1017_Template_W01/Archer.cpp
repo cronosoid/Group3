@@ -18,8 +18,8 @@ const int DETECTDISTANCE = 750;
 const int STOPDISTANCE = 150;
 const int ATTACKDISTANCE = 300;
 
-const float WALKSPEED = 0.4;
-const float RUNSPEED = 0.55;
+const float WALKSPEED = 0.3;
+const float RUNSPEED = 0.4;
 const float HIDEPERCENTAGE = 0.7;
 const float FLEEPROCENTAGE = 0.4;
 

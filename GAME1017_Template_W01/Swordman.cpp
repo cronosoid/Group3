@@ -21,8 +21,8 @@ const int SWORDMANDEFENCE = 10;
 const int DETECTDISTANCE = 400;
 const int STOPDISTANCE = 32;
 const int ATTACKDISTANCE = 100;
-const float WALKSPEED = 0.4;
-const float RUNSPEED = 0.55;
+const float WALKSPEED = 0.3;
+const float RUNSPEED = 0.4;
 
 const float HIDEPERCENTAGE = 0.6;
 const float FLEEPROCENTAGE = 0.2;

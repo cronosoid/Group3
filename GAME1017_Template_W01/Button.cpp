@@ -126,3 +126,14 @@ void MenuButton::Execute()
 	SOMA::PlaySound("button");
 	STMA::ChangeState(new TitleState());
 }
+
+Level3Button::Level3Button(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t):Button(src,dst,r,t)
+{
+	
+}
+
+void Level3Button::Execute()
+{
+	STMA::ChangeState(new GameState(new Level3()));
+}
+

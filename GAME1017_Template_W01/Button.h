@@ -77,4 +77,12 @@ private:
 public:
 	MenuButton(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t);
 };
+
+class Level3Button:public Button
+{
+private:
+	void Execute() override;
+public:
+	Level3Button(SDL_Rect src, SDL_FRect dst, SDL_Renderer* r, SDL_Texture* t);
+};
 #endif
