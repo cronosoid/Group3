@@ -266,7 +266,7 @@ void Level2::Update()
 
 Level3::Level3()
 {
-	m_levelWidth = 5632;
+	m_levelWidth = 64 * 114;
 	m_levelHight = 1472;
 	m_currentLevel = 3;
 }
@@ -293,9 +293,9 @@ void Level3::Load(PlatformPlayer* Player)
 	
 	//this->m_pPortal = MapObjectManager::CreateMapObject(kPortal, 5, 6 , Engine::Instance().GetRenderer());
 
-	int ymove = 12;
+	//int ymove = 12;
 
-	this->m_pPlayer->GetBody()->y = this->m_pPlayer->GetBody()->y - 64 * ymove;
+	//this->m_pPlayer->GetBody()->y = this->m_pPlayer->GetBody()->y - 64 * ymove;
 	
 	for (int i = 0; i < 46; i++)
 	{
@@ -304,7 +304,7 @@ void Level3::Load(PlatformPlayer* Player)
 	MapObjectManager::CreateMapObject(kPlate, 50, 11 , Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 51, 11 , Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 52, 11 , Engine::Instance().GetRenderer());
-	for (int i = 62; i < 89; i++)
+	for (int i = 62; i <= 120; i++)
 	{
 		MapObjectManager::CreateMapObject(kPlate, i, 11 , Engine::Instance().GetRenderer());
 	}
@@ -317,16 +317,23 @@ void Level3::Load(PlatformPlayer* Player)
 	MapObjectManager::CreateMapObject(kPlate, 86, 9 , Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 88, 8 , Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMapObject(kPlate, 87, 8 , Engine::Instance().GetRenderer());
-	MapObjectManager::CreateMapObject(kPlate, 588, 7 , Engine::Instance().GetRenderer());	
+	MapObjectManager::CreateMapObject(kPlate, 88, 7 , Engine::Instance().GetRenderer());	
 	for(int j=6;j<11;j++)
 	{
 		MapObjectManager::CreateMapObject(kPlate, 89, j , Engine::Instance().GetRenderer());
-		
+	}
+	for (int j = 4; j < 11; j++)
+	{
+		MapObjectManager::CreateMapObject(kPlate, 90, j, Engine::Instance().GetRenderer());
+	}
+	for (int j = 2; j < 11; j++)
+	{
+		MapObjectManager::CreateMapObject(kPlate, 91, j, Engine::Instance().GetRenderer());
 	}
 	for(int j=0;j<11;j++)
 	{
 
-		MapObjectManager::CreateMapObject(kPlate, 103, j , Engine::Instance().GetRenderer());
+		MapObjectManager::CreateMapObject(kPlate, 120, j , Engine::Instance().GetRenderer());
 	}
 	MapObjectManager::CreateMapObject(kPlate, 104, 11 , Engine::Instance().GetRenderer());
 	for (int i = 89; i < 104; i++)

@@ -101,7 +101,6 @@ void Animator::update()
 			if (++(*animRec)->curFrame >= (*animRec)->animation->getMaxFrames())
 			{
 				delete* animRec;
-				std::cout << "erased anim\n";
 				animRec = animRecords.erase(animRec);
 				moved = true;
 			}

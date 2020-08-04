@@ -44,7 +44,6 @@ void EnemyManager::CreateEnemy(EnemyType type, int x, int y, SDL_Renderer* r)
 		TempEnemy->addAnimator(new Animator(TempEnemy));
 		EnemiesVec.push_back(TempEnemy);
 		TempEnemy = nullptr;
-		std::cout << "Swordman Created!" << std::endl;
 	}
 	break;
 	case 2:
@@ -54,7 +53,6 @@ void EnemyManager::CreateEnemy(EnemyType type, int x, int y, SDL_Renderer* r)
 		TempEnemy->addAnimator(new Animator(TempEnemy));
 		EnemiesVec.push_back(TempEnemy);
 		TempEnemy = nullptr;
-		std::cout << "Archer Created!" << std::endl;
 	}
 	break;
 	}

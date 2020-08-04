@@ -27,7 +27,7 @@ void Enemies::Flee(const float RUNSPEED, const float squareDistToPlayer, const f
 	
 	this->m_speed = RUNSPEED + (rand() % 10) / 10.0;
 
-	float dist = player->GetDstP()->x - this->m_dst.x;
+	float dist = (player->GetBody()->x + player->GetBody()->w / 2) - (this->m_body.x - this->m_body.w / 2);
 
 	float direction = 1;
 	if (dist != 0)
@@ -39,8 +39,8 @@ void Enemies::Flee(const float RUNSPEED, const float squareDistToPlayer, const f
 		animator->setFace(0);
 
 	float curX;
-	animator->getFace() == 0 ? curX = m_dst.x + m_dst.w + 5 : curX = m_dst.x - 5;
-	float curY = m_dst.y;
+	animator->getFace() == 0 ? curX = m_body.x + m_body.w + 5 : curX = m_body.x - 5;
+	float curY = m_body.y;
 	MapObject* nextObject = COMA::FindFirstObjectOnTheRay({ curX,curY }, { 0, 1 });
 
 	if (nextObject and not nextObject->getIsHurt())
@@ -59,9 +59,9 @@ void Enemies::Seek(const float RUNSPEED, const float squareDistToPlayer, const f
 	
 	this->m_speed = RUNSPEED + (rand() % 10) / 10.0;
 
-	float dist = player->GetDstP()->x - this->m_dst.x;
+	float dist = (player->GetBody()->x + player->GetBody()->w / 2) - (this->m_body.x + this->m_body.w / 2);
 
-	float direction = 0;
+	float direction = 1;
 	if (dist != 0)
 	{
 		direction = abs(dist) / dist;
@@ -72,8 +72,8 @@ void Enemies::Seek(const float RUNSPEED, const float squareDistToPlayer, const f
 		animator->setFace(1);
 
 	float curX;
-	animator->getFace() == 0 ? curX = m_dst.x + m_dst.w + 5 : curX = m_dst.x - 5;
-	float curY = m_dst.y;
+	animator->getFace() == 0 ? curX = m_body.x + m_body.w + 5 : curX = m_body.x - 5;
+	float curY = m_body.y;
 	MapObject* nextObject = COMA::FindFirstObjectOnTheRay({ curX,curY }, { 0, 1 });
 
 	if (nextObject and not nextObject->getIsHurt() and squareDistToPlayer > pow(STOPDISTANCE, 2) and knowWherePlayer)

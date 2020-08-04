@@ -253,6 +253,8 @@ void GameState::Render()
 
 void GameState::Exit()
 {
+	std::cout << "EXIT\n";
+	
 	m_end=clock();
 	m_time = (int)(m_end - m_start)/1000;
 	std::cout << "End: " << (int)m_end << std::endl;
