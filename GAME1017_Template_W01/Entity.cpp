@@ -10,7 +10,7 @@ Entity::Entity(SDL_Rect s, SDL_FRect d, SDL_FRect b, SDL_Renderer* r, SDL_Textur
 	this->m_grounded = false;
 	this->m_accelX = this->m_accelY = this->m_velX = this->m_velY = 0.0;
 	this->m_maxVelX = 10.0;
-	this->m_maxJumpVelocity = JUMPFORCE;
+	this->m_maxJumpVelocity = MAXFLYPOWER;
 	this->m_maxFallVelocity = FALLCOF;
 	this->m_grav = GRAV;
 	this->m_drag = 0.88;

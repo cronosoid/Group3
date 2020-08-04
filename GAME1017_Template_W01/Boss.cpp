@@ -28,7 +28,11 @@ const int MAXATTACKWAITTIME = 70; // in frames
 const float ATTACKCOOLDOWN = 1.5;
 
 const int SUMMONCD = 20 * 60;
+
+const float RAGEPERCENTAGE = 0.6;
 const int ULTIMATECD = 10 * 60;
+const int ULTIMATETOSS = -60;
+const float ULTIMATEDAMAGE = 45.0;
 
 const float w = 384.0;
 const float h = 384.0;
@@ -45,6 +49,9 @@ Boss::Boss(SDL_FRect d, SDL_Renderer* r, Animator* animator) :Enemies({ 0,0,64,6
 	this->m_healthbar = new BossHealthbar(this);
 	
 	this->m_summonCd = 10 * 60;
+	this->m_ultimateCd = ULTIMATECD - 8 * 4;
+	
+	this->m_stage = FIGHTING;
 
 	this->addAnimator(new Animator(this));
 
@@ -80,6 +87,34 @@ void Boss::HandleSpells()
 		}
 		
 	}
+	if (m_stage == RAGE)
+	{
+		if (m_ultimateCd == ULTIMATECD - 8 * 4)
+		{
+			this->getAnimator()->playFullAnimation("ground_slam");
+		}
+		if (m_ultimateCd++ > ULTIMATECD)
+		{
+			m_ultimateCd = 0;
+
+			for (Enemies* enemy : EnemyManager::EnemiesVec)
+			{
+				if (enemy != this and enemy->GetBody()->y < m_body.y + m_body.h and enemy->GetBody()->y + enemy->GetBody()->h > m_body.y)
+				{
+					enemy->SetAccelY(ULTIMATETOSS * (1 - 0.1 * (rand()%3)));
+					enemy->Stun(60);
+				}
+			}
+
+			PlatformPlayer* player = EnemyManager::GetTarget();
+			if (player->GetBody()->y < m_body.y + m_body.h and player->GetBody()->y + player->GetBody()->h > m_body.y)
+			{
+				player->SetAccelY(ULTIMATETOSS * (1 - 0.1 * (rand() % 3)));
+				player->Stun(60);
+				player->getDamage(ULTIMATEDAMAGE);
+			}
+		}
+	}
 }
 
 void Boss::Update()
@@ -113,6 +148,10 @@ void Boss::Update()
 		setAlive(false);
 		EnemyManager::DestroyBoss();
 		curStatus = DEAD;
+	}
+	else if (health <= maxHealth * RAGEPERCENTAGE)
+	{
+		m_stage = RAGE;
 	}
 
 	if (m_stunTime > 0)

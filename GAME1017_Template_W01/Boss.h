@@ -5,6 +5,8 @@
 #include "BossHealthbar.h"
 #include "Enemies.h"
 
+enum Stage { FIGHTING, RAGE };
+
 class Boss :public Enemies
 {
 public:
@@ -24,6 +26,8 @@ private:
 	Uint16 m_ultimateCd;
 
 	BossHealthbar* m_healthbar;
+
+	Stage m_stage;
 };
 
 #endif

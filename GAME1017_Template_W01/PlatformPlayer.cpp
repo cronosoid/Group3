@@ -45,7 +45,9 @@ void PlatformPlayer::Update()
 		if(m_lastAttacked>ATTACKINTERVAL-CANNOTCONTROLTIME)
 			setCanControl(false);
 	}
-	if(m_canControl)
+	if (m_stunTime > 0) m_stunTime--;
+	
+	if(m_canControl and m_stunTime == 0)
 	{
 		this->movement[0] = 0;
 		if (EVMA::KeyHeld(SDL_SCANCODE_A))

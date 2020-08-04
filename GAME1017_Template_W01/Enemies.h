@@ -27,7 +27,7 @@ public:
 	bool getAlive();
 	void setAlive(bool a);
 	void getDamage(int dmg);
-	void Stun(int frames) { m_stunTime = abs(frames); }
+	
 	int getDamageNum() { return damage;}
 	SDL_Texture* getTex();
 	std::string getType();
@@ -45,7 +45,6 @@ protected:
 	
 	Uint32 attackWaitTime;
 	Uint32 lastAttackTime;
-	Uint32 m_stunTime;
 	
 	Uint32 m_lastDetectTime;
 	Uint32 m_hided;

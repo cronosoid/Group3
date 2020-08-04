@@ -5,6 +5,7 @@
 #include "MapObject.h"
 
 #define GRAV 3.0
+#define MAXFLYPOWER 80.0
 #define JUMPFORCE 35.0
 #define FALLCOF 20.0
 
@@ -30,7 +31,8 @@ public:
 	void addAnimator(Animator* animator);
 	SDL_FRect* getGlobalDst() { return &globalDst; }
 	MapObject* GetFloor() { return m_floor; }
-
+	void Stun(int frames) { m_stunTime = abs(frames); }
+	
 	SDL_FRect* GetBody() { return &m_body; }
 
 	bool IsPlayer() { return m_player; }
@@ -49,6 +51,8 @@ protected:
 		m_grav,
 		m_speed;
 	Uint32 flyingTime;
+	Uint32 m_stunTime;
+	
 	MapObject* m_floor;
 	Animator* animator;
 	SDL_FRect globalDst;
