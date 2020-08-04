@@ -11,6 +11,7 @@
 #include "ProjectileManager.h"
 #include "Fireball.h"
 
+
 const float w = 68.0;
 const float h = 100.0;
 
@@ -53,18 +54,34 @@ void PlatformPlayer::Update()
 		if (EVMA::KeyHeld(SDL_SCANCODE_A))
 		{
 			//walk left animation goes here
+			if (EVMA::KeyPressed(SDL_SCANCODE_A))
+			{
+				SOMA::PlaySound("Run", 1, 4);
+			}
 			this->getAnimator()->setFace(1);
 			this->movement[0] = -1;
 			this->getAnimator()->setNextAnimation("run");
 			this->SetAccelX(-1.0);
 		}
+		if (EVMA::KeyReleased(SDL_SCANCODE_A))
+		{
+			Mix_Pause(4);
+		}
 		else if (EVMA::KeyHeld(SDL_SCANCODE_D))
 		{
 			//walk right animation goes here
+			if (EVMA::KeyPressed(SDL_SCANCODE_D))
+			{
+				SOMA::PlaySound("Run", 1, 4);
+			}
 			this->getAnimator()->setFace(0);
 			this->movement[0] = 1;
 			this->getAnimator()->setNextAnimation("run");
 			this->SetAccelX(1.0);
+		}
+		if (EVMA::KeyReleased(SDL_SCANCODE_D))
+		{
+			Mix_Pause(4);
 		}
 		if (EVMA::KeyPressed(SDL_SCANCODE_SPACE) && this->IsGrounded())
 		{
@@ -77,6 +94,7 @@ void PlatformPlayer::Update()
 		{
 			if ((this->getMeleeTime() + MELEECOOLDOWN * 1000) < SDL_GetTicks())
 			{
+				
 				this->getAnimator()->playFullAnimation("melee");
 				this->setMeleeTime();
 				SDL_FRect rect;
@@ -100,6 +118,7 @@ void PlatformPlayer::Update()
 						this->SoulRecover();
 						enemy->getDamage(this->m_meeleDmg);
 						enemy->Stun(MELEESTUNTIME);
+						SOMA::PlaySound("SwordHit");
 						std::cout << "Melee attacked!\n";
 					}
 				}
@@ -114,6 +133,7 @@ void PlatformPlayer::Update()
 				// will complete the projectile spawn in a while
 				int face;
 				this->getAnimator()->getFace() == 0 ? face = 1 : face = -1;
+				SOMA::PlaySound("FireBall", 0, 1);
 				PMA::Instance().GetProjectiles().push_back(new Fireball(this, EnemyManager::EnemiesVec, MapObjectManager::MapObjVec, { 0,0,39,32 },
 					{ face == 1 ? this->GetBody()->x + this->GetBody()->w : this->GetBody()->x - 24,
 					this->GetBody()->y + 42, 48, 48 },
@@ -126,6 +146,7 @@ void PlatformPlayer::Update()
 
 		if (this->movement[0] == 0)
 			this->getAnimator()->setNextAnimation("idle");
+		
 	}
 	
 	

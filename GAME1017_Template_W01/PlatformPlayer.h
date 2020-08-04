@@ -25,6 +25,7 @@ public: // Variables
 	const int m_magicDmg = 100;
 	const int m_soulRecover = 5;
 	int movement[2] = { 0,0 };
+	
 public: // Methods
 	PlatformPlayer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animator* animator = nullptr);
 	~PlatformPlayer();

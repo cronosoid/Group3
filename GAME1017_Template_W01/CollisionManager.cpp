@@ -3,6 +3,7 @@
 #include "StateManager.h"
 #include "MoveManager.h"
 #include "TextureManager.h"
+#include "SoundManager.h"
 
 bool CollisionManager::AABBCheck(const SDL_FRect& object1, const SDL_FRect& object2)
 {
@@ -250,13 +251,16 @@ void CollisionManager::CheckPlayerMapDamage(const std::vector<MapObject*> mapObj
 		{
 			if (body->x < (mapObject->GetDstP()->x + mapObject->GetDstP()->w) && body->x > mapObject->GetDstP()->x)
 			{
-				obj->setHitDir(1);//set hit direction as left
+				obj->setHitDir(1);
+				SOMA::PlaySound("SpikeHit", 0 , 3);
+				//set hit direction as left
 				//std::cout << "Kaben: " << body->x << " Spike: " << mapObject->GetDstP()->x << std::endl;
 				//std::cout << "set map object hit direction as left" << std::endl;
 			}
 			else if ((body->x + body->w) > mapObject->GetDstP()->x && body->x < mapObject->GetDstP()->x)
 			{
 				obj->setHitDir(2);
+				SOMA::PlaySound("SpikeHit", 0 , 3);
 				//std::cout << "set map object hit direction as right" << std::endl;
 			}
 				obj->ChangeSoul(-mapObject->getDamage());

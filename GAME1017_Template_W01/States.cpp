@@ -68,14 +68,24 @@ void TitleState::Enter()
 	m_helpBtn = new HelpButton({ 0,0,400,100 }, { 560.0f,350.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("help"));
 	m_pLevel3Btn = new Level3Button({ 0,0,400,100 }, { 60.0f,450.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
 	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
-	SOMA::Load("Aud/Fire.wav", "jump", SOUND_SFX);
-	SOMA::Load("Aud/Kaben_jump.wav", "Kaben_jump", SOUND_SFX);
+	SOMA::Load("Aud/Kaben_jump.wav", "jump", SOUND_SFX);
+	SOMA::Load("Aud/Fireball_shot.wav", "fireBall", SOUND_SFX);
+	SOMA::Load("Aud/Spike_hit.wav", "spikeHit", SOUND_SFX);
+	SOMA::Load("Aud/Kaben_WalkLoop.wav", "run", SOUND_SFX);
+	SOMA::Load("Aud/Kaben_death.wav", "death", SOUND_SFX);
+	SOMA::SetSoundVolume(35);
+	
+	//Music
 	SOMA::Load("Aud/bamboo.mp3", "bamboo", SOUND_MUSIC);
+	SOMA::Load("Aud/Congratz.mp3", "congratz", SOUND_MUSIC);
 	SOMA::Load("Aud/horn.mp3", "horn", SOUND_MUSIC);
 	SOMA::Load("Aud/ambient.mp3", "ambient", SOUND_MUSIC);
+	SOMA::SetMusicVolume(15);
+
+
 	TEMA::RegisterTexture("../Spritesheets/fireball.png", "fireball");
-	SOMA::PlayMusic("horn", -1, 0);
-	SOMA::SetMusicVolume(16);
+	SOMA::PlayMusic("Horn", -1, 0);
+
 	t_background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("background"));
 }
 
@@ -122,7 +132,8 @@ void GameState::Enter()
 {
 	std::cout << "Entering GameState..." << std::endl;
 
-	SOMA::PlayMusic("bamboo", -1, 0);
+	SOMA::SetMusicVolume(10);
+	SOMA::PlayMusic("Bamboo", -1, 0);
 	
 	MapObjectManager::Init();
 	UIObjectManager::Init();
@@ -184,6 +195,7 @@ void GameState::Update()
 	// Die
 	if (m_pPlayer->GetSoul() <= 0)
 	{
+		SOMA::PlaySound("death");
 		STMA::ChangeState(new EndState());
 	}
 	else if (EVMA::KeyHeld(SDL_SCANCODE_X))
@@ -306,6 +318,8 @@ EndState::EndState()
 
 void EndState::Enter()
 {
+	Mix_Pause(4);
+	SOMA::SetMusicVolume(25);
 	SOMA::PlayMusic("ambient", -1, 0);
 	e_background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("end_background"));
 	m_restartBtn = new RestartButton({ 0,0,400,100 }, { 312.0f,225.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("restart"));
@@ -347,7 +361,10 @@ CongratulationState::CongratulationState()
 
 void CongratulationState::Enter()
 {
-	SOMA::PlayMusic("ambient", -1, 0);
+	Mix_Pause(4);
+	/*std::cout << "Entering congratz state" << endl;*/
+	SOMA::SetMusicVolume(20);
+	SOMA::PlayMusic("congratz", -1, 0);
 	e_background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("end_background"));
 	m_Congratulation = new Sprite({ 0,0,400,92 }, { 300.0f,150.0f,400.0f,92.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("congratulations"));
 	switch (GameState::m_currentLevel)
@@ -421,6 +438,7 @@ HelpState::HelpState()
 
 void HelpState::Enter()
 {
+	Mix_Pause(4);
 	textLabelVec.push_back(new Label("Ltype", 350, 200, "Hold A or D to move left or right"));
 	textLabelVec.push_back(new Label("Ltype", 350, 230, "Press SPACE to jump"));
 	textLabelVec.push_back(new Label("Ltype", 350, 260, "Press L to dash"));
@@ -468,6 +486,7 @@ PauseHelpState::PauseHelpState()
 
 void PauseHelpState::Enter()
 {
+	Mix_Pause(4);
 	m_backPauBtn = new BackButton({ 0,0,400,100 }, { 350.0f,200.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("resume"));
 	m_helpBtn = new HelpButton({ 0,0,400,100 }, { 350.0f,350.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("help"));
 	m_menuBtn = new MenuButton({ 0,0,400,100 }, { 350.0f,500.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("mainmenu"));

@@ -30,7 +30,6 @@ private:
 	PlatformPlayer* m_pPlayer;
 	std::vector<SDL_FRect*> m_pPlatforms;
 	Level* m_pLevel;
-
 	int m_MapDamageCounter;
 	const int MAPDAMAGECD = 20;//equal to FPS
 	static int m_score;
