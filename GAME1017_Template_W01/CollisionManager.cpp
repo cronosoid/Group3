@@ -174,16 +174,16 @@ void CollisionManager::CheckMapCollision(const std::vector<MapObject*> mapObject
 		SDL_FRect* entityRect = obj->GetBody();
 		if (mapObject->getCanCollide() and COMA::AABBCheck(*entityRect, *mapObjectRect))
 		{
-			if (entityRect->x + entityRect->w - (float)obj->GetVelX() <= mapObjectRect->x)
-			{ // Collision from left.
+			if (entityRect->x + entityRect->w - (float)obj->GetVelX() <= mapObjectRect->x + mapObjectRect->w * 0.2)
+			{ // Colliding from right
 				if ((entityRect->y + entityRect->h - (float)obj->GetVelY() > mapObjectRect->y))
 				{
 					obj->StopX();
 					obj->SetX(mapObjectRect->x - entityRect->w);
 				}
 			}
-			else if (entityRect->x - (float)obj->GetVelX() >= mapObjectRect->x + mapObjectRect->w)
-			{ // Colliding right side of platform.
+			else if (entityRect->x - (float)obj->GetVelX() >= mapObjectRect->x + mapObjectRect->w * 0.8)
+			{ // Collision from left
 				if ((entityRect->y + entityRect->h - (float)obj->GetVelY() > mapObjectRect->y))
 				{
 					obj->StopX();
