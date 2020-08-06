@@ -14,16 +14,16 @@
 const int MAXHEALTH = 100;
 const int ARCHERDAMAGE = 10;
 const int ARCHERDEFENCE = 10;
-const int DETECTDISTANCE = 750;
+const int DETECTDISTANCE = 550;
 const int STOPDISTANCE = 150;
 const int ATTACKDISTANCE = 300;
 
-const float WALKSPEED = 0.3;
-const float RUNSPEED = 0.4;
+const float WALKSPEED = 0.2;
+const float RUNSPEED = 0.25;
 const float HIDEPERCENTAGE = 0.7;
 const float FLEEPROCENTAGE = 0.4;
 
-const int MAXATTACKWAITTIME = FPS * 0.5; // in frames
+const int MAXATTACKWAITTIME = FPS * 1.0; // in frames
 
 const float w = 128.0;
 const float h = 128.0;
@@ -241,6 +241,6 @@ void Archer::attack()
 	this->animator->getFace() == 0 ? face = 1 : face = -1;
 	PMA::Instance().GetProjectiles().push_back(new Arrow(EnemyManager::GetTarget(), MapObjectManager::MapObjVec,{ 0,0,320,320 },
 		{ face == 1 ? this->m_body.x + this->m_body.w * 0.75f : this->m_body.x - this->m_body.w * 0.25f,
-		this->m_body.y + 42, 48, 48 },
+		this->m_body.y + 58, 64, 12 },
 		Engine::Instance().GetRenderer(), TEMA::GetTexture("Arrow"), 15, face, this->damage));
 }

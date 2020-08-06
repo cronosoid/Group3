@@ -189,7 +189,7 @@ Spike::Spike(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :MapObjec
 {
 	m_IsHurt = true;
 	m_CanCollide = false;
-	m_Damage = 0;
+	m_Damage = 10;
 	type = "Spike";
 }
 
@@ -260,12 +260,15 @@ void UnstableBrick::Update()
 	moveMapObject();
 	if (m_status == 2)//breaking
 	{
-		m_brokenTime--;
-		//std::cout << "breaking" << m_brokenTime<< std::endl;
-		if(m_brokenTime==0)
-		{
+		//m_brokenTime--;
+		////std::cout << "breaking" << m_brokenTime<< std::endl;
+		//if(m_brokenTime==0)
+		//{
+		//	m_isActive = false;
+		//}
+		m_dst.y += 2.0f;
+		if (m_dst.y >= 768.0f + 128.0f)
 			m_isActive = false;
-		}
 	}
 }
 

@@ -72,7 +72,11 @@ Boss::~Boss()
 
 void Boss::HandleSpells()
 {
-	if (m_summonCd++ > SUMMONCD)
+	PlatformPlayer* player = EnemyManager::GetTarget();
+
+	m_playerLOS = COMA::HaveLOS(this, player);
+	
+	if (m_summonCd++ > SUMMONCD && m_playerLOS)
 	{
 		m_summonCd = 0;
 
@@ -111,7 +115,7 @@ void Boss::HandleSpells()
 				}
 			}
 
-			PlatformPlayer* player = EnemyManager::GetTarget();
+			//PlatformPlayer* player = EnemyManager::GetTarget();
 			if (player->GetBody()->y < m_body.y + m_body.h and player->GetBody()->y + player->GetBody()->h > m_body.y)
 			{
 				player->SetAccelY(ULTIMATETOSS * (1 - 0.1 * (rand() % 3)));

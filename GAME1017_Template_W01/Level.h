@@ -56,5 +56,5 @@ public:
 	void Update() override;
 
 private:
-
+	int m_bossLocX;
 };

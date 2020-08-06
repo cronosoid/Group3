@@ -36,6 +36,14 @@ public:
 	SDL_FRect* GetBody() { return &m_body; }
 
 	bool IsPlayer() { return m_player; }
+	int getHitDir() { return m_hitDir; }
+	void setHitDir(int dir) { m_hitDir = dir; }
+
+	Uint32 GetLastAttackedTime() { return m_lastAttacked; }
+	bool getIsUnderAttack() { return m_isUnderAttack; }
+	void setIsUnderAttack(bool a) { m_isUnderAttack = a; }
+	bool getCanControl() { return m_canControl; }
+	void setCanControl(bool a) { m_canControl = a; };
 protected:
 	bool m_player;
 	bool m_grounded;
@@ -52,6 +60,9 @@ protected:
 		m_speed;
 	Uint32 flyingTime;
 	Uint32 m_stunTime;
+	Uint32 m_lastAttacked = 0;
+	bool m_isUnderAttack, m_canControl;
+	int m_hitDir;//0: default 1:left 2:right
 	
 	MapObject* m_floor;
 	Animator* animator;
