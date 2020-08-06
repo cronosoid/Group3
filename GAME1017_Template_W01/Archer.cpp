@@ -178,7 +178,7 @@ void Archer::Update()
 		{
 			this->getAnimator()->playFullAnimation("shot");
 			float direction = 0;
-			float dist = player->GetDstP()->x - this->m_dst.x;
+			float dist = player->GetBody()->x - this->m_body.x;
 			if (dist != 0)
 			{
 				direction = abs(dist) / dist;

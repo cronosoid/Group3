@@ -11,7 +11,6 @@
 #include "ProjectileManager.h"
 #include "Fireball.h"
 
-
 const float w = 68.0;
 const float h = 100.0;
 
