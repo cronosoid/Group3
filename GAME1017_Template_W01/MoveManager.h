@@ -7,6 +7,8 @@
 
 #include <vector>
 
+#include "Background.h"
+
 const float MAPSCROLLINGDISTANCE = 0.3f;
 const float MAPSCROLLINGYUPDISTANCE = 0.3f;
 const float MAPSCROLLINGYDOWNDISTANCE = 0.3f;

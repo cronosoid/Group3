@@ -126,7 +126,7 @@ void GameState::Enter()
 
 	m_pPlayer = new PlatformPlayer({ 0,0,192,64 }, { 128.0f,600.0f,384.0f,128.0f },
 		Engine::Instance().GetRenderer(), TEMA::GetTexture("KabenSheet"));
-
+	
 	m_pLevel->Load(m_pPlayer);
 
 	m_backgroundArr[0] = new Background({ 0,0,1024,768 }, { 0,0, 1024,768 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("lv_bg"));
@@ -148,19 +148,22 @@ void GameState::Enter()
 void GameState::Update()
 {
 	//background scrolling
+	m_backgroundArr[0]->GetDstP()->x = -MOMA::GetTotalMove().x;
+	m_backgroundArr[1]->GetDstP()->x = -MOMA::GetTotalMove().x + 1024;
+
 	for (int i = 0; i < 2; i++)
 	{
-		m_backgroundArr[i]->GetDstP()->x -= 1;
 		if (m_backgroundArr[i]->GetDstP()->x <= -1024)
-			m_backgroundArr[i]->GetDstP()->x += m_backgroundArr[i]->GetDstP()->w * 2;
+			m_backgroundArr[i]->GetDstP()->x = m_backgroundArr[i+1]->GetDstP()->w * 2;
 	}
 
-	//midground scorlling
+	m_midgroundArr[0]->GetDstP()->x = (-MOMA::GetTotalMove().x) * 0.8;
+	m_midgroundArr[1]->GetDstP()->x = (-MOMA::GetTotalMove().x + 1024) * 0.8;
+	
 	for (int i = 0; i < 2; i++)
 	{
-		m_midgroundArr[i]->GetDstP()->x -= 2;
 		if (m_midgroundArr[i]->GetDstP()->x <= -1024)
-			m_midgroundArr[i]->GetDstP()->x += m_midgroundArr[i]->GetDstP()->w * 2;
+			m_midgroundArr[i]->GetDstP()->x += m_backgroundArr[i + 1]->GetDstP()->w * 2;
 	}
 	
 	if (EVMA::KeyHeld(SDL_SCANCODE_P))
@@ -239,7 +242,6 @@ void GameState::Render()
 
 	for (int i = 0; i < 2; i++)
 	{
-		cout << "aaa" << endl;
 		m_backgroundArr[i]->Render();
 	}
 

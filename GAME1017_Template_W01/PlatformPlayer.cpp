@@ -19,6 +19,8 @@ PlatformPlayer::PlatformPlayer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Tex
 {
 	this->m_curSoul = m_maxSoul;
 
+	this->animator = new Animator(this);
+	
 	this->addAnimator(new Animator(this));
 
 	this->getAnimator()->addAnimation("run", 7, 2, 192, 64);
