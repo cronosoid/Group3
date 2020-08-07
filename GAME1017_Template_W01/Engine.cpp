@@ -9,8 +9,6 @@
 #include "MoveManager.h"
 
 #include <iostream>
-#define WIDTH 1024
-#define HEIGHT 768
 
 using namespace std;
 
@@ -59,6 +57,8 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	TEMA::RegisterTexture("../Spritesheets/Kaben_Sheet.png", "KabenSheet"); 
 	TEMA::RegisterTexture("../Spritesheets/Swordman_sheet.png", "Swordman");
 	TEMA::RegisterTexture("../Spritesheets/Archer_sheet.png", "Archer");
+	TEMA::RegisterTexture("Img/lv_bg.png", "lv_bg");
+	TEMA::RegisterTexture("Img/lv_mg.png", "lv_mg");
 	TEMA::RegisterTexture("../Spritesheets/Boss_sheet.png", "Boss");
 	
 	FOMA::RegisterFont("Img/LTYPE.TTF", "font", 20);

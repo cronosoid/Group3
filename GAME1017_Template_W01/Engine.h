@@ -10,6 +10,8 @@
 
 // Do not include any macros, initialized properties or full function definitions in this header.
 #define FPS 60
+#define WIDTH 1024
+#define HEIGHT 768
 
 class Engine
 {

@@ -19,6 +19,7 @@
 #include <ctime>
 
 #include "DebugManager.h"
+#include "ScrollingManager.h"
 
 // Begin State. CTRL+M+H and CTRL+M+U to turn on/off collapsed code.
 void State::Render()
@@ -123,15 +124,14 @@ void GameState::Enter()
 	MapObjectManager::Init();
 	UIObjectManager::Init();
 	EnemyManager::Init();
+	SCMA::Init();
 
 	m_pPlayer = new PlatformPlayer({ 0,0,192,64 }, { 128.0f,600.0f,384.0f,128.0f },
 		Engine::Instance().GetRenderer(), TEMA::GetTexture("KabenSheet"));
-
-	m_pLevel->Load(m_pPlayer);
-
-	EnemyManager::SetTarget(m_pPlayer);
-
 	
+	m_pLevel->Load(m_pPlayer);
+	
+	EnemyManager::SetTarget(m_pPlayer);
 	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, { 105.0f,72.0f,185.0f,20.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
 
 	m_MapDamageCounter = 0;
@@ -143,6 +143,12 @@ void GameState::Enter()
 
 void GameState::Update()
 {
+	//background scrolling
+	
+	SCMA::Update();
+	
+	// Scrolling end
+	
 	if (EVMA::KeyHeld(SDL_SCANCODE_P))
 	{
 		STMA::PushState(new PauseHelpState());
@@ -215,9 +221,11 @@ void GameState::CheckCollision()
 
 void GameState::Render()
 {
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 64, 128, 255, 255);
-	SDL_RenderClear(Engine::Instance().GetRenderer());
+	/*SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 64, 128, 255, 255);
+	SDL_RenderClear(Engine::Instance().GetRenderer());*/
 
+	SCMA::Render();
+	
 	MapObjectManager::Render(true); //Draw collidable platforms
 	
 	for (Enemies* enemy : EnemyManager::EnemiesVec)
@@ -226,7 +234,7 @@ void GameState::Render()
 		SDL_Color green = { 0, 255, 0, 255 };
 
 		DEMA::DrawLine({ (int)enemy->GetCenter().x, (int)enemy->GetCenter().y }, { (int)m_pPlayer->GetCenter().x, (int)m_pPlayer->GetCenter().y },
-			(enemy->HavePlayerLOS() ? green : red));*/// LOS RENDER
+			(enemy->HavePlayerLOS() ? green : red));*/
 		enemy->Render();
 	}
 
@@ -254,6 +262,11 @@ void GameState::Exit()
 	
 	m_end = clock();
 	m_time = (int)(m_end - m_start)/1000;
+	m_time = (int)(m_end - m_start) / 1000;
+	std::cout << "End: " << (int)m_end << std::endl;
+	std::cout << "Time: " << (int)m_time << std::endl;
+
+	SCMA::Clean();
 	
 	for (const auto& mapElement : m_pPlayer->getAnimator()->animationsMap)
 	{

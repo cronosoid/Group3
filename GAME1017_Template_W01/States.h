@@ -36,7 +36,7 @@ private:
 	static int m_time;
 	static int m_currentLevel;
 	double m_start, m_end;
-
+	
 public:
 	GameState(Level* newLevel);
 	void Update();

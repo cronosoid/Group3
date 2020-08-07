@@ -1,12 +1,12 @@
 #include "MoveManager.h"
 #include "EnemyManager.h"
 #include "ProjectileManager.h"
+#include "TextureManager.h"
 
 int MoveManager::maxX, MoveManager::maxY;
 int MoveManager::windowX, MoveManager::windowY;
 int MoveManager::border;
 int MoveManager::totalMoveX, MoveManager::totalMoveY;
-
 const float STATICSPEED = 0;// 3.0;
 
 MoveManager::MoveManager()
