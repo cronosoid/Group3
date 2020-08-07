@@ -1,6 +1,7 @@
 #include "ProjectileManager.h"
 #include "MoveManager.h"
 
+std::vector<Projectile*> ProjectileManager::m_vProjectiles;
 void ProjectileManager::Update()
 {
 	for (auto projectile = PMA::Instance().GetProjectiles().begin(); projectile != PMA::Instance().GetProjectiles().end();)

@@ -241,6 +241,18 @@ void CollisionManager::CheckUnstableBrickCollision(const std::vector<UnstableBri
 	}
 }
 
+void CollisionManager::CheckProMapCollision(const std::vector<Projectile*> proVec, const std::vector<MapObject*> mapVec)
+{
+	for(auto pro:proVec)
+		for(auto map:mapVec)
+		{
+			if(map->getCanCollide()==true && AABBCheck(*(pro->GetDstP()),*(map->GetDstP())))
+			{
+				pro->setIsActive(false);
+			}
+		}
+}
+
 void CollisionManager::CheckPlayerMapDamage(const std::vector<MapObject*> mapObject, PlatformPlayer* obj)
 {
 	for (auto mapObject : mapObject) // For each platform.

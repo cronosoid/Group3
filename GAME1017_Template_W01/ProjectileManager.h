@@ -18,8 +18,9 @@ public:
 		return instance;
 	}
 	void Update();
+	static vector<Projectile*> m_vProjectiles;
 private:
-	vector<Projectile*> m_vProjectiles;
+	
 };
 
 typedef ProjectileManager PMA;

@@ -217,6 +217,8 @@ void GameState::CheckCollision()
 		COMA::CheckMapCollision(MapObjectManager::MapObjVec, enemy);
 		COMA::CheckEnemyMapDamage(MapObjectManager::MapObjVec, enemy);
 	}
+
+	COMA::CheckProMapCollision(ProjectileManager::m_vProjectiles, MapObjectManager::MapObjVec);
 }
 
 void GameState::Render()
