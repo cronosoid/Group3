@@ -65,21 +65,6 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 
 	FOMA::RegisterFont("Img/LTYPE.ttf", "Ltype", 24);
 	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
-
-	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
-	SOMA::Load("Aud/Kaben_jump.wav", "jump", SOUND_SFX);
-	SOMA::Load("Aud/Fireball_shot.wav", "fireBall", SOUND_SFX);
-	SOMA::Load("Aud/Spike_hit.wav", "spikeHit", SOUND_SFX);
-	SOMA::Load("Aud/Kaben_WalkLoop.wav", "run", SOUND_SFX);
-	SOMA::Load("Aud/Kaben_death.wav", "death", SOUND_SFX);
-	SOMA::SetSoundVolume(35);
-
-	//Music
-	SOMA::Load("Aud/Bamboo.mp3", "bamboo", SOUND_MUSIC);
-	SOMA::Load("Aud/Congratz.mp3", "congratz", SOUND_MUSIC);
-	SOMA::Load("Aud/Horn.mp3", "horn", SOUND_MUSIC);
-	SOMA::Load("Aud/Ambient.mp3", "ambient", SOUND_MUSIC);
-	SOMA::SetMusicVolume(15);
 	
 	STMA::ChangeState(new ClickState);
 	SOMA::AllocateChannels(16);

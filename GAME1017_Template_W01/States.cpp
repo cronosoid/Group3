@@ -67,8 +67,22 @@ void TitleState::Enter()
 	m_playBtn = new PlayButton({ 0,0,400,100 }, { 60.0f,350.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
 	m_helpBtn = new HelpButton({ 0,0,400,100 }, { 560.0f,350.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("help"));
 	m_pLevel3Btn = new Level3Button({ 0,0,400,100 }, { 60.0f,450.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
+	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
+	SOMA::Load("Aud/Kaben_jump.wav", "jump", SOUND_SFX);
+	SOMA::Load("Aud/Fireball_shot.wav", "fireBall", SOUND_SFX);
+	SOMA::Load("Aud/Spike_hit.wav", "spikeHit", SOUND_SFX);
+	SOMA::Load("Aud/Kaben_WalkLoop.wav", "run", SOUND_SFX);
+	SOMA::Load("Aud/Kaben_death.wav", "death", SOUND_SFX);
+	SOMA::SetSoundVolume(35);
+	
+	//Music
+	SOMA::Load("Aud/bamboo.mp3", "bamboo", SOUND_MUSIC);
+	SOMA::Load("Aud/Congratz.mp3", "congratz", SOUND_MUSIC);
+	SOMA::Load("Aud/horn.mp3", "horn", SOUND_MUSIC);
+	SOMA::Load("Aud/ambient.mp3", "ambient", SOUND_MUSIC);
+	SOMA::SetMusicVolume(15);
 
-	//TEMA::RegisterTexture("../Spritesheets/fireball.png", "fireball");
+	TEMA::RegisterTexture("../Spritesheets/fireball.png", "fireball");
 	SOMA::PlayMusic("horn", -1, 0);
 
 	t_background = new Background({ 0, 0, 1024, 768 }, { 0.0f, 0.0f , 1024.0f , 768.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("background"));
@@ -118,7 +132,7 @@ void GameState::Enter()
 	std::cout << "Entering GameState..." << std::endl;
 
 	SOMA::SetMusicVolume(10);
-	SOMA::PlayMusic("bamboo", -1, 0);
+	SOMA::PlayMusic("Bamboo", -1, 0);
 	
 	MapObjectManager::Init();
 	UIObjectManager::Init();
@@ -252,9 +266,10 @@ void GameState::Exit()
 {
 	std::cout << "EXIT\n";
 	
-	m_end = clock();
+	m_end=clock();
 	m_time = (int)(m_end - m_start)/1000;
-	
+	std::cout << "End: " << (int)m_end << std::endl;
+	std::cout << "Time: " << (int)m_time << std::endl;
 	for (const auto& mapElement : m_pPlayer->getAnimator()->animationsMap)
 	{
 		if (mapElement.second != nullptr)

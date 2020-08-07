@@ -252,7 +252,7 @@ void CollisionManager::CheckPlayerMapDamage(const std::vector<MapObject*> mapObj
 			if (body->x < (mapObject->GetDstP()->x + mapObject->GetDstP()->w) && body->x > mapObject->GetDstP()->x)
 			{
 				obj->setHitDir(1);
-				SOMA::PlaySound("spikeHit", 0 , 3);
+				SOMA::PlaySound("SpikeHit", 0 , 3);
 				//set hit direction as left
 				//std::cout << "Kaben: " << body->x << " Spike: " << mapObject->GetDstP()->x << std::endl;
 				//std::cout << "set map object hit direction as left" << std::endl;
@@ -260,7 +260,7 @@ void CollisionManager::CheckPlayerMapDamage(const std::vector<MapObject*> mapObj
 			else if ((body->x + body->w) > mapObject->GetDstP()->x && body->x < mapObject->GetDstP()->x)
 			{
 				obj->setHitDir(2);
-				SOMA::PlaySound("spikeHit", 0 , 3);
+				SOMA::PlaySound("SpikeHit", 0 , 3);
 				//std::cout << "set map object hit direction as right" << std::endl;
 			}
 				obj->ChangeSoul(-mapObject->getDamage());

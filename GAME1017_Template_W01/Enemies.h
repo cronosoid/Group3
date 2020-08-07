@@ -50,7 +50,6 @@ protected:
 	Uint32 m_hided;
 	Uint32 m_waitBehindTheCover;
 	Uint32 m_noLOStime;
-	Uint32 m_hidingTime;
 	
 	std::string enemyType;
 	Status curStatus;

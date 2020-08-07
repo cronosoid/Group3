@@ -29,8 +29,8 @@ void EnemyManager::Init()
 {
 	TEMA::RegisterTexture("../Spritesheets/Archer.png", "Archer");
 	TEMA::RegisterTexture("../Spritesheets/Pehot2.png", "Swordman");
-	SOMA::Load("Aud/Arrow_hit.wav", "arrowHit", SOUND_SFX);
-	SOMA::Load("Aud/Sword_hit.wav", "swordHit", SOUND_SFX);
+	SOMA::Load("Aud/Arrow_hit.wav", "ArrowHit", SOUND_SFX);
+	SOMA::Load("Aud/Sword_hit.wav", "SwordHit", SOUND_SFX);
 }
 
 void EnemyManager::CreateEnemy(EnemyType type, int x, int y, SDL_Renderer* r)

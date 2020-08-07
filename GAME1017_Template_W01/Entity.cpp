@@ -20,6 +20,8 @@ Entity::Entity(SDL_Rect s, SDL_FRect d, SDL_FRect b, SDL_Renderer* r, SDL_Textur
 	this->globalDst = {d.x + MOMA::GetTotalMove().x, d.y + MOMA::GetTotalMove().y, d.w, d.h};
 
 	this->m_body = {d.x,d.y,b.w,b.h};
+	std::cout << "Body: " << this->m_body.w << ", " << this->m_body.h << "\n";
+	std::cout << "dst: " << this->m_dst.w << ", " << this->m_dst.h << "\n";
 }
 
 void Entity::Stop() // If you want a dead stop both axes.

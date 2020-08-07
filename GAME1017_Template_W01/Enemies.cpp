@@ -92,7 +92,7 @@ void Enemies::Hide(const float RUNSPEED, const float squareDistToPlayer, const f
 	
 	if (m_waitBehindTheCover == 0)
 	{
-		if (m_playerLOS and m_hidingTime++ < FPS * 3)
+		if (m_playerLOS)
 		{
 			Flee(RUNSPEED, squareDistToPlayer, ATTACKDISTANCE, STOPDISTANCE);
 			m_noLOStime = 0;
@@ -107,7 +107,6 @@ void Enemies::Hide(const float RUNSPEED, const float squareDistToPlayer, const f
 	{
 		if (m_waitBehindTheCover-- == 1 or m_playerLOS)
 		{
-			m_hidingTime = 0;
 			m_hided = FPS * HIDECOOLDOWN;
 			m_noLOStime = 0;
 		}

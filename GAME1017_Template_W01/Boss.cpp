@@ -30,12 +30,12 @@ const float ATTACKCOOLDOWN = 1.5;
 const int SUMMONCD = 20 * 60;
 
 const float RAGEPERCENTAGE = 0.6;
-const int ULTIMATECD = 5 * 60;
+const int ULTIMATECD = 10 * 60;
 const int ULTIMATETOSS = -60;
 const float ULTIMATEDAMAGE = 45.0;
 
-const float w = 200.0;
-const float h = 256.0;
+const float w = 384.0;
+const float h = 384.0;
 
 Boss::Boss(SDL_FRect d, SDL_Renderer* r, Animator* animator) :Enemies({ 0,0,64,64 }, d, {0,0,w,h}, r, TEMA::GetTexture("Boss"), animator)
 {
@@ -45,8 +45,6 @@ Boss::Boss(SDL_FRect d, SDL_Renderer* r, Animator* animator) :Enemies({ 0,0,64,6
 	this->defence = BOSSDEFENCE;
 	this->enemyType = "Boss";
 	this->m_speed = WALKSPEED;
-
-	this->m_maxJumpVelocity = 30;
 
 	this->m_healthbar = new BossHealthbar(this);
 	
@@ -97,13 +95,10 @@ void Boss::HandleSpells()
 	{
 		if (m_ultimateCd == ULTIMATECD - 8 * 4)
 		{
-			StopX();
 			this->getAnimator()->playFullAnimation("ground_slam");
 		}
 		if (m_ultimateCd++ > ULTIMATECD)
 		{
-			StopX();
-			
 			m_ultimateCd = 0;
 
 			for (Enemies* enemy : EnemyManager::EnemiesVec)
@@ -129,6 +124,8 @@ void Boss::HandleSpells()
 void Boss::Update()
 {
 	m_healthbar->Update();
+	
+	movementUpdate();
 	
 	/*if (m_dst.y >= MOMA::GetWindowY() - MOMA::GetTotalMove().y)
 	{
@@ -166,6 +163,8 @@ void Boss::Update()
 		m_stunTime--;
 		curStatus = STUNNED;
 	}
+
+	HandleSpells();
 	
 	switch (curStatus)
 	{
@@ -209,21 +208,43 @@ void Boss::Update()
 	break;
 	case SEEKING:
 	{
-		Seek(RUNSPEED, squareDistToPlayer, STOPDISTANCE, ATTACKDISTANCE, true);
+		this->m_speed = RUNSPEED + (rand() % 10) / 10.0;
+
+		PlatformPlayer* player = EnemyManager::GetTarget();
+		float dist = player->GetDstP()->x - this->m_dst.x;
+
+		float direction = 0;
+		if (dist != 0)
+		{
+			direction = abs(dist) / dist;
+		}
+		if (direction == 1)
+			animator->setFace(0);
+		else if (direction == -1)
+			animator->setFace(1);
+
+		float curX;
+		animator->getFace() == 0 ? curX = m_dst.x + m_dst.w + 5 : curX = m_dst.x - 5;
+		float curY = m_dst.y;
+		MapObject* nextObject = COMA::FindFirstObjectOnTheRay({ curX,curY }, { 0, 1 });
+
+		if (nextObject and squareDistToPlayer > pow(STOPDISTANCE, 2))
+		{
+			SetAccelX(direction * m_speed);
+			if (m_floor and nextObject->GetDstP()->y < m_floor->GetDstP()->y)
+			{
+				this->SetAccelY(-JUMPFORCE / 2);
+			}
+		}
+
 		if (squareDistToPlayer < pow(ATTACKDISTANCE, 2))
 		{
-			if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
-			{
-				curStatus = ATTACKING;
-			}
+			curStatus = ATTACKING;
 		}
 	}
 	break;
 	case FLEEING:
-	{
-		
-	}
-	break;
+		break;
 	case ATTACKING:
 		if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
 		{
@@ -251,10 +272,6 @@ void Boss::Update()
 		break;
 	}
 
-	HandleSpells();
-	
-	movementUpdate();
-	
 	if (this->GetVelX() == 0)
 		this->getAnimator()->setNextAnimation("idle");
 	else
@@ -299,7 +316,7 @@ void Boss::attack()
 		EnemyManager::GetTarget()->getDamage(BOSSDAMAGE);
 		static_cast<PlatformPlayer*>(EnemyManager::GetTarget())->SetLastAttackedTime();
 		EnemyManager::GetTarget()->StopX();
-		SOMA::PlaySound("swordHit");
+		SOMA::PlaySound("SwordHit");
 		std::cout << "Boss Melee!\n";
 	}
 }

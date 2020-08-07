@@ -379,7 +379,7 @@ void Level3::Load(PlatformPlayer* Player)
 	MapObjectManager::CreateMoveMapObject(kSpike, 77, 10 , { 4928.0f,576.0f }, { 4928.0f,384.0f }, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMoveMapObject(kSpike, 82, 8 , { 5248.0f,576.0f }, { 5248.0f,192.0f }, Engine::Instance().GetRenderer());
 
-	EnemyManager::SpawnBoss(100, 0, Engine::Instance().GetRenderer());
+	EnemyManager::SpawnBoss(91, 15, Engine::Instance().GetRenderer());
 	SOMA::StopMusic();
 	SOMA::PlayMusic("horn", -1, 0);
 }
