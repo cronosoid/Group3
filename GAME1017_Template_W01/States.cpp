@@ -19,6 +19,7 @@
 #include <ctime>
 
 #include "DebugManager.h"
+#include "ScrollingManager.h"
 
 // Begin State. CTRL+M+H and CTRL+M+U to turn on/off collapsed code.
 void State::Render()
@@ -123,18 +124,13 @@ void GameState::Enter()
 	MapObjectManager::Init();
 	UIObjectManager::Init();
 	EnemyManager::Init();
+	SCMA::Init();
 
 	m_pPlayer = new PlatformPlayer({ 0,0,192,64 }, { 128.0f,600.0f,384.0f,128.0f },
 		Engine::Instance().GetRenderer(), TEMA::GetTexture("KabenSheet"));
 	
 	m_pLevel->Load(m_pPlayer);
-
-	m_backgroundArr[0] = new Background({ 0,0,1024,768 }, { 0,0, 1024,768 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("lv_bg"));
-	m_backgroundArr[1] = new Background({ 0,0,1024,768 }, { 1024,0,1024,768 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("lv_bg"));
-
-	m_midgroundArr[0] = new Background({ 0,0,1024,768 }, { 0,0, 1024,768 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("lv_mg"));
-	m_midgroundArr[1] = new Background({ 0,0,1024,768 }, { 1024,0, 1024,768 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("lv_mg"));
-
+	
 	EnemyManager::SetTarget(m_pPlayer);
 	UIObjectManager::CreateSoulBar({ 50.0f,20.0f,256.0f,128.0f }, { 105.0f,72.0f,185.0f,20.0f }, Engine::Instance().GetRenderer(), m_pPlayer);
 
@@ -148,23 +144,10 @@ void GameState::Enter()
 void GameState::Update()
 {
 	//background scrolling
-	m_backgroundArr[0]->GetDstP()->x = -MOMA::GetTotalMove().x;
-	m_backgroundArr[1]->GetDstP()->x = -MOMA::GetTotalMove().x + 1024;
-
-	for (int i = 0; i < 2; i++)
-	{
-		if (m_backgroundArr[i]->GetDstP()->x <= -1024)
-			m_backgroundArr[i]->GetDstP()->x += m_backgroundArr[i+1]->GetDstP()->w * 2;
-	}
-		
-	m_midgroundArr[0]->GetDstP()->x = (-MOMA::GetTotalMove().x) * 0.8;
-	m_midgroundArr[1]->GetDstP()->x = (-MOMA::GetTotalMove().x + 1024) * 0.8;
 	
-	for (int i = 0; i < 2; i++)
-	{
-		if (m_midgroundArr[i]->GetDstP()->x <= -1024)
-			m_midgroundArr[i]->GetDstP()->x += m_backgroundArr[i + 1]->GetDstP()->w * 2;
-	}
+	SCMA::Update();
+	
+	// Scrolling end
 	
 	if (EVMA::KeyHeld(SDL_SCANCODE_P))
 	{
@@ -240,16 +223,7 @@ void GameState::Render()
 	/*SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 64, 128, 255, 255);
 	SDL_RenderClear(Engine::Instance().GetRenderer());*/
 
-	for (int i = 0; i < 2; i++)
-	{
-		m_backgroundArr[i]->Render();
-	}
-
-	for (int i = 0; i < 2; i++)
-	{
-		m_midgroundArr[i]->Render();
-	}
-	
+	SCMA::Render();
 	
 	MapObjectManager::Render(true); //Draw collidable platforms
 	
@@ -287,6 +261,9 @@ void GameState::Exit()
 	m_time = (int)(m_end - m_start)/1000;
 	std::cout << "End: " << (int)m_end << std::endl;
 	std::cout << "Time: " << (int)m_time << std::endl;
+
+	SCMA::Clean();
+	
 	for (const auto& mapElement : m_pPlayer->getAnimator()->animationsMap)
 	{
 		if (mapElement.second != nullptr)

@@ -9,8 +9,6 @@
 #include "MoveManager.h"
 
 #include <iostream>
-#define WIDTH 1024
-#define HEIGHT 768
 
 using namespace std;
 

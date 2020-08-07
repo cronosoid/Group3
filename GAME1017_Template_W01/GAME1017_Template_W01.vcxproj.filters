@@ -107,6 +107,9 @@
     <ClCompile Include="BossHealthbar.cpp">
       <Filter>UI\Header</Filter>
     </ClCompile>
+    <ClCompile Include="ScrollingManager.cpp">
+      <Filter>Managers\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h">
@@ -216,6 +219,9 @@
     </ClInclude>
     <ClInclude Include="BossHealthbar.h">
       <Filter>UI\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="ScrollingManager.h">
+      <Filter>Managers\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -140,6 +140,7 @@
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="PlatformPlayer.cpp" />
     <ClCompile Include="ProjectileManager.cpp" />
+    <ClCompile Include="ScrollingManager.cpp" />
     <ClCompile Include="SoulBar.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="PlatformPlayer.h" />
     <ClInclude Include="ProjectileManager.h" />
+    <ClInclude Include="ScrollingManager.h" />
     <ClInclude Include="SoulBar.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StateManager.h" />

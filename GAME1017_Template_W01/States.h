@@ -30,15 +30,13 @@ private:
 	PlatformPlayer* m_pPlayer;
 	std::vector<SDL_FRect*> m_pPlatforms;
 	Level* m_pLevel;
-	Background* m_backgroundArr[2];
-	Background* m_midgroundArr[2];
 	int m_MapDamageCounter;
 	const int MAPDAMAGECD = 20;//equal to FPS
 	static int m_score;
 	static int m_time;
 	static int m_currentLevel;
 	double m_start, m_end;
-
+	
 public:
 	GameState(Level* newLevel);
 	void Update();
