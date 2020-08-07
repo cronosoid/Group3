@@ -18,7 +18,6 @@ void ScrollingManager::Init()
 
 	m_midgroundArr[0] = new Background({ 0,0,m_scrollWidth,768 }, { 0,0, (float)m_scrollWidth * 0.8f,768 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("lv_mg"));
 	m_midgroundArr[1] = new Background({ 0,0,m_scrollWidth,768 }, { (float)m_scrollWidth,0, (float)m_scrollWidth * 0.8f,768 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("lv_mg"));
-
 }
 
 void ScrollingManager::Update()
@@ -36,15 +35,15 @@ void ScrollingManager::Render()
 	for (int i = 0; i < 2; i++)
 	{
 		m_backgroundArr[i]->Render();
-	}
-
-	for (int i = 0; i < 2; i++)
-	{
 		m_midgroundArr[i]->Render();
 	}
 }
 
 void ScrollingManager::Clean()
 {
-	
+	for (int i = 0; i < 2; i++)
+	{
+		delete m_backgroundArr[i];
+		delete m_midgroundArr[i];
+	}
 }
