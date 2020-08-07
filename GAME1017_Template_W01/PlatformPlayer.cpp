@@ -20,8 +20,6 @@ PlatformPlayer::PlatformPlayer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Tex
 {
 	this->m_curSoul = m_maxSoul;
 
-	this->animator = new Animator(this);
-	
 	this->addAnimator(new Animator(this));
 
 	this->getAnimator()->addAnimation("run", 7, 2, 192, 64);
@@ -58,7 +56,9 @@ void PlatformPlayer::Update()
 			//walk left animation goes here
 			if (EVMA::KeyPressed(SDL_SCANCODE_A))
 			{
+				Mix_Volume(4, 8);
 				SOMA::PlaySound("run", 1, 4);
+				
 			}
 			this->getAnimator()->setFace(1);
 			this->movement[0] = -1;
@@ -74,7 +74,9 @@ void PlatformPlayer::Update()
 			//walk right animation goes here
 			if (EVMA::KeyPressed(SDL_SCANCODE_D))
 			{
+				Mix_Volume(4, 8);
 				SOMA::PlaySound("run", 1, 4);
+				
 			}
 			this->getAnimator()->setFace(0);
 			this->movement[0] = 1;
@@ -98,6 +100,8 @@ void PlatformPlayer::Update()
 			{
 				
 				this->getAnimator()->playFullAnimation("melee");
+				Mix_Volume(7, 40);
+				SOMA::PlaySound("Swoosh", 0 ,7);
 				this->setMeleeTime();
 				SDL_FRect rect;
 				if (this->getAnimator()->getFace() == 0)
