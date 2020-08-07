@@ -154,9 +154,9 @@ void GameState::Update()
 	for (int i = 0; i < 2; i++)
 	{
 		if (m_backgroundArr[i]->GetDstP()->x <= -1024)
-			m_backgroundArr[i]->GetDstP()->x = m_backgroundArr[i+1]->GetDstP()->w * 2;
+			m_backgroundArr[i]->GetDstP()->x += m_backgroundArr[i+1]->GetDstP()->w * 2;
 	}
-
+		
 	m_midgroundArr[0]->GetDstP()->x = (-MOMA::GetTotalMove().x) * 0.8;
 	m_midgroundArr[1]->GetDstP()->x = (-MOMA::GetTotalMove().x + 1024) * 0.8;
 	
