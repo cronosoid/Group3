@@ -5,7 +5,7 @@
 #include "Entity.h"
 #include "PlatformPlayer.h"
 
-enum Status { IDLE, PATROLING, SEEKING, HIDING, FLEEING, ATTACKING, STUNNED, DEAD };
+enum Status { IDLE, PATROLING, SEEKING, HIDING, FLEEING, ATTACKING, STUNNED, DYING, DEAD };
 
 const float HIDECOOLDOWN = 10.0;
 const float HIDETIME = 4.0;
@@ -51,6 +51,8 @@ protected:
 	Uint32 m_waitBehindTheCover;
 	Uint32 m_noLOStime;
 	Uint32 m_hidingTime;
+
+	int m_dyingAnimation;
 	
 	std::string enemyType;
 	Status curStatus;

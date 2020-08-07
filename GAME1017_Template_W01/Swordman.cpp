@@ -46,6 +46,8 @@ Swordman::Swordman(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Ani
 	this->getAnimator()->addAnimation("run", 4, 2, 64, 64);
 	this->getAnimator()->addAnimation("idle", 3, 1, 64, 64, 0, 128, 12);
 	this->getAnimator()->addAnimation("melee", 9, 3, 64, 64, 0, 256, 4);
+	this->getAnimator()->addAnimation("dying", 9, 5, 64, 64, 0, 384, 8);
+	this->getAnimator()->addAnimation("stun", 1, 4, 64, 64, 0, 512, 4);
 }
 
 void Swordman::Update()
@@ -63,7 +65,7 @@ void Swordman::Update()
 	}
 
 	float squareDistToPlayer = COMA::SquareRectDistance(this->m_body, *EnemyManager::GetTarget()->GetDstP());
-	if (curStatus != ATTACKING)
+	if (curStatus != ATTACKING and curStatus != DYING)
 	{
 		if (squareDistToPlayer < pow(DETECTDISTANCE, 2) and knowWherePlayerIs)
 		{
@@ -88,14 +90,17 @@ void Swordman::Update()
 		}
 	}
 
-	if (health <= 0)
+	if (health <= 0 and curStatus != DYING)
 	{
-		setAlive(false);
-		curStatus = DEAD;
+		m_dyingAnimation = (this->getAnimator()->GetAnimation("dying")->getMaxFrames() - 4)
+			* this->getAnimator()->GetAnimation("dying")->getFramesFrequency() / 10;
+		this->getAnimator()->playFullAnimation("dying");
+		curStatus = DYING;
 	}
 
-	if (m_stunTime > 0)
+	if (m_stunTime > 0 and curStatus != DYING and curStatus != DEAD)
 	{
+		this->getAnimator()->setNextAnimation("stun");
 		m_stunTime--;
 		curStatus = STUNNED;
 	}
@@ -204,6 +209,15 @@ void Swordman::Update()
 			Hide(RUNSPEED, squareDistToPlayer, ATTACKDISTANCE, STOPDISTANCE);
 		}
 		break;
+	case DYING:
+		{
+			if (--m_dyingAnimation <= 0)
+			{
+				setAlive(false);
+				curStatus = DEAD;
+			}
+			break;
+		}
 	case DEAD:
 		break;
 	default:

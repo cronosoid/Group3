@@ -117,7 +117,6 @@ bool MoveManager::checkYBoundaries(float y, float velY, Entity* player)
 	
 	if ((y + velY < upBorder and velY <= STATICSPEED and totalMoveY > -maxY) or (y + velY > downBorder and velY >= STATICSPEED and totalMoveY < 0))
 	{
-		std::cout << "check fin\n";
 		return true;
 	}
 	return false;

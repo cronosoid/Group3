@@ -42,6 +42,8 @@ Archer::Archer(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, Animato
 	this->getAnimator()->addAnimation("run", 4, 2, 64, 64);
 	this->getAnimator()->addAnimation("idle", 3, 1, 64, 64, 0, 128, 12);
 	this->getAnimator()->addAnimation("shot", 8, 3, 64, 64, 0, 256, 6);
+	this->getAnimator()->addAnimation("dying", 8, 5, 64, 64, 0, 384, 6);
+	this->getAnimator()->addAnimation("stun", 1, 4, 64, 64, 0, 512, 4);
 }
 
 void Archer::Update()
@@ -63,7 +65,7 @@ void Archer::Update()
 	if (m_hided > 0) m_hided--;
 	
 	float squareDistToPlayer = COMA::SquareRectDistance(*this->GetDstP(), *player->GetDstP());
-	if (curStatus != ATTACKING)
+	if (curStatus != ATTACKING and curStatus != DYING)
 	{
 		if (squareDistToPlayer < pow(DETECTDISTANCE, 2) and knowWherePlayerIs)
 		{
@@ -88,14 +90,17 @@ void Archer::Update()
 		}
 	}
 
-	if (health <= 0)
+	if (health <= 0 and curStatus != DYING)
 	{
-		setAlive(false);
-		curStatus = DEAD;
+		m_dyingAnimation = (this->getAnimator()->GetAnimation("dying")->getMaxFrames() - 3)
+			* this->getAnimator()->GetAnimation("dying")->getFramesFrequency() / 10;
+		this->getAnimator()->playFullAnimation("dying");
+		curStatus = DYING;
 	}
 
-	if (m_stunTime > 0)
+	if (m_stunTime > 0 and curStatus != DYING and curStatus != DEAD)
 	{
+		this->getAnimator()->setNextAnimation("stun");
 		m_stunTime--;
 		curStatus = STUNNED;
 	}
@@ -212,6 +217,15 @@ void Archer::Update()
 			Hide(RUNSPEED, squareDistToPlayer, ATTACKDISTANCE, STOPDISTANCE);
 		}
 		break;
+	case DYING:
+		{
+			if (--m_dyingAnimation <= 0)
+			{
+				setAlive(false);
+				curStatus = DEAD;
+			}
+			break;
+		}
 	case DEAD:
 		break;
 	default:

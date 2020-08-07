@@ -81,6 +81,11 @@ void Animator::addAnimation(const std::string& key, Uint32 maxFrames, Uint32 pri
 	
 }
 
+Animation* Animator::GetAnimation(const std::string& key)
+{
+	return animationsMap[key];
+}
+
 void Animator::update()
 {
 	Animation* nextAnim = animationsMap[nextAnimation];

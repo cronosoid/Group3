@@ -101,7 +101,7 @@ void PlatformPlayer::Update()
 				
 				this->getAnimator()->playFullAnimation("melee");
 				Mix_Volume(7, 40);
-				SOMA::PlaySound("Swoosh", 0 ,7);
+				SOMA::PlaySound("swoosh", 0 ,7);
 				this->setMeleeTime();
 				SDL_FRect rect;
 				if (this->getAnimator()->getFace() == 0)
@@ -125,7 +125,6 @@ void PlatformPlayer::Update()
 						enemy->getDamage(this->m_meeleDmg);
 						enemy->Stun(MELEESTUNTIME);
 						SOMA::PlaySound("swordHit");
-						std::cout << "Melee attacked!\n";
 					}
 				}
 				this->Meele();
@@ -233,9 +232,6 @@ void PlatformPlayer::ChangeSoul(int amnt)
 
 void PlatformPlayer::Meele()
 {
-
-	std::cout << "meele\n";
-
 }
 
 void PlatformPlayer::getDamage(int dmg)

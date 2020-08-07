@@ -388,7 +388,10 @@ void Level3::Update()
 	if (EnemyManager::EnemiesVec.empty())
 	{
 		if (this->m_pPortal == nullptr)
-			this->m_pPortal = MapObjectManager::CreateMapObject(kPortal, 91, 17, Engine::Instance().GetRenderer());
+		{
+			int x = (int)MOMA::GetTotalMove().x / 64;
+			this->m_pPortal = MapObjectManager::CreateMapObject(kPortal, 117 - x, 6, Engine::Instance().GetRenderer());
+		}
 	}
 	if (m_pPlayer->GetBody()->y > MOMA::GetWindowY())
 	{
@@ -397,7 +400,7 @@ void Level3::Update()
 	
 	if(this->m_pPortal!=nullptr)
 	{
-		if (COMA::AABBCheck(*this->m_pPortal->GetDstP(), *this->m_pPlayer->GetDstP()))
+				if (COMA::AABBCheck(*this->m_pPortal->GetDstP(), *this->m_pPlayer->GetDstP()))
 		{
 			STMA::ChangeState(new CongratulationState);
 		}

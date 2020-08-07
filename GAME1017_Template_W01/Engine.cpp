@@ -72,6 +72,7 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	SOMA::Load("Aud/Spike_hit.wav", "spikeHit", SOUND_SFX);
 	SOMA::Load("Aud/Kaben_WalkLoop.wav", "run", SOUND_SFX);
 	SOMA::Load("Aud/Kaben_death.wav", "death", SOUND_SFX);
+	SOMA::Load("Aud/Sword_swoosh.wav", "swoosh", SOUND_SFX);
 	SOMA::SetSoundVolume(35);
 
 	//Music
@@ -79,7 +80,7 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	SOMA::Load("Aud/Congratz.mp3", "congratz", SOUND_MUSIC);
 	SOMA::Load("Aud/Horn.mp3", "horn", SOUND_MUSIC);
 	SOMA::Load("Aud/Ambient.mp3", "ambient", SOUND_MUSIC);
-	SOMA::SetMusicVolume(15);
+	SOMA::SetMusicVolume(9);
 	
 	STMA::ChangeState(new ClickState);
 	SOMA::AllocateChannels(16);

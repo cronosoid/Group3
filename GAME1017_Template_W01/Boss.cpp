@@ -62,6 +62,7 @@ Boss::Boss(SDL_FRect d, SDL_Renderer* r, Animator* animator) :Enemies({ 0,0,64,6
 	this->getAnimator()->addAnimation("punch", 4, 3, 64, 64, 0, 256, 10);
 	this->getAnimator()->addAnimation("ground_slam", 8, 3, 64, 64, 0, 384, 8);
 	this->getAnimator()->addAnimation("summon", 4, 3, 64, 64, 0, 512, 16);
+	this->getAnimator()->addAnimation("dying", 14, 4, 64, 64, 0, 640, 8);
 }
 
 Boss::~Boss()
@@ -134,7 +135,7 @@ void Boss::Update()
 	static int attackWaitTime = 0;
 
 	float squareDistToPlayer = COMA::SquareRectDistance(*this->GetDstP(), *EnemyManager::GetTarget()->GetDstP());
-	if (curStatus != ATTACKING)
+	if (curStatus != ATTACKING and curStatus != DYING)
 	{
 		if (squareDistToPlayer < pow(DETECTDISTANCE, 2))
 		{
@@ -146,18 +147,19 @@ void Boss::Update()
 		}
 	}
 
-	if (health <= 0)
+	if (health <= 0 and curStatus != DYING)
 	{
-		setAlive(false);
-		EnemyManager::DestroyBoss();
-		curStatus = DEAD;
+		m_dyingAnimation = (this->getAnimator()->GetAnimation("dying")->getMaxFrames() - 6)
+			* this->getAnimator()->GetAnimation("dying")->getFramesFrequency() / 10;
+		this->getAnimator()->playFullAnimation("dying");
+		curStatus = DYING;
 	}
 	else if (health <= maxHealth * RAGEPERCENTAGE)
 	{
 		m_stage = RAGE;
 	}
 
-	if (m_stunTime > 0)
+	if (m_stunTime > 0 and curStatus != DYING)
 	{
 		m_stunTime--;
 		curStatus = STUNNED;
@@ -239,6 +241,16 @@ void Boss::Update()
 		
 	}
 	break;
+	case DYING:
+		{
+			if (m_dyingAnimation-- <= 0)
+			{
+				setAlive(false);
+				EnemyManager::DestroyBoss();
+				curStatus = DEAD;
+			}
+			break;
+		}
 	case DEAD:
 		std::cout << "Dead";
 		
