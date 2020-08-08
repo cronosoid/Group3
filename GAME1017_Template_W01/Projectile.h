@@ -26,4 +26,5 @@ public:
 		int framesFrequency = 0, int maxFrames = 0, int m_moveX = 0, int m_moveY = 0);
 	virtual void Update();
 	bool getIsActive() { return isActive; }
+	void setIsActive(bool active) { isActive = active; }
 };

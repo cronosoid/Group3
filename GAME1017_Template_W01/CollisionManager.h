@@ -13,6 +13,7 @@
 #include "MapObject.h"
 #include"PlatformPlayer.h"
 #include "Enemies.h"
+#include "Projectile.h"
 
 class CollisionManager
 {
@@ -34,6 +35,7 @@ public:
 	static float SquareRectDistance(const SDL_FRect& object1, const SDL_FRect& object2);
 	static void CheckMapCollision(const std::vector<MapObject*> mapObjects, Entity* obj);
 	static void CheckUnstableBrickCollision(const std::vector<UnstableBrick*> bricks, Entity* obj);
+	static void CheckProMapCollision(const std::vector<Projectile*> proVec, const std::vector<MapObject*> mapVec);
 	
 private:
 	CollisionManager() {}

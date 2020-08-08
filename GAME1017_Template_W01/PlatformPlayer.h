@@ -13,17 +13,17 @@ const int FIREBALLSTUNTIME = 24; // In frames
 
 const double MELEECOOLDOWN = 1.0;
 const double MAGICCOOLDOWN = 1.0;
-const double FIREBALLCOST = 10.0;
+const double FIREBALLCOST = 50.0;
 
 const int CANNOTCONTROLTIME = 20;
 
 class PlatformPlayer : public Entity
 {
 public: // Variables
-	const double m_maxSoul = 1000.0;
+	const double m_maxSoul = 300.0;
 	const int m_meeleDmg = 50;
 	const int m_magicDmg = 100;
-	const int m_soulRecover = 5;
+	const int m_soulRecover = 25;
 	int movement[2] = { 0,0 };
 	
 public: // Methods

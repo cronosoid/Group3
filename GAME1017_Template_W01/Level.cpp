@@ -9,7 +9,7 @@ Level::Level() {}
 
 Level1::Level1()
 {
-	m_levelWidth = 6592;
+	m_levelWidth = 7000;
 	m_levelHight = 1000;
 	m_currentLevel = 1;
 }
@@ -390,7 +390,7 @@ void Level3::Update()
 		if (this->m_pPortal == nullptr)
 		{
 			int x = (int)MOMA::GetTotalMove().x / 64;
-			this->m_pPortal = MapObjectManager::CreateMapObject(kPortal, 117 - x, 6, Engine::Instance().GetRenderer());
+			this->m_pPortal = MapObjectManager::CreateMapObject(kPortal, 117 - x, 4, Engine::Instance().GetRenderer());
 		}
 	}
 	if (m_pPlayer->GetBody()->y > MOMA::GetWindowY())
