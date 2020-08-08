@@ -76,7 +76,7 @@ Boss::~Boss()
 
 bool Boss::HandleSpells()
 {
-	if (m_summonCd++ > SUMMONCD and not m_ultimateCd >= ULTIMATECD)
+	if (m_summonCd++ > SUMMONCD and m_ultimateCd < ULTIMATECD)
 	{
 		if (m_summonCd < SUMMONCD + PRESUMMONTIME)
 		{
@@ -310,14 +310,14 @@ void Boss::attack()
 	}
 	else
 	{
-		rect.x = m_body.x - m_body.w;
+		rect.x = m_body.x - m_body.w * 0.55;
 	}
 
 	rect.y = m_body.y;
-	rect.w = m_body.w * 2;
+	rect.w = m_body.w * 1.55;
 	rect.h = m_body.h;
 
-	if (COMA::AABBCheck(rect, *EnemyManager::GetTarget()->GetDstP())
+	if (COMA::AABBCheck(rect, *EnemyManager::GetTarget()->GetBody())
 		and static_cast<PlatformPlayer*>(EnemyManager::GetTarget())->GetLastAttackedTime() <= 0)
 	{
 		if (this->getAnimator()->getFace() == 0)
