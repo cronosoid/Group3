@@ -280,11 +280,7 @@ void GameState::Exit()
 
 	delete m_pPlayer;
 
-	for (vector<MapObject*>::iterator obj = MapObjectManager::MapObjVec.begin(); obj != MapObjectManager::MapObjVec.end();)
-	{
-		delete* obj;
-		obj = MapObjectManager::MapObjVec.erase(obj);
-	}
+	MapObjectManager::DestroyAllMapObjects();
 
 	UIObjectManager::DestroyUIObjects();
 

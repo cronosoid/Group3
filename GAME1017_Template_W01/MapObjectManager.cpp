@@ -148,8 +148,12 @@ void MapObjectManager::DestroyAllMapObjects()
 	{
 		delete* mapobj;
 		mapobj = MapObjVec.erase(mapobj);
-		++mapobj;
 	}
+	UnstableBrickVec.clear();
+	UnstableBrickVec.shrink_to_fit();
+	MapObjVec.shrink_to_fit();
+	MapObjRectVec.clear();
+	MapObjRectVec.shrink_to_fit();
 }
 
 void MapObjectManager::DestroyInvalidMapObject()
