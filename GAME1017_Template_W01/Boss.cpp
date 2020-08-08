@@ -76,7 +76,7 @@ Boss::~Boss()
 
 bool Boss::HandleSpells()
 {
-	if (m_summonCd++ > SUMMONCD)
+	if (m_summonCd++ > SUMMONCD and not m_ultimateCd >= ULTIMATECD)
 	{
 		if (m_summonCd < SUMMONCD + PRESUMMONTIME)
 		{
