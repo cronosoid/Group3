@@ -86,7 +86,8 @@ public:
 
 private:
 	const int MOVESPEED = 2.0;
-	const int BREAKTIME = 50;
+	const int FALLSPEED = 5.0;
+	const int BREAKTIME = 20;
 	int m_brokenTime;
 	int m_status;//1:normal 2:breaking
 public:

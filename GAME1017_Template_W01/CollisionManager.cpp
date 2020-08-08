@@ -275,10 +275,11 @@ void CollisionManager::CheckPlayerMapDamage(const std::vector<MapObject*> mapObj
 				SOMA::PlaySound("spikeHit", 0 , 3);
 				//std::cout << "set map object hit direction as right" << std::endl;
 			}
-				obj->ChangeSoul(-mapObject->getDamage());
-				obj->SetLastAttackedTime();
-				std::cout << "Health: " << obj->GetSoul() << std::endl;
-				break;
+			std::cout << "spike damage:" << mapObject->getDamage() << std::endl;
+			obj->ChangeSoul(-mapObject->getDamage());
+			obj->SetLastAttackedTime();
+			std::cout << "Health: " << obj->GetSoul() << std::endl;
+			break;
 		}
 	}
 }

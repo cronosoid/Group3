@@ -64,7 +64,7 @@ MapObject* MapObjectManager::CreateMapObject(MapObjectType type, int x, int y, S
 	}
    case kUnstableBrick:
 	{
-	   std::cout << "unstable brick" << std::endl;
+	   //std::cout << "unstable brick" << std::endl;
 	   UnstableBrick* TempMapObj = new UnstableBrick({ 0,0,64,64 }, { x * 64.0f,y * 64.0f,64.0f,64.0f }, r, TextureManager::GetTexture("unstableBrick"));
 	   MapObjVec.push_back(TempMapObj);
 	   UnstableBrickVec.push_back(TempMapObj);

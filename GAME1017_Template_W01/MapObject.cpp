@@ -189,7 +189,7 @@ Spike::Spike(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t) :MapObjec
 {
 	m_IsHurt = true;
 	m_CanCollide = false;
-	m_Damage = 0;
+	m_Damage = 10;
 	type = "Spike";
 }
 
@@ -217,7 +217,7 @@ Portal::Portal(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t):MapObje
 {
 	m_IsHurt = false;
 	m_CanCollide = false;
-	m_Damage = 10;
+	m_Damage = 0;
 	type = "Portal";
 }
 
@@ -262,10 +262,16 @@ void UnstableBrick::Update()
 	{
 		m_brokenTime--;
 		//std::cout << "breaking" << m_brokenTime<< std::endl;
-		if(m_brokenTime==0)
+		if(m_brokenTime<=0)
 		{
-			m_isActive = false;
+			//m_isActive = false;
+			m_dst.y += FALLSPEED;
+			
 		}
+	}
+	if(m_dst.y>768+128+1)
+	{
+		m_isActive = false;
 	}
 }
 
