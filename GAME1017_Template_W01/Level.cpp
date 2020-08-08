@@ -400,7 +400,7 @@ void Level3::Update()
 	
 	if(this->m_pPortal!=nullptr)
 	{
-				if (COMA::AABBCheck(*this->m_pPortal->GetDstP(), *this->m_pPlayer->GetDstP()))
+		if (COMA::AABBCheck(*this->m_pPortal->GetDstP(), *this->m_pPlayer->GetDstP()))
 		{
 			STMA::ChangeState(new CongratulationState);
 		}
