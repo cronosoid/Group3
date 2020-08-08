@@ -86,6 +86,21 @@ Animation* Animator::GetAnimation(const std::string& key)
 	return animationsMap[key];
 }
 
+bool Animator::AnimationIsPlaying(const std::string& key)
+{
+	bool foundInAnimRecords = false;
+	for (AnimRecord* rec : animRecords)
+	{
+		if (key == rec->animation->getName())
+		{
+			foundInAnimRecords = true;
+			break;
+		}
+	}
+
+	return nextAnimation == key or foundInAnimRecords;
+}
+
 void Animator::update()
 {
 	Animation* nextAnim = animationsMap[nextAnimation];

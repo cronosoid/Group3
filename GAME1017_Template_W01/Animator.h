@@ -64,6 +64,7 @@ public: // Methods
 	void playAnimation();//Plays the animation with the highest priority in the "hill"
 	void addAnimation(const std::string& key, Uint32 maxFrames, Uint32 priority, Uint32 moveX, Uint32 moveY = 0, Uint32 startX = 0, Uint32 startY = 0, Uint32 framesFrequency = 8);
 	Animation* GetAnimation(const std::string& key);
+	bool AnimationIsPlaying(const std::string& key);
 	//Adding animation in the animations map, which can be easily played by calling setNextAnimation(*animation name*)
 	void update();
 	

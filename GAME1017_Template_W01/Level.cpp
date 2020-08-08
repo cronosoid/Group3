@@ -378,19 +378,26 @@ void Level3::Load(PlatformPlayer* Player)
 	MapObjectManager::CreateMoveMapObject(kSpike, 77, 10 , { 4928.0f,576.0f }, { 4928.0f,384.0f }, Engine::Instance().GetRenderer());
 	MapObjectManager::CreateMoveMapObject(kSpike, 82, 8 , { 5248.0f,576.0f }, { 5248.0f,192.0f }, Engine::Instance().GetRenderer());
 
-	EnemyManager::SpawnBoss(100, 0, Engine::Instance().GetRenderer());
 	SOMA::StopMusic();
 	SOMA::PlayMusic("horn", -1, 0);
+
+	m_bossSpawned = false;
 }
 
 void Level3::Update()
 {
-	if (EnemyManager::EnemiesVec.empty())
+	if (not m_bossSpawned and MOMA::GetTotalMove().x > 90 * 64)
+	{
+		m_bossSpawned = true;
+		int x = (int)MOMA::GetTotalMove().x / 64;
+		EnemyManager::SpawnBoss(100 - x, 0, Engine::Instance().GetRenderer());
+	}
+	if (m_bossSpawned and EnemyManager::EnemiesVec.empty())
 	{
 		if (this->m_pPortal == nullptr)
 		{
 			int x = (int)MOMA::GetTotalMove().x / 64;
-			this->m_pPortal = MapObjectManager::CreateMapObject(kPortal, 117 - x, 4, Engine::Instance().GetRenderer());
+			this->m_pPortal = MapObjectManager::CreateMapObject(kPortal, 115 - x, 4, Engine::Instance().GetRenderer());
 		}
 	}
 	if (m_pPlayer->GetBody()->y > MOMA::GetWindowY())

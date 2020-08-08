@@ -16,7 +16,7 @@ public:
 	virtual void Update() override;
 	virtual void Render() override;
 
-	void HandleSpells();
+	bool HandleSpells();
 	void attack();
 
 private:
@@ -24,6 +24,7 @@ private:
 
 	Uint16 m_summonCd;
 	Uint16 m_ultimateCd;
+	Uint16 m_ultimating;
 
 	BossHealthbar* m_healthbar;
 

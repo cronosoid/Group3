@@ -56,5 +56,6 @@ public:
 	void Update() override;
 
 private:
-
+	bool m_bossSpawned = false;
+	
 };

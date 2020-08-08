@@ -27,10 +27,12 @@ const float RUNSPEED = 0.2;
 const int MAXATTACKWAITTIME = 70; // in frames
 const float ATTACKCOOLDOWN = 1.5;
 
-const int SUMMONCD = 20 * 60;
+const int SUMMONCD = 20 * FPS;
+const int PRESUMMONTIME = FPS * 2;
 
 const float RAGEPERCENTAGE = 0.6;
 const int ULTIMATECD = 5 * 60;
+const int PREULTIMATETIME = FPS * 2;
 const int ULTIMATETOSS = -60;
 const float ULTIMATEDAMAGE = 45.0;
 
@@ -62,6 +64,7 @@ Boss::Boss(SDL_FRect d, SDL_Renderer* r, Animator* animator) :Enemies({ 0,0,64,6
 	this->getAnimator()->addAnimation("punch", 4, 3, 64, 64, 0, 256, 10);
 	this->getAnimator()->addAnimation("ground_slam", 8, 3, 64, 64, 0, 384, 8);
 	this->getAnimator()->addAnimation("summon", 4, 3, 64, 64, 0, 512, 16);
+	this->getAnimator()->addAnimation("ultimate_prepare", 4, 3, 64, 64, 0, 768, 30);
 	this->getAnimator()->addAnimation("dying", 14, 4, 64, 64, 0, 640, 8);
 }
 
@@ -71,56 +74,75 @@ Boss::~Boss()
 }
 
 
-void Boss::HandleSpells()
+bool Boss::HandleSpells()
 {
 	if (m_summonCd++ > SUMMONCD)
 	{
-		m_summonCd = 0;
-
-		this->getAnimator()->playFullAnimation("summon");
-		
-		SDL_FPoint bossPos = {m_dst.x / 64, m_dst.y / 64 };
-		
-		for (int i = 1; i <= 3; i++)
+		if (m_summonCd < SUMMONCD + PRESUMMONTIME)
 		{
-			EnemyType type = swordman;
-			if (rand() % 2 == 0)
-				type = archer;
-			EnemyManager::CreateEnemy(type, bossPos.x - 2 + i * 2, 0, Engine::Instance().GetRenderer());
+			this->getAnimator()->setNextAnimation("summon");
+			this->Stop();
 		}
-		
+		else
+		{
+			m_summonCd = 0;
+
+			SDL_FPoint bossPos = { m_dst.x / 64, m_dst.y / 64 };
+
+			for (int i = 1; i <= 3; i++)
+			{
+				EnemyType type = swordman;
+				if (rand() % 2 == 0)
+					type = archer;
+				EnemyManager::CreateEnemy(type, bossPos.x - 2 + i * 2, 0, Engine::Instance().GetRenderer());
+			}
+		}
+		return true;
 	}
 	if (m_stage == RAGE)
 	{
-		if (m_ultimateCd == ULTIMATECD - 8 * 4)
+		if (++m_ultimateCd >= ULTIMATECD)
 		{
-			StopX();
-			this->getAnimator()->playFullAnimation("ground_slam");
-		}
-		if (m_ultimateCd++ > ULTIMATECD)
-		{
-			StopX();
-			
-			m_ultimateCd = 0;
-
-			for (Enemies* enemy : EnemyManager::EnemiesVec)
+			if (m_ultimateCd == ULTIMATECD)
 			{
-				if (enemy != this and enemy->GetBody()->y < m_body.y + m_body.h and enemy->GetBody()->y + enemy->GetBody()->h > m_body.y)
+				this->getAnimator()->playFullAnimation("ultimate_prepare");
+				m_ultimating = 0;
+			}
+			if (not this->getAnimator()->AnimationIsPlaying("ultimate_prepare"))
+			{
+				if (m_ultimating == 0)
 				{
-					enemy->SetAccelY(ULTIMATETOSS * (1 - 0.1 * (rand()%3)));
-					enemy->Stun(60);
+					this->getAnimator()->playFullAnimation("ground_slam");
+				}
+				if (++m_ultimating == 8 * 4)
+				{
+					StopX();
+
+					m_ultimating = 0;
+					m_ultimateCd = 0;
+
+					for (Enemies* enemy : EnemyManager::EnemiesVec)
+					{
+						if (enemy != this and enemy->GetBody()->y < m_body.y + m_body.h and enemy->GetBody()->y + enemy->GetBody()->h > m_body.y)
+						{
+							enemy->SetAccelY(ULTIMATETOSS * (1 - 0.1 * (rand()%3)));
+							enemy->Stun(60);
+						}
+					}
+
+					PlatformPlayer* player = EnemyManager::GetTarget();
+					if (player->GetBody()->y < m_body.y + m_body.h and player->GetBody()->y + player->GetBody()->h > m_body.y + m_body.h * (0.7))
+					{
+						player->SetAccelY(ULTIMATETOSS * (1 - 0.1 * (rand() % 3)));
+						player->Stun(60);
+						player->getDamage(ULTIMATEDAMAGE);
+					}
 				}
 			}
-
-			PlatformPlayer* player = EnemyManager::GetTarget();
-			if (player->GetBody()->y < m_body.y + m_body.h and player->GetBody()->y + player->GetBody()->h > m_body.y)
-			{
-				player->SetAccelY(ULTIMATETOSS * (1 - 0.1 * (rand() % 3)));
-				player->Stun(60);
-				player->getDamage(ULTIMATEDAMAGE);
-			}
+			return true;
 		}
 	}
+	return false;
 }
 
 void Boss::Update()
@@ -135,139 +157,141 @@ void Boss::Update()
 	static int attackWaitTime = 0;
 
 	float squareDistToPlayer = COMA::SquareRectDistance(*this->GetDstP(), *EnemyManager::GetTarget()->GetDstP());
-	if (curStatus != ATTACKING and curStatus != DYING)
+
+	if (not HandleSpells() or health <= 0)
 	{
-		if (squareDistToPlayer < pow(DETECTDISTANCE, 2))
+		if (curStatus != ATTACKING and curStatus != DYING)
 		{
-			curStatus = SEEKING;
-		}
-		else
-		{
-			curStatus = PATROLING;
-		}
-	}
-
-	if (health <= 0 and curStatus != DYING)
-	{
-		m_dyingAnimation = (this->getAnimator()->GetAnimation("dying")->getMaxFrames() - 6)
-			* this->getAnimator()->GetAnimation("dying")->getFramesFrequency() / 10;
-		this->getAnimator()->playFullAnimation("dying");
-		curStatus = DYING;
-	}
-	else if (health <= maxHealth * RAGEPERCENTAGE)
-	{
-		m_stage = RAGE;
-	}
-
-	if (m_stunTime > 0 and curStatus != DYING)
-	{
-		m_stunTime--;
-		curStatus = STUNNED;
-	}
-	
-	switch (curStatus)
-	{
-	case IDLE:
-	{
-
-	}
-	break;
-	case PATROLING:
-	{
-		if (m_floor)
-		{
-			this->m_speed = WALKSPEED;
-
-			float curX;
-			animator->getFace() == 0 ? curX = m_dst.x + m_dst.w + 5 : curX = m_dst.x - 5;
-			
-			float curY = m_dst.y + m_dst.h / 2;
-			
-			MapObject* nextObject = COMA::FindFirstObjectOnTheRay({ curX,curY }, { 0, 1 });
-
-			if (nextObject)
+			if (squareDistToPlayer < pow(DETECTDISTANCE, 2))
 			{
-				float dist = COMA::SquareRectDistance(*nextObject->GetDstP(), *m_floor->GetDstP());
-
-				if (dist < pow(m_floor->GetDstP()->w * 3 + 10, 2) and abs(nextObject->GetDstP()->y - m_floor->GetDstP()->y) < 32)
-				{
-					SetAccelX((1.0 - 2.0 * animator->getFace()) * m_speed);
-				}
-				else
-				{
-					animator->getFace() == 0 ? animator->setFace(1) : animator->setFace(0);
-				}
+				curStatus = SEEKING;
 			}
 			else
 			{
-				animator->getFace() == 0 ? animator->setFace(1) : animator->setFace(0);
+				curStatus = PATROLING;
 			}
 		}
-	}
-	break;
-	case SEEKING:
-	{
-		Seek(RUNSPEED, squareDistToPlayer, STOPDISTANCE, ATTACKDISTANCE, true);
-		if (squareDistToPlayer < pow(ATTACKDISTANCE, 2))
+
+		if (health <= 0 and curStatus != DYING)
 		{
-			if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
+			m_dyingAnimation = (this->getAnimator()->GetAnimation("dying")->getMaxFrames() - 6)
+                * this->getAnimator()->GetAnimation("dying")->getFramesFrequency() / 10;
+			this->getAnimator()->playFullAnimation("dying");
+			curStatus = DYING;
+		}
+		else if (health <= maxHealth * RAGEPERCENTAGE)
+		{
+			m_stage = RAGE;
+		}
+
+		if (m_stunTime > 0 and curStatus != DYING)
+		{
+			m_stunTime--;
+			curStatus = STUNNED;
+		}
+	
+		switch (curStatus)
+		{
+		case IDLE:
 			{
-				curStatus = ATTACKING;
-			}
-		}
-	}
-	break;
-	case FLEEING:
-	{
-		
-	}
-	break;
-	case ATTACKING:
-		if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
-		{
-			this->getAnimator()->playFullAnimation("punch");
-			attackWaitTime = MAXATTACKWAITTIME;
-			this->lastAttackTime = SDL_GetTicks();
-			attack();
-		}
-		if (--attackWaitTime <= 0)
-		{
-			attackWaitTime = 0;
-			curStatus = SEEKING;
-		}
-		break;
-	case STUNNED:
-	{
-		
-	}
-	break;
-	case DYING:
-		{
-			if (m_dyingAnimation-- <= 0)
-			{
-				setAlive(false);
-				EnemyManager::DestroyBoss();
-				curStatus = DEAD;
+
 			}
 			break;
-		}
-	case DEAD:
-		std::cout << "Dead";
-		
-		break;
-	default:
-		break;
-	}
+		case PATROLING:
+			{
+				if (m_floor)
+				{
+					this->m_speed = WALKSPEED;
 
-	HandleSpells();
-	
-	movementUpdate();
+					float curX;
+					animator->getFace() == 0 ? curX = m_dst.x + m_dst.w + 5 : curX = m_dst.x - 5;
+			
+					float curY = m_dst.y + m_dst.h / 2;
+			
+					MapObject* nextObject = COMA::FindFirstObjectOnTheRay({ curX,curY }, { 0, 1 });
+
+					if (nextObject)
+					{
+						float dist = COMA::SquareRectDistance(*nextObject->GetDstP(), *m_floor->GetDstP());
+
+						if (dist < pow(m_floor->GetDstP()->w * 3 + 10, 2) and abs(nextObject->GetDstP()->y - m_floor->GetDstP()->y) < 32)
+						{
+							SetAccelX((1.0 - 2.0 * animator->getFace()) * m_speed);
+						}
+						else
+						{
+							animator->getFace() == 0 ? animator->setFace(1) : animator->setFace(0);
+						}
+					}
+					else
+					{
+						animator->getFace() == 0 ? animator->setFace(1) : animator->setFace(0);
+					}
+				}
+			}
+			break;
+		case SEEKING:
+			{
+				Seek(RUNSPEED, squareDistToPlayer, STOPDISTANCE, ATTACKDISTANCE, true);
+				if (squareDistToPlayer < pow(ATTACKDISTANCE, 2))
+				{
+					if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
+					{
+						curStatus = ATTACKING;
+					}
+				}
+			}
+			break;
+		case FLEEING:
+			{
+		
+			}
+			break;
+		case ATTACKING:
+            if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
+            {
+            	this->getAnimator()->playFullAnimation("punch");
+            	attackWaitTime = MAXATTACKWAITTIME;
+            	this->lastAttackTime = SDL_GetTicks();
+            	attack();
+            }
+			if (--attackWaitTime <= 0)
+			{
+				attackWaitTime = 0;
+				curStatus = SEEKING;
+			}
+			break;
+		case STUNNED:
+			{
+		
+			}
+			break;
+		case DYING:
+			{
+				if (m_dyingAnimation-- <= 0)
+				{
+					setAlive(false);
+					EnemyManager::DestroyBoss();
+					curStatus = DEAD;
+				}
+				break;
+			}
+		case DEAD:
+            std::cout << "Dead";
+		
+			break;
+		default:
+            break;
+		}
+	}
 	
 	if (this->GetVelX() == 0)
 		this->getAnimator()->setNextAnimation("idle");
 	else
 		this->getAnimator()->setNextAnimation("run");
 
+	movementUpdate();
+	
 	this->getAnimator()->update();
 }
 
