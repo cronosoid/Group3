@@ -36,6 +36,7 @@ private:
 	static int m_time;
 	static int m_currentLevel;
 	double m_start, m_end;
+	int m_initEnemiesAmount;
 	
 public:
 	GameState(Level* newLevel);

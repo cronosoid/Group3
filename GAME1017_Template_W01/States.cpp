@@ -138,6 +138,9 @@ void GameState::Enter()
 	m_currentLevel = m_pLevel->getLevelNum();
 	m_score = 0;
 	m_start = clock();
+
+	m_initEnemiesAmount = EnemyManager::EnemiesVec.size();
+	
 	std::cout << "Start: " << (int)m_start << std::endl;
 }
 
@@ -263,9 +266,20 @@ void GameState::Exit()
 	std::cout << "EXIT\n";
 	
 	m_end = clock();
-	m_time = (int)(m_end - m_start)/1000;
 	m_time = (int)(m_end - m_start) / 1000;
-	std::cout << "End: " << (int)m_end << std::endl;
+
+	int successfulness = 1;
+	if (m_time < 15)
+		successfulness = 5;
+	else if (m_time < 25)
+		successfulness = 4;
+	else if (m_time < 40)
+		successfulness = 3;
+	else if (m_time < 60)
+		successfulness = 2;
+	
+	m_score = (m_initEnemiesAmount - EnemyManager::EnemiesVec.size()) * 1000 * successfulness;
+	
 	std::cout << "Time: " << (int)m_time << std::endl;
 
 	SCMA::Clean();
