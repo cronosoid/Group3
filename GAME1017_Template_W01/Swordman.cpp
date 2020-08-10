@@ -64,7 +64,7 @@ void Swordman::Update()
 		setActive(false);
 	}
 
-	float squareDistToPlayer = COMA::SquareRectDistance(this->m_body, *EnemyManager::GetTarget()->GetDstP());
+	float squareDistToPlayer = COMA::SquareRectDistance(this->m_body, *EnemyManager::GetTarget()->GetBody());
 	if (curStatus != ATTACKING and curStatus != DYING)
 	{
 		if (squareDistToPlayer < pow(DETECTDISTANCE, 2) and knowWherePlayerIs)
@@ -182,6 +182,9 @@ void Swordman::Update()
 		if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
 		{
 			//std::cout << "Attacked\n";
+
+			
+			
 			this->getAnimator()->playFullAnimation("melee");
 			
 			attackWaitTime = MAXATTACKWAITTIME;
@@ -206,7 +209,7 @@ void Swordman::Update()
 	break;
 	case HIDING:
 		{
-			Hide(RUNSPEED, squareDistToPlayer, ATTACKDISTANCE, STOPDISTANCE);
+			Hide(RUNSPEED, squareDistToPlayer, ATTACKDISTANCE, STOPDISTANCE, FLEEPROCENTAGE);
 		}
 		break;
 	case DYING:
@@ -243,6 +246,18 @@ void Swordman::Render()
 
 void Swordman::attack()
 {
+	float dist = (EnemyManager::GetTarget()->GetBody()->x + EnemyManager::GetTarget()->GetBody()->w / 2) - (this->m_body.x + this->m_body.w / 2);
+
+	float direction = 1;
+	if (dist != 0)
+	{
+		direction = abs(dist) / dist;
+	}
+	if (direction == 1)
+		animator->setFace(0);
+	else if (direction == -1)
+		animator->setFace(1);
+	
 	SDL_FRect rect;
 	if (this->getAnimator()->getFace() == 0)
 	{
@@ -256,6 +271,8 @@ void Swordman::attack()
 	rect.y = m_body.y;
 	rect.w = m_body.w * 2;
 	rect.h = m_body.h;
+
+	SOMA::PlaySound("swoosh", 0, 12);
 
 	if (COMA::AABBCheck(rect, *EnemyManager::GetTarget()->GetBody())
 		and static_cast<PlatformPlayer*>(EnemyManager::GetTarget())->GetLastAttackedTime() <= 0)

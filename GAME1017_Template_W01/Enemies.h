@@ -20,7 +20,7 @@ public:
 
 	void Flee(float RUNSPEED, float squareDistToPlayer, float ATTACKDISTANCE, float STOPDISTANCE);
 	void Seek(float RUNSPEED, float squareDistToPlayer, float STOPDISTANCE, float ATTACKDISTANCE, bool knowWherePlayer);
-	void Hide(float RUNSPEED, float squareDistToPlayer, float ATTACKDISTANCE, float STOPDISTANCE);
+	void Hide(float RUNSPEED, float squareDistToPlayer, float ATTACKDISTANCE, float STOPDISTANCE, const float FLEEPROCENTAGE);
 	
 	bool getActive();
 	void setActive(bool a);

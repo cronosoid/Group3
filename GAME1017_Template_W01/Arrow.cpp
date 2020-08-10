@@ -38,7 +38,7 @@ void Arrow::Update()
 		m_curFrame++;
 	}
 	
-	if (COMA::AABBCheck(*this->GetDstP(), *hero->GetDstP())
+	if (COMA::AABBCheck(*this->GetDstP(), *hero->GetBody())
 		and hero->GetLastAttackedTime() <= 0)
 	{
 		if (face == 1)
@@ -54,6 +54,7 @@ void Arrow::Update()
 		hero->StopX();
 		SOMA::PlaySound("arrowHit");
 		isActive = false;
+		return;
 	}
 
 	for (int i = 0; i < (int)mapObjects.size(); i++)
@@ -61,6 +62,7 @@ void Arrow::Update()
 		if (COMA::AABBCheck(*this->GetDstP(), *mapObjects[i]->GetDstP()))
 		{
 			this->isActive = false;
+			SOMA::PlaySound("arrowHit");
 			break;
 		}
 	}

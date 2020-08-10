@@ -86,7 +86,7 @@ void Enemies::Seek(const float RUNSPEED, const float squareDistToPlayer, const f
 	}
 }
 
-void Enemies::Hide(const float RUNSPEED, const float squareDistToPlayer, const float ATTACKDISTANCE, const float STOPDISTANCE)
+void Enemies::Hide(const float RUNSPEED, const float squareDistToPlayer, const float ATTACKDISTANCE, const float STOPDISTANCE, const float FLEEPROCENTAGE)
 {
 	PlatformPlayer* player = EnemyManager::GetTarget();
 	
@@ -111,6 +111,11 @@ void Enemies::Hide(const float RUNSPEED, const float squareDistToPlayer, const f
 			m_hided = FPS * HIDECOOLDOWN;
 			m_noLOStime = 0;
 		}
+	}
+
+	if (health > maxHealth * FLEEPROCENTAGE)
+	{
+		curStatus = FLEEING;
 	}
 }
 

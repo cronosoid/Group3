@@ -11,6 +11,8 @@
 #include <iostream>
 #include <ctime>
 
+#include "SoundManager.h"
+
 const int MAXHEALTH = 100;
 const int ARCHERDAMAGE = 20;
 const int ARCHERDEFENCE = 10;
@@ -64,7 +66,7 @@ void Archer::Update()
 
 	if (m_hided > 0) m_hided--;
 	
-	float squareDistToPlayer = COMA::SquareRectDistance(*this->GetDstP(), *player->GetDstP());
+	float squareDistToPlayer = COMA::SquareRectDistance(*this->GetDstP(), *player->GetBody());
 	if (curStatus != ATTACKING and curStatus != DYING)
 	{
 		if (squareDistToPlayer < pow(DETECTDISTANCE, 2) and knowWherePlayerIs)
@@ -214,7 +216,7 @@ void Archer::Update()
 		break;
 	case HIDING:
 		{
-			Hide(RUNSPEED, squareDistToPlayer, ATTACKDISTANCE, STOPDISTANCE);
+			Hide(RUNSPEED, squareDistToPlayer, ATTACKDISTANCE, STOPDISTANCE, FLEEPROCENTAGE);
 		}
 		break;
 	case DYING:
@@ -251,8 +253,21 @@ void Archer::Render()
 
 void Archer::attack()
 {
+	float dist = (EnemyManager::GetTarget()->GetBody()->x + EnemyManager::GetTarget()->GetBody()->w / 2) - (this->m_body.x + this->m_body.w / 2);
+
+	float direction = 1;
+	if (dist != 0)
+	{
+		direction = abs(dist) / dist;
+	}
+	if (direction == 1)
+		animator->setFace(0);
+	else if (direction == -1)
+		animator->setFace(1);
+	
 	int face;
 	this->animator->getFace() == 0 ? face = 1 : face = -1;
+	SOMA::PlaySound("arrow_release", 0, 2);
 	PMA::Instance().GetProjectiles().push_back(new Arrow(EnemyManager::GetTarget(), MapObjectManager::MapObjVec,{ 0,0,320,320 },
 		{ face == 1 ? this->m_body.x + this->m_body.w * 0.75f : this->m_body.x - this->m_body.w * 0.25f,
 		this->m_body.y + 42, 48, 48 },

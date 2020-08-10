@@ -22,7 +22,8 @@ void MapObjectManager::Init()
 {
 	//TextureManager::RegisterTexture("Img/brick.png", "plate");
 	TextureManager::RegisterTexture("Img/grassblock.png", "plate");
-	TextureManager::RegisterTexture("Img/spike.png", "spike");
+	//TextureManager::RegisterTexture("Img/spike.png", "spike");
+	TextureManager::RegisterTexture("Img/spears.png", "spike");
 	TextureManager::RegisterTexture("Img/portal.png", "portal");
 	TextureManager::RegisterTexture("Img/BrokenBrick.png", "unstableBrick");
 }
@@ -43,7 +44,7 @@ MapObject* MapObjectManager::CreateMapObject(MapObjectType type, int x, int y, S
 	}
 	case kSpike:
 	{
-		Spike* TempMapObj = new Spike({ 0,0,64,64 }, { x * 64.0f,y * 64.0f,64.0f,64.0f }, r, TextureManager::GetTexture("spike"));
+		Spike* TempMapObj = new Spike({ 0,0,128,128 }, { x * 64.0f,y * 64.0f,64.0f,64.0f }, r, TextureManager::GetTexture("spike"));
 		MapObjVec.push_back(TempMapObj);
 		SDL_FRect* TempFRect = TempMapObj->GetDstP();
 		MapObjRectVec.push_back(TempFRect);

@@ -78,6 +78,7 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	SOMA::Load("Aud/Kaben_WalkLoop.wav", "run", SOUND_SFX);
 	SOMA::Load("Aud/Kaben_death.wav", "death", SOUND_SFX);
 	SOMA::Load("Aud/Sword_swoosh.wav", "swoosh", SOUND_SFX);
+	SOMA::Load("Aud/Arrow_release.wav", "arrow_release", SOUND_SFX);
 	SOMA::SetSoundVolume(35);
 
 	//Music
