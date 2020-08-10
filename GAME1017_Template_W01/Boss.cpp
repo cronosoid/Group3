@@ -27,7 +27,7 @@ const float RUNSPEED = 0.2;
 const int MAXATTACKWAITTIME = 70; // in frames
 const float ATTACKCOOLDOWN = 1.5;
 
-const int SUMMONCD = 20 * FPS;
+const int SUMMONCD = 15 * FPS;
 const int PRESUMMONTIME = FPS * 2;
 
 const float RAGEPERCENTAGE = 0.6;
