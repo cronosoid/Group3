@@ -76,6 +76,7 @@ private:
 	Button* m_helpBtn;
 	Background* t_background;
 	//Button* m_pLevel3Btn;
+	Sprite* m_pLogo;
 };
 
 class EndState : public State

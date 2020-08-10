@@ -65,9 +65,11 @@ TitleState::TitleState() {}
 
 void TitleState::Enter()
 {
+	TextureManager::RegisterTexture("Img/HonorandHonor.png", "title");
 	m_playBtn = new PlayButton({ 0,0,400,100 }, { 60.0f,350.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
 	m_helpBtn = new HelpButton({ 0,0,400,100 }, { 560.0f,350.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("help"));
 	//m_pLevel3Btn = new Level3Button({ 0,0,400,100 }, { 60.0f,450.0f,320.0f,80.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
+	m_pLogo = new Sprite({ 0,0,900,118 }, { 62.0f,100.0f,900.0f,118.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("title"));
 
 	TEMA::RegisterTexture("../Spritesheets/fireball.png", "fireball");
 	SOMA::PlayMusic("horn", -1, 0);
@@ -92,6 +94,7 @@ void TitleState::Render()
 	t_background->Render();
 	m_playBtn->Render();
 	m_helpBtn->Render();
+	m_pLogo->Render();
 	//m_pLevel3Btn->Render();
 	State::Render();
 }
