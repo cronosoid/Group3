@@ -12,7 +12,7 @@
 #include <ctime>
 
 const int MAXHEALTH = 100;
-const int ARCHERDAMAGE = 10;
+const int ARCHERDAMAGE = 20;
 const int ARCHERDEFENCE = 10;
 const int DETECTDISTANCE = 750;
 const int STOPDISTANCE = 150;
@@ -169,7 +169,7 @@ void Archer::Update()
 	case FLEEING:
 		{
 			Flee(RUNSPEED, squareDistToPlayer, ATTACKDISTANCE, STOPDISTANCE);
-			if (squareDistToPlayer < pow(ATTACKDISTANCE, 2))
+			if (squareDistToPlayer < pow(ATTACKDISTANCE * 1.5, 2))
 			{
 				if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
 				{

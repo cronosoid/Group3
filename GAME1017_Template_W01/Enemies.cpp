@@ -39,7 +39,7 @@ void Enemies::Flee(const float RUNSPEED, const float squareDistToPlayer, const f
 		animator->setFace(0);
 
 	float curX;
-	animator->getFace() == 0 ? curX = m_body.x + m_body.w + 5 : curX = m_body.x - 5;
+	animator->getFace() == 0 ? curX = m_body.x + m_body.w + 15 : curX = m_body.x - 15;
 	float curY = m_body.y;
 	MapObject* nextObject = COMA::FindFirstObjectOnTheRay({ curX,curY }, { 0, 1 });
 
@@ -72,7 +72,7 @@ void Enemies::Seek(const float RUNSPEED, const float squareDistToPlayer, const f
 		animator->setFace(1);
 
 	float curX;
-	animator->getFace() == 0 ? curX = m_body.x + m_body.w + 5 : curX = m_body.x - 5;
+	animator->getFace() == 0 ? curX = m_body.x + m_body.w + 15 : curX = m_body.x - 15;
 	float curY = m_body.y;
 	MapObject* nextObject = COMA::FindFirstObjectOnTheRay({ curX,curY }, { 0, 1 });
 

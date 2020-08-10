@@ -34,7 +34,7 @@ const float RAGEPERCENTAGE = 0.6;
 const int ULTIMATECD = 5 * 60;
 const int PREULTIMATETIME = FPS * 2;
 const int ULTIMATETOSS = -60;
-const float ULTIMATEDAMAGE = 45.0;
+const float ULTIMATEDAMAGE = 70.0;
 
 const float w = 200.0;
 const float h = 256.0;
@@ -85,6 +85,8 @@ bool Boss::HandleSpells()
 		}
 		else
 		{
+			SOMA::PlaySound("hatoo_summon", 0, 9);
+			
 			m_summonCd = 0;
 
 			SDL_FPoint bossPos = { m_dst.x / 64, m_dst.y / 64 };
@@ -120,6 +122,8 @@ bool Boss::HandleSpells()
 
 					m_ultimating = 0;
 					m_ultimateCd = 0;
+
+					SOMA::PlaySound("hatoo_slam", 0, 9);
 
 					for (Enemies* enemy : EnemyManager::EnemiesVec)
 					{
@@ -177,6 +181,7 @@ void Boss::Update()
 			m_dyingAnimation = (this->getAnimator()->GetAnimation("dying")->getMaxFrames() - 6)
                 * this->getAnimator()->GetAnimation("dying")->getFramesFrequency() / 10;
 			this->getAnimator()->playFullAnimation("dying");
+			SOMA::PlaySound("hatoo_death", 0, 9);
 			curStatus = DYING;
 		}
 		else if (health <= maxHealth * RAGEPERCENTAGE)
@@ -316,7 +321,7 @@ void Boss::attack()
 	rect.y = m_body.y;
 	rect.w = m_body.w * 1.55;
 	rect.h = m_body.h;
-
+	
 	if (COMA::AABBCheck(rect, *EnemyManager::GetTarget()->GetBody())
 		and static_cast<PlatformPlayer*>(EnemyManager::GetTarget())->GetLastAttackedTime() <= 0)
 	{
@@ -331,7 +336,7 @@ void Boss::attack()
 		EnemyManager::GetTarget()->getDamage(BOSSDAMAGE);
 		static_cast<PlatformPlayer*>(EnemyManager::GetTarget())->SetLastAttackedTime();
 		EnemyManager::GetTarget()->StopX();
-		SOMA::PlaySound("swordHit");
+		SOMA::PlaySound("hatoo_punch", 0, 9);
 		std::cout << "Boss Melee!\n";
 	}
 }

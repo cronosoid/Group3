@@ -20,7 +20,8 @@ MapObjectManager::~MapObjectManager()
 
 void MapObjectManager::Init()
 {
-	TextureManager::RegisterTexture("Img/brick.png", "plate");
+	//TextureManager::RegisterTexture("Img/brick.png", "plate");
+	TextureManager::RegisterTexture("Img/grassblock.png", "plate");
 	TextureManager::RegisterTexture("Img/spike.png", "spike");
 	TextureManager::RegisterTexture("Img/portal.png", "portal");
 	TextureManager::RegisterTexture("Img/BrokenBrick.png", "unstableBrick");

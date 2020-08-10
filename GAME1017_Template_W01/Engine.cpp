@@ -49,7 +49,7 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	TEMA::RegisterTexture("Img/restart.png", "restart");
 	TEMA::RegisterTexture("Img/NxtLvl.png", "nextLevel");
 	TEMA::RegisterTexture("Img/congratulations.png", "congratulations");
-	TEMA::RegisterTexture("Img/Fireball_sheet.png", "fireball");	
+	TEMA::RegisterTexture("Img/Fireball_sheet.png", "fireball");
 	TEMA::RegisterTexture("Img/HighlightedBrick.png", "hBrick");
 	TEMA::RegisterTexture("Img/HealthBar.png", "healthBar");
 	TEMA::RegisterTexture("Img/HealthBarScale.png", "healthBarScale");
@@ -66,6 +66,11 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	FOMA::RegisterFont("Img/LTYPE.ttf", "Ltype", 24);
 	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
 
+	SOMA::Load("Aud/hatoo_punch.wav", "hatoo_punch", SOUND_SFX);
+	SOMA::Load("Aud/hatoo_summon.wav", "hatoo_summon", SOUND_SFX);
+	SOMA::Load("Aud/hatoo_slam.wav", "hatoo_slam", SOUND_SFX);
+	SOMA::Load("Aud/hatoo_death.wav", "hatoo_death", SOUND_SFX);
+	
 	SOMA::Load("Aud/button.wav", "button", SOUND_SFX);
 	SOMA::Load("Aud/Kaben_jump.wav", "jump", SOUND_SFX);
 	SOMA::Load("Aud/Fireball_shot.wav", "fireBall", SOUND_SFX);

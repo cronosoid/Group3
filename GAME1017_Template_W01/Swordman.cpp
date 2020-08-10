@@ -16,7 +16,7 @@
 #include "SoundManager.h"
 
 const int MAXHEALTH = 100;
-const int SWORDMANDAMAGE = 10;
+const int SWORDMANDAMAGE = 25;
 const int SWORDMANDEFENCE = 10;
 const int DETECTDISTANCE = 400;
 const int STOPDISTANCE = 0;
@@ -169,7 +169,7 @@ void Swordman::Update()
 	case FLEEING:
 		{
 			Flee(RUNSPEED, squareDistToPlayer, ATTACKDISTANCE, STOPDISTANCE);
-			if (squareDistToPlayer < pow(ATTACKDISTANCE, 2))
+			if (squareDistToPlayer < pow(ATTACKDISTANCE * 1.5, 2))
 			{
 				if ((this->lastAttackTime + ATTACKCOOLDOWN * 1000) < SDL_GetTicks())
 				{
