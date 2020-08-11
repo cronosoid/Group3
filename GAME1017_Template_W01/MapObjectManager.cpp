@@ -98,7 +98,7 @@ void MapObjectManager::CreateMoveMapObject(MapObjectType type, int x, int y, SDL
 	}
 	case kSpike:
 	{
-		Spike* TempMapObj = new Spike({ 0,0,64,64 }, { x * 64.0f,y * 64.0f,64.0f,64.0f }, r, TextureManager::GetTexture("spike"),start,end);
+		Spike* TempMapObj = new Spike({ 0,0,128,128 }, { x * 64.0f,y * 64.0f,64.0f,64.0f }, r, TextureManager::GetTexture("spike"),start,end);
 		//std::cout << "Moving Spike Created" << std::endl;
 		MapObjVec.push_back(TempMapObj);
 		SDL_FRect* TempFRect = TempMapObj->GetDstP();
