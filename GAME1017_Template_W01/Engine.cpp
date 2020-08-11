@@ -146,7 +146,7 @@ int Engine::Run()
 {
 	if (m_running) // What does this do and what can it prevent?
 		return -1;
-	if (Init("Mastiv First", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, 0) == false)
+	if (Init("Horn and Honor", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, 0) == false)
 		return 1;
 	while (m_running) // Main engine loop.
 	{

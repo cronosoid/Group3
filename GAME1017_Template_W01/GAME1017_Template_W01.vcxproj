@@ -23,6 +23,7 @@
     <ProjectGuid>{2745DD34-790D-4D7D-8DFE-C123B9BD71E7}</ProjectGuid>
     <RootNamespace>GAME1017TemplateW01</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Horn_and_Honor</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
